@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Signal analysis: o'quv reja</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Signal analysis darslari</a></nav>
+<h1>O'quv reja: imtihondan o'tish uchun</h1>
+<p>Reja <code>D:\learning\signal</code> papkasidagi 29 ta ma'ruza asosida tuzilgan. Har bir ma'ruzaning har bir mavzusi quyidagi darslardan biriga kiritilgan, shuning uchun hamma darsni tushunsangiz, mavjud materialdagi hamma mavzu yopiladi.</p>
+
+<div class="box note"><strong>Imtihon qanday o'tadi</strong> (1-ma'ruzadan): onlayn test, 60 daqiqa, 8–10 ta variantli savol. Noto'g'ri javob −20% ball, javobsiz savol 0. Konspekt mumkin emas, lekin Furye va Z jadvallari beriladi. Savollar barcha mavzulardan, mashg'ulot masalalaridan va MATLAB laboratoriyalaridan.</div>
+
+<h2>Qanday ishlaymiz</h2>
+<ol>
+<li>Darsni o'qiysiz.</li>
+<li>Chatga "tushundim" yoki "tushunmadim" deb yozasiz.</li>
+<li>"Tushunmadim" bo'lsa, dars soddaroq qilib qayta yoziladi. "Tushundim" bo'lsa, keyingi dars yoziladi.</li>
+<li>Har 4–5 darsdan keyin o'tganlarni takrorlash uchun kichik test bo'ladi.</li>
+</ol>
+
+<h2>Darslar va ma'ruzalar</h2>
+<table>
+<tr><th>#</th><th>Dars</th><th>Ma'ruza</th><th>Nimalar kiradi</th></tr>
+<tr><th colspan="4">Kirish</th></tr>
+<tr><td>1</td><td>Signal nima?</td><td>01</td><td>Signal tushunchasi, uzluksiz va diskret signal, diskretlash g'oyasi</td></tr>
+<tr><td>2</td><td>To'lqin: amplituda, davr, chastota, faza</td><td>02</td><td>Davriy signal, sinusoida parametrlari</td></tr>
+<tr><td>3</td><td>Kompleks sonlar va aylanuvchi strelka e<sup>jθ</sup></td><td>—</td><td>Furye uchun zarur matematika (modul, faza, Eyler)</td></tr>
+<tr><td>4</td><td>Energiya va quvvat, signallar turlari</td><td>02</td><td>Energiya/quvvat signali, davriy signal quvvati, klassifikatsiya</td></tr>
+<tr><th colspan="4">1-qism. Uzluksiz signallar</th></tr>
+<tr><td>5</td><td>Signallar vektor sifatida</td><td>03</td><td>Skalyar ko'paytma, norma = energiya, masofa, ortogonallik, Shvars tengsizligi</td></tr>
+<tr><td>6</td><td>Ortonormal bazis va Dirak deltasi</td><td>04</td><td>Bazis, rect bilan yaqinlashish, δ(t) va uning xossalari</td></tr>
+<tr><td>7</td><td>Furye qatori</td><td>05</td><td>Koeffitsiyentlar μₙ, to'rtburchak to'lqin, sinc</td></tr>
+<tr><td>8</td><td>Furye almashtirishi: g'oya va asosiy juftliklar</td><td>05</td><td>Qatordan almashtirishga, mavjudlik, muhim juftliklar</td></tr>
+<tr><td>9</td><td>Furye xossalari (1): kechikish, modulyatsiya, masshtab</td><td>06–07</td><td>Chiziqlilik, kechikish, AM modulyatsiya, masshtab, juftlik</td></tr>
+<tr><td>10</td><td>Furye xossalari (2): o'ram, duallik, Parseval, jadval bilan ishlash</td><td>06–07</td><td>O'ram/ko'paytma, hosila, duallik, energiya, jadvaldan foydalanish</td></tr>
+<tr><td>11</td><td>Tizimlar va impuls javobi</td><td>08</td><td>Chiziqli, vaqtga invariant, xotirasiz tizim; h(t)</td></tr>
+<tr><td>12</td><td>O'ram (konvolyutsiya) grafik usulda</td><td>08</td><td>Grafik o'ram, o'ram xossalari, mashq</td></tr>
+<tr><td>13</td><td>Uzatish funksiyasi H(f), kauzallik, turg'unlik</td><td>09</td><td>Y = H·X, sinus kirish, kauzallik, fizik amalga oshirish, BIBO</td></tr>
+<tr><td>14</td><td>Blok sxemalar</td><td>10</td><td>Ketma-ket, parallel, teskari aloqa, kechikish va kuchaytirgich tarmoqlari</td></tr>
+<tr><td>15</td><td>Polosa kengligi, filtrlar, buzilish</td><td>11</td><td>−3 dB va boshqa polosalar, LPF/HPF, buzilishsiz tizim, modulyatsiya, FDM</td></tr>
+<tr><td>16</td><td>Davriy signallar spektri va delta qatori</td><td>12–13</td><td>Davriy signal FT, impulslar qatori, periodizatsiya</td></tr>
+<tr><td>17</td><td>Energiya spektri va korrelyatsiya</td><td>14</td><td>Sx(f), avtokorrelyatsiya, o'zaro korrelyatsiya</td></tr>
+<tr><td>18</td><td>Quvvat spektri, kesilgan signal, Gibbs effekti</td><td>15</td><td>Davriy va quvvat signallari spektri, filtrdan o'tish, kesish, Gibbs</td></tr>
+<tr><th colspan="4">Diskretlash</th></tr>
+<tr><td>19</td><td>Diskretlash teoremasi va aliasing</td><td>23</td><td>Nyquist sharti, interpolyatsiya filtri, aliasing, anti-aliasing filtr</td></tr>
+<tr><td>20</td><td>Real diskretlash va misollar</td><td>24</td><td>Sinus aliasingi, real diskretlagich, AA filtr va davrni tanlash</td></tr>
+<tr><th colspan="4">2-qism. Diskret signallar</th></tr>
+<tr><td>21</td><td>Diskret signallar va elementar ketma-ketliklar</td><td>25</td><td>Davomiylik, kauzallik, juftlik, davriylik, δ(n), u(n), aⁿ, diskret sinus</td></tr>
+<tr><td>22</td><td>Diskret amallar va chiziqli o'ram</td><td>26</td><td>Surish, teskari aylantirish, masshtab, o'ram, MATLAB conv</td></tr>
+<tr><td>23</td><td>Diskret energiya, quvvat, korrelyatsiya</td><td>27</td><td>Energiya, o'rtacha quvvat, auto/o'zaro korrelyatsiya</td></tr>
+<tr><td>24</td><td>DTFT va uning xossalari</td><td>28</td><td>Ta'rif, davri 1, teskari DTFT, xossalar, simmetriya</td></tr>
+<tr><td>25</td><td>Diskret spektr, polosa, DTFT misollari; DFT ga kirish</td><td>29</td><td>Parseval, polosalar, misollar, DFT ta'rifi, FFT</td></tr>
+<tr><td>26</td><td>DFT xossalari va aylanma o'ram</td><td>30</td><td>Aylanma kechikish, aylanma o'ram, chiziqli va aylanma o'ram farqi</td></tr>
+<tr><td>27</td><td>DFT amalda: DTFT ni baholash, zero-padding, tez o'ram</td><td>31</td><td>DFT va DTFT, vaqt aliasingi, zero-padding, MATLAB fft</td></tr>
+<tr><td>28</td><td>Z-almashtirish va ROC</td><td>32</td><td>Ta'rif, ROC, kauzal/antikauzal, qutb va nollar</td></tr>
+<tr><td>29</td><td>Z xossalari va teskari Z-almashtirish</td><td>33</td><td>Xossalar, boshlang'ich qiymat, oddiy kasrlarga ajratish</td></tr>
+<tr><td>30</td><td>Diskret tizimlar xossalari, ayirmali tenglama</td><td>34</td><td>Chiziqlilik/statsionarlikni tekshirish, kauzallik, xotira, ZSR/ZIR</td></tr>
+<tr><td>31</td><td>Impuls javobi, chastota javobi, FIR va IIR</td><td>35</td><td>h(n), H(z), H(e^{j2πf}), raqamli filtrlar, blok sxemalar</td></tr>
+<tr><td>32</td><td>Turg'unlik va fizik amalga oshirish</td><td>36</td><td>BIBO, qutblar va birlik aylana, teskari tizim, minimal faza, ulanishlar</td></tr>
+<tr><th colspan="4">Tasodifiy jarayonlar va yakun</th></tr>
+<tr><td>33</td><td>Tasodifiy jarayonlar</td><td>37</td><td>Ansambl, realizatsiya, ehtimollik tavsifi, tasodifiy amplituda/fazali sinus</td></tr>
+<tr><td>34</td><td>MATLAB: imtihonda kerakli buyruqlar</td><td>26, 30, 31, 35</td><td>conv, fft, stem, zero-padding, chastota o'qi</td></tr>
+<tr><td>35</td><td>Yakuniy mashq: imtihon uslubidagi testlar</td><td>hammasi</td><td>60 daqiqada 10 savol, xatolar tahlili</td></tr>
+</table>
+
+<h2>Yetishmayotgan materiallar</h2>
+<div class="box warn">
+<p>Bu materiallar papkada yo'q. Topa olsangiz, imtihondan o'tish ehtimoli ancha oshadi:</p>
+<ol>
+<li><strong>16–22-ma'ruzalar.</strong> Raqamlash 15 dan 23 ga sakraydi. Bu oraliqda nima borligini bilmayman: mashg'ulot, laboratoriya yoki yangi mavzu bo'lishi mumkin.</li>
+<li><strong>Tasodifiy jarayonlarning davomi.</strong> 37-ma'ruza faqat kirish qismi bilan tugaydi. Statsionarlik, o'rtacha qiymat, quvvat spektri, filtrdan o'tish odatda shundan keyin keladi. 38-ma'ruza yoki undan keyingilar bormi?</li>
+<li><strong>MATLAB/Octave laboratoriya topshiriqlari.</strong> Imtihon qoidasida ular alohida aytilgan.</li>
+<li><strong>Mashg'ulot (exercise session) masalalari va yechimlari.</strong> Imtihon savollari shularga o'xshash bo'ladi.</li>
+<li><strong>Eski imtihon savollari yoki namunaviy testlar.</strong> Signal analysis bo'yicha birortasi ham yo'q.</li>
+<li><strong>Portaldagi konspekt</strong> ("Notes published on the portal", 1-ma'ruza).</li>
+</ol>
+<p>Formulalar jadvallari (Tables papkasi) bor, ular imtihonda ham beriladi. Darslarda ulardan foydalanishni o'rganamiz.</p>
+</div>
+<footer class="pager"><a href="./">← Darslar ro'yxati</a><span></span></footer>
+</main></body></html>
