@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>O'qish rejasi: Applied electronics and measurements</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>O'qish rejasi: imtihondan o'tish uchun</h1>
+
+<div class="box note"><strong>Reja nimaga asoslangan:</strong> faqat sizning materiallaringizga. Bular 25 ta slayd fayli (B, C, D, E bo'limlari), Measurements slaydlari (A. Carullo), <code>exercises</code> papkasidagi 117 ta savol va ularning yechimlari, hamda 2018–2021 yillardagi 11 ta yechilgan imtihon. Har bir dars qaysi imtihon savollarini yopishi pastda ko'rsatilgan.</div>
+
+<h2>Imtihon qanday (kirish slaydi bo'yicha)</h2>
+<table>
+<tr><th>Qism</th><th>Ball</th><th>Tarkibi</th></tr>
+<tr><td>Applied Electronics</td><td>21</td><td>7 ta test (har biri 1 ball) + 2 ta masala (har biri 7 ballgacha)</td></tr>
+<tr><td>Measurements</td><td>9</td><td>Yozma savollar</td></tr>
+<tr><td>Laboratoriya</td><td>+3</td><td>Faqat 18 ballga yetish uchun hisoblanadi</td></tr>
+</table>
+<p>O'tish uchun <strong>30 dan 18 ball</strong> kerak. Demak masalalar (14 ball) eng muhim: ularni yecha olish shart.</p>
+
+<h2>Eski imtihonlarda masalalar qaysi mavzudan tushgan</h2>
+<table>
+<tr><th>Imtihon</th><th>Asosiy mavzular</th></tr>
+<tr><td>2020-07</td><td>ADC, SNR, namuna olish; uzatish liniyasi</td></tr>
+<tr><td>2020-09</td><td>To'g'rilagich, ripple, stabilizator, zener; flip-flop</td></tr>
+<tr><td>2020-12</td><td>Shovqin zaxirasi, hisoblagich, uzatish liniyasi, ADC</td></tr>
+<tr><td>2021-01</td><td>FPGA, shovqin zaxirasi, uzatish liniyasi, hisoblagich</td></tr>
+<tr><td>2021-06</td><td>FSM (holatlar mashinasi), xotira (DRAM)</td></tr>
+<tr><td>2021-07</td><td>Xotira, uzatish liniyasi va bus, ripple, buck/boost</td></tr>
+</table>
+<p>Xulosa: <strong>uzatish liniyalari, ADC, quvvat manbalari va xotiralar</strong> deyarli har imtihonda bor. Ularga ko'proq vaqt ajratamiz.</p>
+
+<h2>Darslar ro'yxati</h2>
+<p>Har bir darsni o'qiysiz. "Tushundim" desangiz keyingisiga o'tamiz, "tushunmadim" desangiz qayta soddaroq yozaman. Har bir mavzu bloki oxirida shu mavzudagi haqiqiy imtihon savollarini birga yechamiz.</p>
+
+<h3>0-bosqich. Noldan asoslar (fanni tushunish uchun zarur)</h3>
+<ol start="1">
+<li>Elektr nima? Kuchlanish, tok, qarshilik ✅ tayyor</li>
+<li>Quvvat, ketma-ket va parallel ulanish, kuchlanish bo'lgich</li>
+<li>Kondensator va RC: zaryadlanish vaqti</li>
+<li>Diod va tranzistor: elektron kalit</li>
+<li>Raqamli dunyo: 0 va 1, ikkilik sanoq, mantiqiy elementlar (AND, OR, NOT)</li>
+</ol>
+
+<h3>1-bosqich. Raqamli sxemalar (slaydlar B1–B3, B6)</h3>
+<ol start="6">
+<li>CMOS invertor, mantiq darajalari, shovqin zaxirasi, quvvat sarfi (B1) — 6-guruh savollari</li>
+<li>Latch va flip-flop: 1 bitni qanday saqlash (B2)</li>
+<li>Setup, hold, kechikish va maksimal chastota Fmax (B2–B3)</li>
+<li>Hisoblagichlar va FSM (holatlar mashinasi) (B3)</li>
+<li>Dasturlanadigan mantiq: PAL, PLA, FPGA, NRE xarajati (B6)</li>
+<li><strong>Mashq:</strong> flip-flop va sinxron sxemalar bo'yicha 16 ta imtihon savoli</li>
+</ol>
+
+<h3>2-bosqich. Analog sxemalar (B4, B5)</h3>
+<ol start="12">
+<li>Komparator va Schmitt trigger (B4)</li>
+<li>Generator (oscillator): takt qanday hosil bo'ladi (B4)</li>
+<li>Filtrlar: past va yuqori chastotani ajratish (B5)</li>
+<li><strong>Mashq:</strong> CMOS, oscillator, issiqlik, NRE bo'yicha 22 ta savol</li>
+</ol>
+
+<h3>3-bosqich. Analog ↔ raqamli o'zgartirish (D1–D3, D5)</h3>
+<ol start="16">
+<li>Namuna olish, aliasing, kvantlash, SNR (D1)</li>
+<li>DAC: sonni kuchlanishga aylantirish, R-2R, xatolar (D2)</li>
+<li>ADC turlari: flash, SAR, tracking (D3)</li>
+<li>Signalni tayyorlash: kuchaytirish, siljish, anti-aliasing filtr (D5)</li>
+<li><strong>Mashq:</strong> A/D va D/A bo'yicha 20 ta savol + 2020-07 imtihon masalasi</li>
+</ol>
+
+<h3>4-bosqich. Xotiralar (B7)</h3>
+<ol start="21">
+<li>Xotira tuzilishi: matritsa, adres, dekoder</li>
+<li>SRAM, DRAM, FLASH: farqlari va hisoblari</li>
+<li><strong>Mashq:</strong> xotira va FPGA bo'yicha 12 ta savol + 2021-06 masalasi</li>
+</ol>
+
+<h3>5-bosqich. Ulanishlar va uzatish liniyalari (C1–C7)</h3>
+<ol start="24">
+<li>Nega sim "bitta nuqta" emas: tarqalish kechikishi (C1)</li>
+<li>Uzatish liniyasi va aks etish (C2)</li>
+<li>Terminatsiya, IWS va RWS, skew (C3)</li>
+<li>Bus protokollari: sinxron va asinxron (C4–C5)</li>
+<li>Ketma-ket aloqa, crosstalk, ground bounce (C6–C7)</li>
+<li><strong>Mashq:</strong> uzatish liniyalari va bus bo'yicha 19 ta savol + eski masalalar</li>
+</ol>
+
+<h3>6-bosqich. Quvvat manbalari (E1–E3)</h3>
+<ol start="30">
+<li>Quvvat elementlari va issiqlik: radiator hisobi (E1)</li>
+<li>To'g'rilagich va ripple (E2)</li>
+<li>Chiziqli stabilizatorlar va zener (E2)</li>
+<li>Impulsli stabilizatorlar: buck, boost, buck-boost (E3)</li>
+<li><strong>Mashq:</strong> quvvat manbalari bo'yicha 28 ta savol + 2020-09 masalasi</li>
+</ol>
+
+<h3>7-bosqich. Measurements (A. Carullo)</h3>
+<ol start="35">
+<li>O'lchash noaniqligi (uncertainty)</li>
+<li>Chastota va davrni o'lchash</li>
+<li>Integratsiyalovchi ADC (dual-slope)</li>
+<li>Qarshilikni o'lchash: volt-ampermetr, 4 simli ulanish</li>
+<li>Sensorlar: Pt100, NTC, fotodiod (va laboratoriya ishlari)</li>
+</ol>
+
+<h3>8-bosqich. To'liq imtihonlar</h3>
+<ol start="40">
+<li>11 ta eski imtihonni bittadan, vaqt bilan yechish va xatolarni tahlil qilish</li>
+</ol>
+
+<div class="box warn"><strong>Materiallarda yetishmayotgan narsalar:</strong>
+<ul>
+<li><strong>Measurements qismi uchun imtihon savollari yo'q.</strong> 117 ta savolning hammasi Applied Electronics bo'yicha. Measurements 9 ball beradi, shuning uchun Carullo qismidan eski imtihon savollari yoki namunalari kerak.</li>
+<li>Slaydlar orasida <strong>D4</strong> yo'q (D1, D2, D3, D5 bor). Agar kursda D4 bo'lsa, uni ham toping.</li>
+<li>2018–2019 yillardagi 5 ta imtihon rasm (skan) ko'rinishida. Ularni o'qiy olaman, bu muammo emas.</li>
+</ul>
+</div>
+
+<footer class="pager"><a href="./">← Darslar ro'yxati</a><a href="01-kuchlanish-tok-qarshilik.html">1-dars →</a></footer>
+</main></body></html>
