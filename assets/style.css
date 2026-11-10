@@ -1,0 +1,22 @@
+:root{--bg:#fdfcf8;--fg:#1f2328;--muted:#5b636b;--accent:#2563eb;--card:#ffffff;--border:#e3e1da;--note:#fff7d6;--ok:#e7f6ec;--warn:#fdecec}
+@media (prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e8e6e1;--muted:#a3a8ad;--accent:#7aa7ff;--card:#1e2127;--border:#30343b;--note:#3a3320;--ok:#1f3527;--warn:#3d2224}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.7 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:760px;margin:0 auto;padding:24px 16px 80px}
+h1{font-size:1.8rem;line-height:1.25;margin:.5em 0}
+h2{font-size:1.35rem;margin-top:2em;border-bottom:2px solid var(--border);padding-bottom:.2em}
+h3{font-size:1.1rem;margin-top:1.5em}
+a{color:var(--accent)}
+nav.top{font-size:.95rem;color:var(--muted);margin-bottom:1em}
+.term{font-weight:600;color:var(--accent)}
+.box{border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin:1.2em 0;background:var(--card)}
+.note{background:var(--note)} .ok{background:var(--ok)} .warn{background:var(--warn)}
+.analogy::before{content:"🍎 Hayotiy misol: ";font-weight:700}
+.check::before{content:"✅ O'zingni tekshir: ";font-weight:700}
+figure{margin:1.5em 0;text-align:center} figure svg,figure img{max-width:100%;height:auto}
+figcaption{font-size:.9rem;color:var(--muted)}
+code,.formula{font-family:ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:0 .3em}
+.formula{display:block;text-align:center;padding:.6em;margin:1em 0;font-size:1.1rem}
+table{border-collapse:collapse;width:100%;margin:1em 0} th,td{border:1px solid var(--border);padding:6px 10px;text-align:left}
+ol.lessons li{margin:.4em 0} .status{font-size:.85rem;color:var(--muted)}
+footer.pager{display:flex;justify-content:space-between;margin-top:3em;font-size:.95rem}
