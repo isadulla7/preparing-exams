@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>1. Signal nima?</title><link rel="stylesheet" href="../assets/style.css">
+<style>
+svg text{font-family:inherit}
+.s-ink{fill:var(--fg)} .s-muted{fill:var(--muted)}
+.s-line{stroke:var(--border)} .s-axis{stroke:var(--muted)} .s-acc{stroke:var(--accent)}
+.f-acc{fill:var(--accent)} .f-accsoft{fill:var(--accent);fill-opacity:.12} .f-card{fill:var(--card)}
+</style></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Signal analysis darslari</a></nav>
+<h1>1. Signal nima?</h1>
+<p>O'qish vaqti: 10 daqiqa. Hech qanday formula yo'q.</p>
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> "signal" so'zi nimani anglatadi; signal qanday chiziladi va <code>x(t)</code> yozuvi nima degani; uzluksiz va diskret signal farqi.</div>
+<div class="box analogy">Termometrga har soatda qarab, haroratni daftarga yozib boryapsiz. Daftardagi ro'yxat — signal.</div>
+<h2>1. Signal — o'zgarib turadigan narsa</h2>
+<p><span class="term">Signal</span> — vaqt o'tishi bilan o'zgarib turadigan narsa haqidagi ma'lumot. Bor-yo'g'i shu.</p>
+<p>Atrofingizda signallar juda ko'p:</p>
+<ul>
+  <li><b>Harorat.</b> Ertalab 10°, tushda 20°, kechqurun 12°. Vaqt o'tdi — qiymat o'zgardi. Bu signal.</li>
+  <li><b>Ovozingiz.</b> Gapirganingizda havo titraydi. Bu titrash har lahzada o'zgaradi. Bu ham signal.</li>
+  <li><b>Yurak urishi</b> — shifoxonadagi ekrandagi sakrab turuvchi chiziq.</li>
+  <li><b>Dollar kursi</b> — har kuni o'zgaradi.</li>
+</ul>
+
+<h2>2. Signal qanday chiziladi</h2>
+<p>Signalni rasm (grafik) qilib chizamiz. Masalan, bir kunlik harorat:</p>
+
+<figure>
+<svg viewBox="0 0 700 300" role="img" aria-label="Bir kunlik harorat grafigi">
+  <line class="s-axis" x1="70" y1="240" x2="660" y2="240" stroke-width="1.5"/>
+  <line class="s-axis" x1="70" y1="250" x2="70" y2="30" stroke-width="1.5"/>
+  <polygon class="f-acc" points="660,240 650,235 650,245" opacity="0.6"/>
+  <polygon class="f-acc" points="70,30 65,40 75,40" opacity="0.6"/>
+  <path class="s-acc" fill="none" stroke-width="3"
+        d="M90 190 C150 185, 200 150, 260 110 S 360 70, 390 75 S 480 120, 530 160 S 610 178, 640 180"/>
+  <circle class="f-acc" cx="90" cy="190" r="6"/>
+  <circle class="f-acc" cx="390" cy="75" r="6"/>
+  <circle class="f-acc" cx="640" cy="180" r="6"/>
+  <text class="s-ink" x="90" y="215" text-anchor="middle" font-size="15">10°</text>
+  <text class="s-ink" x="390" y="62" text-anchor="middle" font-size="15">20°</text>
+  <text class="s-ink" x="640" y="205" text-anchor="middle" font-size="15">12°</text>
+  <text class="s-muted" x="90" y="265" text-anchor="middle" font-size="14">ertalab</text>
+  <text class="s-muted" x="390" y="265" text-anchor="middle" font-size="14">tush</text>
+  <text class="s-muted" x="640" y="265" text-anchor="middle" font-size="14">kechqurun</text>
+  <text class="s-ink" x="660" y="290" text-anchor="end" font-size="15" font-weight="600">vaqt →</text>
+  <text class="s-ink" x="80" y="26" font-size="15" font-weight="600">harorat</text>
+</svg>
+<figcaption>Pastdagi chiziq — vaqt. Chapdagi chiziq — qiymat (bu yerda harorat). Ko'k egri chiziq — signal.</figcaption>
+</figure>
+
+<p>Har qanday signal grafigi shunday o'qiladi: <b>chapdan o'ngga vaqt o'tadi</b>, chiziq qancha yuqori bo'lsa, qiymat shuncha katta.</p>
+
+<h2>3. Kitobdagi yozuv: <code>x(t)</code></h2>
+<p>Kitoblarda va imtihonda signal <code>x(t)</code> deb yoziladi. Qo'rqmang, bu oddiy qisqartma:</p>
+<table>
+  <tr><th>Belgi</th><th>Ma'nosi</th></tr>
+  <tr><td><code>t</code></td><td>vaqt (inglizcha <i>time</i>). Sekundlarda o'lchanadi.</td></tr>
+  <tr><td><code>x</code></td><td>signalning nomi. Shunchaki harf, xuddi odamning ismi kabi.</td></tr>
+  <tr><td><code>x(t)</code></td><td>"<b>t</b> vaqtdagi qiymat".</td></tr>
+</table>
+<div class="box note">
+  <b>Misol:</b> <code>x(2) = 5</code> degani — "2-sekundda signalning qiymati 5 ga teng".<br>
+  Harorat misolida: agar <code>x(tush) = 20</code> bo'lsa, tushda harorat 20°.
+</div>
+
+<h2>4. Ovoz qanday qilib kompyuterga kiradi</h2>
+<figure>
+<svg viewBox="0 0 700 190" role="img" aria-label="Ovozdan raqamgacha">
+  <g font-size="15">
+    <rect class="f-card s-line" x="10" y="40" width="150" height="80" rx="10" stroke-width="1.5"/>
+    <text class="s-ink" x="85" y="75" text-anchor="middle" font-weight="700">Ovoz</text>
+    <text class="s-muted" x="85" y="98" text-anchor="middle" font-size="13">havo titraydi</text>
+
+    <rect class="f-card s-line" x="190" y="40" width="150" height="80" rx="10" stroke-width="1.5"/>
+    <text class="s-ink" x="265" y="75" text-anchor="middle" font-weight="700">Mikrofon</text>
+    <text class="s-muted" x="265" y="98" text-anchor="middle" font-size="13">titrash → elektr</text>
+
+    <rect class="f-accsoft s-acc" x="370" y="40" width="150" height="80" rx="10" stroke-width="2"/>
+    <text class="s-ink" x="445" y="68" text-anchor="middle" font-weight="700">Signal</text>
+    <path class="s-acc" fill="none" stroke-width="2" d="M385 98 q12 -16 24 0 t24 0 t24 0 t24 0 t24 0"/>
+
+    <rect class="f-card s-line" x="550" y="40" width="140" height="80" rx="10" stroke-width="1.5"/>
+    <text class="s-ink" x="620" y="75" text-anchor="middle" font-weight="700">Kompyuter</text>
+    <text class="s-muted" x="620" y="98" text-anchor="middle" font-size="13">0.2, 0.5, 0.1 …</text>
+
+    <g class="s-axis" stroke-width="1.5">
+      <line x1="160" y1="80" x2="186" y2="80"/><line x1="340" y1="80" x2="366" y2="80"/><line x1="520" y1="80" x2="546" y2="80"/>
+    </g>
+    <polygon class="s-muted" points="188,80 180,76 180,84" style="fill:var(--muted)"/>
+    <polygon points="368,80 360,76 360,84" style="fill:var(--muted)"/>
+    <polygon points="548,80 540,76 540,84" style="fill:var(--muted)"/>
+
+    <text class="s-ink" x="445" y="150" text-anchor="middle" font-size="14">uzluksiz</text>
+    <text class="s-ink" x="620" y="150" text-anchor="middle" font-size="14">diskret</text>
+  </g>
+</svg>
+<figcaption>Mikrofon havo titrashini elektr signalga aylantiradi. Kompyuter esa uni raqamlar ro'yxati sifatida saqlaydi.</figcaption>
+</figure>
+
+<h2>5. Signalning ikki turi</h2>
+<p>Pastdagi rasmga qarang. Chapda va o'ngda — bitta signal, faqat ikki xil yozib olingan.</p>
+
+<figure>
+<svg viewBox="0 0 700 260" role="img" aria-label="Uzluksiz va diskret signal">
+  <text class="s-ink" x="20" y="28" font-size="16" font-weight="700">Uzluksiz (analog)</text>
+  <line class="s-axis" x1="20" y1="180" x2="330" y2="180" stroke-width="1.5"/>
+  <path class="s-acc" fill="none" stroke-width="3"
+        d="M25 180 C60 100, 100 70, 140 110 S 210 200, 250 150 S 300 90, 325 120"/>
+  <text class="s-muted" x="20" y="215" font-size="14">Chiziq uzilmaydi: har bir</text>
+  <text class="s-muted" x="20" y="235" font-size="14">lahzada qiymat bor.</text>
+
+  <text class="s-ink" x="380" y="28" font-size="16" font-weight="700">Diskret (raqamli)</text>
+  <line class="s-axis" x1="380" y1="180" x2="690" y2="180" stroke-width="1.5"/>
+  <g class="s-acc" stroke-width="2.5">
+    <line x1="400" y1="180" x2="400" y2="132"/><line x1="440" y1="180" x2="440" y2="88"/>
+    <line x1="480" y1="180" x2="480" y2="86"/><line x1="520" y1="180" x2="520" y2="140"/>
+    <line x1="560" y1="180" x2="560" y2="178"/><line x1="600" y1="180" x2="600" y2="158"/>
+    <line x1="640" y1="180" x2="640" y2="104"/><line x1="680" y1="180" x2="680" y2="118"/>
+  </g>
+  <g class="f-acc">
+    <circle cx="400" cy="132" r="6"/><circle cx="440" cy="88" r="6"/><circle cx="480" cy="86" r="6"/>
+    <circle cx="520" cy="140" r="6"/><circle cx="560" cy="178" r="6"/><circle cx="600" cy="158" r="6"/>
+    <circle cx="640" cy="104" r="6"/><circle cx="680" cy="118" r="6"/>
+  </g>
+  <text class="s-muted" x="380" y="215" font-size="14">Faqat nuqtalar: qiymat faqat</text>
+  <text class="s-muted" x="380" y="235" font-size="14">ma'lum lahzalarda yozilgan.</text>
+</svg>
+<figcaption>Diskret signal — uzluksiz signaldan har bir oz vaqtda bittadan "nuqta" olib yozilgani.</figcaption>
+</figure>
+
+<table>
+  <tr><th>Turi</th><th>Oddiy tushuntirish</th><th>Misol</th></tr>
+  <tr><td><strong>Uzluksiz</strong><br>(analog)</td><td>Qiymat har bir lahzada bor</td><td>Haqiqiy ovoz, simdagi tok</td></tr>
+  <tr><td><strong>Diskret</strong><br>(raqamli)</td><td>Qiymat faqat ma'lum lahzalarda yozilgan</td><td>Video: sekundiga 30 ta surat. Suratlar orasidagi harakat yozilmaydi.</td></tr>
+</table>
+
+<p>Kompyuter va telefon faqat <b>diskret</b> signal bilan ishlaydi, chunki ular faqat raqamlar ro'yxatini saqlay oladi.</p>
+<p>Uzluksiz signaldan har bir oz vaqtda bitta qiymat olib yozish <span class="term">diskretlash</span> deyiladi (inglizcha <i>sampling</i>). Bu so'z keyingi darslarda ko'p uchraydi.</p>
+
+<h2>6. Bu fan nimani o'rgatadi</h2>
+<p>Signal bilan foydali ishlar qilishni:</p>
+<ul>
+  <li><b>Tozalash</b> — shovqinni olib tashlash. Telefoningiz ko'chadagi shovqinni bostirib, faqat ovozingizni jo'natadi.</li>
+  <li><b>Siqish</b> — kamroq joy egallaydigan qilish. MP3 qo'shiq shunday qilingan.</li>
+  <li><b>Uzatish</b> — uzoqqa jo'natish: radio, Wi-Fi, mobil aloqa.</li>
+</ul>
+<p>Fan ikki qismdan iborat: <b>1-qism</b> — uzluksiz signallar, <b>2-qism</b> — diskret signallar (kompyuterdagilar).</p>
+
+<h2>O'zingizni tekshiring</h2>
+<p>Avval o'zingiz javob bering, keyin "Javob"ni bosing.</p>
+<div class="box check">1. Termometr har soatda bir marta yozib olinadi. Bu signal uzluksizmi yoki diskretmi? <details><summary>Javob</summary>Diskret — qiymat faqat soat boshlarida yozilgan, oradagi daqiqalar yozilmagan.</details></div>
+<div class="box check">2. <code>x(3) = 7</code> nimani bildiradi? <details><summary>Javob</summary>3-sekundda signalning qiymati 7 ga teng.</details></div>
+<div class="box check">3. Telefoningizdagi MP3 qo'shiq qanday signal? <details><summary>Javob</summary>Diskret — telefon uni raqamlar ro'yxati sifatida saqlaydi.</details></div>
+<div class="box check">4. Grafikda chiziq yuqoriga ko'tarilsa, nimani bildiradi? <details><summary>Javob</summary>Shu vaqtda qiymat kattalashgan.</details></div>
+<h2>Yangi atamalar</h2>
+<table><tr><th>Atama</th><th>Ma'nosi</th></tr>
+<tr><td>Signal</td><td>Vaqt bilan o'zgarib turadigan qiymat</td></tr>
+<tr><td>x(t)</td><td>"t vaqtdagi qiymat"</td></tr>
+<tr><td>Uzluksiz (analog) signal</td><td>Har bir lahzada qiymati bor signal</td></tr>
+<tr><td>Diskret (raqamli) signal</td><td>Faqat ma'lum lahzalarda qiymati yozilgan signal</td></tr>
+<tr><td>Diskretlash (sampling)</td><td>Uzluksiz signaldan har bir oz vaqtda bitta qiymat olib yozish</td></tr>
+</table>
+
+<div class="box ok">O'qib bo'ldingizmi? Chatga <strong>"tushundim"</strong> deb yozing — keyingi darsga o'tamiz. <strong>"Tushunmadim"</strong> bo'lsa, qaysi joy qiyin bo'lganini ayting — darsni soddaroq qilib qayta yozaman.</div>
+<footer class="pager"><a href="./">← Darslar ro'yxati</a><span></span></footer>
+</main></body></html>
