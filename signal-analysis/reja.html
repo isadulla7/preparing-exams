@@ -6,6 +6,7 @@
 <h1>O'quv reja: imtihondan o'tish uchun</h1>
 <p>Reja <code>D:\learning\signal</code> papkasidagi materiallar asosida tuzilgan: 29 ta ma'ruza, kursning to'liq konspekti (2–19-boblar), 2 ta MATLAB laboratoriya, 1 ta mashg'ulot to'plami va formulalar jadvallari. Har bir ma'ruzaning har bir mavzusi quyidagi darslardan biriga kiritilgan. "Konspekt" ustunida o'sha mavzu konspektning qaysi bobida batafsil yozilgani ko'rsatilgan.</p>
 
+<div class="box ok"><strong>Asosiy manba — ma'ruzalar.</strong> Imtihon savollari ma'ruzalardan olinadi. Laboratoriyalar ham ma'ruzalarga asoslangan, shuning uchun ular ixtiyoriy. Har bir darsda avvalo ma'ruzadagi formulalar, misollar va xulosalar to'liq yoritiladi.</div>
 <div class="box note"><strong>Imtihon qanday o'tadi</strong> (1-ma'ruzadan): onlayn test, 60 daqiqa, 8–10 ta variantli savol. Noto'g'ri javob −20% ball, javobsiz savol 0. Konspekt mumkin emas, lekin Furye va Z jadvallari beriladi. Savollar barcha mavzulardan, mashg'ulot masalalaridan va MATLAB laboratoriyalaridan.
 <p>Diqqat: papkada 1-ma'ruzaning ikki xil versiyasi bor. 2026-yilgi versiyada imtihonga "MATLAB laboratoriyalari" kiradi deyilgan, 2023-yilgi inglizcha versiyada esa "tasodifiy jarayonlar". Ikkalasida ham tasodifiy jarayonlar kurs dasturida bor, shuning uchun rejada ikkalasi ham to'liq o'rganiladi.</p></div>
 
@@ -61,12 +62,12 @@
 <tr><td>34</td><td>Tasodifiy jarayon nima?</td><td>37</td><td>12.1–12.2</td><td>Ansambl, realizatsiya, tasodifiy amplituda/fazali sinus, PAM-4 misoli</td></tr>
 <tr><td>35</td><td>Statsionarlik va avtokorrelyatsiya</td><td>37</td><td>12.3</td><td>O'rtacha, avtokorrelyatsiya, keng ma'noda statsionar (WSS) jarayon xossalari</td></tr>
 <tr><td>36</td><td>Filtrdan o'tgan jarayon, oq shovqin, quvvat spektri</td><td>—</td><td>12.4–12.5</td><td>LTI tizim chiqishi, oq Gauss shovqini, quvvat spektral zichligi</td></tr>
-<tr><th colspan="5">4-qism. MATLAB laboratoriyalari</th></tr>
-<tr><td>37</td><td>Lab 1: MATLAB bilan tanishuv</td><td>Lab 1</td><td>—</td><td>Vaqt o'qi, sinus yasash, plot, energiya, akkord (3 ta ton yig'indisi)</td></tr>
-<tr><td>38</td><td>Lab 2: o'ram va korrelyatsiya</td><td>Lab 2</td><td>10, 14.4</td><td>xcorr bilan kechikishni topish (GPS misoli), randn shovqin, o'ramni qo'lda yozish va conv bilan tekshirish</td></tr>
-<tr><td>39</td><td>Ma'ruzalardagi MATLAB buyruqlari</td><td>26, 30, 31, 35</td><td>6.7</td><td>conv, fft, stem, zero-padding, chastota o'qi</td></tr>
+<tr><th colspan="5">Ixtiyoriy: MATLAB laboratoriyalari (imtihon savollari ma'ruzalardan olinadi, lablar ham ma'ruzaga asoslangan)</th></tr>
+<tr><td>+</td><td>Lab 1: MATLAB bilan tanishuv</td><td>Lab 1</td><td>—</td><td>Vaqt o'qi, sinus yasash, plot, energiya, akkord (3 ta ton yig'indisi)</td></tr>
+<tr><td>+</td><td>Lab 2: o'ram va korrelyatsiya</td><td>Lab 2</td><td>10, 14.4</td><td>xcorr bilan kechikishni topish (GPS misoli), randn shovqin, o'ramni qo'lda yozish va conv bilan tekshirish</td></tr>
+<tr><td>+</td><td>Ma'ruzalardagi MATLAB buyruqlari</td><td>26, 30, 31, 35</td><td>6.7</td><td>conv, fft, stem, zero-padding, chastota o'qi</td></tr>
 <tr><th colspan="5">Yakun</th></tr>
-<tr><td>40</td><td>Yakuniy mashq: imtihon uslubidagi testlar</td><td>hammasi</td><td>—</td><td>60 daqiqada 10 savol, xatolar tahlili</td></tr>
+<tr><td>37</td><td>Yakuniy mashq: imtihon uslubidagi testlar</td><td>hammasi</td><td>—</td><td>60 daqiqada 10 savol, xatolar tahlili</td></tr>
 <tr><td>+</td><td>Ixtiyoriy: raqamli filtr loyihalash</td><td>—</td><td>18.2, 19</td><td>Faqat konspektda bor, 2026 slaydlarida yo'q. Vaqt qolsa o'qiymiz.</td></tr>
 </table>
 
@@ -105,13 +106,7 @@
 <p>SAP03.12, SAPs03.12 va "Fourier&amp;Linear systems 1" bir xil fayl. SAP03.13, sap13 va "Linear systems 2" ham bir xil.</p>
 
 <div class="box warn">
-<p><strong>Hali yetishmaydi:</strong></p>
-<ol>
-<li><strong>Eski imtihon savollari yoki namunaviy testlar.</strong> Eng muhimi shu: savollar qanday tuzilishini ko'rsatadi.</li>
-<li><strong>Ba'zi mavzular bo'yicha mashg'ulotlar:</strong> quvvat spektri va Gibbs (18), real diskretlash (20), DTFT va DFT (24–27), tasodifiy jarayonlar (33–36). Bu mavzularga mashqlarni ma'ruza misollaridan va konspektdagi "Problems" bo'limlaridan olaman.</li>
-<li><strong>Lab 3 va keyingilari</strong>, agar bo'lgan bo'lsa. Lab 1 ning topshiriq matni (PDF) ham yo'q, faqat kodi bor.</li>
-</ol>
-<p>Bular topilmasa ham, rejadagi darslar mavjud materialning hammasini qamrab oladi. Yakuniy testlarni ma'ruza va mashg'ulot misollari asosida o'zim tuzaman.</p>
+<p><strong>Mashg'ulot fayli yo'q mavzular:</strong> quvvat spektri va Gibbs (18), real diskretlash (20), DTFT va DFT (24–27), tasodifiy jarayonlar (33–36). Bu mavzular bo'yicha masalalarni ma'ruzadagi misollardan va konspektning "Problems" bo'limlaridan tuzaman. Qo'shimcha material qidirish shart emas.</p>
 </div>
 <footer class="pager"><a href="./">← Darslar ro'yxati</a><span></span></footer>
 </main></body></html>
