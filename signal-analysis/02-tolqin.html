@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2. To'lqin: amplituda, davr, chastota, faza</title><link rel="stylesheet" href="../assets/style.css">
+<style>
+svg text{font-family:inherit}
+.s-ink{fill:var(--fg)} .s-muted{fill:var(--muted)}
+.s-line{stroke:var(--border)} .s-axis{stroke:var(--muted)} .s-acc{stroke:var(--accent)}
+.f-acc{fill:var(--accent)} .f-accsoft{fill:var(--accent);fill-opacity:.12} .f-card{fill:var(--card)}
+</style></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Signal analysis darslari</a></nav>
+<h1>2. To'lqin: amplituda, davr, chastota, faza</h1>
+<p>O'qish vaqti: 20 daqiqa. Manba: 2-ma'ruza ("Periodic signals" slaydlari), konspekt 2.4-bo'lim.</p>
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> takrorlanadigan (davriy) signal nima; to'lqinning to'rtta asosiy o'lchami: <b>amplituda</b>, <b>davr</b>, <b>chastota</b>, <b>faza</b>; imtihonda tez-tez uchraydigan <code>A·cos(2πf₀t + φ)</code> yozuvini qanday o'qish kerak.</div>
+<div class="box analogy">Arg'imchoqni bir marta itarib yuboring. U oldinga ketadi, orqaga qaytadi, yana oldinga ketadi… Har bir borib-kelish bir xil vaqt oladi. Bu takrorlanadigan harakat: fanning tilida <b>davriy signal</b>.</div>
+
+<h2>1. Davriy signal — takrorlanadigan signal</h2>
+<p>Ba'zi signallar bir xil shaklni qayta-qayta takrorlaydi:</p>
+<ul>
+  <li><b>Yurak urishi</b> — har bir urish deyarli bir xil ko'rinadi.</li>
+  <li><b>Soat mayatnigi</b> — chapga, o'ngga, chapga, o'ngga…</li>
+  <li><b>Rozetkadagi tok</b> — sekundiga 50 marta yo'nalishini o'zgartiradi.</li>
+  <li><b>Kompyuter protsessorining "takt" signali</b> (clock) — protsessor ishini bir maromda yurgizib turadigan, juda tez takrorlanadigan signal. Ma'ruzada aynan shu misol keltirilgan.</li>
+</ul>
+<p>Bunday signal <span class="term">davriy signal</span> (inglizcha <i>periodic signal</i>) deyiladi.</p>
+
+<figure>
+<svg viewBox="0 0 700 260" role="img" aria-label="Davriy signal: bitta bo'lak takrorlanadi">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--fg)"/></marker></defs>
+<line class="s-axis" x1="20" y1="170" x2="690" y2="170" stroke-width="1.5"/>
+<path class="s-axis" fill="none" stroke-width="2.5" d="M30 170 L54.0 170 L86.0 60 L118.0 131.5 L150.0 153.5 L190 170"/><path class="s-axis" fill="none" stroke-width="2.5" d="M190 170 L214.0 170 L246.0 60 L278.0 131.5 L310.0 153.5 L350 170"/><path class="s-acc" fill="none" stroke-width="3.5" d="M350 170 L374.0 170 L406.0 60 L438.0 131.5 L470.0 153.5 L510 170"/><path class="s-axis" fill="none" stroke-width="2.5" d="M510 170 L534.0 170 L566.0 60 L598.0 131.5 L630.0 153.5 L670 170"/>
+<rect class="f-accsoft" x="350" y="40" width="160" height="130"/>
+<g class="s-line" stroke-width="1" stroke-dasharray="4 4"><line x1="190" y1="30" x2="190" y2="170"/><line x1="350" y1="30" x2="350" y2="170"/><line x1="510" y1="30" x2="510" y2="170"/><line x1="670" y1="30" x2="670" y2="170"/></g>
+<line x1="352" y1="30" x2="508" y2="30" stroke-width="1.5" style="stroke:var(--fg)" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<text class="s-ink" x="430" y="24" text-anchor="middle" font-size="16" font-weight="700">T</text>
+<line x1="192" y1="30" x2="348" y2="30" stroke-width="1.5" style="stroke:var(--fg)" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<text class="s-ink" x="270" y="24" text-anchor="middle" font-size="16" font-weight="700">T</text>
+<text class="s-muted" x="270" y="205" text-anchor="middle" font-size="14">x<tspan font-size="11" dy="4">T</tspan><tspan dy="-4">(t + T)</tspan></text>
+<text class="s-ink" x="430" y="205" text-anchor="middle" font-size="14" font-weight="700">x<tspan font-size="11" dy="4">T</tspan><tspan dy="-4">(t)</tspan></text>
+<text class="s-muted" x="590" y="205" text-anchor="middle" font-size="14">x<tspan font-size="11" dy="4">T</tspan><tspan dy="-4">(t − T)</tspan></text>
+<text class="s-muted" x="110" y="205" text-anchor="middle" font-size="14">…</text>
+<text class="s-ink" x="690" y="240" text-anchor="end" font-size="14" font-weight="600">vaqt t →</text>
+</svg>
+<figcaption>Davriy signal: bitta bo'lak (ko'k) cheksiz takrorlanadi. Har bir bo'lakning uzunligi bir xil, u <b>T</b> — davr.</figcaption>
+</figure>
+
+<p>Bitta takrorlanadigan bo'lakning uzunligi <span class="term">davr</span> deyiladi va <b>T</b> harfi bilan belgilanadi (inglizcha <i>period</i>). U sekundlarda o'lchanadi.</p>
+
+<h3>Kitobdagi ta'rif</h3>
+<p>Ma'ruzada davriy signal shunday yozilgan:</p>
+<div class="formula">∃T : x(t) = x(t + T) &nbsp; ∀t</div>
+<p>Belgilarni birma-bir o'qiymiz:</p>
+<table>
+  <tr><th>Belgi</th><th>O'qilishi</th></tr>
+  <tr><td><code>∃T</code></td><td>"shunday T soni bor"</td></tr>
+  <tr><td><code>:</code></td><td>"ki"</td></tr>
+  <tr><td><code>x(t) = x(t + T)</code></td><td>"t vaqtdagi qiymat T sekunddan keyingi qiymatga teng"</td></tr>
+  <tr><td><code>∀t</code></td><td>"har qanday t uchun", ya'ni istalgan vaqtda</td></tr>
+</table>
+<div class="box note"><b>Oddiy tilda:</b> signal davriy bo'lsa, istalgan lahzada unga qarang, keyin T sekund kuting va yana qarang. Ikkala qiymat bir xil chiqadi.<br>
+<b>Misol:</b> rozetkadagi tokning davri T = 0,02 sekund. Hozir tok qanday bo'lsa, 0,02 sekunddan keyin ham xuddi shunday bo'ladi.</div>
+
+<p>Agar signal T sekundda takrorlansa, u 2T, 3T, … sekundda ham takrorlanadi. Shu sabab T ning eng kichik qiymati olinadi va u <span class="term">asosiy davr</span> deyiladi. Kitobda "davr" deyilsa, odatda shu eng kichigi nazarda tutiladi.</p>
+
+<h3>Davriy signalni bitta bo'lak orqali yozish</h3>
+<p>Rasmdagi ko'k bo'lakni <code>x<sub>T</sub>(t)</code> deb belgilaymiz. Pastdagi kichik T "bitta davrga kesib olingan bo'lak" degani. Butun signal shu bo'lakni o'ngga va chapga surib-surib qo'yishdan hosil bo'ladi. Ma'ruzada bu shunday yozilgan:</p>
+<div class="formula">x(t) = Σ<sub>n=−∞</sub><sup>+∞</sup> x<sub>T</sub>(t − nT)</div>
+<table>
+  <tr><th>Belgi</th><th>Ma'nosi</th></tr>
+  <tr><td><code>Σ</code> (sigma)</td><td>"hammasini qo'shib chiq" degan belgi</td></tr>
+  <tr><td><code>n = −∞ … +∞</code></td><td>n butun son: …, −2, −1, 0, 1, 2, … hammasi</td></tr>
+  <tr><td><code>x<sub>T</sub>(t − nT)</code></td><td>bo'lakni nT ga <b>o'ngga</b> surilgani</td></tr>
+</table>
+<div class="box warn"><b>Diqqat, bu chalg'itadi:</b> <code>x(t − 3)</code> signalni 3 ga <b>o'ngga</b> (kechroqqa) suradi, <code>x(t + 3)</code> esa <b>chapga</b> (ertaroqqa). Minus belgisi o'ngga suradi.<br>
+<b>Nega?</b> Bo'lak t = 0 da boshlanadi deylik. <code>x(t − 3)</code> da qavs ichidagi son 0 bo'lishi uchun t = 3 bo'lishi kerak. Demak, yangi bo'lak t = 3 da boshlanadi, ya'ni 3 ga o'ngga surilgan.<br>
+Shuning uchun rasmda chapdagi bo'lak <code>x<sub>T</sub>(t + T)</code>, o'ngdagisi esa <code>x<sub>T</sub>(t − T)</code>. Bu qoida butun kurs davomida kerak bo'ladi.</div>
+
+<h3>Hayotdagi signallar "taxminan" davriy</h3>
+<p>Ma'ruzadagi muhim izoh: haqiqiy signal hech qachon mukammal davriy emas. U qachondir boshlangan va qachondir tugaydi, takrorlanishi ham sal-pal farq qiladi. Lekin hisoblash oson bo'lishi uchun uni "cheksiz davom etadigan, mukammal davriy" deb olamiz. Masalan, protsessor takt signali aslida faqat kompyuter yoniq bo'lganda ishlaydi, ammo matematikada uni cheksiz to'rtburchak to'lqin deb yozamiz.</p>
+
+<h2>2. Eng muhim davriy signal: sinusoida</h2>
+<p>Eng sodda va eng ko'p ishlatiladigan davriy signal — silliq to'lqin, ya'ni <span class="term">sinusoida</span>. Butun kurs shu signal atrofida quriladi: keyinroq har qanday signalni sinusoidalar yig'indisi sifatida yozishni o'rganamiz (Furye).</p>
+<p>Imtihonda u deyarli doim shunday yoziladi:</p>
+<div class="formula">x(t) = A · cos(2π f₀ t + φ)</div>
+<p>Bu formulada uchta "sozlagich" bor: <b>A</b>, <b>f₀</b> va <b>φ</b>. Ular to'lqinning qanday ko'rinishini belgilaydi. Quyida har birini alohida ko'ramiz.</p>
+
+<figure>
+<svg viewBox="0 0 700 300" role="img" aria-label="Sinusoida: amplituda va davr">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--fg)"/></marker></defs>
+<line class="s-axis" x1="80" y1="150" x2="690" y2="150" stroke-width="1.5"/>
+<line class="s-axis" x1="80" y1="270" x2="80" y2="35" stroke-width="1.5"/>
+<g class="s-line" stroke-width="1" stroke-dasharray="4 4"><line x1="80" y1="60" x2="690" y2="60"/><line x1="80" y1="240" x2="690" y2="240"/></g>
+<path class="s-acc" fill="none" stroke-width="3" d="M80.0 60.0 L82.0 60.1 L84.0 60.5 L86.0 61.1 L88.0 62.0 L90.0 63.1 L92.0 64.4 L94.0 66.0 L96.0 67.8 L98.0 69.8 L100.0 72.1 L102.0 74.5 L104.0 77.2 L106.0 80.1 L108.0 83.1 L110.0 86.4 L112.0 89.8 L114.0 93.4 L116.0 97.1 L118.0 101.0 L120.0 105.0 L122.0 109.1 L124.0 113.4 L126.0 117.7 L128.0 122.2 L130.0 126.7 L132.0 131.3 L134.0 135.9 L136.0 140.6 L138.0 145.3 L140.0 150.0 L142.0 154.7 L144.0 159.4 L146.0 164.1 L148.0 168.7 L150.0 173.3 L152.0 177.8 L154.0 182.3 L156.0 186.6 L158.0 190.9 L160.0 195.0 L162.0 199.0 L164.0 202.9 L166.0 206.6 L168.0 210.2 L170.0 213.6 L172.0 216.9 L174.0 219.9 L176.0 222.8 L178.0 225.5 L180.0 227.9 L182.0 230.2 L184.0 232.2 L186.0 234.0 L188.0 235.6 L190.0 236.9 L192.0 238.0 L194.0 238.9 L196.0 239.5 L198.0 239.9 L200.0 240.0 L202.0 239.9 L204.0 239.5 L206.0 238.9 L208.0 238.0 L210.0 236.9 L212.0 235.6 L214.0 234.0 L216.0 232.2 L218.0 230.2 L220.0 227.9 L222.0 225.5 L224.0 222.8 L226.0 219.9 L228.0 216.9 L230.0 213.6 L232.0 210.2 L234.0 206.6 L236.0 202.9 L238.0 199.0 L240.0 195.0 L242.0 190.9 L244.0 186.6 L246.0 182.3 L248.0 177.8 L250.0 173.3 L252.0 168.7 L254.0 164.1 L256.0 159.4 L258.0 154.7 L260.0 150.0 L262.0 145.3 L264.0 140.6 L266.0 135.9 L268.0 131.3 L270.0 126.7 L272.0 122.2 L274.0 117.7 L276.0 113.4 L278.0 109.1 L280.0 105.0 L282.0 101.0 L284.0 97.1 L286.0 93.4 L288.0 89.8 L290.0 86.4 L292.0 83.1 L294.0 80.1 L296.0 77.2 L298.0 74.5 L300.0 72.1 L302.0 69.8 L304.0 67.8 L306.0 66.0 L308.0 64.4 L310.0 63.1 L312.0 62.0 L314.0 61.1 L316.0 60.5 L318.0 60.1 L320.0 60.0 L322.0 60.1 L324.0 60.5 L326.0 61.1 L328.0 62.0 L330.0 63.1 L332.0 64.4 L334.0 66.0 L336.0 67.8 L338.0 69.8 L340.0 72.1 L342.0 74.5 L344.0 77.2 L346.0 80.1 L348.0 83.1 L350.0 86.4 L352.0 89.8 L354.0 93.4 L356.0 97.1 L358.0 101.0 L360.0 105.0 L362.0 109.1 L364.0 113.4 L366.0 117.7 L368.0 122.2 L370.0 126.7 L372.0 131.3 L374.0 135.9 L376.0 140.6 L378.0 145.3 L380.0 150.0 L382.0 154.7 L384.0 159.4 L386.0 164.1 L388.0 168.7 L390.0 173.3 L392.0 177.8 L394.0 182.3 L396.0 186.6 L398.0 190.9 L400.0 195.0 L402.0 199.0 L404.0 202.9 L406.0 206.6 L408.0 210.2 L410.0 213.6 L412.0 216.9 L414.0 219.9 L416.0 222.8 L418.0 225.5 L420.0 227.9 L422.0 230.2 L424.0 232.2 L426.0 234.0 L428.0 235.6 L430.0 236.9 L432.0 238.0 L434.0 238.9 L436.0 239.5 L438.0 239.9 L440.0 240.0 L442.0 239.9 L444.0 239.5 L446.0 238.9 L448.0 238.0 L450.0 236.9 L452.0 235.6 L454.0 234.0 L456.0 232.2 L458.0 230.2 L460.0 227.9 L462.0 225.5 L464.0 222.8 L466.0 219.9 L468.0 216.9 L470.0 213.6 L472.0 210.2 L474.0 206.6 L476.0 202.9 L478.0 199.0 L480.0 195.0 L482.0 190.9 L484.0 186.6 L486.0 182.3 L488.0 177.8 L490.0 173.3 L492.0 168.7 L494.0 164.1 L496.0 159.4 L498.0 154.7 L500.0 150.0 L502.0 145.3 L504.0 140.6 L506.0 135.9 L508.0 131.3 L510.0 126.7 L512.0 122.2 L514.0 117.7 L516.0 113.4 L518.0 109.1 L520.0 105.0 L522.0 101.0 L524.0 97.1 L526.0 93.4 L528.0 89.8 L530.0 86.4 L532.0 83.1 L534.0 80.1 L536.0 77.2 L538.0 74.5 L540.0 72.1 L542.0 69.8 L544.0 67.8 L546.0 66.0 L548.0 64.4 L550.0 63.1 L552.0 62.0 L554.0 61.1 L556.0 60.5 L558.0 60.1 L560.0 60.0 L562.0 60.1 L564.0 60.5 L566.0 61.1 L568.0 62.0 L570.0 63.1 L572.0 64.4 L574.0 66.0 L576.0 67.8 L578.0 69.8 L580.0 72.1 L582.0 74.5 L584.0 77.2 L586.0 80.1 L588.0 83.1 L590.0 86.4 L592.0 89.8 L594.0 93.4 L596.0 97.1 L598.0 101.0 L600.0 105.0 L602.0 109.1 L604.0 113.4 L606.0 117.7 L608.0 122.2 L610.0 126.7 L612.0 131.3 L614.0 135.9 L616.0 140.6 L618.0 145.3 L620.0 150.0 L622.0 154.7 L624.0 159.4 L626.0 164.1 L628.0 168.7 L630.0 173.3 L632.0 177.8 L634.0 182.3 L636.0 186.6 L638.0 190.9 L640.0 195.0 L642.0 199.0 L644.0 202.9 L646.0 206.6 L648.0 210.2 L650.0 213.6 L652.0 216.9 L654.0 219.9 L656.0 222.8 L658.0 225.5 L660.0 227.9 L662.0 230.2 L664.0 232.2 L666.0 234.0 L668.0 235.6 L670.0 236.9 L672.0 238.0 L674.0 238.9 L676.0 239.5 L678.0 239.9 L680.0 240.0"/>
+<line x1="560" y1="148" x2="560" y2="63" stroke-width="1.8" style="stroke:var(--fg)" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<text class="s-ink" x="574" y="52" font-size="17" font-weight="700">A = 3</text>
+<line x1="82" y1="38" x2="318" y2="38" stroke-width="1.8" style="stroke:var(--fg)" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<text class="s-ink" x="200.0" y="30" text-anchor="middle" font-size="16" font-weight="700">T = 0,02 s</text>
+<g class="s-line" stroke-width="1" stroke-dasharray="3 3"><line x1="320" y1="38" x2="320" y2="60"/></g>
+<text class="s-muted" x="72" y="65" text-anchor="end" font-size="14">3</text>
+<text class="s-muted" x="72" y="155" text-anchor="end" font-size="14">0</text>
+<text class="s-muted" x="72" y="245" text-anchor="end" font-size="14">−3</text>
+<text class="s-muted" x="200.0" y="170" text-anchor="middle" font-size="13">0,01</text>
+<text class="s-muted" x="320" y="170" text-anchor="middle" font-size="13">0,02</text>
+<text class="s-muted" x="440.0" y="170" text-anchor="middle" font-size="13">0,03</text>
+<text class="s-muted" x="560" y="170" text-anchor="middle" font-size="13">0,04</text>
+<text class="s-ink" x="690" y="290" text-anchor="end" font-size="14" font-weight="600">t (sekund) →</text>
+<text class="s-ink" x="88" y="290" font-size="14">x(t)</text>
+</svg>
+<figcaption>x(t) = 3·cos(2π·50·t). Eng yuqori nuqta 3 da (<b>amplituda</b>). Bitta to'liq tebranish 0,02 sekund davom etadi (<b>davr</b>).</figcaption>
+</figure>
+
+<h2>3. Amplituda (A) — to'lqin qanchalik baland</h2>
+<p><span class="term">Amplituda</span> — to'lqinning o'rta chiziqdan eng yuqori nuqtasigacha bo'lgan balandligi. Formulada cos oldidagi son.</p>
+<p>cos ning qiymati doim −1 bilan +1 orasida bo'ladi. Shuning uchun <code>A·cos(…)</code> qiymati −A bilan +A orasida tebranadi.</p>
+<div class="box analogy">Arg'imchoqni qattiq itarsangiz, u balandroq ko'tariladi: amplituda katta. Sekin itarsangiz, past ko'tariladi: amplituda kichik. Lekin bitta borib-kelish vaqti ikkala holda ham deyarli bir xil.</div>
+<p>Ovozda amplituda — <b>baland-pastlik</b>. Amplituda katta bo'lsa, ovoz baland eshitiladi.</p>
+
+<h2>4. Davr (T) va chastota (f) — to'lqin qanchalik tez</h2>
+<p><b>Davr T</b> — bitta to'liq tebranish necha sekund davom etishi. Grafikda: bir cho'qqidan keyingi cho'qqigacha bo'lgan masofa.</p>
+<p><span class="term">Chastota</span> <b>f</b> — 1 sekundda nechta to'liq tebranish bo'lishi (inglizcha <i>frequency</i>). U <b>gers</b> (Hz) bilan o'lchanadi: <b>1 Hz = sekundiga 1 marta</b>.</p>
+<p>Ular bir-biriga teskari bog'langan:</p>
+<div class="formula">f = 1 / T &nbsp;&nbsp;&nbsp;&nbsp; T = 1 / f</div>
+<div class="box note"><b>Nega shunday?</b> Agar bitta tebranish 0,5 sekund olsa, 1 sekundga 2 ta tebranish sig'adi. 1 / 0,5 = 2 Hz.<br>
+<b>Rozetka:</b> f = 50 Hz, demak T = 1/50 = 0,02 sekund.<br>
+<b>Laboratoriya misoli</b> (Lab 1): f₀ = 200 Hz, demak T = 1/200 = 0,005 sekund.</div>
+
+<figure>
+<svg viewBox="0 0 700 330" role="img" aria-label="Past va yuqori chastota">
+<text class="s-ink" x="20" y="24" font-size="15" font-weight="700">f = 2 Hz: 1 sekundda 2 ta tebranish</text>
+<line class="s-axis" x1="50" y1="95" x2="660" y2="95" stroke-width="1.5"/>
+<path class="s-acc" fill="none" stroke-width="3" d="M50.0 45.0 L52.0 45.0 L54.0 45.2 L56.0 45.4 L58.0 45.7 L60.0 46.1 L62.0 46.6 L64.0 47.1 L66.0 47.8 L68.0 48.5 L70.0 49.3 L72.0 50.2 L74.0 51.2 L76.0 52.2 L78.0 53.4 L80.0 54.5 L82.0 55.8 L84.0 57.2 L86.0 58.6 L88.0 60.0 L90.0 61.5 L92.0 63.1 L94.0 64.8 L96.0 66.5 L98.0 68.2 L100.0 70.0 L102.0 71.8 L104.0 73.7 L106.0 75.6 L108.0 77.6 L110.0 79.5 L112.0 81.6 L114.0 83.6 L116.0 85.6 L118.0 87.7 L120.0 89.8 L122.0 91.9 L124.0 94.0 L126.0 96.0 L128.0 98.1 L130.0 100.2 L132.0 102.3 L134.0 104.4 L136.0 106.4 L138.0 108.4 L140.0 110.5 L142.0 112.4 L144.0 114.4 L146.0 116.3 L148.0 118.2 L150.0 120.0 L152.0 121.8 L154.0 123.5 L156.0 125.2 L158.0 126.9 L160.0 128.5 L162.0 130.0 L164.0 131.4 L166.0 132.8 L168.0 134.2 L170.0 135.5 L172.0 136.6 L174.0 137.8 L176.0 138.8 L178.0 139.8 L180.0 140.7 L182.0 141.5 L184.0 142.2 L186.0 142.9 L188.0 143.4 L190.0 143.9 L192.0 144.3 L194.0 144.6 L196.0 144.8 L198.0 145.0 L200.0 145.0 L202.0 145.0 L204.0 144.8 L206.0 144.6 L208.0 144.3 L210.0 143.9 L212.0 143.4 L214.0 142.9 L216.0 142.2 L218.0 141.5 L220.0 140.7 L222.0 139.8 L224.0 138.8 L226.0 137.8 L228.0 136.6 L230.0 135.5 L232.0 134.2 L234.0 132.8 L236.0 131.4 L238.0 130.0 L240.0 128.5 L242.0 126.9 L244.0 125.2 L246.0 123.5 L248.0 121.8 L250.0 120.0 L252.0 118.2 L254.0 116.3 L256.0 114.4 L258.0 112.4 L260.0 110.5 L262.0 108.4 L264.0 106.4 L266.0 104.4 L268.0 102.3 L270.0 100.2 L272.0 98.1 L274.0 96.0 L276.0 94.0 L278.0 91.9 L280.0 89.8 L282.0 87.7 L284.0 85.6 L286.0 83.6 L288.0 81.6 L290.0 79.5 L292.0 77.6 L294.0 75.6 L296.0 73.7 L298.0 71.8 L300.0 70.0 L302.0 68.2 L304.0 66.5 L306.0 64.8 L308.0 63.1 L310.0 61.5 L312.0 60.0 L314.0 58.6 L316.0 57.2 L318.0 55.8 L320.0 54.5 L322.0 53.4 L324.0 52.2 L326.0 51.2 L328.0 50.2 L330.0 49.3 L332.0 48.5 L334.0 47.8 L336.0 47.1 L338.0 46.6 L340.0 46.1 L342.0 45.7 L344.0 45.4 L346.0 45.2 L348.0 45.0 L350.0 45.0 L352.0 45.0 L354.0 45.2 L356.0 45.4 L358.0 45.7 L360.0 46.1 L362.0 46.6 L364.0 47.1 L366.0 47.8 L368.0 48.5 L370.0 49.3 L372.0 50.2 L374.0 51.2 L376.0 52.2 L378.0 53.4 L380.0 54.5 L382.0 55.8 L384.0 57.2 L386.0 58.6 L388.0 60.0 L390.0 61.5 L392.0 63.1 L394.0 64.8 L396.0 66.5 L398.0 68.2 L400.0 70.0 L402.0 71.8 L404.0 73.7 L406.0 75.6 L408.0 77.6 L410.0 79.5 L412.0 81.6 L414.0 83.6 L416.0 85.6 L418.0 87.7 L420.0 89.8 L422.0 91.9 L424.0 94.0 L426.0 96.0 L428.0 98.1 L430.0 100.2 L432.0 102.3 L434.0 104.4 L436.0 106.4 L438.0 108.4 L440.0 110.5 L442.0 112.4 L444.0 114.4 L446.0 116.3 L448.0 118.2 L450.0 120.0 L452.0 121.8 L454.0 123.5 L456.0 125.2 L458.0 126.9 L460.0 128.5 L462.0 130.0 L464.0 131.4 L466.0 132.8 L468.0 134.2 L470.0 135.5 L472.0 136.6 L474.0 137.8 L476.0 138.8 L478.0 139.8 L480.0 140.7 L482.0 141.5 L484.0 142.2 L486.0 142.9 L488.0 143.4 L490.0 143.9 L492.0 144.3 L494.0 144.6 L496.0 144.8 L498.0 145.0 L500.0 145.0 L502.0 145.0 L504.0 144.8 L506.0 144.6 L508.0 144.3 L510.0 143.9 L512.0 143.4 L514.0 142.9 L516.0 142.2 L518.0 141.5 L520.0 140.7 L522.0 139.8 L524.0 138.8 L526.0 137.8 L528.0 136.6 L530.0 135.5 L532.0 134.2 L534.0 132.8 L536.0 131.4 L538.0 130.0 L540.0 128.5 L542.0 126.9 L544.0 125.2 L546.0 123.5 L548.0 121.8 L550.0 120.0 L552.0 118.2 L554.0 116.3 L556.0 114.4 L558.0 112.4 L560.0 110.5 L562.0 108.4 L564.0 106.4 L566.0 104.4 L568.0 102.3 L570.0 100.2 L572.0 98.1 L574.0 96.0 L576.0 94.0 L578.0 91.9 L580.0 89.8 L582.0 87.7 L584.0 85.6 L586.0 83.6 L588.0 81.6 L590.0 79.5 L592.0 77.6 L594.0 75.6 L596.0 73.7 L598.0 71.8 L600.0 70.0 L602.0 68.2 L604.0 66.5 L606.0 64.8 L608.0 63.1 L610.0 61.5 L612.0 60.0 L614.0 58.6 L616.0 57.2 L618.0 55.8 L620.0 54.5 L622.0 53.4 L624.0 52.2 L626.0 51.2 L628.0 50.2 L630.0 49.3 L632.0 48.5 L634.0 47.8 L636.0 47.1 L638.0 46.6 L640.0 46.1 L642.0 45.7 L644.0 45.4 L646.0 45.2 L648.0 45.0 L650.0 45.0"/>
+<text class="s-ink" x="20" y="185" font-size="15" font-weight="700">f = 6 Hz: 1 sekundda 6 ta tebranish</text>
+<line class="s-axis" x1="50" y1="255" x2="660" y2="255" stroke-width="1.5"/>
+<path class="s-acc" fill="none" stroke-width="3" d="M50.0 205.0 L52.0 205.4 L54.0 206.6 L56.0 208.5 L58.0 211.2 L60.0 214.5 L62.0 218.6 L64.0 223.1 L66.0 228.2 L68.0 233.7 L70.0 239.5 L72.0 245.6 L74.0 251.9 L76.0 258.1 L78.0 264.4 L80.0 270.5 L82.0 276.3 L84.0 281.8 L86.0 286.9 L88.0 291.4 L90.0 295.5 L92.0 298.8 L94.0 301.5 L96.0 303.4 L98.0 304.6 L100.0 305.0 L102.0 304.6 L104.0 303.4 L106.0 301.5 L108.0 298.8 L110.0 295.5 L112.0 291.4 L114.0 286.9 L116.0 281.8 L118.0 276.3 L120.0 270.5 L122.0 264.4 L124.0 258.1 L126.0 251.9 L128.0 245.6 L130.0 239.5 L132.0 233.7 L134.0 228.2 L136.0 223.1 L138.0 218.6 L140.0 214.5 L142.0 211.2 L144.0 208.5 L146.0 206.6 L148.0 205.4 L150.0 205.0 L152.0 205.4 L154.0 206.6 L156.0 208.5 L158.0 211.2 L160.0 214.5 L162.0 218.6 L164.0 223.1 L166.0 228.2 L168.0 233.7 L170.0 239.5 L172.0 245.6 L174.0 251.9 L176.0 258.1 L178.0 264.4 L180.0 270.5 L182.0 276.3 L184.0 281.8 L186.0 286.9 L188.0 291.4 L190.0 295.5 L192.0 298.8 L194.0 301.5 L196.0 303.4 L198.0 304.6 L200.0 305.0 L202.0 304.6 L204.0 303.4 L206.0 301.5 L208.0 298.8 L210.0 295.5 L212.0 291.4 L214.0 286.9 L216.0 281.8 L218.0 276.3 L220.0 270.5 L222.0 264.4 L224.0 258.1 L226.0 251.9 L228.0 245.6 L230.0 239.5 L232.0 233.7 L234.0 228.2 L236.0 223.1 L238.0 218.6 L240.0 214.5 L242.0 211.2 L244.0 208.5 L246.0 206.6 L248.0 205.4 L250.0 205.0 L252.0 205.4 L254.0 206.6 L256.0 208.5 L258.0 211.2 L260.0 214.5 L262.0 218.6 L264.0 223.1 L266.0 228.2 L268.0 233.7 L270.0 239.5 L272.0 245.6 L274.0 251.9 L276.0 258.1 L278.0 264.4 L280.0 270.5 L282.0 276.3 L284.0 281.8 L286.0 286.9 L288.0 291.4 L290.0 295.5 L292.0 298.8 L294.0 301.5 L296.0 303.4 L298.0 304.6 L300.0 305.0 L302.0 304.6 L304.0 303.4 L306.0 301.5 L308.0 298.8 L310.0 295.5 L312.0 291.4 L314.0 286.9 L316.0 281.8 L318.0 276.3 L320.0 270.5 L322.0 264.4 L324.0 258.1 L326.0 251.9 L328.0 245.6 L330.0 239.5 L332.0 233.7 L334.0 228.2 L336.0 223.1 L338.0 218.6 L340.0 214.5 L342.0 211.2 L344.0 208.5 L346.0 206.6 L348.0 205.4 L350.0 205.0 L352.0 205.4 L354.0 206.6 L356.0 208.5 L358.0 211.2 L360.0 214.5 L362.0 218.6 L364.0 223.1 L366.0 228.2 L368.0 233.7 L370.0 239.5 L372.0 245.6 L374.0 251.9 L376.0 258.1 L378.0 264.4 L380.0 270.5 L382.0 276.3 L384.0 281.8 L386.0 286.9 L388.0 291.4 L390.0 295.5 L392.0 298.8 L394.0 301.5 L396.0 303.4 L398.0 304.6 L400.0 305.0 L402.0 304.6 L404.0 303.4 L406.0 301.5 L408.0 298.8 L410.0 295.5 L412.0 291.4 L414.0 286.9 L416.0 281.8 L418.0 276.3 L420.0 270.5 L422.0 264.4 L424.0 258.1 L426.0 251.9 L428.0 245.6 L430.0 239.5 L432.0 233.7 L434.0 228.2 L436.0 223.1 L438.0 218.6 L440.0 214.5 L442.0 211.2 L444.0 208.5 L446.0 206.6 L448.0 205.4 L450.0 205.0 L452.0 205.4 L454.0 206.6 L456.0 208.5 L458.0 211.2 L460.0 214.5 L462.0 218.6 L464.0 223.1 L466.0 228.2 L468.0 233.7 L470.0 239.5 L472.0 245.6 L474.0 251.9 L476.0 258.1 L478.0 264.4 L480.0 270.5 L482.0 276.3 L484.0 281.8 L486.0 286.9 L488.0 291.4 L490.0 295.5 L492.0 298.8 L494.0 301.5 L496.0 303.4 L498.0 304.6 L500.0 305.0 L502.0 304.6 L504.0 303.4 L506.0 301.5 L508.0 298.8 L510.0 295.5 L512.0 291.4 L514.0 286.9 L516.0 281.8 L518.0 276.3 L520.0 270.5 L522.0 264.4 L524.0 258.1 L526.0 251.9 L528.0 245.6 L530.0 239.5 L532.0 233.7 L534.0 228.2 L536.0 223.1 L538.0 218.6 L540.0 214.5 L542.0 211.2 L544.0 208.5 L546.0 206.6 L548.0 205.4 L550.0 205.0 L552.0 205.4 L554.0 206.6 L556.0 208.5 L558.0 211.2 L560.0 214.5 L562.0 218.6 L564.0 223.1 L566.0 228.2 L568.0 233.7 L570.0 239.5 L572.0 245.6 L574.0 251.9 L576.0 258.1 L578.0 264.4 L580.0 270.5 L582.0 276.3 L584.0 281.8 L586.0 286.9 L588.0 291.4 L590.0 295.5 L592.0 298.8 L594.0 301.5 L596.0 303.4 L598.0 304.6 L600.0 305.0 L602.0 304.6 L604.0 303.4 L606.0 301.5 L608.0 298.8 L610.0 295.5 L612.0 291.4 L614.0 286.9 L616.0 281.8 L618.0 276.3 L620.0 270.5 L622.0 264.4 L624.0 258.1 L626.0 251.9 L628.0 245.6 L630.0 239.5 L632.0 233.7 L634.0 228.2 L636.0 223.1 L638.0 218.6 L640.0 214.5 L642.0 211.2 L644.0 208.5 L646.0 206.6 L648.0 205.4 L650.0 205.0"/>
+<g class="s-line" stroke-width="1" stroke-dasharray="4 4"><line x1="50" y1="35" x2="50" y2="310"/><line x1="650" y1="35" x2="650" y2="310"/></g>
+<text class="s-muted" x="50" y="325" text-anchor="middle" font-size="13">0 s</text>
+<text class="s-muted" x="650" y="325" text-anchor="middle" font-size="13">1 s</text>
+</svg>
+<figcaption>Ikkala to'lqin ham 1 sekund davomida chizilgan. Pastdagisi tezroq tebranadi: uning chastotasi kattaroq, davri esa qisqaroq.</figcaption>
+</figure>
+
+<p>Ovozda chastota — <b>ingichka-yo'g'onlik</b>. Chastota katta bo'lsa (tez tebranish), ovoz ingichka; kichik bo'lsa, yo'g'on eshitiladi.</p>
+
+<h3>Formuladagi 2π nima uchun kerak?</h3>
+<p>π (pi) ≈ 3,14 — oddiy son. cos funksiyasi bitta to'liq tebranishni bajarishi uchun uning ichidagi son 0 dan 2π gacha (≈ 6,28 gacha) o'zgarishi kerak. Shuning uchun ichiga <code>2π·f₀·t</code> yoziladi: t = 1 sekund bo'lganda ichidagi son 2π·f₀ ga yetadi, ya'ni roppa-rosa f₀ ta to'liq tebranish bo'ladi.</p>
+<p>Natija: <b>cos ichida <code>2π · (son) · t</code> ko'rsangiz, o'sha "son" — chastota.</b></p>
+<div class="box note">Ba'zi kitoblarda <code>2πf</code> o'rniga <code>ω</code> (omega) yoziladi: ω = 2πf, u "burchak chastota" deyiladi. Bu kursda ko'pincha <code>2πf</code> ishlatiladi.</div>
+
+<h2>5. Faza (φ) — to'lqin qayerdan boshlanadi</h2>
+<p><span class="term">Faza</span> φ (o'qilishi: "fi") — to'lqin vaqt bo'yicha qancha surilganini ko'rsatadi. Amplituda ham, chastota ham o'zgarmaydi, faqat to'lqin chapga yoki o'ngga suriladi.</p>
+<div class="box analogy">Ikki do'st bir xil arg'imchoqda uchyapti, lekin biri sal kechroq boshlagan. Ikkalasi bir xil balandlikka chiqadi va bir xil tezlikda uchadi, faqat ikkinchisi doim sal orqada qoladi. Shu "orqada qolish" — faza farqi.</div>
+
+<figure>
+<svg viewBox="0 0 700 300" role="img" aria-label="Faza: to'lqinning surilishi">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--fg)"/></marker></defs>
+<line class="s-axis" x1="60" y1="140" x2="690" y2="140" stroke-width="1.5"/>
+<line class="s-axis" x1="60" y1="230" x2="60" y2="40" stroke-width="1.5"/>
+<path class="s-acc" fill="none" stroke-width="3" d="M60.0 60.0 L62.0 60.1 L64.0 60.4 L66.0 61.0 L68.0 61.7 L70.0 62.7 L72.0 63.9 L74.0 65.3 L76.0 66.9 L78.0 68.7 L80.0 70.7 L82.0 72.9 L84.0 75.3 L86.0 77.8 L88.0 80.5 L90.0 83.4 L92.0 86.5 L94.0 89.7 L96.0 93.0 L98.0 96.4 L100.0 100.0 L102.0 103.7 L104.0 107.5 L106.0 111.3 L108.0 115.3 L110.0 119.3 L112.0 123.4 L114.0 127.5 L116.0 131.6 L118.0 135.8 L120.0 140.0 L122.0 144.2 L124.0 148.4 L126.0 152.5 L128.0 156.6 L130.0 160.7 L132.0 164.7 L134.0 168.7 L136.0 172.5 L138.0 176.3 L140.0 180.0 L142.0 183.6 L144.0 187.0 L146.0 190.3 L148.0 193.5 L150.0 196.6 L152.0 199.5 L154.0 202.2 L156.0 204.7 L158.0 207.1 L160.0 209.3 L162.0 211.3 L164.0 213.1 L166.0 214.7 L168.0 216.1 L170.0 217.3 L172.0 218.3 L174.0 219.0 L176.0 219.6 L178.0 219.9 L180.0 220.0 L182.0 219.9 L184.0 219.6 L186.0 219.0 L188.0 218.3 L190.0 217.3 L192.0 216.1 L194.0 214.7 L196.0 213.1 L198.0 211.3 L200.0 209.3 L202.0 207.1 L204.0 204.7 L206.0 202.2 L208.0 199.5 L210.0 196.6 L212.0 193.5 L214.0 190.3 L216.0 187.0 L218.0 183.6 L220.0 180.0 L222.0 176.3 L224.0 172.5 L226.0 168.7 L228.0 164.7 L230.0 160.7 L232.0 156.6 L234.0 152.5 L236.0 148.4 L238.0 144.2 L240.0 140.0 L242.0 135.8 L244.0 131.6 L246.0 127.5 L248.0 123.4 L250.0 119.3 L252.0 115.3 L254.0 111.3 L256.0 107.5 L258.0 103.7 L260.0 100.0 L262.0 96.4 L264.0 93.0 L266.0 89.7 L268.0 86.5 L270.0 83.4 L272.0 80.5 L274.0 77.8 L276.0 75.3 L278.0 72.9 L280.0 70.7 L282.0 68.7 L284.0 66.9 L286.0 65.3 L288.0 63.9 L290.0 62.7 L292.0 61.7 L294.0 61.0 L296.0 60.4 L298.0 60.1 L300.0 60.0 L302.0 60.1 L304.0 60.4 L306.0 61.0 L308.0 61.7 L310.0 62.7 L312.0 63.9 L314.0 65.3 L316.0 66.9 L318.0 68.7 L320.0 70.7 L322.0 72.9 L324.0 75.3 L326.0 77.8 L328.0 80.5 L330.0 83.4 L332.0 86.5 L334.0 89.7 L336.0 93.0 L338.0 96.4 L340.0 100.0 L342.0 103.7 L344.0 107.5 L346.0 111.3 L348.0 115.3 L350.0 119.3 L352.0 123.4 L354.0 127.5 L356.0 131.6 L358.0 135.8 L360.0 140.0 L362.0 144.2 L364.0 148.4 L366.0 152.5 L368.0 156.6 L370.0 160.7 L372.0 164.7 L374.0 168.7 L376.0 172.5 L378.0 176.3 L380.0 180.0 L382.0 183.6 L384.0 187.0 L386.0 190.3 L388.0 193.5 L390.0 196.6 L392.0 199.5 L394.0 202.2 L396.0 204.7 L398.0 207.1 L400.0 209.3 L402.0 211.3 L404.0 213.1 L406.0 214.7 L408.0 216.1 L410.0 217.3 L412.0 218.3 L414.0 219.0 L416.0 219.6 L418.0 219.9 L420.0 220.0 L422.0 219.9 L424.0 219.6 L426.0 219.0 L428.0 218.3 L430.0 217.3 L432.0 216.1 L434.0 214.7 L436.0 213.1 L438.0 211.3 L440.0 209.3 L442.0 207.1 L444.0 204.7 L446.0 202.2 L448.0 199.5 L450.0 196.6 L452.0 193.5 L454.0 190.3 L456.0 187.0 L458.0 183.6 L460.0 180.0 L462.0 176.3 L464.0 172.5 L466.0 168.7 L468.0 164.7 L470.0 160.7 L472.0 156.6 L474.0 152.5 L476.0 148.4 L478.0 144.2 L480.0 140.0 L482.0 135.8 L484.0 131.6 L486.0 127.5 L488.0 123.4 L490.0 119.3 L492.0 115.3 L494.0 111.3 L496.0 107.5 L498.0 103.7 L500.0 100.0 L502.0 96.4 L504.0 93.0 L506.0 89.7 L508.0 86.5 L510.0 83.4 L512.0 80.5 L514.0 77.8 L516.0 75.3 L518.0 72.9 L520.0 70.7 L522.0 68.7 L524.0 66.9 L526.0 65.3 L528.0 63.9 L530.0 62.7 L532.0 61.7 L534.0 61.0 L536.0 60.4 L538.0 60.1 L540.0 60.0 L542.0 60.1 L544.0 60.4 L546.0 61.0 L548.0 61.7 L550.0 62.7 L552.0 63.9 L554.0 65.3 L556.0 66.9 L558.0 68.7 L560.0 70.7 L562.0 72.9 L564.0 75.3 L566.0 77.8 L568.0 80.5 L570.0 83.4 L572.0 86.5 L574.0 89.7 L576.0 93.0 L578.0 96.4 L580.0 100.0 L582.0 103.7 L584.0 107.5 L586.0 111.3 L588.0 115.3 L590.0 119.3 L592.0 123.4 L594.0 127.5 L596.0 131.6 L598.0 135.8 L600.0 140.0 L602.0 144.2 L604.0 148.4 L606.0 152.5 L608.0 156.6 L610.0 160.7 L612.0 164.7 L614.0 168.7 L616.0 172.5 L618.0 176.3 L620.0 180.0 L622.0 183.6 L624.0 187.0 L626.0 190.3 L628.0 193.5 L630.0 196.6 L632.0 199.5 L634.0 202.2 L636.0 204.7 L638.0 207.1 L640.0 209.3 L642.0 211.3 L644.0 213.1 L646.0 214.7 L648.0 216.1 L650.0 217.3 L652.0 218.3 L654.0 219.0 L656.0 219.6 L658.0 219.9 L660.0 220.0"/>
+<path class="s-axis" fill="none" stroke-width="3" stroke-dasharray="8 6" d="M60.0 140.0 L62.0 135.8 L64.0 131.6 L66.0 127.5 L68.0 123.4 L70.0 119.3 L72.0 115.3 L74.0 111.3 L76.0 107.5 L78.0 103.7 L80.0 100.0 L82.0 96.4 L84.0 93.0 L86.0 89.7 L88.0 86.5 L90.0 83.4 L92.0 80.5 L94.0 77.8 L96.0 75.3 L98.0 72.9 L100.0 70.7 L102.0 68.7 L104.0 66.9 L106.0 65.3 L108.0 63.9 L110.0 62.7 L112.0 61.7 L114.0 61.0 L116.0 60.4 L118.0 60.1 L120.0 60.0 L122.0 60.1 L124.0 60.4 L126.0 61.0 L128.0 61.7 L130.0 62.7 L132.0 63.9 L134.0 65.3 L136.0 66.9 L138.0 68.7 L140.0 70.7 L142.0 72.9 L144.0 75.3 L146.0 77.8 L148.0 80.5 L150.0 83.4 L152.0 86.5 L154.0 89.7 L156.0 93.0 L158.0 96.4 L160.0 100.0 L162.0 103.7 L164.0 107.5 L166.0 111.3 L168.0 115.3 L170.0 119.3 L172.0 123.4 L174.0 127.5 L176.0 131.6 L178.0 135.8 L180.0 140.0 L182.0 144.2 L184.0 148.4 L186.0 152.5 L188.0 156.6 L190.0 160.7 L192.0 164.7 L194.0 168.7 L196.0 172.5 L198.0 176.3 L200.0 180.0 L202.0 183.6 L204.0 187.0 L206.0 190.3 L208.0 193.5 L210.0 196.6 L212.0 199.5 L214.0 202.2 L216.0 204.7 L218.0 207.1 L220.0 209.3 L222.0 211.3 L224.0 213.1 L226.0 214.7 L228.0 216.1 L230.0 217.3 L232.0 218.3 L234.0 219.0 L236.0 219.6 L238.0 219.9 L240.0 220.0 L242.0 219.9 L244.0 219.6 L246.0 219.0 L248.0 218.3 L250.0 217.3 L252.0 216.1 L254.0 214.7 L256.0 213.1 L258.0 211.3 L260.0 209.3 L262.0 207.1 L264.0 204.7 L266.0 202.2 L268.0 199.5 L270.0 196.6 L272.0 193.5 L274.0 190.3 L276.0 187.0 L278.0 183.6 L280.0 180.0 L282.0 176.3 L284.0 172.5 L286.0 168.7 L288.0 164.7 L290.0 160.7 L292.0 156.6 L294.0 152.5 L296.0 148.4 L298.0 144.2 L300.0 140.0 L302.0 135.8 L304.0 131.6 L306.0 127.5 L308.0 123.4 L310.0 119.3 L312.0 115.3 L314.0 111.3 L316.0 107.5 L318.0 103.7 L320.0 100.0 L322.0 96.4 L324.0 93.0 L326.0 89.7 L328.0 86.5 L330.0 83.4 L332.0 80.5 L334.0 77.8 L336.0 75.3 L338.0 72.9 L340.0 70.7 L342.0 68.7 L344.0 66.9 L346.0 65.3 L348.0 63.9 L350.0 62.7 L352.0 61.7 L354.0 61.0 L356.0 60.4 L358.0 60.1 L360.0 60.0 L362.0 60.1 L364.0 60.4 L366.0 61.0 L368.0 61.7 L370.0 62.7 L372.0 63.9 L374.0 65.3 L376.0 66.9 L378.0 68.7 L380.0 70.7 L382.0 72.9 L384.0 75.3 L386.0 77.8 L388.0 80.5 L390.0 83.4 L392.0 86.5 L394.0 89.7 L396.0 93.0 L398.0 96.4 L400.0 100.0 L402.0 103.7 L404.0 107.5 L406.0 111.3 L408.0 115.3 L410.0 119.3 L412.0 123.4 L414.0 127.5 L416.0 131.6 L418.0 135.8 L420.0 140.0 L422.0 144.2 L424.0 148.4 L426.0 152.5 L428.0 156.6 L430.0 160.7 L432.0 164.7 L434.0 168.7 L436.0 172.5 L438.0 176.3 L440.0 180.0 L442.0 183.6 L444.0 187.0 L446.0 190.3 L448.0 193.5 L450.0 196.6 L452.0 199.5 L454.0 202.2 L456.0 204.7 L458.0 207.1 L460.0 209.3 L462.0 211.3 L464.0 213.1 L466.0 214.7 L468.0 216.1 L470.0 217.3 L472.0 218.3 L474.0 219.0 L476.0 219.6 L478.0 219.9 L480.0 220.0 L482.0 219.9 L484.0 219.6 L486.0 219.0 L488.0 218.3 L490.0 217.3 L492.0 216.1 L494.0 214.7 L496.0 213.1 L498.0 211.3 L500.0 209.3 L502.0 207.1 L504.0 204.7 L506.0 202.2 L508.0 199.5 L510.0 196.6 L512.0 193.5 L514.0 190.3 L516.0 187.0 L518.0 183.6 L520.0 180.0 L522.0 176.3 L524.0 172.5 L526.0 168.7 L528.0 164.7 L530.0 160.7 L532.0 156.6 L534.0 152.5 L536.0 148.4 L538.0 144.2 L540.0 140.0 L542.0 135.8 L544.0 131.6 L546.0 127.5 L548.0 123.4 L550.0 119.3 L552.0 115.3 L554.0 111.3 L556.0 107.5 L558.0 103.7 L560.0 100.0 L562.0 96.4 L564.0 93.0 L566.0 89.7 L568.0 86.5 L570.0 83.4 L572.0 80.5 L574.0 77.8 L576.0 75.3 L578.0 72.9 L580.0 70.7 L582.0 68.7 L584.0 66.9 L586.0 65.3 L588.0 63.9 L590.0 62.7 L592.0 61.7 L594.0 61.0 L596.0 60.4 L598.0 60.1 L600.0 60.0 L602.0 60.1 L604.0 60.4 L606.0 61.0 L608.0 61.7 L610.0 62.7 L612.0 63.9 L614.0 65.3 L616.0 66.9 L618.0 68.7 L620.0 70.7 L622.0 72.9 L624.0 75.3 L626.0 77.8 L628.0 80.5 L630.0 83.4 L632.0 86.5 L634.0 89.7 L636.0 93.0 L638.0 96.4 L640.0 100.0 L642.0 103.7 L644.0 107.5 L646.0 111.3 L648.0 115.3 L650.0 119.3 L652.0 123.4 L654.0 127.5 L656.0 131.6 L658.0 135.8 L660.0 140.0"/>
+<line x1="302" y1="46" x2="358.0" y2="46" stroke-width="1.8" style="stroke:var(--fg)" marker-end="url(#ah)"/>
+<text class="s-ink" x="330.0" y="38" text-anchor="middle" font-size="14" font-weight="700">T/4</text>
+<g class="s-line" stroke-width="1" stroke-dasharray="3 3"><line x1="300" y1="40" x2="300" y2="60"/><line x1="360.0" y1="40" x2="360.0" y2="60"/></g>
+<line class="s-acc" x1="90" y1="262" x2="120" y2="262" stroke-width="3"/>
+<text class="s-ink" x="128" y="267" font-size="14">cos(2πft): faza 0</text>
+<line class="s-axis" x1="90" y1="286" x2="120" y2="286" stroke-width="3" stroke-dasharray="8 6"/>
+<text class="s-ink" x="128" y="291" font-size="14">cos(2πft − π/2): o'ngga T/4 surilgan</text>
+</svg>
+<figcaption>Ikkala to'lqinning amplitudasi ham, chastotasi ham bir xil. Farqi bitta: punktir to'lqin chorak davrga (T/4) kechroq boshlanadi. Bu farqni <b>faza</b> ko'rsatadi.</figcaption>
+</figure>
+
+<p>Faza burchak bilan o'lchanadi. Bitta to'liq davr <b>2π</b> ga teng. Shuning uchun:</p>
+<table>
+  <tr><th>Faza φ</th><th>Qancha surilgan</th></tr>
+  <tr><td>0</td><td>surilmagan: t = 0 da cho'qqi</td></tr>
+  <tr><td>−π/2</td><td>chorak davr (T/4) o'ngga</td></tr>
+  <tr><td>−π</td><td>yarim davr (T/2) o'ngga: to'lqin teskari aylanadi</td></tr>
+  <tr><td>−2π</td><td>to'liq davr o'ngga: to'lqin o'zgarmay qoladi</td></tr>
+</table>
+<div class="box ok"><b>Eslab qoling:</b> sin va cos — bitta to'lqin, faqat fazasi farq qiladi:<br>
+<code>cos(2πf₀t − π/2) = sin(2πf₀t)</code><br>
+Imtihonda beriladigan trigonometriya jadvalida bu tenglik <code>cos(π/2 − θ) = sin θ</code> ko'rinishida yozilgan ("Cofunction Formulas" bo'limi). cos(−a) = cos(a) bo'lgani uchun ikkala yozuv bir xil narsani bildiradi.</div>
+
+<h2>6. Ishlangan misol: grafikdan formulaga</h2>
+<p>Yuqoridagi amplituda va davr chizilgan rasmga qaytamiz.</p>
+<ol>
+  <li><b>Amplituda:</b> eng yuqori nuqta 3 da. Demak, A = 3.</li>
+  <li><b>Davr:</b> cho'qqidan cho'qqigacha 0,02 sekund. Demak, T = 0,02 s.</li>
+  <li><b>Chastota:</b> f₀ = 1/T = 1/0,02 = 50 Hz.</li>
+  <li><b>Faza:</b> t = 0 da to'lqin cho'qqida turibdi. cos ham 0 da cho'qqida bo'ladi. Demak, surilish yo'q: φ = 0.</li>
+</ol>
+<div class="formula">x(t) = 3 · cos(2π · 50 · t)</div>
+<p>Teskari yo'nalishda ham shunday ishlaydi. Formula berilsa, A ni cos oldidan, f₀ ni cos ichidagi "2π · ? · t" dan, φ ni oxirgi qo'shiluvchidan o'qiysiz.</p>
+
+<h2>O'zingizni tekshiring</h2>
+<p>Avval o'zingiz javob bering, keyin "Javob"ni bosing. Oxirgi ikkita savol imtihondagiga o'xshash.</p>
+<div class="box check">1. x(t) = 5·cos(2π·100·t). Amplituda, chastota va davr nechaga teng? <details><summary>Javob</summary>A = 5, f₀ = 100 Hz, T = 1/100 = 0,01 s.</details></div>
+<div class="box check">2. To'lqin bitta tebranishni 0,25 sekundda bajaradi. Chastotasi qancha? <details><summary>Javob</summary>f = 1/0,25 = 4 Hz: 1 sekundda 4 ta tebranish.</details></div>
+<div class="box check">3. Signal davriy va T = 2 s. x(1) = 7 bo'lsa, x(3) va x(5) nechaga teng? <details><summary>Javob</summary>Ikkalasi ham 7. 3 = 1 + 2 (bir davr keyin), 5 = 1 + 2·2 (ikki davr keyin).</details></div>
+<div class="box check">4. <code>x(t − 4)</code> signali <code>x(t)</code> ga nisbatan qayoqqa surilgan? <details><summary>Javob</summary>4 ga o'ngga (kechroqqa). Minus o'ngga suradi.</details></div>
+<div class="box check">5. Quyidagilardan qaysi biri x(t) = 2·cos(2π·10·t − π/2) ga teng?<br>
+a) 2·cos(2π·10·t) &nbsp; b) 2·sin(2π·10·t) &nbsp; c) −2·sin(2π·10·t) &nbsp; d) 2·sin(2π·5·t)
+<details><summary>Javob</summary><b>b)</b>. cos(α − π/2) = sin(α), amplituda 2 va chastota 10 Hz o'zgarmaydi. d) noto'g'ri, chunki chastota o'zgarib qolgan.</details></div>
+<div class="box check">6. x(t) = cos(2π·50·t) uchun T = 0,04 s ham davr bo'la oladimi? <details><summary>Javob</summary>Ha. Asosiy davr 1/50 = 0,02 s, 0,04 esa uning ikki barobari. Signal 0,04 sekunddan keyin ham takrorlanadi. Lekin asosiy (eng kichik) davr 0,02 s.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table><tr><th>Atama</th><th>Ma'nosi</th></tr>
+<tr><td>Davriy signal (periodic)</td><td>Bir xil shaklni qayta-qayta takrorlaydigan signal: x(t) = x(t + T)</td></tr>
+<tr><td>Davr, T (period)</td><td>Bitta takrorlanadigan bo'lak davomiyligi, sekundda</td></tr>
+<tr><td>Asosiy davr</td><td>T ning eng kichik qiymati</td></tr>
+<tr><td>x<sub>T</sub>(t)</td><td>Davriy signalning bitta davrga kesib olingan bo'lagi</td></tr>
+<tr><td>x(t − a)</td><td>x(t) ning a ga o'ngga (kechroqqa) surilgani</td></tr>
+<tr><td>Sinusoida</td><td>Silliq to'lqin: A·cos(2πf₀t + φ)</td></tr>
+<tr><td>Amplituda, A</td><td>To'lqinning eng katta balandligi</td></tr>
+<tr><td>Chastota, f (frequency)</td><td>1 sekunddagi tebranishlar soni, Hz da. f = 1/T</td></tr>
+<tr><td>Gers, Hz</td><td>Chastota birligi: sekundiga 1 marta</td></tr>
+<tr><td>Faza, φ</td><td>To'lqinning vaqt bo'yicha surilishi; to'liq davr = 2π</td></tr>
+<tr><td>Σ (sigma)</td><td>"Hammasini qo'shib chiq" belgisi</td></tr>
+</table>
+
+<div class="box ok">O'qib bo'ldingizmi? Chatga <strong>"tushundim"</strong> deb yozing, keyingi darsga o'tamiz. <strong>"Tushunmadim"</strong> bo'lsa, qaysi joy qiyin bo'lganini ayting, darsni soddaroq qilib qayta yozaman.</div>
+<footer class="pager"><a href="01-signal-nima.html">← 1. Signal nima?</a><a href="./">Darslar ro'yxati</a></footer>
+</main></body></html>
