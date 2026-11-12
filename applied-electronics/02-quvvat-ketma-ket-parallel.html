@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2. Quvvat, ketma-ket va parallel ulanish, kuchlanish bo'lgich</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>2. Quvvat, ketma-ket va parallel ulanish, kuchlanish bo'lgich</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> detal qancha energiya sarflashini (quvvat), rezistorlarni ikki xil ulash usulini va <strong>kuchlanish bo'lgich</strong>ni. Kuchlanish bo'lgich bu fandagi eng ko'p ishlatiladigan sxema. U uzatish liniyalari, ADC va quvvat manbalari mavzularida, imtihon savollarida qayta-qayta chiqadi. O'qish vaqti: 15 daqiqa.</div>
+
+<p>1-darsdan eslatma: <strong>V = I × R</strong> (kuchlanish = tok × qarshilik).</p>
+
+<h2>1. Quvvat: bir soniyada qancha energiya sarflanadi</h2>
+<p><span class="term">Quvvat</span> detal bir soniyada qancha energiya ishlatishini bildiradi. Bu energiya ko'pincha <strong>issiqlikka</strong> aylanadi. Shuning uchun quvvat katta bo'lsa, detal qiziydi.</p>
+<ul>
+<li>Inglizchasi: <strong>power</strong></li>
+<li>Harfi: <strong>P</strong></li>
+<li>Birligi: <strong>vatt (W)</strong>. Kichik qiymatlar uchun milivatt: 1 mW = 0.001 W</li>
+</ul>
+<span class="formula">Quvvat = Kuchlanish × Tok &nbsp;&nbsp; ya'ni &nbsp;&nbsp; P = V × I</span>
+<div class="box analogy">Lampochkada "60 W" deb yozilgan bo'ladi. Bu u har soniyada 60 J energiya ishlatadi degani. 100 W lampochka 60 W likdan ko'proq yonadi va ko'proq qiziydi.</div>
+
+<p>Om qonunini qo'shsak, yana ikkita foydali ko'rinish chiqadi:</p>
+<span class="formula">P = I² × R &nbsp;&nbsp;&nbsp;&nbsp; P = V² / R</span>
+<p>Qaysi birini ishlatish kerak? Masalada qaysi ikki kattalik berilgan bo'lsa, o'shalar qatnashgan formulani tanlang.</p>
+
+<h3>Misol</h3>
+<p>LED chiroqcha 2 V kuchlanishda 20 mA tok oladi. Quvvati qancha?</p>
+<ol>
+<li>Birliklarni bir xil qilamiz: 20 mA = 0.02 A.</li>
+<li>P = V × I = 2 × 0.02 = <strong>0.04 W = 40 mW</strong>.</li>
+</ol>
+
+<div class="box"><strong>Kursda qayerda kerak bo'ladi:</strong> E1 slaydlari (tranzistor qancha qiziydi, radiator kerakmi), E2 slaydlari (zener stabilizatorida rezistorga qancha quvvat tushadi), B1 slaydlari (raqamli mikrosxema qancha quvvat sarflaydi).</div>
+
+<h2>2. Ketma-ket ulanish (series)</h2>
+<p>Detallar bir qatorda, birining oxiri ikkinchisining boshiga ulanadi. Tok uchun faqat <strong>bitta yo'l</strong> bor.</p>
+
+<figure>
+<svg viewBox="0 0 640 170" role="img" aria-label="Chapda ketma-ket ulangan ikki rezistor, o'ngda parallel ulangan ikki rezistor" font-family="system-ui,sans-serif">
+  <text x="150" y="22" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">Ketma-ket</text>
+  <text x="480" y="22" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">Parallel</text>
+  <line x1="320" y1="10" x2="320" y2="160" stroke="#9aa0a6" stroke-opacity=".4"/>
+  <path d="M20 80H60M120 80H180M240 80H280" stroke="#888" stroke-width="2.5" fill="none"/>
+  <rect x="60" y="70" width="60" height="20" rx="3" fill="#fff" stroke="#555" stroke-width="2"/>
+  <rect x="180" y="70" width="60" height="20" rx="3" fill="#fff" stroke="#555" stroke-width="2"/>
+  <text x="90" y="62" text-anchor="middle" font-size="14" fill="currentColor">R1</text>
+  <text x="210" y="62" text-anchor="middle" font-size="14" fill="currentColor">R2</text>
+  <text x="150" y="125" text-anchor="middle" font-size="14" fill="#2563eb">bitta yo'l: tok hammasidan bir xil</text>
+  <text x="150" y="148" text-anchor="middle" font-size="14" fill="#d9622b">R = R1 + R2</text>
+  <path d="M350 80H390M390 50V110M390 50H450M510 50H570M390 110H450M510 110H570M570 50V110M570 80H610" stroke="#888" stroke-width="2.5" fill="none"/>
+  <rect x="450" y="40" width="60" height="20" rx="3" fill="#fff" stroke="#555" stroke-width="2"/>
+  <rect x="450" y="100" width="60" height="20" rx="3" fill="#fff" stroke="#555" stroke-width="2"/>
+  <text x="480" y="34" text-anchor="middle" font-size="14" fill="currentColor">R1</text>
+  <text x="480" y="94" text-anchor="middle" font-size="14" fill="currentColor">R2</text>
+  <text x="480" y="148" text-anchor="middle" font-size="14" fill="#d9622b">1/R = 1/R1 + 1/R2</text>
+</svg>
+<figcaption>Ketma-ket: bitta yo'l. Parallel: ikki yo'l yonma-yon.</figcaption>
+</figure>
+
+<ul>
+<li>Tok <strong>hamma detaldan bir xil</strong> o'tadi (boshqa yo'l yo'q).</li>
+<li>Qarshiliklar <strong>qo'shiladi</strong>: R = R1 + R2. Masalan 100 Ω + 200 Ω = 300 Ω.</li>
+<li>Umumiy kuchlanish detallar orasida <strong>bo'linadi</strong>: V = V1 + V2.</li>
+</ul>
+<div class="box analogy">Bitta quvurda ketma-ket ikkita tor joy bo'lsa, suvga ikki baravar qiyin. Ikkala tor joydan bir xil miqdorda suv o'tadi.</div>
+
+<h2>3. Parallel ulanish (parallel)</h2>
+<p>Detallar yonma-yon, ikkala uchi umumiy nuqtalarga ulanadi. Tok uchun <strong>bir nechta yo'l</strong> bor.</p>
+<ul>
+<li>Hamma detalda kuchlanish <strong>bir xil</strong>.</li>
+<li>Toklar <strong>qo'shiladi</strong>: I = I1 + I2.</li>
+<li>Umumiy qarshilik <strong>kamayadi</strong>: 1/R = 1/R1 + 1/R2.</li>
+<li>Oson qoida: ikkita <strong>bir xil</strong> rezistor parallel bo'lsa, natija yarmiga teng. 100 Ω ∥ 100 Ω = 50 Ω.</li>
+<li>Ikki xil rezistor uchun qulay formula: R = (R1 × R2) / (R1 + R2).</li>
+</ul>
+<div class="box analogy">Yonma-yon ikkita quvur bo'lsa, suv ikkalasidan oqadi va umumiy oqim ko'payadi. Ya'ni to'sqinlik kamayadi.</div>
+<p>Belgi: <strong>∥</strong> "parallel" degani. Slaydlarda tez-tez uchraydi.</p>
+
+<h2>4. Kuchlanish bo'lgich (voltage divider)</h2>
+<p>Ikki rezistor ketma-ket ulangan. Ularning o'rtasidan kuchlanish olinadi. Bu kirish kuchlanishining <strong>bir qismi</strong> bo'ladi.</p>
+
+<figure>
+<svg viewBox="0 0 520 260" role="img" aria-label="Kuchlanish bo'lgich: Vin manbaiga R1 va R2 ketma-ket ulangan, Vout R2 ustidan olinadi" font-family="system-ui,sans-serif">
+  <path d="M80 125V40H260V60M260 120V140M260 200V230H80V145" stroke="#888" stroke-width="2.5" fill="none"/>
+  <rect x="250" y="60" width="20" height="60" rx="3" fill="#fff" stroke="#555" stroke-width="2"/>
+  <rect x="250" y="140" width="20" height="60" rx="3" fill="#fff" stroke="#555" stroke-width="2"/>
+  <line x1="60" y1="125" x2="100" y2="125" stroke="#d9622b" stroke-width="3"/>
+  <line x1="70" y1="145" x2="90" y2="145" stroke="#d9622b" stroke-width="3"/>
+  <rect x="50" y="110" width="60" height="50" fill="none"/>
+  <text x="44" y="140" text-anchor="end" font-size="15" font-weight="700" fill="#d9622b">Vin</text>
+  <text x="282" y="96" font-size="15" fill="currentColor">R1</text>
+  <text x="282" y="176" font-size="15" fill="currentColor">R2</text>
+  <path d="M260 130H380" stroke="#888" stroke-width="2.5"/>
+  <circle cx="260" cy="130" r="4" fill="#2563eb"/>
+  <circle cx="380" cy="130" r="4" fill="#2563eb"/>
+  <path d="M380 230H260" stroke="#888" stroke-width="2.5"/>
+  <circle cx="380" cy="230" r="4" fill="#2563eb"/>
+  <path d="M400 135V222" stroke="#2563eb" stroke-width="2"/>
+  <text x="412" y="185" font-size="15" font-weight="700" fill="#2563eb">Vout</text>
+  <text x="170" y="252" text-anchor="middle" font-size="13" fill="currentColor">GND (0 V)</text>
+</svg>
+<figcaption>Vout pastki rezistor R2 ustidagi kuchlanish.</figcaption>
+</figure>
+
+<span class="formula">Vout = Vin × R2 / (R1 + R2)</span>
+
+<h3>Formula qayerdan keladi (3 qadam)</h3>
+<ol>
+<li>Rezistorlar ketma-ket, demak umumiy qarshilik R1 + R2.</li>
+<li>Tok: I = Vin / (R1 + R2).</li>
+<li>R2 ustidagi kuchlanish: Vout = I × R2 = Vin × R2 / (R1 + R2).</li>
+</ol>
+<p>Ma'nosi: kuchlanish rezistorlar orasida ularning <strong>kattaligiga qarab</strong> bo'linadi. Katta rezistorga ko'proq kuchlanish tushadi.</p>
+
+<h3>Misollar</h3>
+<ul>
+<li>Vin = 10 V, R1 = R2 = 1 kΩ. Vout = 10 × 1/(1+1) = <strong>5 V</strong>. Teng rezistorlar teng bo'ladi.</li>
+<li>Vin = 12 V, R1 = 1 kΩ, R2 = 2 kΩ. Vout = 12 × 2/(1+2) = <strong>8 V</strong>.</li>
+</ul>
+
+<h2>5. Imtihonda bu qanday chiqadi</h2>
+<p>Exercises papkasidagi <strong>021-savol</strong>, asl matni:</p>
+<div class="box"><em>A driver with the output resistance Ro = 2 Z∞ drives at high level (Vdd) a transmission line with the characteristic impedance Z∞ with an adapted termination. The steady-state voltage at the termination end is:</em><br>a) Vdd / 3 &nbsp; b) 0 &nbsp; c) 2·Vdd &nbsp; d) Vdd / 2</div>
+<p>Tarjimasi: chiqish qarshiligi Ro = 2Z∞ bo'lgan drayver Vdd kuchlanish beradi. U Z∞ ga teng yukka ulangan ("adapted termination" shu degani). Barqaror holatda yukdagi kuchlanish qancha?</p>
+<p>Bu oddiy kuchlanish bo'lgich: yuqoridagi rezistor Ro = 2Z∞, pastdagisi Z∞.</p>
+<p>Vout = Vdd × Z / (2Z + Z) = Vdd × Z / 3Z = <strong>Vdd/3</strong>, javob a).</p>
+<p>Asl savolda "Z" uzatish liniyasining impedansi deb ataladi. Bu so'zni 25-darsda o'rganamiz. Hozir uni oddiy rezistor deb tushunish yetarli, chunki barqaror holatda u xuddi rezistor kabi ishlaydi. Shu formula 038-savolda va uzatish liniyalari mavzusidagi ko'p masalalarda ham bor.</p>
+
+<h2>O'zingizni tekshiring</h2>
+<p>Avval o'zingiz yeching, keyin "Javob" ni bosing.</p>
+<div class="box check">Rezistorga 10 V tushyapti, undan 0.5 A tok o'tyapti. Quvvati qancha? <details><summary>Javob</summary>P = V × I = 10 × 0.5 = <strong>5 W</strong>.</details></div>
+<div class="box check">100 Ω rezistordan 0.1 A tok o'tyapti. Quvvati qancha? <details><summary>Javob</summary>Bu yerda I va R berilgan, shuning uchun P = I² × R = 0.1 × 0.1 × 100 = <strong>1 W</strong>.</details></div>
+<div class="box check">220 Ω va 330 Ω ketma-ket ulangan. Umumiy qarshilik? <details><summary>Javob</summary>220 + 330 = <strong>550 Ω</strong>.</details></div>
+<div class="box check">Ikkita 1 kΩ rezistor parallel ulangan. Umumiy qarshilik? <details><summary>Javob</summary>Bir xil ikkita rezistor parallel bo'lsa, yarmi: <strong>500 Ω</strong>.</details></div>
+<div class="box check">Vin = 9 V, R1 = 2 kΩ, R2 = 1 kΩ. Vout qancha? <details><summary>Javob</summary>Vout = 9 × 1/(2+1) = <strong>3 V</strong>.</details></div>
+<div class="box check">Drayver qarshiligi Ro = Z, yuk qarshiligi ham Z, drayver VOH beradi. Yukdagi kuchlanish? <details><summary>Javob</summary>Vout = VOH × Z/(Z+Z) = <strong>VOH/2</strong>. Bu natija uzatish liniyalari mavzusida juda ko'p uchraydi.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Quvvat (P, vatt)</td><td>power</td><td>Bir soniyada sarflangan energiya, odatda issiqlikka aylanadi</td></tr>
+<tr><td>Ketma-ket ulanish</td><td>series</td><td>Bitta yo'l, tok bir xil</td></tr>
+<tr><td>Parallel ulanish</td><td>parallel (belgisi ∥)</td><td>Yonma-yon yo'llar, kuchlanish bir xil</td></tr>
+<tr><td>Kuchlanish bo'lgich</td><td>voltage divider</td><td>Ikki rezistor bilan kuchlanishning bir qismini olish</td></tr>
+<tr><td>Drayver</td><td>driver</td><td>Signalni chiqaradigan qism (uning ham ichki qarshiligi bor)</td></tr>
+<tr><td>Yuk</td><td>load</td><td>Kuchlanish berilayotgan detal yoki sxema</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<p><strong>Quvvat</strong></p>
+<span class="formula">P = V × I = I² × R = V² / R &nbsp;&nbsp; (vatt, W)</span>
+<ul><li>Quvvat issiqlikka aylanadi: P katta bo'lsa detal qiziydi.</li></ul>
+<p><strong>Ketma-ket (series)</strong></p>
+<ul>
+<li>Tok bir xil. Kuchlanishlar qo'shiladi.</li>
+<li>R = R1 + R2 (har doim eng kattasidan ham katta)</li>
+</ul>
+<p><strong>Parallel (∥)</strong></p>
+<ul>
+<li>Kuchlanish bir xil. Toklar qo'shiladi.</li>
+<li>R = R1 × R2 / (R1 + R2) (har doim eng kichigidan ham kichik)</li>
+<li>Ikkita bir xil R parallel = R/2</li>
+</ul>
+<p><strong>Kuchlanish bo'lgich</strong></p>
+<span class="formula">Vout = Vin × R2 / (R1 + R2)</span>
+<ul>
+<li>Vout = pastki rezistor (yuk) ustidagi kuchlanish.</li>
+<li>Teng rezistorlar → Vin/2. Ro = Z, yuk Z → VOH/2.</li>
+<li>Imtihonda: drayver Ro va yuk Z bo'lsa, yukdagi kuchlanish = V × Z / (Ro + Z) (021, 038-savollar).</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> bo'lsa 3-darsga o'tamiz. <strong>"Tushunmadim"</strong> bo'lsa, qaysi joyi qiyinligini ayting, soddaroq qilib qayta yozaman.</div>
+
+<footer class="pager"><a href="01-kuchlanish-tok-qarshilik.html">← 1-dars</a><a href="./">Darslar ro'yxati →</a></footer>
+</main></body></html>
