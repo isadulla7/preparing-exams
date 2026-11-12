@@ -217,6 +217,22 @@ a) 2·cos(2π·10·t) &nbsp; b) 2·sin(2π·10·t) &nbsp; c) −2·sin(2π·10·
 <tr><td>Σ (sigma)</td><td>"Hammasini qo'shib chiq" belgisi</td></tr>
 </table>
 
+<h2>📝 Konspekt</h2>
+<div class="box note"><p><strong>Shularni bilsangiz, bu mavzuni bilasiz</strong> (2-ma'ruza, "Periodic signals"):</p>
+<ol>
+<li><b>Davriy signal ta'rifi:</b> <code>∃T : x(t) = x(t + T) ∀t</code>. T — <b>davr</b> (sekund). Eng kichik T — <b>asosiy davr</b>. T davr bo'lsa, 2T, 3T, … ham davr.</li>
+<li><b>Bitta bo'lak orqali yozish:</b> <code>x(t) = Σ<sub>n=−∞</sub><sup>+∞</sup> x<sub>T</sub>(t − nT)</code>, bu yerda x<sub>T</sub>(t) — bitta davrga kesib olingan bo'lak.</li>
+<li><b>Surish qoidasi:</b> <code>x(t − a)</code> — a ga <b>o'ngga</b> (kechikish), <code>x(t + a)</code> — a ga <b>chapga</b>.</li>
+<li>Haqiqiy signallar faqat <b>taxminan</b> davriy (boshlanishi va oxiri bor). Davriy signal — qulay matematik model (generator, protsessor takti).</li>
+<li><b>Sinusoida:</b> <code>x(t) = A·cos(2πf₀t + φ)</code>. Qiymatlari −A dan +A gacha.</li>
+<li><b>A — amplituda</b>: eng katta balandlik (cos oldidagi son).</li>
+<li><b>f₀ — chastota</b>, Hz (sekundiga necha marta): <code>f₀ = 1/T</code>, <code>T = 1/f₀</code>. cos ichidagi <code>2π·(son)·t</code> dagi "son" — chastota. <code>ω = 2πf₀</code> — burchak chastota.</li>
+<li><b>φ — faza</b>: to'lqinning surilishi. To'liq davr = 2π. t₀ ga o'ngga surilsa: <code>φ = −2πf₀t₀</code> (masalan, T/4 ga o'ngga → φ = −π/2).</li>
+<li>Faza 2π ga o'zgarsa, to'lqin o'zgarmaydi: <code>cos(θ + 2πn) = cos θ</code>.</li>
+<li><code>cos(2πf₀t − π/2) = sin(2πf₀t)</code>, chunki <code>cos(π/2 − θ) = sin θ</code> va <code>cos(−θ) = cos θ</code> (ikkalasi ham jadvalda bor).</li>
+<li>Misol: <code>3·cos(2π·50·t)</code> → A = 3, f₀ = 50 Hz, T = 0,02 s, φ = 0.</li>
+</ol></div>
+
 <div class="box ok">O'qib bo'ldingizmi? Chatga <strong>"tushundim"</strong> deb yozing, keyingi darsga o'tamiz. <strong>"Tushunmadim"</strong> bo'lsa, qaysi joy qiyin bo'lganini ayting, darsni soddaroq qilib qayta yozaman.</div>
 <footer class="pager"><a href="01-signal-nima.html">← 1. Signal nima?</a><a href="./">Darslar ro'yxati</a></footer>
 </main></body></html>

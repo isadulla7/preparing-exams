@@ -162,6 +162,18 @@ svg text{font-family:inherit}
 <tr><td>Diskretlash (sampling)</td><td>Uzluksiz signaldan har bir oz vaqtda bitta qiymat olib yozish</td></tr>
 </table>
 
+<h2>📝 Konspekt</h2>
+<div class="box note"><p><strong>Shularni bilsangiz, bu mavzuni bilasiz</strong> (1-ma'ruza asosida):</p>
+<ol>
+<li><b>Signal</b> — fizik kattalikning (kuchlanish, tok, harorat, ovoz bosimi…) vaqt bo'yicha o'zgarishining matematik tavsifi. Yozilishi: <code>x(t)</code>, bu yerda t — vaqt.</li>
+<li><b>Uzluksiz (analog) signal</b> — qiymati har bir lahzada bor: <code>x(t)</code>, t istalgan haqiqiy son.</li>
+<li><b>Diskret signal</b> — uzluksiz signaldan har T<sub>s</sub> sekundda bitta qiymat olinadi: <code>x[n] = x(n·T<sub>s</sub>)</code>, n = …, −1, 0, 1, 2, … butun son. T<sub>s</sub> — <b>diskretlash oralig'i</b>. Bu jarayon <b>diskretlash</b> (sampling) deyiladi.</li>
+<li><b>Kvantlash</b> — diskret signalning qiymatlarini ham cheklangan to'plamdan olinadigan qiymatlarga yaxlitlash. Natija — <b>raqamli (numerical/digital) signal</b>, uni bitlar (0 va 1) bilan yozish mumkin.</li>
+<li>Zanjir: fizik kattalik → <b>datchik</b> (transducer, masalan mikrofon) → elektr signal → <b>A/D</b> (analogdan raqamliga) → kompyuterda ishlov → <b>D/A</b> (raqamlidan analogga) → karnay.</li>
+<li>Signal bilan qilinadigan ishlar: <b>ishlov berish</b> (shovqinni tozalash, filtrlash), <b>uzatish</b> (radio, aloqa), <b>saqlash</b> (CD, xotira).</li>
+<li>Kurs ikki qismdan iborat: <b>1-qism, signallar nazariyasi</b> — uzluksiz signallar, vaqt va chastota sohasida; <b>2-qism, raqamli ishlov berish (DSP)</b> — diskret signallar.</li>
+</ol></div>
+
 <div class="box ok">O'qib bo'ldingizmi? Chatga <strong>"tushundim"</strong> deb yozing — keyingi darsga o'tamiz. <strong>"Tushunmadim"</strong> bo'lsa, qaysi joy qiyin bo'lganini ayting — darsni soddaroq qilib qayta yozaman.</div>
 <footer class="pager"><a href="./">← Darslar ro'yxati</a><a href="02-tolqin.html">2. To'lqin →</a></footer>
 </main></body></html>
