@@ -4,12 +4,84 @@
 <body><main>
 <nav class="top"><a href="../">← Bosh sahifa</a></nav>
 <h1>Applied electronics and measurements</h1>
-<p>Darslar tartib bilan. Har birini o'qib bo'lgach, chatda "tushundim" yoki "tushunmadim" deb yozing.</p>
-<p><a href="reja.html"><strong>📋 To'liq o'qish rejasi (41 dars, imtihon savollariga bog'langan)</strong></a></p>
-<ol class="lessons">
-<!-- LESSONS: har bir yangi dars shu yerga qo'shiladi, masalan:
-<li><a href="01-signal-nima.html">Signal nima?</a> <span class="status">— o'qilmoqda</span></li> -->
-<li><a href="01-kuchlanish-tok-qarshilik.html">Elektr nima? Kuchlanish, tok, qarshilik</a> <span class="status">— tushunildi ✅</span></li>
-<li><a href="02-quvvat-ketma-ket-parallel.html">Quvvat, ketma-ket va parallel ulanish, kuchlanish bo'lgich</a> <span class="status">— o'qilmoqda</span></li>
+<p>Fanning to'liq mundarijasi: 41 ta dars. Tayyor darslar havola ko'rinishida. Har birini o'qib bo'lgach, chatda "tushundim" yoki "tushunmadim" deb yozing.</p>
+<p><a href="reja.html"><strong>📋 O'qish rejasi: imtihon formati va qaysi mavzu qaysi savolga bog'langani</strong></a></p>
+<!-- LESSONS: mundarija -->
+<h2>0-bosqich. Noldan asoslar</h2>
+<p class="status">Slaydlarni tushunish uchun zarur bilimlar</p>
+<ol class="lessons" start="1">
+<li><a href="01-kuchlanish-tok-qarshilik.html">Elektr nima? Kuchlanish, tok, qarshilik</a> <span class="status">— Om qonuni, birliklar · ✅ tushunildi</span></li>
+<li><a href="02-quvvat-ketma-ket-parallel.html">Quvvat, ketma-ket va parallel ulanish, kuchlanish bo&#x27;lgich</a> <span class="status">— P = V·I, R1+R2, R1∥R2, 021-savol · 📖 o'qilmoqda</span></li>
+<li>Kondensator va RC: zaryadlanish vaqti <span class="status">— sig&#x27;im, τ = RC, zaryadlanish egri chizig&#x27;i · ⏳ tayyorlanmoqda</span></li>
+<li>Diod va tranzistor: elektron kalit <span class="status">— diod, MOSFET, BJT, kalit rejimi · ⏳ tayyorlanmoqda</span></li>
+<li>Raqamli dunyo: 0 va 1 <span class="status">— ikkilik sanoq, bit, AND/OR/NOT, haqiqat jadvali · ⏳ tayyorlanmoqda</span></li>
+</ol>
+<h2>1-bosqich. Raqamli sxemalar</h2>
+<p class="status">Slaydlar B1, B2, B3, B6</p>
+<ol class="lessons" start="6">
+<li>CMOS invertor, mantiq darajalari, shovqin zaxirasi, quvvat sarfi <span class="status">— B1: VOH/VOL/VIH/VIL, noise margin, fan-out, P = f·C·V² · ⏳ tayyorlanmoqda</span></li>
+<li>Latch va flip-flop: 1 bitni saqlash <span class="status">— B2: SR latch, D latch, D flip-flop · ⏳ tayyorlanmoqda</span></li>
+<li>Setup, hold, kechikish va Fmax <span class="status">— B2–B3: tSU, tH, tCKQ, Fmax = 1/(tCKQ + tlogic + tSU) · ⏳ tayyorlanmoqda</span></li>
+<li>Hisoblagichlar va FSM <span class="status">— B3: counter, holatlar diagrammasi, Moore/Mealy · ⏳ tayyorlanmoqda</span></li>
+<li>Dasturlanadigan mantiq: PAL, PLA, FPGA, NRE <span class="status">— B6: LUT, CPLD, FPGA, ASIC va NRE xarajati · ⏳ tayyorlanmoqda</span></li>
+<li>Mashq: flip-flop va sinxron sxemalar <span class="status">— 16 ta imtihon savoli · ⏳ tayyorlanmoqda</span></li>
+</ol>
+<h2>2-bosqich. Analog sxemalar</h2>
+<p class="status">Slaydlar B4, B5, Be1</p>
+<ol class="lessons" start="12">
+<li>Komparator va Schmitt trigger <span class="status">— B4: chegara, gisterezis · ⏳ tayyorlanmoqda</span></li>
+<li>Generator (oscillator) <span class="status">— B4: Schmitt generator, T = RC·ln(...) · ⏳ tayyorlanmoqda</span></li>
+<li>Filtrlar <span class="status">— B5: past/yuqori chastota filtri, kesish chastotasi, tartib · ⏳ tayyorlanmoqda</span></li>
+<li>Mashq: CMOS, oscillator, issiqlik, NRE <span class="status">— 22 ta imtihon savoli · ⏳ tayyorlanmoqda</span></li>
+</ol>
+<h2>3-bosqich. Analog ↔ raqamli o&#x27;zgartirish</h2>
+<p class="status">Slaydlar D1, D2, D3, D5</p>
+<ol class="lessons" start="16">
+<li>Namuna olish, aliasing, kvantlash, SNR <span class="status">— D1: Nyquist, SNR = 6N + 1.76 dB, ENOB · ⏳ tayyorlanmoqda</span></li>
+<li>DAC <span class="status">— D2: R-2R, xatolar (offset, gain, INL, DNL) · ⏳ tayyorlanmoqda</span></li>
+<li>ADC turlari <span class="status">— D3: flash, SAR, tracking, tezlik va komparatorlar soni · ⏳ tayyorlanmoqda</span></li>
+<li>Signalni tayyorlash <span class="status">— D5: kuchaytirish, siljish, anti-aliasing filtr · ⏳ tayyorlanmoqda</span></li>
+<li>Mashq: A/D va D/A <span class="status">— 20 ta imtihon savoli + 2020-07 masalasi · ⏳ tayyorlanmoqda</span></li>
+</ol>
+<h2>4-bosqich. Xotiralar</h2>
+<p class="status">Slaydlar B7, B7e</p>
+<ol class="lessons" start="21">
+<li>Xotira tuzilishi <span class="status">— matritsa, adres, dekoder, kechikish 0.69·R·C · ⏳ tayyorlanmoqda</span></li>
+<li>SRAM, DRAM, FLASH <span class="status">— yacheyka turlari, refresh, NOR/NAND · ⏳ tayyorlanmoqda</span></li>
+<li>Mashq: xotira va FPGA <span class="status">— 12 ta imtihon savoli + 2021-06 masalasi · ⏳ tayyorlanmoqda</span></li>
+</ol>
+<h2>5-bosqich. Ulanishlar va uzatish liniyalari</h2>
+<p class="status">Slaydlar C1–C7</p>
+<ol class="lessons" start="24">
+<li>Nega sim bitta nuqta emas <span class="status">— C1: tarqalish kechikishi, skew, jitter · ⏳ tayyorlanmoqda</span></li>
+<li>Uzatish liniyasi va aks etish <span class="status">— C2: Z∞, tp, aks etish koeffitsienti Γ · ⏳ tayyorlanmoqda</span></li>
+<li>Terminatsiya, IWS va RWS <span class="status">— C3: moslashtirish, uzatish vaqti · ⏳ tayyorlanmoqda</span></li>
+<li>Bus protokollari <span class="status">— C4–C5: sinxron va asinxron sikllar · ⏳ tayyorlanmoqda</span></li>
+<li>Ketma-ket aloqa va signal yaxlitligi <span class="status">— C6–C7: UART, eye diagram, crosstalk, ground bounce, bypass · ⏳ tayyorlanmoqda</span></li>
+<li>Mashq: uzatish liniyalari va bus <span class="status">— 19 ta imtihon savoli + eski masalalar · ⏳ tayyorlanmoqda</span></li>
+</ol>
+<h2>6-bosqich. Quvvat manbalari</h2>
+<p class="status">Slaydlar E1, E2, E3, Ee</p>
+<ol class="lessons" start="30">
+<li>Quvvat elementlari va issiqlik <span class="status">— E1: TJ = TA + PD·θJA, radiator tanlash · ⏳ tayyorlanmoqda</span></li>
+<li>To&#x27;g&#x27;rilagich va ripple <span class="status">— E2: bir/ikki yarim davrli, VRI = I/(f·C) · ⏳ tayyorlanmoqda</span></li>
+<li>Chiziqli stabilizatorlar va zener <span class="status">— E2: Rmin, Rmax, series regulator, LDO · ⏳ tayyorlanmoqda</span></li>
+<li>Impulsli stabilizatorlar <span class="status">— E3: buck, boost, buck-boost, flyback, D = TON/T · ⏳ tayyorlanmoqda</span></li>
+<li>Mashq: quvvat manbalari <span class="status">— 28 ta imtihon savoli + 2020-09 masalasi · ⏳ tayyorlanmoqda</span></li>
+</ol>
+<h2>7-bosqich. Measurements (A. Carullo)</h2>
+<p class="status">Measurements slaydlari va laboratoriya ishlari</p>
+<ol class="lessons" start="35">
+<li>O&#x27;lchash noaniqligi <span class="status">— asbob noaniqligi, tarqalish qoidalari · ⏳ tayyorlanmoqda</span></li>
+<li>Chastota va davrni o&#x27;lchash <span class="status">— hisoblagich, gate time, ±1 xato · ⏳ tayyorlanmoqda</span></li>
+<li>Integratsiyalovchi ADC <span class="status">— dual-slope, multi-slope, NPLC · ⏳ tayyorlanmoqda</span></li>
+<li>Qarshilikni o&#x27;lchash <span class="status">— volt-ampermetr usuli, 4 simli ulanish, taqqoslash · ⏳ tayyorlanmoqda</span></li>
+<li>Sensorlar <span class="status">— Pt100, NTC, fotodiod, laboratoriya ishlari · ⏳ tayyorlanmoqda</span></li>
+<li>Mashq: Measurements <span class="status">— imtihon uslubidagi savollar, yechimlari bilan · ⏳ tayyorlanmoqda</span></li>
+</ol>
+<h2>8-bosqich. To&#x27;liq imtihonlar</h2>
+<p class="status">2018–2021 yillar</p>
+<ol class="lessons" start="41">
+<li>11 ta eski imtihonni yechish <span class="status">— vaqt bilan yechish va xatolarni tahlil qilish · ⏳ tayyorlanmoqda</span></li>
 </ol>
 </main></body></html>
