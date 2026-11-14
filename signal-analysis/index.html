@@ -4,12 +4,72 @@
 <body><main>
 <nav class="top"><a href="../">← Bosh sahifa</a></nav>
 <h1>Signal analysis and processing</h1>
-<p>Darslar tartib bilan. Har birini o'qib bo'lgach, chatda "tushundim" yoki "tushunmadim" deb yozing.</p>
-<p><a href="reja.html"><strong>📋 To'liq o'quv reja (37 dars)</strong></a></p>
-<ol class="lessons">
-<!-- LESSONS: har bir yangi dars shu yerga qo'shiladi, masalan:
-<li><a href="01-signal-nima.html">Signal nima?</a> <span class="status">— o'qilmoqda</span></li> -->
-<li><a href="01-signal-nima.html">Signal nima?</a> <span class="status">— ✓ tushunildi</span></li>
-<li><a href="02-tolqin.html">To'lqin: amplituda, davr, chastota, faza</a> <span class="status">— o'qilmoqda</span></li>
+<p>Fanning to'liq mundarijasi: 37 ta dars. Tayyor darslar havola ko'rinishida. Har birini o'qib bo'lgach, chatda "tushundim" yoki "tushunmadim" deb yozing.</p>
+<p><a href="reja.html"><strong>📋 O'quv reja: imtihon formati, ma'ruzalar, konspekt boblari va mashg'ulotlar</strong></a></p>
+<!-- LESSONS: mundarija. Yangi dars tayyor bo'lganda o'sha qatorni havolaga aylantiring. -->
+<h2>Kirish</h2>
+<ol class="lessons" start="1">
+<li><a href="01-signal-nima.html">Signal nima?</a> <span class="status">— 01-ma'ruza · Signal tushunchasi, uzluksiz va diskret signal, diskretlash g'oyasi · ✅ tushunildi</span></li>
+<li><a href="02-tolqin.html">To'lqin: amplituda, davr, chastota, faza</a> <span class="status">— 02-ma'ruza · Davriy signal, sinusoida parametrlari · 📖 o'qilmoqda</span></li>
+<li>Kompleks sonlar va aylanuvchi strelka e<sup>jθ</sup> <span class="status">— Furye uchun zarur matematika (modul, faza, Eyler) · ⏳ tayyorlanmoqda</span></li>
+<li>Energiya va quvvat, signallar turlari <span class="status">— 02-ma'ruza · Energiya/quvvat signali, davriy signal quvvati, klassifikatsiya · ⏳ tayyorlanmoqda</span></li>
+</ol>
+<h2>1-qism. Uzluksiz signallar</h2>
+<ol class="lessons" start="5">
+<li>Signallar vektor sifatida <span class="status">— 03-ma'ruza · Skalyar ko'paytma, norma = energiya, masofa, ortogonallik, Shvars tengsizligi · ⏳ tayyorlanmoqda</span></li>
+<li>Ortonormal bazis va Dirak deltasi <span class="status">— 04-ma'ruza · Bazis, rect bilan yaqinlashish, δ(t) va uning xossalari · ⏳ tayyorlanmoqda</span></li>
+<li>Furye qatori <span class="status">— 05-ma'ruza · Koeffitsiyentlar μₙ, to'rtburchak to'lqin, sinc · ⏳ tayyorlanmoqda</span></li>
+<li>Furye almashtirishi: g'oya va asosiy juftliklar <span class="status">— 05-ma'ruza · Qatordan almashtirishga, mavjudlik, muhim juftliklar · ⏳ tayyorlanmoqda</span></li>
+<li>Furye xossalari (1): kechikish, modulyatsiya, masshtab <span class="status">— 06–07-ma'ruza · Chiziqlilik, kechikish, AM modulyatsiya, masshtab, juftlik · ⏳ tayyorlanmoqda</span></li>
+<li>Furye xossalari (2): o'ram, duallik, Parseval, jadval bilan ishlash <span class="status">— 06–07-ma'ruza · O'ram/ko'paytma, hosila, duallik, energiya, jadvaldan foydalanish · ⏳ tayyorlanmoqda</span></li>
+<li>Tizimlar va impuls javobi <span class="status">— 08-ma'ruza · Chiziqli, vaqtga invariant, xotirasiz tizim; h(t) · ⏳ tayyorlanmoqda</span></li>
+<li>O'ram (konvolyutsiya) grafik usulda <span class="status">— 08-ma'ruza · Grafik o'ram, o'ram xossalari, mashq · ⏳ tayyorlanmoqda</span></li>
+<li>Uzatish funksiyasi H(f), kauzallik, turg'unlik <span class="status">— 09-ma'ruza · Y = H·X, sinus kirish, kauzallik, fizik amalga oshirish, BIBO · ⏳ tayyorlanmoqda</span></li>
+<li>Blok sxemalar <span class="status">— 10-ma'ruza · Ketma-ket, parallel, teskari aloqa, kechikish va kuchaytirgich tarmoqlari · ⏳ tayyorlanmoqda</span></li>
+<li>Polosa kengligi, filtrlar, buzilish <span class="status">— 11-ma'ruza · −3 dB va boshqa polosalar, LPF/HPF, buzilishsiz tizim, modulyatsiya, FDM · ⏳ tayyorlanmoqda</span></li>
+<li>Davriy signallar spektri va delta qatori <span class="status">— 12–13-ma'ruza · Davriy signal FT, impulslar qatori, periodizatsiya · ⏳ tayyorlanmoqda</span></li>
+<li>Energiya spektri va korrelyatsiya <span class="status">— 14-ma'ruza · Sx(f), avtokorrelyatsiya, o'zaro korrelyatsiya · ⏳ tayyorlanmoqda</span></li>
+<li>Quvvat spektri, kesilgan signal, Gibbs effekti <span class="status">— 15-ma'ruza · Davriy va quvvat signallari spektri, filtrdan o'tish, kesish, Gibbs · ⏳ tayyorlanmoqda</span></li>
+</ol>
+<h2>Diskretlash</h2>
+<ol class="lessons" start="19">
+<li>Diskretlash teoremasi va aliasing <span class="status">— 23-ma'ruza · Nyquist sharti, interpolyatsiya filtri, aliasing, anti-aliasing filtr · ⏳ tayyorlanmoqda</span></li>
+<li>Real diskretlash va misollar <span class="status">— 24-ma'ruza · Sinus aliasingi, real diskretlagich, AA filtr va davrni tanlash · ⏳ tayyorlanmoqda</span></li>
+</ol>
+<h2>2-qism. Diskret signallar</h2>
+<ol class="lessons" start="21">
+<li>Diskret signallar va elementar ketma-ketliklar <span class="status">— 25-ma'ruza · Davomiylik, kauzallik, juftlik, davriylik, δ(n), u(n), aⁿ, diskret sinus · ⏳ tayyorlanmoqda</span></li>
+<li>Diskret amallar va chiziqli o'ram <span class="status">— 26-ma'ruza · Surish, teskari aylantirish, masshtab, o'ram, MATLAB conv; 01-mashg'ulot 1–2-masalalar · ⏳ tayyorlanmoqda</span></li>
+<li>Diskret energiya, quvvat, korrelyatsiya <span class="status">— 27-ma'ruza · Energiya, o'rtacha quvvat, auto/o'zaro korrelyatsiya; 01-mashg'ulot 3-masala · ⏳ tayyorlanmoqda</span></li>
+<li>DTFT va uning xossalari <span class="status">— 28-ma'ruza · Ta'rif, davri 1, teskari DTFT, xossalar, simmetriya · ⏳ tayyorlanmoqda</span></li>
+<li>Diskret spektr, polosa, DTFT misollari; DFT ga kirish <span class="status">— 29-ma'ruza · Parseval, polosalar, misollar, DFT ta'rifi, FFT · ⏳ tayyorlanmoqda</span></li>
+<li>DFT xossalari va aylanma o'ram <span class="status">— 30-ma'ruza · Aylanma kechikish, aylanma o'ram, chiziqli va aylanma o'ram farqi · ⏳ tayyorlanmoqda</span></li>
+<li>DFT amalda: DTFT ni baholash, zero-padding, tez o'ram <span class="status">— 31-ma'ruza · DFT va DTFT, vaqt aliasingi, zero-padding, MATLAB fft · ⏳ tayyorlanmoqda</span></li>
+<li>Z-almashtirish va ROC <span class="status">— 32-ma'ruza · Ta'rif, ROC, kauzal/antikauzal, qutb va nollar · ⏳ tayyorlanmoqda</span></li>
+<li>Z xossalari va teskari Z-almashtirish <span class="status">— 33-ma'ruza · Xossalar, boshlang'ich qiymat, oddiy kasrlarga ajratish · ⏳ tayyorlanmoqda</span></li>
+<li>Diskret tizimlar xossalari, ayirmali tenglama <span class="status">— 34-ma'ruza · Chiziqlilik/statsionarlikni tekshirish, kauzallik, xotira, ZSR/ZIR · ⏳ tayyorlanmoqda</span></li>
+<li>Impuls javobi, chastota javobi, FIR va IIR <span class="status">— 35-ma'ruza · h(n), H(z), H(e^{j2πf}), raqamli filtrlar, blok sxemalar · ⏳ tayyorlanmoqda</span></li>
+<li>Turg'unlik va fizik amalga oshirish <span class="status">— 36-ma'ruza · BIBO, qutblar va birlik aylana, teskari tizim, minimal faza, ulanishlar · ⏳ tayyorlanmoqda</span></li>
+</ol>
+<h2>3-qism. Tasodifiy jarayonlar</h2>
+<ol class="lessons" start="33">
+<li>Ehtimollik asoslari <span class="status">— Tasodifiy miqdor, ehtimollik zichligi, o'rtacha qiymat, dispersiya, Gauss taqsimoti, korrelyatsiya koeffitsiyenti · ⏳ tayyorlanmoqda</span></li>
+<li>Tasodifiy jarayon nima? <span class="status">— 37-ma'ruza · Ansambl, realizatsiya, tasodifiy amplituda/fazali sinus, PAM-4 misoli · ⏳ tayyorlanmoqda</span></li>
+<li>Statsionarlik va avtokorrelyatsiya <span class="status">— 37-ma'ruza · O'rtacha, avtokorrelyatsiya, keng ma'noda statsionar (WSS) jarayon xossalari · ⏳ tayyorlanmoqda</span></li>
+<li>Filtrdan o'tgan jarayon, oq shovqin, quvvat spektri <span class="status">— LTI tizim chiqishi, oq Gauss shovqini, quvvat spektral zichligi · ⏳ tayyorlanmoqda</span></li>
+</ol>
+<h2>Ixtiyoriy: MATLAB laboratoriyalari</h2>
+<p class="status">Imtihon savollari ma'ruzalardan olinadi, lablar ham ma'ruzaga asoslangan.</p>
+<ol class="lessons" style="list-style:none;padding-left:1.2em">
+<li>➕ Lab 1: MATLAB bilan tanishuv <span class="status">— Lab 1 · Vaqt o'qi, sinus yasash, plot, energiya, akkord (3 ta ton yig'indisi) · ⏳ tayyorlanmoqda</span></li>
+<li>➕ Lab 2: o'ram va korrelyatsiya <span class="status">— Lab 2 · xcorr bilan kechikishni topish (GPS misoli), randn shovqin, o'ramni qo'lda yozish va conv bilan tekshirish · ⏳ tayyorlanmoqda</span></li>
+<li>➕ Ma'ruzalardagi MATLAB buyruqlari <span class="status">— 26, 30, 31, 35-ma'ruzalar · conv, fft, stem, zero-padding, chastota o'qi · ⏳ tayyorlanmoqda</span></li>
+</ol>
+<h2>Yakun</h2>
+<ol class="lessons" start="37">
+<li>Yakuniy mashq: imtihon uslubidagi testlar <span class="status">— 60 daqiqada 10 savol, xatolar tahlili · ⏳ tayyorlanmoqda</span></li>
+</ol>
+<ol class="lessons" style="list-style:none;padding-left:1.2em">
+<li>➕ Ixtiyoriy: raqamli filtr loyihalash <span class="status">— konspekt 18–19-boblar; 2026 slaydlarida yo'q, vaqt qolsa o'qiymiz</span></li>
 </ol>
 </main></body></html>
