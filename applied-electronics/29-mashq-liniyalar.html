@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>29. Mashq: uzatish liniyalari va bus</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>29. Mashq: uzatish liniyalari va bus (barcha imtihon savollari)</h1>
+
+<div class="box note"><strong>Bu dars nima uchun:</strong> 24–27-darslardagi hamma narsani bitta joyda takrorlash. Avval masala turlarini taniysiz, keyin imtihon uslubidagi 3 ta yangi masalani o'zingiz yechasiz (raqamlari boshqa, usuli xuddi imtihondagidek), oxirida bazadagi 20 ta savolning to'liq jadvali. O'qish va yechish vaqti: 60 daqiqa.</div>
+
+<h2>1. Imtihonda uchraydigan 5 xil masala turi</h2>
+<table>
+<tr><th>Tur</th><th>Belgisi (shartda nima deyiladi)</th><th>Usul</th><th>Dars</th></tr>
+<tr><td>A. Ekvipotensial (RC)</td><td>"equipotential", Ci, RO, TTX berilgan</td><td>τ = RO·Ci; VIH ≤ VDD(1 − e<sup>−T/τ</sup>), VIL ≥ VDD·e<sup>−T/τ</sup></td><td>24</td></tr>
+<tr><td>B. Lattice (kuchlanishlar)</td><td>Z∞, RO, RT, tP; "voltage at t = …"</td><td>v1, ΓT, ΓD; uzoq uchda (1+ΓT)U, (1+ΓT+ΓTΓD+ΓT²ΓD)U …</td><td>25, 26</td></tr>
+<tr><td>C. tTX va skew joyga qarab</td><td>"receiver at the beginning / at the end"</td><td>VB(0), VC(tP), VB(2tP) ni VIL/VIH bilan solishtirish</td><td>26</td></tr>
+<tr><td>D. RS tanlash (IWS)</td><td>"maximum Rs … Incident Wave Switching"</td><td>VOH·Z∞/(RS+Z∞) &gt; VIH (+NM); tushishda VOH·RS/(RS+Z∞) &lt; VIL</td><td>26</td></tr>
+<tr><td>E. Bus sikli</td><td>"synchronous / asynchronous protocol", tSU, tH</td><td>sinxron tSU+tH+2tK; asinxron tK+tSU+tH+4tTXmax</td><td>27</td></tr>
+</table>
+<div class="box warn"><strong>Eng ko'p xato qilinadigan joylar:</strong>
+<ul>
+<li>Vaqtni hisoblashda vP ni sm/ns da oling: 0.7c = 21 sm/ns, 0.5c = 15 sm/ns.</li>
+<li>VOH (driver chiqishi) va Vcc (ta'minot) har xil bo'lsa, VOH ni ishlating.</li>
+<li>"Adapted termination" = RT = Z∞; "open" = RT = ∞ (Γ = +1); qabul qilgich "negligible input impedance and capacitance" deyilsa, rasmiy yechimlar uchni ochiq deb oladi.</li>
+<li>Uzoq uchdagi kuchlanish faqat tP, 3tP, 5tP da o'zgaradi: t = 2tP dagi qiymat = tP dagi qiymat.</li>
+<li>Barqaror kuchlanish Z∞ ga bog'liq emas.</li>
+</ul></div>
+
+<h2>2. O'zingiz yeching: imtihon uslubidagi 3 masala</h2>
+<div class="box">
+<p><strong>Masala 1 (B turi, 2020-12 kabi).</strong> Z∞ = 60 Ω li liniya bir uchida chiqish qarshiligi 20 Ω li 0 → 3.3 V driverga, ikkinchi uchida 180 Ω kirish qarshilikli qabul qilgichga ulangan. tP = 4 ns. Toping: (1) qabul qilgichdagi kuchlanish t = 2tP da; (2) t = 4tP da; (3) barqaror kuchlanish; (4) qabul qilgich bir marta o'tishi uchun eng kichik shovqin zaxirasi (yuqori sath 3.3 V dan).</p>
+<details><summary>Yechim</summary>
+<p>ΓT = (180 − 60)/240 = +0.5. ΓD = (20 − 60)/80 = −0.5. U = 3.3 · 60/80 = 2.475 V.</p>
+<p>(1) tP…3tP: (1 + 0.5)·2.475 = <strong>3.71 V</strong>.</p>
+<p>(2) 3tP…5tP: (1 + 0.5 − 0.25 − 0.125)·2.475 = 1.125 · 2.475 = <strong>2.78 V</strong>.</p>
+<p>(3) 3.3 · 180/200 = <strong>2.97 V</strong>.</p>
+<p>(4) Eng past nuqta 2.78 V: NM = 3.3 − 2.78 = <strong>0.52 V</strong>.</p></details>
+</div>
+<div class="box">
+<p><strong>Masala 2 (A turi, 2021-01 kabi).</strong> 0…5 V driver, RO = 200 Ω, ekvipotensial sim, qabul qilgich Ci = 10 pF. Uzatish vaqti ko'pi bilan 3 ns bo'lishi uchun VIH eng ko'pi bilan va VIL eng kamida qancha?</p>
+<details><summary>Yechim</summary>
+<p>τ = 200 · 10 pF = 2 ns. e<sup>−3/2</sup> = e<sup>−1.5</sup> = 0.223.</p>
+<p>VIH ≤ 5 · (1 − 0.223) = <strong>3.88 V</strong>. VIL ≥ 5 · 0.223 = <strong>1.12 V</strong>.</p></details>
+</div>
+<div class="box">
+<p><strong>Masala 3 (B turi, 2020-07 kabi).</strong> tP = 3 ns, Z∞ = 50 Ω, generator 0 → 5 V, Rg = 10 Ω, uzoq uch ochiq (qabul qilgich yuklamasi sezilarsiz). Qabul qilgich 4.5 ns ichida "1" ni barqaror qabul qilishi uchun VIHmax?</p>
+<details><summary>Yechim</summary>
+<p>4.5 ns &lt; 2tP = 6 ns → IWS kerak. Γg = (10 − 50)/60 = −0.667, Γt = +1. V(0) = 5 · 50/60 = 4.17 V.</p>
+<p>tP da: 2 · 4.17 = 8.33 V. 3tP da: (1 + 1 − 0.667 − 0.667) · 4.17 = 0.667 · 4.17 = 2.78 V.</p>
+<p>VIHmax = <strong>2.78 V</strong>.</p></details>
+</div>
+
+<h2>3. Crosstalk haqida test (2021-06)</h2>
+<div class="box">
+<p><em>The cross-talk noise induced in coupled transmission lines: (a) Increases as the gate supply voltage decreases. (b) Decreases with the increase of the distance between the lines. (c) Decreases with the decrease of the distance between the lines. (d) Increases for differential signals.</em></p>
+<p><span class="term">Crosstalk</span> = yonma-yon turgan ikki liniyadan birining signali ikkinchisiga "o'tib" shovqin hosil qilishi (sig'im va induktiv bog'lanish orqali).</p>
+<details><summary>Javob</summary><p><strong>(b)</strong>. Rasmiy izoh: crosstalk signal kuchlanishi (demak ta'minot) oshsa oshadi, liniyalar yaqinlashsa oshadi (uzoqlashsa kamayadi), differensial signallarda ancha kamayadi.</p></details>
+</div>
+
+<h2>4. Bazadagi barcha savollar: to'liq jadval</h2>
+<table>
+<tr><th>№</th><th>Mavzu</th><th>Javob</th><th>Dars</th></tr>
+<tr><td>026</td><td>Ochiq uchning Γ</td><td>c) +1</td><td>25</td></tr>
+<tr><td>038</td><td>Birinchi sakrash</td><td>b) Val·Z∞/(Ro+Z∞)</td><td>25</td></tr>
+<tr><td>021</td><td>Ro = 2Z∞, moslangan, barqaror</td><td>a) Vdd/3</td><td>25</td></tr>
+<tr><td>057</td><td>Ro = Z∞, moslangan, barqaror</td><td>d) Vdd/2</td><td>25</td></tr>
+<tr><td>022</td><td>Ro = Z∞, ochiq, barqaror</td><td>a) VOH</td><td>25</td></tr>
+<tr><td>011</td><td>Ro = Z∞, ochiq: jarayon tugashi</td><td>c) 2 tp</td><td>25</td></tr>
+<tr><td>001</td><td>Birinchi sakrash va tP</td><td>1.52 V; 1.43 ns</td><td>25</td></tr>
+<tr><td>012</td><td>Liniya boshida qaysi to'lqinda o'tadi</td><td>aks etgan to'lqinda (1.27 V &lt; VIH)</td><td>26</td></tr>
+<tr><td>044</td><td>tTX va skew, boshi va oxiri</td><td>boshida 0…2 ns, tK = 2 ns; oxirida 1 ns, tK = 0</td><td>26</td></tr>
+<tr><td>082</td><td>tTX va skew, yaqin va uzoq</td><td>uzoqda 1.43 ns, tK = 0; yaqinda 0…2.86 ns, tK = 2.86 ns</td><td>26</td></tr>
+<tr><td>024</td><td>RS max, IWS, NM = 0.5 V</td><td>RS ≤ 15 Ω</td><td>26</td></tr>
+<tr><td>058</td><td>RS max, skew 0 hamma joyda</td><td>RS &lt; 29 Ω (VOH bilan)</td><td>26</td></tr>
+<tr><td>072</td><td>RS max, ko'tarilish va tushish</td><td>RS &lt; 20 Ω</td><td>26</td></tr>
+<tr><td>113</td><td>Sinxron: STB yuqori turishi</td><td>b) Th + Tk</td><td>27</td></tr>
+<tr><td>015</td><td>Sinxron sikl (082 liniyasi)</td><td>12.7 ns</td><td>27</td></tr>
+<tr><td>031</td><td>Sinxron sikl (044 liniyasi)</td><td>9 ns</td><td>27</td></tr>
+<tr><td>110</td><td>Sinxron sikl, IWS</td><td>3 ns</td><td>27</td></tr>
+<tr><td>096</td><td>Asinxron sikl (024 liniyasi)</td><td>4.92 ns</td><td>27</td></tr>
+<tr><td>098</td><td>Asinxron sikl (058 liniyasi)</td><td>8.33 ns</td><td>27</td></tr>
+<tr><td>2021-07</td><td>Barqaror kuchlanish nimaga bog'liq</td><td>(a) driver RO ga bog'liq bo'lishi mumkin</td><td>25</td></tr>
+<tr><td>2021-06</td><td>Crosstalk</td><td>(b) masofa oshsa kamayadi</td><td>29</td></tr>
+<tr><td>2020-07</td><td>7 ball: VIHmax</td><td>1.92 V</td><td>26</td></tr>
+<tr><td>2020-12</td><td>7 ball: lattice</td><td>7.01; 3.82; 5.27; 4.82; 1.18 V</td><td>26</td></tr>
+<tr><td>2021-01</td><td>7 ball: RC</td><td>2.09 V; 1.21 V; increase, not in same proportion</td><td>24</td></tr>
+</table>
+<p>Har bir savolning to'liq matni va yechimi ko'rsatilgan darsda bor. Jadvaldagi javobni yopib, o'zingiz yechib ko'ring.</p>
+
+<h2>📝 Konspekt (eng qisqa varaq)</h2>
+<div class="box">
+<span class="formula">τ = RC &nbsp;·&nbsp; t = τ·ln(VDD/(VDD − V)) &nbsp;·&nbsp; tK = tTXmax − tTXmin</span>
+<span class="formula">tP = L/vP &nbsp;·&nbsp; v1 = VA·Z∞/(RO + Z∞) &nbsp;·&nbsp; Γ = (R − Z∞)/(R + Z∞) &nbsp;·&nbsp; Vbarq = VA·RT/(RO + RT)</span>
+<span class="formula">Uzoq uch: tP: (1+ΓT)U; 3tP: (1+ΓT+ΓTΓD+ΓT²ΓD)U</span>
+<span class="formula">IWS: VOH·Z∞/(RS + Z∞) &gt; VIH &nbsp;·&nbsp; tushish: VOH·RS/(RS + Z∞) &lt; VIL</span>
+<span class="formula">Sinxron: tSU + tH + 2tK &nbsp;·&nbsp; Asinxron: tK + tSU + tH + 4tTXmax</span>
+<ul>
+<li>RO &lt; Z∞ → IWS; RO = Z∞ → RWS; RO &gt; Z∞ → ko'p aks etish.</li>
+<li>Ochiq +1, qisqa −1, moslangan 0. Barqaror holat Z∞ ga bog'liq emas.</li>
+<li>Crosstalk: kuchlanish ↑ → ↑; masofa ↑ → ↓; differensial → ↓.</li>
+</ul>
+</div>
+
+<div class="box ok">Yechib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi masala qiyinligini ayting).</div>
+
+<footer class="pager"><a href="27-bus-protokollar.html">← 27-dars</a><a href="./">Darslar ro'yxati →</a></footer>
+</main></body></html>

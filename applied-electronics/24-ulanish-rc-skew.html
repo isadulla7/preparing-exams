@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>24. Sim nega bitta nuqta emas</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>24. Sim nega "bitta nuqta" emas: RC model, uzatish vaqti va skew</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> bir mikrosxema ikkinchisiga signal yuborganda, signal nega kechikib yetishini; bu kechikish qanday hisoblanishini (RC model); <span class="term">uzatish vaqti</span> tTX va <span class="term">skew</span> tK nima ekanini; jitter nima ekanini. Keyingi uchta dars (25, 26, 27) shu tushunchalar ustiga quriladi. 2021-01 imtihonidagi 7 ballik masala to'liq shu darsga tegishli. Manba: C1 slaydlari. O'qish vaqti: 30 daqiqa.</div>
+
+<h2>1. Muammo: 0 va 1 aslida kuchlanish</h2>
+<p>Raqamli sxemada biz "0" va "1" deb gapiramiz. Lekin simda aslida <strong>kuchlanish</strong> va <strong>tok</strong> yuradi (5-darsni eslang: 0 = past kuchlanish, 1 = yuqori kuchlanish). Signal bir mikrosxemadan ikkinchisiga sim (plata yo'lakchasi, kabel) orqali boradi. Mana bu yerda ikkita so'z kerak:</p>
+<ul>
+<li><span class="term">Driver</span> (uzatuvchi): signalni simga chiqaradigan mantiqiy element chiqishi.</li>
+<li><span class="term">Receiver</span> (qabul qilgich): simdan signalni o'qiydigan mantiqiy element kirishi.</li>
+</ul>
+<p>Shu ikkalasini bog'laydigan sim <span class="term">interconnection</span> (ulanish) deyiladi.</p>
+
+<div class="box analogy"><strong>Hayotiy o'xshatish:</strong> quvurdan suv keladi. Jo'mrakni ochsangiz, suv boshqa uchidan darhol emas, biroz keyin chiqadi, avval sekin, keyin to'liq oqim. Elektr signal ham shunday: sim "bo'sh quvur" kabi avval to'lishi kerak.</div>
+
+<figure>
+<svg viewBox="0 0 720 250" role="img" aria-label="Yuqorida ideal ulanish: driver chiqishidagi kvadrat signal qabul qilgichga bir zumda va o'zgarmay yetadi. Pastda haqiqiy ulanish: signal kechikadi va qiyshiq, yumaloq bo'lib yetadi" font-family="system-ui,sans-serif">
+<defs><marker id="ir" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<text x="20.0" y="28.0" text-anchor="start" font-size="13" fill="#2563eb" font-weight="700">Ideal ulanish (bitta nuqta)</text>
+<path d="M150 52L180 70L150 88Z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<text x="165.0" y="104.0" text-anchor="middle" font-size="11" fill="currentColor">driver</text>
+<path d="M180 70H440" stroke="currentColor" stroke-width="2.4"/>
+<text x="310.0" y="62.0" text-anchor="middle" font-size="11" fill="#2563eb">bitta tugun: B ≡ C</text>
+<path d="M440 52L470 70L440 88Z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<text x="455.0" y="104.0" text-anchor="middle" font-size="11" fill="currentColor">qabul qilgich</text>
+<path d="M30 80h30v-26h40" fill="none" stroke="#2563eb" stroke-width="2"/>
+<text x="80.0" y="96.0" text-anchor="middle" font-size="10" fill="#2563eb">VO (chiqish)</text>
+<path d="M520 80h30v-26h70" fill="none" stroke="#2563eb" stroke-width="2"/>
+<text x="580.0" y="96.0" text-anchor="middle" font-size="10" fill="#2563eb">VI = VO (xuddi o'zi)</text>
+<text x="20.0" y="148.0" text-anchor="start" font-size="13" fill="#d9622b" font-weight="700">Haqiqiy ulanish</text>
+<path d="M150 172L180 190L150 208Z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<text x="165.0" y="224.0" text-anchor="middle" font-size="11" fill="currentColor">driver</text>
+<rect x="200" y="181" width="200" height="18" rx="9" fill="#d9622b" fill-opacity=".12" stroke="#d9622b" stroke-width="1.5"/>
+<text x="300.0" y="194.0" text-anchor="middle" font-size="11" fill="#d9622b">sim: R, C, L, kechikish</text>
+<path d="M180 190H200M400 190H440" stroke="currentColor" stroke-width="1.6"/>
+<path d="M440 172L470 190L440 208Z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<text x="455.0" y="224.0" text-anchor="middle" font-size="11" fill="currentColor">qabul qilgich</text>
+<path d="M30 200h30v-26h40" fill="none" stroke="#2563eb" stroke-width="2"/>
+<text x="80.0" y="216.0" text-anchor="middle" font-size="10" fill="#2563eb">VO (chiqish)</text>
+<path d="M520 200h50 L572.7 197.0 L575.3 194.4 L578.0 192.1 L580.7 190.0 L583.3 188.2 L586.0 186.6 L588.7 185.1 L591.3 183.9 L594.0 182.7 L596.7 181.7 L599.3 180.9 L602.0 180.1 L604.7 179.4 L607.3 178.8 L610.0 178.2 L612.7 177.7 L615.3 177.3 L618.0 176.9 L620.7 176.6 L623.3 176.3 L626.0 176.0 L628.7 175.8 L631.3 175.6 L634.0 175.4 L636.7 175.3 L639.3 175.1 L642.0 175.0 L644.7 174.9 L647.3 174.8 L650.0 174.7" fill="none" stroke="#d9622b" stroke-width="2"/>
+<path d="M550 174v26" stroke="#2563eb" stroke-dasharray="3 3"/>
+<text x="610.0" y="216.0" text-anchor="middle" font-size="10" fill="#d9622b">VI: kechikkan, yumaloq</text>
+</svg>
+<figcaption>Ideal ulanishda qabul qilgich driver chiqishidagi signalni xuddi o'zidek, bir zumda ko'radi. Haqiqiy ulanishda signal kechikadi va qiyshiq bo'ladi.</figcaption>
+</figure>
+
+<p><strong>Ideal ulanish</strong>: sim <span class="term">ekvipotensial</span> (butun sim bo'ylab kuchlanish bir xil), ya'ni "bitta tugun". Driver chiqishi = receiver kirishi. <strong>Haqiqiy ulanish</strong>: simning qarshiligi, sig'imi, induktivligi bor, signal kechikadi va shovqin qo'shiladi. Signalni to'g'ri yetkazish masalalari umumiy nom bilan <span class="term">signal integrity</span> (signal yaxlitligi) deyiladi.</p>
+<p>Slayd buni ta'kidlaydi: hozirgi chiplarda milliardlab tranzistor bor, lekin tezlikni ko'pincha tranzistorlar emas, <strong>ulanishlar</strong> cheklaydi (signal va quvvatni tarqatish).</p>
+
+<h2>2. Driver va receiver modeli</h2>
+<p>Hisoblash uchun mantiqiy elementlarni oddiy elementlar bilan almashtiramiz (1–3-darslardagi R va C):</p>
+<ul>
+<li>Driver = ideal kuchlanish manbai VA (0 V yoki VDD) + ketma-ket <span class="term">chiqish qarshiligi</span> RO.</li>
+<li>Receiver = <span class="term">kirish qarshiligi</span> RI (CMOS uchun RI → ∞, ya'ni tok olmaydi) + <span class="term">kirish sig'imi</span> CI.</li>
+</ul>
+<p>Eng oddiy model: sim bitta tugun (B ≡ C). Shunda RO va C birgalikda 3-darsdagi <strong>RC zanjir</strong>ni hosil qiladi. C ga receiver sig'imi CI va simning o'z sig'imi kiradi.</p>
+<figure>
+<svg viewBox="0 0 720 210" role="img" aria-label="RC model: VA manbai, driver chiqish qarshiligi RO, keyin B=C tugun, unga qabul qilgichning kirish sig'imi CI yerga ulangan; qabul qilgich kuchlanishni VT chegara bilan solishtiradi" font-family="system-ui,sans-serif">
+<circle cx="80" cy="110" r="16" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M72 116h7v-12h7" fill="none" stroke="#d9622b" stroke-width="1.8"/><text x="56.0" y="114.0" text-anchor="end" font-size="12" fill="#d9622b" font-weight="700">VA</text>
+<path d="M80 94V70H140" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<path d="M140 70h7.5l3.8 -6l3.8 6l3.8 6l3.8 -6l3.8 -6l3.8 6l3.8 6l3.8 -6l3.8 -6l3.8 6l3.8 6l3.8 -6h7.5" fill="none" stroke="#d9622b" stroke-width="1.6"/>
+<text x="170.0" y="56.0" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">RO</text>
+<text x="170.0" y="94.0" text-anchor="middle" font-size="10" fill="#d9622b">driver qarshiligi</text>
+<path d="M200 70H420" stroke="currentColor" stroke-width="1.6"/>
+<circle cx="300" cy="70" r="3.5" fill="currentColor"/>
+<text x="300.0" y="58.0" text-anchor="middle" font-size="11" fill="#2563eb">B ≡ C (sim = bitta tugun)</text>
+<path d="M340 70V100" stroke="currentColor" stroke-width="1.6"/><path d="M340 100v14M328 114h24M328 120h24M340 120v14" fill="none" stroke="#9333ea" stroke-width="1.8"/><path d="M340 134V150" stroke="currentColor" stroke-width="1.6"/><path d="M330 150H350M334 154H346M338 158H342" stroke="currentColor" stroke-width="1.5"/>
+<text x="360.0" y="122.0" text-anchor="start" font-size="12" fill="#9333ea" font-weight="700">C (CI + sim sig'imi)</text>
+<path d="M80 126V150" stroke="currentColor" stroke-width="1.6"/><path d="M70 150H90M74 154H86M78 158H82" stroke="currentColor" stroke-width="1.5"/>
+<path d="M420 52L450 70L420 88Z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<text x="470.0" y="74.0" text-anchor="start" font-size="12" fill="currentColor">qabul qilgich: VC ni VT bilan solishtiradi</text>
+<text x="360.0" y="190.0" text-anchor="middle" font-size="14" fill="currentColor" font-weight="700">τ = RO · C  (vaqt doimiysi)</text>
+</svg>
+<figcaption>RC model: driver qarshiligi RO kondensator C ni zaryadlaydi. Qabul qilgich kondensatordagi kuchlanishni ko'radi.</figcaption>
+</figure>
+
+<h2>3. RC zanjirda kuchlanish qanday o'sadi (3-darsni eslaymiz)</h2>
+<p>Driver 0 dan VDD ga sakraganda kondensator darhol zaryadlanmaydi. Uning kuchlanishi <span class="term">eksponensial</span> o'sadi:</p>
+<span class="formula">L→H (pastdan yuqoriga): VC(t) = VDD · (1 − e<sup>−t/τ</sup>) &nbsp;&nbsp;&nbsp; τ = RO · C</span>
+<span class="formula">H→L (yuqoridan pastga): VC(t) = VDD · e<sup>−t/τ</sup></span>
+<p>τ (tau) = <span class="term">vaqt doimiysi</span>. t = τ bo'lganda kuchlanish yakuniy qiymatning 63% iga yetadi (1 − e<sup>−1</sup> = 0.632).</p>
+<p>Formuladan vaqtni topish (bu imtihonda doim kerak). VC(t) = V bo'ladigan vaqt:</p>
+<span class="formula">L→H: t = τ · ln( VDD / (VDD − V) ) &nbsp;&nbsp;&nbsp; H→L: t = τ · ln( VDD / V )</span>
+<div class="box note"><strong>ln nima?</strong> ln = natural logarifm, e<sup>x</sup> ning teskarisi: agar e<sup>x</sup> = a bo'lsa, x = ln(a). Kalkulyatorda "ln" tugmasi. Misol: ln(2.5) = 0.916, ln(1.25) = 0.223.</div>
+
+<h2>4. Qabul qilgich qachon "1" ni sezadi: VIL, VIH va VT</h2>
+<p>5-darsdan: qabul qilgich kirishi uchun ikkita chegara bor.</p>
+<ul>
+<li>VIL: kirish shundan past bo'lsa, aniq "0".</li>
+<li>VIH: kirish shundan yuqori bo'lsa, aniq "1".</li>
+<li>Ular orasida haqiqiy o'tish chegarasi <span class="term">VT</span> (threshold) bor. VT aniq qayerda ekani noma'lum: u VIL va VIH orasida istalgan joyda bo'lishi mumkin (har bir mikrosxemada har xil, haroratga qarab ham o'zgaradi).</li>
+</ul>
+<p>Shuning uchun biz eng yomon ikki holatni olamiz:</p>
+<ul>
+<li>VT eng past (= VIL) bo'lsa, qabul qilgich o'zgarishni <strong>eng erta</strong> sezadi → <span class="term">tTXmin</span>.</li>
+<li>VT eng yuqori (= VIH) bo'lsa, <strong>eng kech</strong> sezadi → <span class="term">tTXmax</span>.</li>
+</ul>
+
+<h2>5. Uzatish vaqti tTX va skew tK</h2>
+<p><span class="term">Uzatish vaqti</span> (transmission time) tTX: driver chiqishi o'zgargan lahzadan qabul qilgich yangi mantiqiy holatni sezgan lahzagacha bo'lgan vaqt. U quyidagilarga bog'liq: driver sathlari (VH, VL), qabul qilgich chegarasi VT, RO, C, ish sharoiti (VDD, harorat), qabul qilgichning simdagi joyi.</p>
+<p>Bu parametrlar bir xil emas (tarqoq), shuning uchun tTX ham aniq son emas, balki oraliq: tTXmin dan tTXmax gacha.</p>
+<span class="formula">Skew: tK = tTXmax − tTXmin</span>
+<p><span class="term">Skew</span> (inglizcha "qiyshayish, nomuvofiqlik") = signal qachon yetib kelishidagi <strong>noaniqlik</strong>. Biz faqat "tTXmin dan tTXmax gacha bo'lgan oraliqda biror paytda" deya olamiz.</p>
+<figure>
+<svg viewBox="0 0 720 200" role="img" aria-label="Driverdagi signal t0 da o'zgaradi. Qabul qilgichda o'zgarish tTXmin va tTXmax oralig'ida, aniq qachonligini bilmaymiz; bu oraliq skew tK" font-family="system-ui,sans-serif">
+<text x="20.0" y="56.0" text-anchor="start" font-size="13" fill="#2563eb" font-weight="700">A(D)</text><text x="20.0" y="72.0" text-anchor="start" font-size="10" fill="#2563eb">driverda</text>
+<path d="M110 73.0H210V47.0H700" fill="none" stroke="#2563eb" stroke-width="2"/>
+<text x="20.0" y="136.0" text-anchor="start" font-size="13" fill="#d9622b" font-weight="700">A(R)</text><text x="20.0" y="152.0" text-anchor="start" font-size="10" fill="#d9622b">qabul qilgichda</text>
+<rect x="360" y="127.0" width="150" height="26" fill="#9333ea" fill-opacity=".15" stroke="#9333ea" stroke-dasharray="4 3"/>
+<path d="M110 153.0H360M510 127.0H700" fill="none" stroke="#d9622b" stroke-width="2"/>
+<path d="M360 153.0L364 127.0M506 153.0L510 127.0" stroke="#d9622b" stroke-width="1.5"/>
+<text x="435.0" y="144.0" text-anchor="middle" font-size="10" fill="#9333ea">shu oraliqning istalgan joyida</text>
+<path d="M210 40V170" stroke="#9aa0a6" stroke-dasharray="2 3"/>
+<path d="M360 40V170" stroke="#9aa0a6" stroke-dasharray="2 3"/>
+<path d="M510 40V170" stroke="#9aa0a6" stroke-dasharray="2 3"/>
+<text x="210.0" y="184.0" text-anchor="middle" font-size="12" fill="currentColor">t0</text><text x="360.0" y="184.0" text-anchor="middle" font-size="11" fill="#16a34a">t0 + tTXmin</text><text x="510.0" y="184.0" text-anchor="middle" font-size="11" fill="#dc2626">t0 + tTXmax</text>
+<path d="M360 118H510" stroke="#9333ea" stroke-width="2.5"/><text x="435.0" y="112.0" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">tK = tTXmax − tTXmin</text>
+</svg>
+<figcaption>Driver t0 da o'zgaradi. Qabul qilgichda o'zgarish binafsha oraliqning istalgan joyida bo'lishi mumkin. Shu oraliq kengligi = skew tK.</figcaption>
+</figure>
+
+<h3>Skew va jitter farqi</h3>
+<figure>
+<svg viewBox="0 0 720 170" role="img" aria-label="Chapda skew: ikki xil signalning bir vaqtdagi o'tishlari orasidagi farq. O'ngda jitter: bitta signal davrining davrdan davrga o'zgarishi" font-family="system-ui,sans-serif">
+<text x="170.0" y="22.0" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">Skew tK: ikki signal, bitta o'tish</text>
+<text x="30.0" y="64.0" text-anchor="start" font-size="11" fill="currentColor">SIG1</text>
+<path d="M90 72H140V48H280" fill="none" stroke="#2563eb" stroke-width="2"/>
+<text x="30.0" y="114.0" text-anchor="start" font-size="11" fill="currentColor">SIG2</text>
+<path d="M90 122H168V98H280" fill="none" stroke="#d9622b" stroke-width="2"/>
+<path d="M140 140H168" stroke="#9333ea" stroke-width="2.5"/><text x="154.0" y="158.0" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">tK</text>
+<path d="M140 48V140M168 98V140" stroke="#9aa0a6" stroke-dasharray="2 3"/>
+<text x="540.0" y="22.0" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="700">Jitter tJ: bitta signal, davrlar farqi</text>
+<text x="370.0" y="89.0" text-anchor="end" font-size="11" fill="currentColor">CK</text>
+<path d="M400 99H420V71H480V99H540V71H610V99H660V71H700" fill="none" stroke="#2563eb" stroke-width="2"/>
+<path d="M600 60V130M610 60V130" stroke="#dc2626" stroke-dasharray="2 3"/><text x="605.0" y="148.0" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="700">tJ</text>
+<text x="605.0" y="52.0" text-anchor="middle" font-size="10" fill="#dc2626">kutilgan ↔ haqiqiy</text>
+</svg>
+<figcaption>Skew: ikki signal bir vaqtda o'zgarishi kerak edi, lekin biri kechikdi. Jitter: bitta takt signalining davri har safar biroz boshqacha.</figcaption>
+</figure>
+<ul>
+<li><strong>Skew tK</strong>: <em>ikkita</em> signal (yoki bitta signalning ikki joydagi nusxasi) bir vaqtdagi o'tishlari orasidagi farq.</li>
+<li><strong>Jitter tJ</strong>: <em>bitta</em> signal (odatda takt) davrining davrdan davrga o'zgarishi.</li>
+</ul>
+<p>Ikkalasi ham vaqt zaxiralarini kamaytiradi. 8-darsdagi Fmax formulasiga jitter qo'shiladi:</p>
+<span class="formula">TCKmin = TCO + TL + TSU + TJ &nbsp;&nbsp;&nbsp; Fmax = 1 / TCKmin</span>
+<p>Ulanishlar ham kechikish qo'shadi, shuning uchun haqiqiy sxemada TCKmin ga simlardagi kechikishlar ham qo'shiladi.</p>
+
+<h2>6. Slayddagi mashq C1.1 (to'liq yechim)</h2>
+<div class="box">
+<p><strong>Shart:</strong> CMOS driver va receiver ekvipotensial sim bilan ulangan. Driver: VDD = 5 V, RO = 120 Ω. Receiver: RI → ∞, VIH = 3 V, VIL = 1 V. Umumiy sig'im C = 80 pF. L→H o'tish uchun tTX va tK ni toping.</p>
+<p><strong>1-qadam. τ:</strong> τ = RO · C = 120 Ω · 80 pF = 9600 · 10<sup>−12</sup> s = 9.6 ns.</p>
+<p><strong>2-qadam. tTXmin</strong> (VC = VIL = 1 V bo'lgan payt):<br>t = τ · ln(5 / (5 − 1)) = 9.6 · ln(1.25) = 9.6 · 0.223 = <strong>2.14 ns</strong>.</p>
+<p><strong>3-qadam. tTXmax</strong> (VC = VIH = 3 V bo'lgan payt):<br>t = τ · ln(5 / (5 − 3)) = 9.6 · ln(2.5) = 9.6 · 0.916 = <strong>8.80 ns</strong>.</p>
+<p><strong>4-qadam. Skew:</strong> tK = 8.80 − 2.14 = <strong>6.66 ns</strong>.</p>
+</div>
+<figure>
+<svg viewBox="0 0 720 280" role="img" aria-label="Mashq C1.1: VC eksponensial o'sadi, 2.14 ns da VIL=1 V ni, 8.80 ns da VIH=3 V ni kesib o'tadi; farqi 6.66 ns skew" font-family="system-ui,sans-serif">
+<defs><marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<path d="M70 18V240H700" fill="none" stroke="currentColor" stroke-width="1.4"/>
+<text x="702.0" y="244.0" text-anchor="start" font-size="12" fill="currentColor">t</text>
+<text x="64.0" y="14.0" text-anchor="end" font-size="12" fill="currentColor">V</text>
+<path d="M70 202.5H690" stroke="#16a34a" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="64.0" y="206.5" text-anchor="end" font-size="11" fill="#16a34a" font-weight="700">VIL = 1 V</text>
+<path d="M70 127.5H690" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="64.0" y="131.5" text-anchor="end" font-size="11" fill="#dc2626" font-weight="700">VIH = 3 V</text>
+<path d="M70 52.5H690" stroke="#9aa0a6" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="64.0" y="56.5" text-anchor="end" font-size="11" fill="#9aa0a6" font-weight="700">5 V</text>
+<path d="M70.0 240v5" stroke="currentColor"/>
+<text x="70.0" y="258.0" text-anchor="middle" font-size="11" fill="currentColor">0</text>
+<path d="M218.8 240v5" stroke="currentColor"/>
+<text x="218.8" y="258.0" text-anchor="middle" font-size="11" fill="currentColor">τ = 9.6</text>
+<path d="M380.0 240v5" stroke="currentColor"/>
+<text x="380.0" y="258.0" text-anchor="middle" font-size="11" fill="currentColor">20</text>
+<path d="M535.0 240v5" stroke="currentColor"/>
+<text x="535.0" y="258.0" text-anchor="middle" font-size="11" fill="currentColor">30</text>
+<path d="M690.0 240v5" stroke="currentColor"/>
+<text x="690.0" y="258.0" text-anchor="middle" font-size="11" fill="currentColor">40 ns</text>
+<path d="M70.0 240.0 L70.0 52.5 L690.0 52.5" fill="none" stroke="#2563eb" stroke-width="1.6" stroke-dasharray="6 3" stroke-linejoin="round"/>
+<path d="M70.0 240.0 L70.0 240.0 L71.5 238.1 L73.1 236.1 L74.7 234.2 L76.2 232.3 L77.8 230.5 L79.3 228.6 L80.8 226.8 L82.4 225.0 L84.0 223.2 L85.5 221.5 L87.0 219.7 L88.6 218.0 L90.2 216.3 L91.7 214.6 L93.2 212.9 L94.8 211.2 L96.3 209.6 L97.9 207.9 L99.5 206.3 L101.0 204.7 L102.5 203.2 L104.1 201.6 L105.7 200.1 L107.2 198.5 L108.8 197.0 L110.3 195.5 L111.8 194.0 L113.4 192.6 L115.0 191.1 L116.5 189.7 L118.0 188.3 L119.6 186.8 L121.2 185.5 L122.7 184.1 L124.2 182.7 L125.8 181.4 L127.3 180.0 L128.9 178.7 L130.4 177.4 L132.0 176.1 L133.6 174.8 L135.1 173.6 L136.7 172.3 L138.2 171.1 L139.8 169.8 L141.3 168.6 L142.8 167.4 L144.4 166.2 L145.9 165.0 L147.5 163.9 L149.1 162.7 L150.6 161.6 L152.2 160.5 L153.7 159.3 L155.2 158.2 L156.8 157.1 L158.3 156.0 L159.9 155.0 L161.4 153.9 L163.0 152.9 L164.6 151.8 L166.1 150.8 L167.7 149.8 L169.2 148.8 L170.8 147.8 L172.3 146.8 L173.8 145.8 L175.4 144.8 L176.9 143.9 L178.5 142.9 L180.1 142.0 L181.6 141.1 L183.2 140.2 L184.7 139.2 L186.2 138.3 L187.8 137.5 L189.3 136.6 L190.9 135.7 L192.4 134.8 L194.0 134.0 L195.6 133.1 L197.1 132.3 L198.7 131.5 L200.2 130.7 L201.8 129.9 L203.3 129.1 L204.8 128.3 L206.4 127.5 L207.9 126.7 L209.5 125.9 L211.1 125.2 L212.6 124.4 L214.2 123.7 L215.7 122.9 L217.2 122.2 L218.8 121.5 L220.3 120.8 L221.9 120.1 L223.4 119.4 L225.0 118.7 L226.6 118.0 L228.1 117.3 L229.7 116.6 L231.2 116.0 L232.8 115.3 L234.3 114.7 L235.8 114.0 L237.4 113.4 L238.9 112.7 L240.5 112.1 L242.1 111.5 L243.6 110.9 L245.2 110.3 L246.7 109.7 L248.2 109.1 L249.8 108.5 L251.3 107.9 L252.9 107.4 L254.4 106.8 L256.0 106.2 L257.6 105.7 L259.1 105.1 L260.6 104.6 L262.2 104.0 L263.8 103.5 L265.3 103.0 L266.9 102.4 L268.4 101.9 L269.9 101.4 L271.5 100.9 L273.1 100.4 L274.6 99.9 L276.1 99.4 L277.7 98.9 L279.2 98.4 L280.8 98.0 L282.4 97.5 L283.9 97.0 L285.4 96.6 L287.0 96.1 L288.6 95.7 L290.1 95.2 L291.6 94.8 L293.2 94.3 L294.8 93.9 L296.3 93.5 L297.9 93.0 L299.4 92.6 L300.9 92.2 L302.5 91.8 L304.1 91.4 L305.6 91.0 L307.1 90.6 L308.7 90.2 L310.2 89.8 L311.8 89.4 L313.4 89.0 L314.9 88.7 L316.4 88.3 L318.0 87.9 L319.6 87.5 L321.1 87.2 L322.6 86.8 L324.2 86.5 L325.8 86.1 L327.3 85.8 L328.9 85.4 L330.4 85.1 L331.9 84.7 L333.5 84.4 L335.1 84.1 L336.6 83.8 L338.1 83.4 L339.7 83.1 L341.2 82.8 L342.8 82.5 L344.4 82.2 L345.9 81.9 L347.4 81.6 L349.0 81.3 L350.6 81.0 L352.1 80.7 L353.6 80.4 L355.2 80.1 L356.8 79.8 L358.3 79.5 L359.9 79.2 L361.4 79.0 L362.9 78.7 L364.5 78.4 L366.1 78.1 L367.6 77.9 L369.1 77.6 L370.7 77.4 L372.2 77.1 L373.8 76.8 L375.4 76.6 L376.9 76.3 L378.4 76.1 L380.0 75.8 L381.6 75.6 L383.1 75.4 L384.6 75.1 L386.2 74.9 L387.8 74.7 L389.3 74.4 L390.9 74.2 L392.4 74.0 L393.9 73.8 L395.5 73.5 L397.1 73.3 L398.6 73.1 L400.1 72.9 L401.7 72.7 L403.2 72.5 L404.8 72.3 L406.4 72.1 L407.9 71.9 L409.4 71.7 L411.0 71.5 L412.6 71.3 L414.1 71.1 L415.6 70.9 L417.2 70.7 L418.8 70.5 L420.3 70.3 L421.9 70.1 L423.4 69.9 L424.9 69.8 L426.5 69.6 L428.1 69.4 L429.6 69.2 L431.1 69.1 L432.7 68.9 L434.2 68.7 L435.8 68.5 L437.4 68.4 L438.9 68.2 L440.4 68.1 L442.0 67.9 L443.6 67.7 L445.1 67.6 L446.6 67.4 L448.2 67.3 L449.8 67.1 L451.3 67.0 L452.9 66.8 L454.4 66.7 L455.9 66.5 L457.5 66.4 L459.1 66.2 L460.6 66.1 L462.1 65.9 L463.7 65.8 L465.2 65.7 L466.8 65.5 L468.4 65.4 L469.9 65.3 L471.4 65.1 L473.0 65.0 L474.6 64.9 L476.1 64.7 L477.6 64.6 L479.2 64.5 L480.8 64.4 L482.3 64.2 L483.9 64.1 L485.4 64.0 L486.9 63.9 L488.5 63.8 L490.1 63.6 L491.6 63.5 L493.1 63.4 L494.7 63.3 L496.2 63.2 L497.8 63.1 L499.4 63.0 L500.9 62.9 L502.4 62.8 L504.0 62.6 L505.6 62.5 L507.1 62.4 L508.6 62.3 L510.2 62.2 L511.8 62.1 L513.3 62.0 L514.9 61.9 L516.4 61.8 L518.0 61.7 L519.5 61.6 L521.0 61.5 L522.6 61.5 L524.1 61.4 L525.7 61.3 L527.2 61.2 L528.8 61.1 L530.4 61.0 L531.9 60.9 L533.5 60.8 L535.0 60.7 L536.5 60.7 L538.1 60.6 L539.6 60.5 L541.2 60.4 L542.8 60.3 L544.3 60.2 L545.9 60.2 L547.4 60.1 L549.0 60.0 L550.5 59.9 L552.0 59.8 L553.6 59.8 L555.1 59.7 L556.7 59.6 L558.2 59.5 L559.8 59.5 L561.4 59.4 L562.9 59.3 L564.5 59.3 L566.0 59.2 L567.5 59.1 L569.1 59.1 L570.6 59.0 L572.2 58.9 L573.8 58.8 L575.3 58.8 L576.9 58.7 L578.4 58.7 L580.0 58.6 L581.5 58.5 L583.0 58.5 L584.6 58.4 L586.1 58.3 L587.7 58.3 L589.2 58.2 L590.8 58.2 L592.4 58.1 L593.9 58.0 L595.5 58.0 L597.0 57.9 L598.5 57.9 L600.1 57.8 L601.6 57.8 L603.2 57.7 L604.8 57.7 L606.3 57.6 L607.9 57.5 L609.4 57.5 L611.0 57.4 L612.5 57.4 L614.0 57.3 L615.6 57.3 L617.1 57.2 L618.7 57.2 L620.2 57.1 L621.8 57.1 L623.4 57.0 L624.9 57.0 L626.5 57.0 L628.0 56.9 L629.5 56.9 L631.1 56.8 L632.6 56.8 L634.2 56.7 L635.8 56.7 L637.3 56.6 L638.9 56.6 L640.4 56.6 L642.0 56.5 L643.5 56.5 L645.0 56.4 L646.6 56.4 L648.1 56.4 L649.7 56.3 L651.2 56.3 L652.8 56.2 L654.4 56.2 L655.9 56.2 L657.5 56.1 L659.0 56.1 L660.5 56.0 L662.1 56.0 L663.6 56.0 L665.2 55.9 L666.8 55.9 L668.3 55.9 L669.9 55.8 L671.4 55.8 L673.0 55.8 L674.5 55.7 L676.0 55.7 L677.6 55.7 L679.1 55.6 L680.7 55.6 L682.2 55.6 L683.8 55.5 L685.4 55.5 L686.9 55.5 L688.5 55.4 L690.0 55.4" fill="none" stroke="#d9622b" stroke-width="2.4" stroke-linejoin="round"/>
+<circle cx="103.2" cy="202.5" r="4" fill="#16a34a"/><path d="M103.2 202.5V240.0" stroke="#16a34a" stroke-dasharray="3 3"/>
+<circle cx="206.3" cy="127.5" r="4" fill="#dc2626"/><path d="M206.3 127.5V240.0" stroke="#dc2626" stroke-dasharray="3 3"/>
+<text x="97.2" y="194.5" text-anchor="end" font-size="11" fill="#16a34a" font-weight="700">2.14 ns</text>
+<text x="210.3" y="145.5" text-anchor="start" font-size="11" fill="#dc2626" font-weight="700">8.80 ns</text>
+<path d="M103.2 230.0H206.3" stroke="#9333ea" stroke-width="2.5"/><text x="154.8" y="224.0" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">skew tK = 6.66 ns</text>
+<text x="224.8" y="113.5" text-anchor="middle" font-size="10" fill="currentColor"></text>
+<text x="535.0" y="48.1" text-anchor="middle" font-size="12" fill="#d9622b" font-weight="700">VC(t) = 5·(1 − e^(−t/τ))</text>
+<text x="535.0" y="24.5" text-anchor="middle" font-size="11" fill="#2563eb">VA (driver chiqishi, sakrash)</text>
+</svg>
+<figcaption>C1.1: kondensator kuchlanishi 2.14 ns da VIL ni, 8.80 ns da VIH ni kesib o'tadi. Qabul qilgich o'zgarishni shu ikki payt orasida sezadi.</figcaption>
+</figure>
+<div class="box note"><strong>Slayddagi savol:</strong> "VDD o'zgarsa, tTX o'zgaradimi?" Birinchi yaqinlashishda <strong>yo'q</strong>, agar chegaralar VDD ga proporsional bo'lsa (CMOS da VT ≈ VDD/2). Formulada faqat VDD/(VDD − V) nisbati qatnashadi; VDD va V birga o'zgarsa, nisbat o'zgarmaydi.</div>
+
+<h2>7. Imtihon masalasi: 2021-01 (7 ball)</h2>
+<div class="box">
+<p><em>"A rail-to-rail driver supplied between Vgnd = 0 V and Vdd = 3.3 V and an output resistance R0 = 250 Ω drives through an equipotential transmission line a receiver with input capacitance Ci = 8 pF and negligible resistance. Assuming that: all low-to-high transitions start with the transmission line settled to Vgnd; all high-to-low transitions start with the transmission line settled to Vdd; calculate for a maximum transmission time TTX = 2 ns: the maximum receiver threshold for the high level VIH = ? V (2 points); the minimum receiver threshold for the low level VIL = ? V (2 points). If the driver output resistance R0 increases and we want to maintain the same transmission time TTX = 2 ns, then the receiver noise margins must (3 points): decrease in the same proportion as R0 / increase in the same proportion as R0 / decrease, but not in the same proportion as R0 / increase, but not in the same proportion as R0"</em></p>
+<p><strong>Tarjima:</strong> 3.3 V li driver (RO = 250 Ω) ekvipotensial sim orqali Ci = 8 pF li qabul qilgichni boshqaradi. Uzatish vaqti ko'pi bilan 2 ns bo'lishi uchun VIH eng ko'pi bilan qancha, VIL eng kamida qancha bo'lishi kerak? RO oshsa, shovqin zaxiralari qanday o'zgarishi kerak?</p>
+</div>
+<p><strong>Fikr:</strong> 2 ns ichida qabul qilgich o'zgarishni aniq sezishi kerak. L→H da: 2 ns dan keyin VC hali VIH ga yetmagan bo'lsa, kechikamiz. Demak VIH ≤ VC(2 ns). H→L da: VIL ≥ VC(2 ns).</p>
+<details><summary>Javob (yechim)</summary>
+<p>τ = 250 Ω · 8 pF = 2 ns. t = 2 ns = τ, demak e<sup>−t/τ</sup> = e<sup>−1</sup> = 0.368.</p>
+<p>VIH ≤ 3.3 · (1 − 0.368) = 3.3 · 0.632 = <strong>2.09 V</strong>.</p>
+<p>VIL ≥ 3.3 · 0.368 = <strong>1.21 V</strong>.</p>
+<p>RO oshsa, τ oshadi, kuchlanish sekinroq o'zgaradi. 2 ns da VC(L→H) pastroq, demak VIH pastroq bo'lishi kerak; VC(H→L) yuqoriroq, demak VIL yuqoriroq bo'lishi kerak. Ikkalasi o'rtaga yaqinlashadi.</p>
+<p>Shovqin zaxiralari: NMH = VOH − VIH (VIH tushdi → NMH oshdi), NML = VIL − VOL (VIL ko'tarildi → NML oshdi). Bog'liqlik eksponensial, chiziqli emas. Javob: <strong>"increase, but not in the same proportion as R0"</strong>.</p>
+</details>
+
+<div class="box check"><strong>O'zingizni tekshiring:</strong>
+<ol>
+<li>RO = 100 Ω, C = 50 pF, VDD = 5 V, VIL = 1.5 V, VIH = 3.5 V. L→H uchun tTXmin, tTXmax, tK?</li>
+<li>Skew va jitter farqi nimada?</li>
+<li>C ikki baravar oshsa, tTX qanday o'zgaradi?</li>
+</ol>
+<details><summary>Javoblar</summary>
+<ol>
+<li>τ = 5 ns. tTXmin (VIL da) = 5 · ln(5/(5 − 1.5)) = 5 · ln(1.43) = 5 · 0.357 = 1.78 ns. tTXmax (VIH da) = 5 · ln(5/(5 − 3.5)) = 5 · ln(3.33) = 5 · 1.204 = 6.02 ns. tK = 4.24 ns.</li>
+<li>Skew: ikki signal orasidagi (yoki ikki joydagi) farq. Jitter: bitta signal davrining o'zgarishi.</li>
+<li>τ = RC ikki baravar, demak tTX ham ikki baravar (tTX ∝ C).</li>
+</ol></details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Ulanish</td><td>interconnection</td><td>Driver va receiver orasidagi sim/yo'lakcha</td></tr>
+<tr><td>Driver</td><td>driver, transmitter</td><td>Signalni simga chiqaradigan chiqish</td></tr>
+<tr><td>Qabul qilgich</td><td>receiver</td><td>Signalni o'qiydigan kirish</td></tr>
+<tr><td>Signal yaxlitligi</td><td>signal integrity</td><td>Signalni buzilmay yetkazish masalalari</td></tr>
+<tr><td>Ekvipotensial</td><td>equipotential, single node</td><td>Hamma joyida kuchlanish bir xil</td></tr>
+<tr><td>Chiqish qarshiligi</td><td>output resistance RO</td><td>Driver ichki qarshiligi</td></tr>
+<tr><td>Kirish sig'imi</td><td>input capacitance CI</td><td>Receiver kirishidagi kondensator</td></tr>
+<tr><td>Vaqt doimiysi</td><td>time constant τ = RC</td><td>63% ga yetish vaqti</td></tr>
+<tr><td>Chegara</td><td>threshold VT</td><td>Haqiqiy 0/1 o'tish nuqtasi (VIL…VIH orasida)</td></tr>
+<tr><td>Uzatish vaqti</td><td>transmission time tTX</td><td>Driver o'zgarishidan receiver sezgunicha vaqt</td></tr>
+<tr><td>Skew</td><td>skew tK</td><td>tTXmax − tTXmin, kelish vaqtidagi noaniqlik</td></tr>
+<tr><td>Jitter</td><td>jitter tJ</td><td>Bitta signal davrining tebranishi</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<span class="formula">τ = RO · C &nbsp;·&nbsp; L→H: VC = VDD(1 − e<sup>−t/τ</sup>) &nbsp;·&nbsp; H→L: VC = VDD·e<sup>−t/τ</sup></span>
+<span class="formula">L→H: t = τ·ln(VDD/(VDD − V)) &nbsp;·&nbsp; H→L: t = τ·ln(VDD/V)</span>
+<span class="formula">L→H: tTXmin → VIL da, tTXmax → VIH da &nbsp;·&nbsp; tK = tTXmax − tTXmin</span>
+<span class="formula">TCKmin = TCO + TL + TSU + TJ (+ ulanish kechikishlari)</span>
+<ul>
+<li>Haqiqiy sim bitta nuqta emas: kechikish va shovqin bor (signal integrity).</li>
+<li>Driver = VA + RO; CMOS receiver = RI → ∞ va CI.</li>
+<li>tTX bog'liq: VH/VL, VT, RO, C, VDD, harorat, joy. tTX ∝ C va ∝ RO.</li>
+<li>Skew = ikki signal farqi; jitter = bitta signal davri o'zgarishi.</li>
+<li>Javoblar: C1.1 → τ = 9.6 ns, 2.14 / 8.80 ns, tK = 6.66 ns; 2021-01 → VIH ≤ 2.09 V, VIL ≥ 1.21 V, zaxiralar "increase, but not in the same proportion".</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="20-mashq-ad.html">← 20-dars</a><a href="25-uzatish-liniyasi.html">25-dars →</a></footer>
+</main></body></html>

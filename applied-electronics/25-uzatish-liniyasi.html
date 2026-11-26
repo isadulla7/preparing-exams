@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>25. Uzatish liniyasi va aks etish</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>25. Uzatish liniyasi va aks etish: Z∞, tP, Γ va lattice diagramma</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> uzun yoki tez simni <span class="term">uzatish liniyasi</span> sifatida qanday hisoblashni: birinchi kuchlanish sakrashi, tarqalish vaqti tP, <span class="term">aks etish koeffitsienti</span> Γ, <span class="term">lattice diagramma</span> yordamida liniya uchlaridagi kuchlanishni bosqichma-bosqich topish. Bu imtihondagi eng ko'p uchraydigan masala turi (2020-07 va 2020-12 da 7 ballik masala, bazada 10 dan ortiq savol). Manba: C2 slaydlari. O'qish vaqti: 40 daqiqa.</div>
+
+<h2>1. Qachon sim "uzatish liniyasi" bo'ladi</h2>
+<p>24-darsda simni bitta nuqta (RC) deb oldik. Bu sim qisqa va signal sekin bo'lganda to'g'ri. Lekin signal o'zgarishi (fronti) juda tez bo'lsa, sim bo'ylab tarqalish vaqti sezilarli bo'ladi. Shunda sim <span class="term">uzatish liniyasi</span> (transmission line) sifatida hisoblanadi.</p>
+<ul>
+<li>Qoida: signalning ko'tarilish vaqti (tR) tarqalish vaqti tP dan ancha kichik bo'lsa, liniya modeli kerak.</li>
+<li>Muhimi <strong>frontning tikligi</strong>, chastota emas.</li>
+<li>Misollar: plata yo'lakchalari (PCB), koaksial kabel, lentali kabel (flat cable), o'ralgan juftlik (twisted pair).</li>
+</ul>
+<div class="box analogy"><strong>Hayotiy o'xshatish:</strong> uzun arqonning bir uchini silkitsangiz, "to'lqin" arqon bo'ylab yuguradi, boshqa uchiga yetib, devorga urilib orqaga qaytadi. Elektr signal liniya bo'ylab xuddi shunday yuguradi va uchida "aks etadi" (qaytadi).</div>
+
+<h2>2. Liniyaning ikki parametri: Z∞ va tP</h2>
+<ul>
+<li><span class="term">Xarakteristik impedans</span> Z∞ (o'qiladi "Z cheksiz"): to'lqin liniyada yurganda kuchlanishning tokka nisbati, V/I = Z∞. Bu rezistor emas, lekin to'lqin uchun rezistordek ko'rinadi. Odatiy qiymatlar: 10…1000 Ω (koaksial 47…100 Ω, PCB 10…300 Ω).</li>
+<li><span class="term">Tarqalish tezligi</span> vP: yorug'lik tezligining 0.6…0.8 qismi, ya'ni <strong>18…24 sm/ns</strong> (c = 3·10<sup>8</sup> m/s = 30 sm/ns).</li>
+<li><span class="term">Tarqalish vaqti</span> tP (propagation time, flight time): signal liniyaning boshidan oxirigacha yetish vaqti.</li>
+</ul>
+<span class="formula">tP = L / vP &nbsp;&nbsp;&nbsp; (L = liniya uzunligi) &nbsp;&nbsp;&nbsp; Z∞ = √(L<sub>U</sub>/C<sub>U</sub>) &nbsp;&nbsp;&nbsp; vP = 1/√(L<sub>U</sub>·C<sub>U</sub>)</span>
+<p>L<sub>U</sub>, C<sub>U</sub> = uzunlik birligiga induktivlik va sig'im. Yo'lakcha ingichka bo'lsa, Z∞ katta; keng bo'lsa (yoki kirishlarga sig'im qo'shilsa) Z∞ kichik.</p>
+<div class="box"><strong>Misol (001-savol):</strong> L = 30 sm, vP = 0.7c. vP = 0.7 · 3·10<sup>8</sup> = 2.1·10<sup>8</sup> m/s. tP = 0.3 / 2.1·10<sup>8</sup> = <strong>1.43 ns</strong>. Tezroq usul: 0.7c = 21 sm/ns, tP = 30/21 = 1.43 ns.</div>
+<div class="box note"><strong>Muhim:</strong> barqaror holatda (hammasi tinchlangach, DC) yo'qotishsiz liniya oddiy sim, ya'ni bitta tugun. Z∞ faqat o'tish jarayonida (to'lqinlar yurganda) ta'sir qiladi.</div>
+
+<h2>3. Asosiy sxema</h2>
+<figure>
+<svg viewBox="0 0 720 190" role="img" aria-label="Driver: VA manba va RO qarshilik, B nuqtada uzatish liniyasi boshlanadi (Z∞, tP), C nuqtada tugaydi va RT terminatsiyaga ulanadi" font-family="system-ui,sans-serif">
+<defs><marker id="ls" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<circle cx="70" cy="106" r="16" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M62 112h7v-12h7" fill="none" stroke="#d9622b" stroke-width="1.8"/><text x="46.0" y="110.0" text-anchor="end" font-size="12" fill="#d9622b" font-weight="700">VA</text>
+<path d="M70 90V60H120" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<path d="M120 60h7.0l3.5 -6l3.5 6l3.5 6l3.5 -6l3.5 -6l3.5 6l3.5 6l3.5 -6l3.5 -6l3.5 6l3.5 6l3.5 -6h7.0" fill="none" stroke="#d9622b" stroke-width="1.6"/><text x="148.0" y="46.0" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">RO</text>
+<path d="M176 60H220" stroke="currentColor" stroke-width="1.6"/><circle cx="220" cy="60" r="4" fill="#2563eb"/><text x="220.0" y="48.0" text-anchor="middle" font-size="13" fill="#2563eb" font-weight="700">B</text>
+<rect x="222" y="48" width="296" height="24" rx="12" fill="#2563eb" fill-opacity=".10" stroke="#2563eb" stroke-width="1.6"/>
+<text x="370.0" y="65.0" text-anchor="middle" font-size="13" fill="#2563eb" font-weight="700">uzatish liniyasi: Z∞, tP</text>
+<path d="M260 90H480" stroke="#555" stroke-width="1.5" marker-end="url(#ls)"/><text x="370.0" y="106.0" text-anchor="middle" font-size="11" fill="currentColor">to'lqin tP vaqtda B dan C ga yetadi</text>
+<circle cx="520" cy="60" r="4" fill="#16a34a"/><text x="520.0" y="48.0" text-anchor="middle" font-size="13" fill="#16a34a" font-weight="700">C</text>
+<path d="M520 60H600V80" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M600 80v6.25l-6 3.1l6 3.1l6 3.1l-6 3.1l-6 3.1l6 3.1l6 3.1l-6 3.1l-6 3.1l6 3.1l6 3.1l-6 3.1v6.25" fill="none" stroke="#9333ea" stroke-width="1.6"/><path d="M600 130V146" stroke="currentColor" stroke-width="1.6"/><path d="M590 146H610M594 150H606M598 154H602" stroke="currentColor" stroke-width="1.5"/>
+<text x="616.0" y="110.0" text-anchor="start" font-size="13" fill="#9333ea" font-weight="700">RT</text><text x="616.0" y="126.0" text-anchor="start" font-size="10" fill="#9333ea">terminatsiya</text>
+<path d="M70 122V146" stroke="currentColor" stroke-width="1.6"/><path d="M60 146H80M64 150H76M68 154H72" stroke="currentColor" stroke-width="1.5"/>
+<text x="148.0" y="170.0" text-anchor="middle" font-size="11" fill="currentColor">driver (yaqin uch, near-end)</text><text x="560.0" y="170.0" text-anchor="middle" font-size="11" fill="currentColor">uzoq uch (far-end)</text>
+</svg>
+<figcaption>Barcha masalalardagi tuzilma: chapda driver (VA va RO), B nuqtada liniya boshi, C nuqtada oxiri va RT terminatsiya. Qabul qilgichlar B da, C da yoki o'rtada bo'lishi mumkin.</figcaption>
+</figure>
+
+<h2>4. Birinchi sakrash: VB(0)</h2>
+<p>Driver 0 dan VA ga o'tgan lahzada liniya oxirida nima borligi hali "ma'lum emas" (to'lqin u yerga yetmagan). Liniya driverga Z∞ rezistordek ko'rinadi. RO va Z∞ <strong>kuchlanish bo'luvchisi</strong>ni hosil qiladi (2-dars):</p>
+<span class="formula">v1 = VB(0) = VA · Z∞ / (RO + Z∞)</span>
+<p>Bu <span class="term">birinchi sakrash</span> yoki <span class="term">tushuvchi to'lqin</span> (incident wave). U liniya bo'ylab shakli o'zgarmay yuguradi va tP vaqtdan keyin C ga yetadi.</p>
+<figure>
+<svg viewBox="0 0 720 240" role="img" aria-label="Uchta lahzadagi liniya ustidagi kuchlanish: sakrash chapdan o'ngga shaklini o'zgartirmay suriladi; tP da oxiriga yetadi" font-family="system-ui,sans-serif">
+<text x="20.0" y="64.0" text-anchor="start" font-size="11" fill="currentColor">t = 0.3·tP</text>
+<path d="M90 70H650" stroke="#9aa0a6" stroke-width="1"/>
+<path d="M90 40H258.0V70H650" fill="none" stroke="#2563eb" stroke-width="2.4"/>
+<rect x="90" y="40" width="168.0" height="30" fill="#2563eb" fill-opacity=".08"/>
+<text x="258.0" y="34.0" text-anchor="middle" font-size="11" fill="#2563eb">to'lqin fronti →</text>
+<text x="20.0" y="126.0" text-anchor="start" font-size="11" fill="currentColor">t = 0.65·tP</text>
+<path d="M90 132H650" stroke="#9aa0a6" stroke-width="1"/>
+<path d="M90 102H454.0V132H650" fill="none" stroke="#2563eb" stroke-width="2.4"/>
+<rect x="90" y="102" width="364.0" height="30" fill="#2563eb" fill-opacity=".08"/>
+<text x="454.0" y="96.0" text-anchor="middle" font-size="11" fill="#2563eb">to'lqin fronti →</text>
+<text x="20.0" y="188.0" text-anchor="start" font-size="11" fill="currentColor">t = tP</text>
+<path d="M90 194H650" stroke="#9aa0a6" stroke-width="1"/>
+<path d="M90 164H650.0V194H650" fill="none" stroke="#2563eb" stroke-width="2.4"/>
+<rect x="90" y="164" width="560.0" height="30" fill="#2563eb" fill-opacity=".08"/>
+<text x="650.0" y="158.0" text-anchor="end" font-size="11" fill="#2563eb">to'lqin fronti →</text>
+<text x="90.0" y="226.0" text-anchor="middle" font-size="11" fill="currentColor">B (boshi)</text><text x="650.0" y="226.0" text-anchor="middle" font-size="11" fill="currentColor">C (oxiri)</text>
+<text x="82.0" y="48.0" text-anchor="end" font-size="12" fill="#d9622b" font-weight="700">v1</text>
+</svg>
+<figcaption>Birinchi sakrash v1 liniya bo'ylab chapdan o'ngga yuradi; t = tP da oxiriga yetadi.</figcaption>
+</figure>
+<div class="box note"><strong>Diqqat:</strong> birinchi sakrash RT ga <strong>bog'liq emas</strong> (slayddagi savol). U faqat VA, RO, Z∞ ga bog'liq.</div>
+
+<h2>5. Aks etish koeffitsienti Γ</h2>
+<p>To'lqin liniya oxiriga yetganda RT ga uriladi. Agar RT = Z∞ bo'lsa, hech narsa o'zgarmaydi: to'lqin butunlay RT da "yutiladi". Agar RT ≠ Z∞ bo'lsa, bir qismi orqaga qaytadi: <span class="term">aks etgan to'lqin</span> (reflected wave).</p>
+<span class="formula">ΓT = (RT − Z∞) / (RT + Z∞) &nbsp;&nbsp;&nbsp; qaytgan to'lqin = ΓT · kelgan to'lqin</span>
+<p>Driver tomonida ham xuddi shunday (qaytgan to'lqin driverga urilganda):</p>
+<span class="formula">ΓD = (RO − Z∞) / (RO + Z∞)</span>
+<p>Har bir nuqtadagi kuchlanish = o'sha nuqtadan o'tgan barcha to'lqinlarning <strong>algebraik yig'indisi</strong>.</p>
+<figure>
+<svg viewBox="0 0 720 220" role="img" aria-label="Uch holat: ochiq uch Γ=+1, to'lqin bir xil ishorada qaytadi va kuchlanish ikki baravar; qisqa tutashuv Γ=−1, teskari qaytadi va kuchlanish 0; moslangan RT=Z∞ Γ=0, hech narsa qaytmaydi" font-family="system-ui,sans-serif">
+<defs><marker id="gf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<rect x="10" y="20" width="220" height="190" rx="10" fill="#dc2626" fill-opacity=".06" stroke="#dc2626" stroke-width="1.4"/>
+<text x="120.0" y="42.0" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="700">Ochiq uch (RT → ∞)</text><text x="120.0" y="66.0" text-anchor="middle" font-size="16" fill="#dc2626" font-weight="700">Γ = +1</text>
+<path d="M30 100h60v-20h40" fill="none" stroke="#d9622b" stroke-width="2"/><path d="M80 90h50" stroke="#555" marker-end="url(#gf)"/>
+<path d="M210 130h-50v20h-40" fill="none" stroke="#9333ea" stroke-width="2"/><path d="M160 166h-50" stroke="#555" marker-end="url(#gf)"/>
+<text x="120.0" y="186.0" text-anchor="middle" font-size="11" fill="currentColor">qaytgan = +kelgan</text><text x="120.0" y="201.0" text-anchor="middle" font-size="11" fill="#dc2626" font-weight="700">uchda: 2·v1</text>
+<rect x="250" y="20" width="220" height="190" rx="10" fill="#2563eb" fill-opacity=".06" stroke="#2563eb" stroke-width="1.4"/>
+<text x="360.0" y="42.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">Qisqa tutashuv (RT = 0)</text><text x="360.0" y="66.0" text-anchor="middle" font-size="16" fill="#2563eb" font-weight="700">Γ = −1</text>
+<path d="M270 100h60v-20h40" fill="none" stroke="#d9622b" stroke-width="2"/><path d="M320 90h50" stroke="#555" marker-end="url(#gf)"/>
+<path d="M450 130h-50v-20h-40" fill="none" stroke="#9333ea" stroke-width="2"/><path d="M400 166h-50" stroke="#555" marker-end="url(#gf)"/>
+<text x="360.0" y="186.0" text-anchor="middle" font-size="11" fill="currentColor">qaytgan = −kelgan</text><text x="360.0" y="201.0" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">uchda: 0</text>
+<rect x="490" y="20" width="220" height="190" rx="10" fill="#16a34a" fill-opacity=".06" stroke="#16a34a" stroke-width="1.4"/>
+<text x="600.0" y="42.0" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">Moslangan (RT = Z∞)</text><text x="600.0" y="66.0" text-anchor="middle" font-size="16" fill="#16a34a" font-weight="700">Γ = 0</text>
+<path d="M510 100h60v-20h40" fill="none" stroke="#d9622b" stroke-width="2"/><path d="M560 90h50" stroke="#555" marker-end="url(#gf)"/>
+<text x="600.0" y="140.0" text-anchor="middle" font-size="16" fill="#16a34a">—</text>
+<text x="600.0" y="186.0" text-anchor="middle" font-size="11" fill="currentColor">hech narsa qaytmaydi</text><text x="600.0" y="201.0" text-anchor="middle" font-size="11" fill="#16a34a" font-weight="700">uchda: v1</text>
+</svg>
+<figcaption>Uch muhim holat. Ochiq uchda kuchlanish ikki baravar bo'ladi, qisqa tutashuvda nol, moslangan uchda o'zgarmaydi.</figcaption>
+</figure>
+<table>
+<tr><th>Terminatsiya</th><th>Γ</th><th>Nima bo'ladi</th></tr>
+<tr><td>Ochiq (RT → ∞)</td><td><strong>+1</strong></td><td>Xuddi shunday to'lqin qaytadi, uchda v1 + v1 = 2·v1</td></tr>
+<tr><td>Qisqa tutashuv (RT = 0)</td><td><strong>−1</strong></td><td>Teskari to'lqin qaytadi, uchda 0</td></tr>
+<tr><td>Moslangan (RT = Z∞)</td><td><strong>0</strong></td><td>Hech narsa qaytmaydi (adapted, matched)</td></tr>
+<tr><td>RT = 2·Z∞</td><td>+1/3</td><td>(2Z − Z)/(2Z + Z)</td></tr>
+<tr><td>RT = Z∞/2</td><td>−1/3</td><td>(Z/2 − Z)/(Z/2 + Z)</td></tr>
+</table>
+<p>Qoida: <strong>R &gt; Z∞ → Γ musbat</strong> (bir xil ishorali qaytadi), <strong>R &lt; Z∞ → Γ manfiy</strong> (teskari qaytadi).</p>
+
+<h2>6. Lattice diagramma: to'lqinlarni sanash usuli</h2>
+<p>To'lqin bir uchdan ikkinchisiga borib-qaytaveradi. Buni chizish uchun <span class="term">lattice diagramma</span> (panjara diagramma) ishlatiladi: chapda driver uchi, o'ngda terminatsiya uchi, vaqt pastga qarab o'tadi.</p>
+<figure>
+<svg viewBox="0 0 720 360" role="img" aria-label="Lattice diagramma: chap chiziq driver uchi, o'ng chiziq terminatsiya uchi, vaqt pastga qarab. To'lqin v1 0 dan tP gacha o'ngga, v2 tP dan 2tP gacha chapga, v3 2tP dan 3tP gacha o'ngga yuradi va hokazo" font-family="system-ui,sans-serif">
+<defs><marker id="lt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<path d="M200 30V348.0M520 30V348.0" stroke="currentColor" stroke-width="2"/>
+<text x="200.0" y="22.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">B: driver uchi</text><text x="520.0" y="22.0" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">C: terminatsiya uchi</text>
+<text x="192.0" y="26.0" text-anchor="middle" font-size="10" fill="currentColor"></text>
+<path d="M200 40L520 110" stroke="#d9622b" stroke-width="2" marker-end="url(#lt)"/>
+<text x="360.0" y="67.0" text-anchor="middle" font-size="12" fill="#d9622b" font-weight="700">v1 = VB(0)</text>
+<path d="M520 110L200 180" stroke="#9333ea" stroke-width="2" marker-end="url(#lt)"/>
+<text x="360.0" y="137.0" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">v2 = ΓT·v1</text>
+<path d="M200 180L520 250" stroke="#d9622b" stroke-width="2" marker-end="url(#lt)"/>
+<text x="360.0" y="207.0" text-anchor="middle" font-size="12" fill="#d9622b" font-weight="700">v3 = ΓD·v2</text>
+<path d="M520 250L200 320" stroke="#9333ea" stroke-width="2" marker-end="url(#lt)"/>
+<text x="360.0" y="277.0" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">v4 = ΓT·v3</text>
+<path d="M194 40h12M514 40h12" stroke="currentColor"/>
+<text x="186.0" y="44.0" text-anchor="end" font-size="12" fill="currentColor">0</text>
+<text x="534.0" y="44.0" text-anchor="start" font-size="12" fill="currentColor">0</text>
+<path d="M194 110h12M514 110h12" stroke="currentColor"/>
+<text x="186.0" y="114.0" text-anchor="end" font-size="12" fill="currentColor">tP</text>
+<text x="534.0" y="114.0" text-anchor="start" font-size="12" fill="currentColor">tP</text>
+<path d="M194 180h12M514 180h12" stroke="currentColor"/>
+<text x="186.0" y="184.0" text-anchor="end" font-size="12" fill="currentColor">2tP</text>
+<text x="534.0" y="184.0" text-anchor="start" font-size="12" fill="currentColor">2tP</text>
+<path d="M194 250h12M514 250h12" stroke="currentColor"/>
+<text x="186.0" y="254.0" text-anchor="end" font-size="12" fill="currentColor">3tP</text>
+<text x="534.0" y="254.0" text-anchor="start" font-size="12" fill="currentColor">3tP</text>
+<path d="M194 320h12M514 320h12" stroke="currentColor"/>
+<text x="186.0" y="324.0" text-anchor="end" font-size="12" fill="currentColor">4tP</text>
+<text x="534.0" y="324.0" text-anchor="start" font-size="12" fill="currentColor">4tP</text>
+<text x="140.0" y="114.0" text-anchor="end" font-size="11" fill="#2563eb">VB = v1</text>
+<text x="140.0" y="184.0" text-anchor="end" font-size="11" fill="#2563eb">VB = v1+v2+v3</text>
+<text x="140.0" y="324.0" text-anchor="end" font-size="11" fill="#2563eb">+v4+v5</text>
+<text x="580.0" y="114.0" text-anchor="start" font-size="11" fill="#16a34a">VC = v1+v2</text>
+<text x="580.0" y="254.0" text-anchor="start" font-size="11" fill="#16a34a">VC = v1+…+v4</text>
+<text x="580.0" y="44.0" text-anchor="start" font-size="11" fill="#16a34a">VC = 0</text>
+<path d="M360.0 334.0v20" stroke="#555" marker-end="url(#lt)"/><text x="370.0" y="350.0" text-anchor="start" font-size="11" fill="currentColor">vaqt</text>
+</svg>
+<figcaption>Har bir qiya chiziq bitta to'lqin. Har to'lqin uchga yetganda Γ ga ko'paytirilib qaytadi.</figcaption>
+</figure>
+<p>Retsept:</p>
+<ol>
+<li>v1 = VA · Z∞ / (RO + Z∞)</li>
+<li>v2 = ΓT · v1 (terminatsiyadan qaytgan)</li>
+<li>v3 = ΓD · v2 (driverdan qaytgan)</li>
+<li>v4 = ΓT · v3, v5 = ΓD · v4, …</li>
+</ol>
+<p>Kuchlanishlar:</p>
+<ul>
+<li><strong>Driver uchi (B)</strong> o'zgaradi: 0, 2tP, 4tP, … paytlarda. VB = v1 (0…2tP), keyin v1 + v2 + v3 (2tP…4tP), keyin + v4 + v5, …</li>
+<li><strong>Terminatsiya uchi (C)</strong> o'zgaradi: tP, 3tP, 5tP, … paytlarda. VC = 0 (t &lt; tP), v1 + v2 (tP…3tP), v1 + v2 + v3 + v4 (3tP…5tP), …</li>
+<li>O'rtadagi nuqtalar ikki baravar ko'p o'zgaradi (to'lqinlar turli paytda o'tadi).</li>
+<li><strong>Barqaror holat</strong> (t → ∞): oddiy kuchlanish bo'luvchi, Z∞ umuman qatnashmaydi:</li>
+</ul>
+<span class="formula">Vbarq = VA · RT / (RO + RT) &nbsp;&nbsp;&nbsp; (ochiq uch: Vbarq = VA)</span>
+<div class="box note"><strong>Formulani qisqa yozish (2020-12 rasmiy yechimidagi kabi).</strong> U = v1 bo'lsin. Terminatsiya uchida:<br>
+tP da: (1 + ΓT)·U<br>
+3tP da: (1 + ΓT + ΓT·ΓD + ΓT²·ΓD)·U<br>
+5tP da: (1 + ΓT + ΓTΓD + ΓT²ΓD + ΓT²ΓD² + ΓT³ΓD²)·U<br>
+Har safar ikkita yangi had qo'shiladi: oldingi oxirgi hadni ΓD ga, keyin ΓT ga ko'paytirasiz.</div>
+
+<h2>7. Slayddagi mashq C2.1 va C2.2 (to'liq yechim)</h2>
+<div class="box">
+<p><strong>C2.1 sharti:</strong> uchi ochiq liniyaga sakrash beriladi. Driver: RO = 160 Ω, 5 V. Liniya: Z∞ = 80 Ω, tP = 10 ns. Driver va terminatsiya uchidagi signallarni chizing.</p>
+<p><strong>Γ lar:</strong> ΓT = +1 (ochiq). ΓD = (160 − 80)/(160 + 80) = 80/240 = +1/3.</p>
+<p><strong>To'lqinlar:</strong> v1 = 5 · 80/240 = 1.667 V; v2 = 1 · 1.667 = 1.667 V; v3 = 1/3 · 1.667 = 0.556 V; v4 = 0.556 V; v5 = 0.185 V; v6 = 0.185 V …</p>
+<table>
+<tr><th>Vaqt</th><th>VB (driver uchi)</th><th>VC (ochiq uchi)</th></tr>
+<tr><td>0 … tP</td><td>1.67 V</td><td>0</td></tr>
+<tr><td>tP … 2tP</td><td>1.67 V</td><td>1.67 + 1.67 = 3.33 V</td></tr>
+<tr><td>2tP … 3tP</td><td>1.67 + 1.67 + 0.56 = 3.89 V</td><td>3.33 V</td></tr>
+<tr><td>3tP … 4tP</td><td>3.89 V</td><td>3.33 + 0.56 + 0.56 = 4.44 V</td></tr>
+<tr><td>4tP … 5tP</td><td>3.89 + 0.56 + 0.19 = 4.63 V</td><td>4.44 V</td></tr>
+<tr><td>5tP …</td><td>4.63 V</td><td>4.44 + 0.19 + 0.19 = 4.81 V</td></tr>
+<tr><td>t → ∞</td><td>5 V</td><td>5 V</td></tr>
+</table>
+<p>Ikkala Γ musbat, shuning uchun hamma to'lqin bir xil ishorali: kuchlanish <strong>monoton zinapoya</strong> bo'lib 5 V ga yaqinlashadi.</p>
+</div>
+<figure>
+<svg viewBox="0 0 720 300" role="img" aria-label="Mashq C2.1: VB 0 da 1.67 V, 2tP da 3.89 V, 4tP da 4.63 V; VC tP gacha 0, tP da 3.33 V, 3tP da 4.44 V, 5tP da 4.81 V; ikkalasi 5 V ga yaqinlashadi" font-family="system-ui,sans-serif">
+<defs><marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<path d="M70 18V260H700" fill="none" stroke="currentColor" stroke-width="1.4"/>
+<text x="702.0" y="264.0" text-anchor="start" font-size="12" fill="currentColor">t</text>
+<text x="64.0" y="14.0" text-anchor="end" font-size="12" fill="currentColor">V</text>
+<path d="M70 218.9H690" stroke="#d9622b" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="64.0" y="222.9" text-anchor="end" font-size="11" fill="#d9622b" font-weight="700">VIL = 1 V</text>
+<path d="M70 136.8H690" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="64.0" y="140.8" text-anchor="end" font-size="11" fill="#dc2626" font-weight="700">VIH = 3 V</text>
+<path d="M70 54.6H690" stroke="#9aa0a6" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="64.0" y="58.6" text-anchor="end" font-size="11" fill="#9aa0a6" font-weight="700">5 V</text>
+<path d="M70.0 260v5" stroke="currentColor"/>
+<text x="70.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">0</text>
+<path d="M132.0 260v5" stroke="currentColor"/>
+<text x="132.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">tP</text>
+<path d="M194.0 260v5" stroke="currentColor"/>
+<text x="194.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">2tP</text>
+<path d="M256.0 260v5" stroke="currentColor"/>
+<text x="256.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">3tP</text>
+<path d="M318.0 260v5" stroke="currentColor"/>
+<text x="318.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">4tP</text>
+<path d="M380.0 260v5" stroke="currentColor"/>
+<text x="380.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">5tP</text>
+<path d="M442.0 260v5" stroke="currentColor"/>
+<text x="442.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">6tP</text>
+<path d="M504.0 260v5" stroke="currentColor"/>
+<text x="504.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">7tP</text>
+<path d="M566.0 260v5" stroke="currentColor"/>
+<text x="566.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">8tP</text>
+<path d="M628.0 260v5" stroke="currentColor"/>
+<text x="628.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">9tP</text>
+<path d="M690.0 260v5" stroke="currentColor"/>
+<text x="690.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">10tP</text>
+<path d="M70.0 260.0 L70.0 260.0 L71.9 191.5 L194.0 191.5 L195.9 100.3 L318.0 100.3 L319.9 69.9 L442.0 69.9 L443.9 59.7 L566.0 59.7 L567.9 56.3 L690.0 56.3" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="M70.0 260.0 L132.0 260.0 L133.9 123.1 L256.0 123.1 L257.9 77.5 L380.0 77.5 L381.9 62.2 L504.0 62.2 L505.9 57.2 L628.0 57.2 L629.9 55.5 L690.0 55.5" fill="none" stroke="#16a34a" stroke-width="2.4" stroke-dasharray="7 3" stroke-linejoin="round"/>
+<text x="74.0" y="185.5" text-anchor="start" font-size="11" fill="#2563eb" font-weight="700">1.67</text>
+<text x="198.0" y="94.3" text-anchor="start" font-size="11" fill="#2563eb" font-weight="700">3.89</text>
+<text x="322.0" y="63.9" text-anchor="start" font-size="11" fill="#2563eb" font-weight="700">4.63</text>
+<text x="128.0" y="117.1" text-anchor="end" font-size="11" fill="#16a34a" font-weight="700">3.33</text>
+<text x="252.0" y="71.5" text-anchor="end" font-size="11" fill="#16a34a" font-weight="700">4.44</text>
+<text x="376.0" y="56.2" text-anchor="end" font-size="11" fill="#16a34a" font-weight="700">4.81</text>
+<text x="603.2" y="128.6" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">VB (driver uchi)</text>
+<text x="603.2" y="153.2" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">VC (ochiq uchi)</text>
+</svg>
+<figcaption>C2.1: driver uchi (ko'k) 0, 2tP, 4tP da; ochiq uchi (yashil) tP, 3tP, 5tP da o'zgaradi. Uzuq chiziqlar C2.2 dagi chegaralar.</figcaption>
+</figure>
+<div class="box">
+<p><strong>C2.2 sharti:</strong> shu sxemaga ikki qabul qilgich ulang: biri driver chiqishida (B), biri liniya oxirida (C). VIL = 1 V, VIH = 3 V. tTX va tK ni toping.</p>
+<p><strong>B dagi qabul qilgich:</strong> VB(0) = 1.67 V &gt; VIL, demak eng erta sezish darhol: tTXmin = 0. Lekin 1.67 &lt; VIH, demak VIH faqat 2tP da (3.89 V) oshadi: tTXmax = 2tP = 20 ns. Skew tK = 20 ns.</p>
+<p><strong>C dagi qabul qilgich:</strong> tP gacha 0, tP da 3.33 V (ham VIL, ham VIH dan yuqori). tTXmin = tTXmax = tP = 10 ns. Skew tK = 0.</p>
+<p><strong>Ikkala qabul qilgich orasidagi umumiy skew:</strong> eng kech (20 ns) − eng erta (0) = 20 ns.</p>
+</div>
+<div class="box note"><strong>tP va tTX farqi (slayddagi savol):</strong> tP = to'lqinning liniya bo'ylab uchish vaqti (faqat uzunlik va tezlikka bog'liq). tTX = qabul qilgich yangi holatni sezgunicha vaqt; u tP ga, aks etishlarga, chegaralarga va joyga bog'liq. Masalan B da tTXmax = 2tP, C da tTX = tP.</div>
+
+<h2>8. Imtihon test savollari (asl matn bilan)</h2>
+<div class="box">
+<p><strong>026.</strong> <em>The reflection coefficient of an open termination of a transmission line is: a) 0 &nbsp; b) 0.5 &nbsp; c) +1 &nbsp; d) -1</em></p>
+<details><summary>Javob</summary><p><strong>c) +1</strong>. Γ = (∞ − Z∞)/(∞ + Z∞) = 1.</p></details>
+</div>
+<div class="box">
+<p><strong>038.</strong> <em>A CMOS driver with supply voltage Val and output resistance Ro drives a line with characteristic impedance Z∞ terminated on an open circuit. The first voltage step (0→1) at the driver exit has the amplitude: a) Val·Ro/Z∞ &nbsp; b) Val·Z∞/(Ro+Z∞) &nbsp; c) Val·Ro/(Ro+Z∞) &nbsp; d) Val</em></p>
+<details><summary>Javob</summary><p><strong>b) Val·Z∞/(Ro+Z∞)</strong>. Birinchi sakrash RO va Z∞ bo'luvchisi (ochiq uch hali "ko'rinmaydi").</p></details>
+</div>
+<div class="box">
+<p><strong>021.</strong> <em>A driver with the output resistance Ro = 2 Z∞ drives at high level (Vdd) a transmission line with the characteristic impedance Z∞ with an adapted termination. The steady-state voltage at the termination end is: a) Vdd / 3 &nbsp; b) 0 &nbsp; c) 2 ∙ Vdd &nbsp; d) Vdd / 2</em></p>
+<details><summary>Javob</summary><p><strong>a) Vdd/3</strong>. "Adapted termination" = RT = Z∞. Barqaror holat = bo'luvchi: Vdd · Z∞ / (2Z∞ + Z∞) = Vdd/3.</p></details>
+</div>
+<div class="box">
+<p><strong>057.</strong> <em>A driver with the output resistance Ro = Z∞ drives at high level (Vdd) a line with Z∞ characteristic impedance with an adapted termination. In steady state, the voltage at the termination end is: a) Vdd / 3 &nbsp; b) 0 &nbsp; c) 2 ∙ Vdd &nbsp; d) Vdd / 2</em></p>
+<details><summary>Javob</summary><p><strong>d) Vdd/2</strong>. Vdd · Z∞ / (Z∞ + Z∞) = Vdd/2.</p></details>
+</div>
+<div class="box">
+<p><strong>022.</strong> <em>A driver with the output resistance RO = Z∞ drives at high level (VOH) a transmission line with the characteristic impedance Z∞, with open termination. At the end of the transient period, the voltage at the termination end is: a) VOH &nbsp; b) 0 &nbsp; c) 2 ∙ VOH &nbsp; d) VOH / 2</em></p>
+<details><summary>Javob</summary><p><strong>a) VOH</strong>. Ochiq uchda barqaror tok yo'q, RO da kuchlanish tushmaydi, butun liniya VOH. (Diqqat: 2·VOH faqat bir lahzalik bo'lishi mumkin, barqaror emas.)</p></details>
+</div>
+<div class="box">
+<p><strong>011.</strong> <em>A driver with output resistance Ro = Z∞ drives at high level a line with characteristic impedance Z∞ with an open termination and propagation time tp. The transient ends on the entire line: a) after tp &nbsp; b) infinite time &nbsp; c) after 2 tp &nbsp; d) after 3 tp</em></p>
+<details><summary>Javob</summary><p><strong>c) after 2 tp</strong>. v1 = VOH/2. tP da ochiq uchdan v2 = +VOH/2 qaytadi (uchda VOH). 2tP da v2 driverga yetadi: ΓD = 0, hech narsa qaytmaydi. Endi butun liniya VOH, jarayon tugadi.</p></details>
+</div>
+<div class="box">
+<p><strong>2021-07 test.</strong> <em>The steady state voltage on a transmission line: (a) Can depend on the output resistance of the driver. (b) Does not depend on the termination resistance of the line. (c) Is independent on the output resistance of the driver. (d) Depends on the characteristic impedance of the line, Z∞.</em></p>
+<details><summary>Javob</summary><p><strong>(a)</strong>. Vbarq = VA·RT/(RO + RT): RT orqali barqaror tok bo'lsa, RO ga bog'liq. RT ga ham bog'liq (b noto'g'ri). Z∞ ga hech qachon bog'liq emas (d noto'g'ri). (c) har doim emas.</p></details>
+</div>
+<div class="box">
+<p><strong>001.</strong> <em>A driver powered at 3.3 V and with RO = 70 Ω drives a connection with Z∞ = 60 Ω, propagation speed U = 0.7 c, length d = 30 cm, and open at the remote end. The receivers are CMOS circuits with VIL = 0.8 V and VIH = 2 V. All questions refer to the L-H (low-to-high level) transition. Determine the amplitude of the first step and the propagation time Tp.</em></p>
+<details><summary>Javob</summary><p>VB(0) = 3.3 · 60/(70 + 60) = <strong>1.52 V</strong>. tP = 0.3 m / (0.7 · 3·10<sup>8</sup> m/s) = <strong>1.43 ns</strong>.</p></details>
+</div>
+
+<div class="box check"><strong>O'zingizni tekshiring:</strong>
+<ol>
+<li>RO = 25 Ω, Z∞ = 75 Ω, VA = 4 V, RT = 225 Ω. v1, ΓD, ΓT, v2, v3 va Vbarq ni toping.</li>
+<li>Liniya uzunligi 48 sm, vP = 24 sm/ns. tP = ?</li>
+<li>Qisqa tutashgan uchda qaytgan to'lqin qanday?</li>
+</ol>
+<details><summary>Javoblar</summary>
+<ol>
+<li>v1 = 4·75/100 = 3 V. ΓD = (25 − 75)/100 = −0.5. ΓT = (225 − 75)/300 = +0.5. v2 = 1.5 V. v3 = −0.5·1.5 = −0.75 V. Vbarq = 4·225/250 = 3.6 V. (Tekshiruv: uchda tP da 4.5 V, 3tP da 4.5 − 0.75 − 0.375 = 3.375 V, 3.6 ga yaqinlashadi.)</li>
+<li>tP = 48/24 = 2 ns.</li>
+<li>Γ = −1: kelgan to'lqinga teng, lekin teskari ishorali; uchda kuchlanish 0.</li>
+</ol></details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Uzatish liniyasi</td><td>transmission line</td><td>Tarqalish vaqti hisobga olinadigan sim</td></tr>
+<tr><td>Xarakteristik impedans</td><td>characteristic impedance Z∞</td><td>To'lqin uchun V/I nisbati</td></tr>
+<tr><td>Tarqalish tezligi</td><td>propagation speed vP (U)</td><td>0.6–0.8 c, 18–24 sm/ns</td></tr>
+<tr><td>Tarqalish vaqti</td><td>propagation (flight) time tP</td><td>L / vP</td></tr>
+<tr><td>Tushuvchi to'lqin</td><td>incident (progressive) wave</td><td>Driverdan terminatsiyaga yuradi</td></tr>
+<tr><td>Aks etgan to'lqin</td><td>reflected (regressive) wave</td><td>Orqaga qaytgan to'lqin</td></tr>
+<tr><td>Aks etish koeffitsienti</td><td>reflection coefficient Γ (ρ)</td><td>(R − Z∞)/(R + Z∞)</td></tr>
+<tr><td>Terminatsiya</td><td>termination RT</td><td>Liniya oxiridagi rezistor</td></tr>
+<tr><td>Moslangan</td><td>adapted, matched</td><td>R = Z∞, Γ = 0</td></tr>
+<tr><td>Ochiq / qisqa tutashuv</td><td>open / short circuit</td><td>Γ = +1 / Γ = −1</td></tr>
+<tr><td>Lattice diagramma</td><td>lattice (bounce) diagram</td><td>To'lqinlarni vaqt bo'yicha sanash chizmasi</td></tr>
+<tr><td>Yaqin / uzoq uch</td><td>near-end / far-end</td><td>Driver tomoni / terminatsiya tomoni</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<span class="formula">tP = L / vP &nbsp;·&nbsp; vP = 0.6–0.8c = 18–24 sm/ns &nbsp;·&nbsp; 0.7c = 21 sm/ns</span>
+<span class="formula">v1 = VA·Z∞/(RO + Z∞) &nbsp;·&nbsp; ΓT = (RT − Z∞)/(RT + Z∞) &nbsp;·&nbsp; ΓD = (RO − Z∞)/(RO + Z∞)</span>
+<span class="formula">v2 = ΓT·v1, v3 = ΓD·v2, v4 = ΓT·v3 …</span>
+<span class="formula">VB o'zgaradi 0, 2tP, 4tP … &nbsp;·&nbsp; VC o'zgaradi tP, 3tP, 5tP …</span>
+<span class="formula">Vbarq = VA·RT/(RO + RT) (Z∞ ga bog'liq emas; ochiq uch → VA)</span>
+<ul>
+<li>Ochiq Γ = +1, qisqa Γ = −1, moslangan Γ = 0. R &gt; Z∞ → Γ &gt; 0; R &lt; Z∞ → Γ &lt; 0.</li>
+<li>Birinchi sakrash RT ga bog'liq emas. Barqaror holat Z∞ ga bog'liq emas.</li>
+<li>Ikkala Γ musbat → monoton zinapoya. Biri manfiy → tebranish.</li>
+<li>Qabul qilgich: tTXmin = VIL kesilgan payt, tTXmax = VIH kesilgan (va qolgan) payt.</li>
+<li>Javoblar: 026 → c; 038 → b; 021 → a (Vdd/3); 057 → d (Vdd/2); 022 → a (VOH); 011 → c (2tp); 2021-07 → a; 001 → 1.52 V, 1.43 ns; C2.2 → B: 0…20 ns, tK = 20 ns; C: 10 ns, tK = 0.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="24-ulanish-rc-skew.html">← 24-dars</a><a href="26-iws-rws-terminatsiya.html">26-dars →</a></footer>
+</main></body></html>

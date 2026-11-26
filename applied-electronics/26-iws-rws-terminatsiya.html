@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>26. IWS, RWS va terminatsiya</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>26. IWS, RWS va terminatsiya: liniyada uzatish vaqti va skew</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> 25-darsdagi lattice usuli bilan qabul qilgich qachon "1" ni sezishini topish; uchta ish rejimi (IWS, RWS, ko'p aks etish); terminatsiya turlari; RS ni qanday tanlash (imtihonda eng ko'p so'raladigan hisob). Imtihondagi ikkita 7 ballik masala (2020-07 va 2020-12) to'liq yechilgan. Manba: C3 slaydlari. O'qish vaqti: 45 daqiqa.</div>
+
+<h2>1. Asosiy savol: birinchi sakrash chegarani kesadimi?</h2>
+<p>Qabul qilgich VIH ni kesgan paytda "1" ni sezadi (eng yomon holat). Lattice diagrammadagi qaysi to'lqin VIH ni birinchi bo'lib kesib o'tishiga qarab uch rejim bor. Hammasi <strong>RO / Z∞</strong> nisbatiga bog'liq:</p>
+<figure>
+<svg viewBox="0 0 720 270" role="img" aria-label="Uch holat, uchi ochiq liniya, 5 V. Chapda RO kichik: birinchi sakrash katta, VT darhol kesib o'tiladi, tebranish bor. O'rtada RO=Z∞: birinchi sakrash yarmi, uzoq uchda tP da to'liq, driver uchida 2tP da to'liq. O'ngda RO katta: zinapoya sekin ko'tariladi" font-family="system-ui,sans-serif">
+<text x="130.0" y="26.0" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="700">RO < Z∞: IWS (tez)</text>
+<path d="M30 42V200H236" fill="none" stroke="currentColor" stroke-width="1.2"/>
+<path d="M30 153.1H230" stroke="#dc2626" stroke-dasharray="4 3"/><text x="230.0" y="149.1" text-anchor="end" font-size="10" fill="#dc2626" font-weight="700">VT</text>
+<path d="M30 106.2H230" stroke="#9aa0a6" stroke-dasharray="2 3"/><text x="26.0" y="110.2" text-anchor="end" font-size="10" fill="#9aa0a6">5</text>
+<path d="M30.0 200.0 L30.0 200.0 L30.8 127.1 L80.0 127.1 L80.8 94.7 L130.0 94.7 L130.8 112.7 L180.0 112.7 L180.8 102.7 L230.0 102.7" fill="none" stroke="#2563eb" stroke-width="2"/>
+<path d="M30.0 200.0 L55.0 200.0 L55.8 54.2 L105.0 54.2 L105.8 135.2 L155.0 135.2 L155.8 90.2 L205.0 90.2 L205.8 115.2 L230.0 115.2" fill="none" stroke="#16a34a" stroke-width="2" stroke-dasharray="5 3"/>
+<text x="30.0" y="214.0" text-anchor="middle" font-size="10" fill="currentColor">0</text>
+<text x="80.0" y="214.0" text-anchor="middle" font-size="10" fill="currentColor">2tP</text>
+<text x="130.0" y="214.0" text-anchor="middle" font-size="10" fill="currentColor">4tP</text>
+<text x="180.0" y="214.0" text-anchor="middle" font-size="10" fill="currentColor">6tP</text>
+<text x="230.0" y="214.0" text-anchor="middle" font-size="10" fill="currentColor">8tP</text>
+<text x="130.0" y="230.0" text-anchor="middle" font-size="10" fill="currentColor">RO = 20 Ω, Z∞ = 70 Ω, ochiq uch</text>
+<text x="130.0" y="40.0" text-anchor="middle" font-size="10" fill="currentColor">v1 = 3.89 V, ΓD = -0.56</text>
+<text x="365.0" y="26.0" text-anchor="middle" font-size="12" fill="#d9622b" font-weight="700">RO = Z∞: RWS (o'rta)</text>
+<path d="M265 42V200H471" fill="none" stroke="currentColor" stroke-width="1.2"/>
+<path d="M265 153.1H465" stroke="#dc2626" stroke-dasharray="4 3"/><text x="465.0" y="149.1" text-anchor="end" font-size="10" fill="#dc2626" font-weight="700">VT</text>
+<path d="M265 106.2H465" stroke="#9aa0a6" stroke-dasharray="2 3"/><text x="261.0" y="110.2" text-anchor="end" font-size="10" fill="#9aa0a6">5</text>
+<path d="M265.0 200.0 L265.0 200.0 L265.8 153.1 L315.0 153.1 L315.8 106.2 L365.0 106.2 L365.8 106.2 L415.0 106.2 L415.8 106.2 L465.0 106.2" fill="none" stroke="#2563eb" stroke-width="2"/>
+<path d="M265.0 200.0 L290.0 200.0 L290.8 106.2 L340.0 106.2 L340.8 106.2 L390.0 106.2 L390.8 106.2 L440.0 106.2 L440.8 106.2 L465.0 106.2" fill="none" stroke="#16a34a" stroke-width="2" stroke-dasharray="5 3"/>
+<text x="265.0" y="214.0" text-anchor="middle" font-size="10" fill="currentColor">0</text>
+<text x="315.0" y="214.0" text-anchor="middle" font-size="10" fill="currentColor">2tP</text>
+<text x="365.0" y="214.0" text-anchor="middle" font-size="10" fill="currentColor">4tP</text>
+<text x="415.0" y="214.0" text-anchor="middle" font-size="10" fill="currentColor">6tP</text>
+<text x="465.0" y="214.0" text-anchor="middle" font-size="10" fill="currentColor">8tP</text>
+<text x="365.0" y="230.0" text-anchor="middle" font-size="10" fill="currentColor">RO = 70 Ω, Z∞ = 70 Ω, ochiq uch</text>
+<text x="365.0" y="40.0" text-anchor="middle" font-size="10" fill="currentColor">v1 = 2.50 V, ΓD = +0.00</text>
+<text x="600.0" y="26.0" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">RO > Z∞: ko'p aks (sekin)</text>
+<path d="M500 42V200H706" fill="none" stroke="currentColor" stroke-width="1.2"/>
+<path d="M500 153.1H700" stroke="#dc2626" stroke-dasharray="4 3"/><text x="700.0" y="149.1" text-anchor="end" font-size="10" fill="#dc2626" font-weight="700">VT</text>
+<path d="M500 106.2H700" stroke="#9aa0a6" stroke-dasharray="2 3"/><text x="496.0" y="110.2" text-anchor="end" font-size="10" fill="#9aa0a6">5</text>
+<path d="M500.0 200.0 L500.0 200.0 L500.8 179.5 L550.0 179.5 L550.8 147.4 L600.0 147.4 L600.8 129.4 L650.0 129.4 L650.8 119.3 L700.0 119.3" fill="none" stroke="#2563eb" stroke-width="2"/>
+<path d="M500.0 200.0 L525.0 200.0 L525.8 159.0 L575.0 159.0 L575.8 135.9 L625.0 135.9 L625.8 122.9 L675.0 122.9 L675.8 115.6 L700.0 115.6" fill="none" stroke="#16a34a" stroke-width="2" stroke-dasharray="5 3"/>
+<text x="500.0" y="214.0" text-anchor="middle" font-size="10" fill="currentColor">0</text>
+<text x="550.0" y="214.0" text-anchor="middle" font-size="10" fill="currentColor">2tP</text>
+<text x="600.0" y="214.0" text-anchor="middle" font-size="10" fill="currentColor">4tP</text>
+<text x="650.0" y="214.0" text-anchor="middle" font-size="10" fill="currentColor">6tP</text>
+<text x="700.0" y="214.0" text-anchor="middle" font-size="10" fill="currentColor">8tP</text>
+<text x="600.0" y="230.0" text-anchor="middle" font-size="10" fill="currentColor">RO = 250 Ω, Z∞ = 70 Ω, ochiq uch</text>
+<text x="600.0" y="40.0" text-anchor="middle" font-size="10" fill="currentColor">v1 = 1.09 V, ΓD = +0.56</text>
+<text x="360.0" y="264.0" text-anchor="middle" font-size="11" fill="currentColor">ko'k: VB (driver uchi) · yashil uzuq: VC (uzoq uch)</text>
+</svg>
+<figcaption>Bir xil liniya (ochiq uch, 5 V), uch xil RO. Qizil uzuq chiziq: chegara VT. Chapda chegara darhol kesiladi, o'ngda faqat bir necha aks etishdan keyin.</figcaption>
+</figure>
+
+<h3>1) RO &lt; Z∞: IWS (Incident Wave Switching, tushuvchi to'lqinda o'tish)</h3>
+<ul>
+<li>Driver kuchli (katta tok beradi), birinchi sakrash v1 katta.</li>
+<li>Chegara <strong>birinchi to'lqin</strong> bilan kesiladi: qabul qilgich to'lqin yetib kelishi bilan sezadi. Eng tez, tezkor buslarda ishlatiladi.</li>
+<li>ΓD &lt; 0: driverdan manfiy aks etish, tebranish (ringing) bo'ladi, chegara qayta kesilishi mumkin. Shuning uchun uzoq uchga terminatsiya kerak; terminatsiya energiya sarflaydi.</li>
+</ul>
+<h3>2) RO = Z∞: RWS (Reflected Wave Switching, aks etgan to'lqinda o'tish)</h3>
+<ul>
+<li>Driver "moslangan": ΓD = 0, driverdan hech narsa qaytmaydi.</li>
+<li>Birinchi sakrash = barqaror kuchlanishning <strong>yarmi</strong> (VA/2). Uchi ochiq bo'lsa, uzoq uchda tP da VA/2 + VA/2 = VA bo'ladi.</li>
+<li>Uzoq uchdagi qabul qilgich tP da o'tadi. Driver yonidagi qabul qilgich faqat aks etgan to'lqin qaytganda (2tP da) aniq o'tadi.</li>
+<li>Nuqtadan nuqtaga (point-to-point) ulanish uchun yaxshi: IWS dan sekinroq, lekin kam quvvat.</li>
+</ul>
+<h3>3) RO &gt; Z∞: ko'p aks etish (Multiple Reflections)</h3>
+<ul>
+<li>Driver kuchsiz, birinchi sakrash kichik va chegarani kesa olmaydi.</li>
+<li>ΓD &gt; 0 va ΓT &gt; 0: hamma to'lqin bir xil ishorali, sekin monoton zinapoya, tebranish yo'q.</li>
+<li>Chegara bir necha borib-kelishdan keyin kesiladi: tTXmax = N · 2tP. Sekin.</li>
+</ul>
+
+<h2>2. Xulosa jadvali (slayd C3, "Summary")</h2>
+<table>
+<tr><th>Rejim</th><th>tTXmin</th><th>tTXmax</th><th>tK (liniya uchlari orasida)</th><th>Xususiyat</th></tr>
+<tr><td>IWS</td><td>0</td><td>tP</td><td>tP</td><td>tez, terminatsiyada statik quvvat</td></tr>
+<tr><td>RWS</td><td>tP</td><td>2tP</td><td>tP</td><td>o'rtacha tezlik, kam quvvat, point-to-point</td></tr>
+<tr><td>Ko'p aks etish</td><td>…</td><td>N · 2tP</td><td>katta</td><td>sekin</td></tr>
+</table>
+<p>IWS da tTXmin = 0 (driver yonidagi qabul qilgich), tTXmax = tP (eng uzoqdagisi). Bu qiymatlar qabul qilgichlar <strong>joyi</strong> farqidan; bitta qabul qilgichning o'zi uchun IWS da skew 0 bo'ladi, chunki u chegarani bir zumda kesadi.</p>
+<div class="box note"><strong>Ikki xil skew (slayd):</strong> <span class="term">lokal skew</span> = bitta qabul qilgich (bitta plata) portlari orasida, faqat parametrlar tarqoqligidan. <span class="term">Umumiy (global) skew</span> tKC = max(tTXmax) − min(tTXmin) barcha qabul qilgichlar bo'yicha, turli joylarni ham hisobga oladi.</div>
+
+<h2>3. Terminatsiya turlari</h2>
+<figure>
+<svg viewBox="0 0 720 250" role="img" aria-label="Yuqorida parallel terminatsiya: liniya oxirida RT=Z∞ yerga, kichik RO driver. Pastda ketma-ket terminatsiya: driver chiqishida RS, RO+RS=Z∞, liniya oxiri ochiq" font-family="system-ui,sans-serif">
+<text x="20.0" y="32.0" text-anchor="start" font-size="13" fill="#16a34a" font-weight="700">Parallel terminatsiya (uzoq uchda RT = Z∞)</text>
+<path d="M60 54L86 70L60 86Z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<path d="M86 70H200" stroke="currentColor" stroke-width="1.6"/>
+<rect x="200" y="60" width="180" height="20" rx="10" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.5"/><text x="290.0" y="74.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">Z∞, tP</text>
+<path d="M380 70H420V78" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M420 78v4.5l-6 2.2l6 2.2l6 2.2l-6 2.2l-6 2.2l6 2.2l6 2.2l-6 2.2l-6 2.2l6 2.2l6 2.2l-6 2.2v4.5" fill="none" stroke="#9333ea" stroke-width="1.6"/><path d="M410 114H430M414 118H426M418 122H422" stroke="currentColor" stroke-width="1.5"/><text x="432.0" y="100.0" text-anchor="start" font-size="11" fill="#9333ea" font-weight="700">RT = Z∞</text>
+<text x="530.0" y="62.0" text-anchor="start" font-size="11" fill="currentColor">+ tez (IWS mumkin)</text>
+<text x="530.0" y="78.0" text-anchor="start" font-size="11" fill="currentColor">− RT da doimiy tok,</text>
+<text x="530.0" y="94.0" text-anchor="start" font-size="11" fill="currentColor">  ko'p quvvat</text>
+<text x="20.0" y="147.0" text-anchor="start" font-size="13" fill="#d9622b" font-weight="700">Ketma-ket terminatsiya (driverda RO + RS = Z∞)</text>
+<path d="M60 169L86 185L60 201Z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<path d="M86 185H110" stroke="currentColor" stroke-width="1.6"/><path d="M110 185h6.25l3.1 -6l3.1 6l3.1 6l3.1 -6l3.1 -6l3.1 6l3.1 6l3.1 -6l3.1 -6l3.1 6l3.1 6l3.1 -6h6.25" fill="none" stroke="#d9622b" stroke-width="1.6"/><text x="135.0" y="173.0" text-anchor="middle" font-size="12" fill="#d9622b" font-weight="700">RS</text><path d="M160 185H200" stroke="currentColor" stroke-width="1.6"/>
+<rect x="200" y="175" width="180" height="20" rx="10" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.5"/><text x="290.0" y="189.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">Z∞, tP</text>
+<path d="M380 185H410" stroke="currentColor" stroke-width="1.6"/><circle cx="413" cy="185" r="3" fill="none" stroke="currentColor"/><text x="422.0" y="189.0" text-anchor="start" font-size="11" fill="currentColor">ochiq (Γ = +1)</text>
+<text x="530.0" y="177.0" text-anchor="start" font-size="11" fill="currentColor">+ kam quvvat</text>
+<text x="530.0" y="193.0" text-anchor="start" font-size="11" fill="currentColor">− sekinroq (RWS)</text>
+<text x="530.0" y="209.0" text-anchor="start" font-size="11" fill="currentColor">− faqat uchidan haydaladi</text>
+</svg>
+<figcaption>Parallel terminatsiya uzoq uchda aks etishni yo'qotadi; ketma-ket terminatsiya driver tomonida (ΓD = 0) yo'qotadi.</figcaption>
+</figure>
+<table>
+<tr><th></th><th>Parallel (RT = Z∞ uzoq uchda)</th><th>Ketma-ket (RO + RS = Z∞ driverda)</th></tr>
+<tr><td>Tezlik</td><td>+ kichik kechikish (IWS)</td><td>− kattaroq kechikish (RWS)</td></tr>
+<tr><td>Quvvat</td><td>− RT orqali doimiy tok, katta quvvat</td><td>+ ochiq uch, barqaror tok yo'q, kam quvvat</td></tr>
+<tr><td>Driver joyi</td><td>+ liniya o'rtasidan ham haydasa bo'ladi</td><td>− faqat uchidan (o'rtadan liniyaga boshqa impedans ko'rinadi)</td></tr>
+</table>
+<h3>Sig'imli yuklama ta'siri</h3>
+<p>Liniyaga ulangan har bir kirish sig'im qo'shadi (C<sub>U</sub> oshadi). Natijada: Z∞ = √(L/C) <strong>kamayadi</strong>, tezlik vP = 1/√(LC) <strong>kamayadi</strong>, birinchi sakrash <strong>kichiklashadi</strong>, dinamik quvvat PD = F·V²·C <strong>oshadi</strong>. Shuning uchun bus va platalar orasiga bufer (transceiver) qo'yiladi, SMD komponentlar, qisqa yo'lakchalar ishlatiladi.</p>
+
+<h2>4. Qabul qilgich joyiga qarab tTX va skew: 3 ta imtihon savoli</h2>
+<p>Recept: (1) v1 ni toping. (2) Uzoq uchda tP da (1 + ΓT)·v1 ni toping. (3) Driver uchida 2tP da v1 + v2 + v3 ni toping. (4) Har birini VIL va VIH bilan solishtiring.</p>
+<div class="box">
+<p><strong>012.</strong> <em>A driver powered at 3.3 V (VOH = 3.3 V, VOL = 0 V) drives a transmission line with Z∞ = 50 Ω, propagation speed U = 0.7 c, length 20 cm, open at the far end. The receivers are CMOS circuits with VIL = 1 V and VIH = 2 V. Assuming the driver output resistance RO = 80 Ω, indicate whether the switching on a L-H transition of a receiver at the beginning of the line occurs on the reflected wave or on the incident wave.</em></p>
+<details><summary>Javob</summary><p>VB(0) = 3.3 · 50/130 = 1.27 V &lt; VIH = 2 V. Birinchi sakrash yetmaydi, demak liniya boshidagi qabul qilgich <strong>aks etgan to'lqinda</strong> (reflected wave, 2tP da) o'tadi.</p></details>
+</div>
+<div class="box">
+<p><strong>044.</strong> <em>(Xuddi shu liniya.) For the L-H transition by a driver with RO = 80 Ω, determine the transmission time and the skew time for a receiver located at the beginning of the line and for one located at the end of the line.</em></p>
+<details><summary>Javob</summary>
+<p>tP = 20 sm / 21 sm/ns ≈ 1 ns. ΓD = (80 − 50)/130 = 0.23, ΓT = +1.</p>
+<p><strong>Boshida:</strong> VB(0) = 1.27 V &gt; VIL → tTXmin = 0. VB(2tP) = 1.27 + 1.27 + 0.23·1.27 = 2.83 V &gt; VIH → tTXmax = 2tP = 2 ns. Skew = <strong>2 ns</strong>.</p>
+<p><strong>Oxirida:</strong> VC(tP) = 2 · 1.27 = 2.54 V &gt; VIH → tTX = tP = 1 ns, skew = <strong>0</strong>.</p></details>
+</div>
+<div class="box">
+<p><strong>082.</strong> <em>A driver powered at 3.3 V and with RO = 70 Ω drives a connection with Z∞ = 60 Ω, propagation speed U = 0.7 c, length d = 30 cm, and open at the remote end. The receivers are CMOS circuits with VIL = 0.8 V and VIH = 2 V. All questions refer to the L-H (low-to-high level) transition. Determine the transmission times TTX and the skew TK for a receiver located close to the driver, and for a receiver located at the remote end of the line.</em></p>
+<details><summary>Javob</summary>
+<p>001 dan: v1 = 1.52 V, tP = 1.43 ns. ΓD = (70 − 60)/130 = 0.077.</p>
+<p><strong>Uzoq uchda:</strong> VC(tP) = 1.52 + 1.52 = 3.04 V &gt; VIH → TTXmin = TTXmax = tP = 1.43 ns, TK = 0.</p>
+<p><strong>Driver yonida:</strong> 1.52 V &gt; VIL → TTXmin = 0. VA(2tP) = 1.52 + 1.52 + 0.077·1.52 = 3.16 V &gt; VIH → TTXmax = 2tP = 2.86 ns. TK = <strong>2.86 ns</strong>.</p>
+<p>ΓD &gt; 0 bo'lgani uchun keyingi to'lqinlar ham musbat, boshqa hisoblash shart emas.</p></details>
+</div>
+
+<h2>5. IWS uchun RS ni tanlash: 3 ta imtihon savoli</h2>
+<p>IWS sharti: birinchi sakrash VIH dan katta bo'lsin (L→H). Driver ideal (Roh ≈ 0) va oldiga RS qo'yilgan bo'lsa:</p>
+<span class="formula">L→H: VOH · Z∞ / (RS + Z∞) &gt; VIH (+ NM, agar shovqin zaxirasi berilgan bo'lsa)</span>
+<span class="formula">H→L (liniya VOH da edi): VOH · RS / (RS + Z∞) &lt; VIL</span>
+<p>Ikkinchi formula qayerdan: liniya VOH da turibdi, driver 0 ga tushadi. Sakrash −VOH · Z∞/(RS + Z∞), demak qolgan kuchlanish VOH − VOH·Z∞/(RS + Z∞) = VOH · RS/(RS + Z∞). U VIL dan past bo'lishi kerak.</p>
+<p><img src="img/q024.png" alt="024-savol sxemasi: driver, RS, uzatish liniyasi, oxirida RT yerga" style="max-width:100%;background:#fff;border-radius:6px"></p>
+<div class="box">
+<p><strong>024.</strong> <em>A driver is connected to a transmission line as in the figure. The line is 10 cm long, has Z∞ = 75 Ω, and the propagation speed is 0.7 c. The termination resistance RT is adapted. Parameters Driver: Voh = 3.0 V; Vol = 0 V; Vcc = 3.0 V (Roh and Rol negligible) Receiver: Vih = 2 V; Vil = 0.5 V. Consider only the L-H transition and determine the maximum value of the series resistance Rs which guarantees to work in Incident Wave Switching with a noise margin NM = 0.5 V</em></p>
+<details><summary>Javob</summary><p>3 · 75/(RS + 75) ≥ 2 + 0.5 = 2.5 → 225 ≥ 2.5·RS + 187.5 → RS ≤ <strong>15 Ω</strong>.</p></details>
+</div>
+<div class="box">
+<p><strong>058.</strong> <em>A driver with output impedance RS is connected to a transmission line as in the figure. The line is 20 cm long, has Z∞ = 80 Ω, and the propagation speed is 0.5 c. Parameters: Driver: VOH = 3.0 V; VOL = 0.3 V; Vcc = 3.3 V (supply voltage) Receiver: VIH = 2.2 V; VIL = 1.4 V. Determine the maximum value of RS which minimizes the delay in the transition L-H, such way that the skew is zero for all the receivers no matter where they are connected to the line.</em></p>
+<details><summary>Javob</summary><p>"Kechikish minimal, skew hamma joyda 0" = IWS. 3 · 80/(RS + 80) &gt; 2.2 → RS + 80 &lt; 109.1 → RS &lt; <strong>29 Ω</strong>.</p>
+<div class="box warn">Tuzoq: Vcc = 3.3 V emas, <strong>VOH = 3.0 V</strong> ishlatiladi (driver chiqishi shu darajagacha ko'tariladi). Rasmiy yechim buni alohida ta'kidlaydi.</div></details>
+</div>
+<p><img src="img/q072.png" alt="072-savol sxemasi: driver chiqishi A, ketma-ket Rs, B nuqtada uzatish liniyasi Z∞, tP boshlanadi, oxiri ochiq" style="max-width:100%;background:#fff;border-radius:6px"></p>
+<div class="box">
+<p><strong>072.</strong> <em>A driver is connected to a transmission line at point B in the figure. The line is 10 cm long, has Z∞ = 100 Ω, and the propagation speed is 0.7 c. Parameters Driver: Voh = 3.0 V; Vol = 0 V; Vcc = 3.0 V (Roh and Rol are negligible) Receiver: Vih = 2 V; Vil = 0.5 V. Determine the maximum value of the series adaptation resistance Rs which guarantees the work in Incident Wave Switching, considering the worst case between rising and falling transitions.</em></p>
+<details><summary>Javob</summary>
+<p><strong>Ko'tarilish:</strong> 3 · 100/(RS + 100) &gt; 2 → RS &lt; 50 Ω.</p>
+<p><strong>Tushish:</strong> 3 · RS/(RS + 100) &lt; 0.5 → 3RS &lt; 0.5RS + 50 → RS &lt; 20 Ω.</p>
+<p>Ikkalasi ham bajarilishi kerak (eng yomon holat): RS &lt; <strong>20 Ω</strong>.</p></details>
+</div>
+
+<h2>6. Imtihon masalasi: 2020-07 (7 ball)</h2>
+<div class="box">
+<p><em>"Consider the circuit in the schematic below made of an ideal transmission line TL with propagation time Tp = 5 ns and characteristic impedance Z∞ = 70 Ω that is driven between 0 V and Vg = 3.3 V by a generator with the output resistance Rg = 15 Ω. At the far end of the transmission line (node c) is connected a receiver with negligible input impedance and capacitance. What is the maximum voltage of the high level input threshold of the receiver, VIHmax, that ensures a stable reception of the high level with at most 7.5 ns delay?"</em></p>
+<p><strong>Tarjima:</strong> tP = 5 ns, Z∞ = 70 Ω, generator 3.3 V, Rg = 15 Ω. Uzoq uchda qabul qilgich (yuklamasi sezilarsiz, ya'ni uch amalda <strong>ochiq</strong>, rasmiy yechim ham shunday oladi). Qabul qilgich 7.5 ns ichida "1" ni barqaror qabul qilishi uchun VIH eng ko'pi bilan qancha bo'lishi mumkin?</p>
+</div>
+<details><summary>Javob (yechim)</summary>
+<p><strong>1. Γ lar:</strong> Γg = (15 − 70)/(15 + 70) = −0.647 (manfiy!). Γt = +1 (ochiq).</p>
+<p><strong>2. Rejim:</strong> 7.5 ns &lt; 2tP = 10 ns. Uzoq uchga to'lqin 5 ns da keladi, keyingi o'zgarish 15 ns da. Demak 7.5 ns ichida faqat birinchi to'lqin bilan o'tish mumkin: <strong>IWS</strong>.</p>
+<p><strong>3. "Barqaror":</strong> 7.5 ns dan keyin chegara qayta kesilmasligi kerak. Γg manfiy bo'lgani uchun 3tP da kuchlanish pastga tushadi. VIH shu eng past qiymatdan ham past bo'lishi kerak.</p>
+<p><strong>4. Hisob:</strong> V(0) = 3.3 · 70/85 = 2.718 V.<br>
+tP da: (1 + 1)·2.718 = 5.44 V.<br>
+3tP da: (1 + Γt + Γt·Γg + Γt²·Γg)·V(0) = (1 + 1 − 0.647 − 0.647)·2.718 = 0.706 · 2.718 = <strong>1.92 V</strong>.<br>
+5tP da: 4.19 V (yana ko'tariladi), tebranishlar so'nadi.</p>
+<p><strong>Javob: VIHmax = 1.92 V.</strong></p>
+</details>
+<figure>
+<svg viewBox="0 0 720 290" role="img" aria-label="2020-07 masalasi: qabul qilgich kuchlanishi 5 ns da 5.44 V ga sakraydi, 15 ns da 1.92 V gacha tushadi, keyin yana ko'tariladi" font-family="system-ui,sans-serif">
+<defs><marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<path d="M70 18V250H700" fill="none" stroke="currentColor" stroke-width="1.4"/>
+<text x="702.0" y="254.0" text-anchor="start" font-size="12" fill="currentColor">t</text>
+<text x="64.0" y="14.0" text-anchor="end" font-size="12" fill="currentColor">V</text>
+<path d="M70 181.9H690" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="64.0" y="185.9" text-anchor="end" font-size="11" fill="#dc2626" font-weight="700">1.92 V</text>
+<path d="M70 132.9H690" stroke="#9aa0a6" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="64.0" y="136.9" text-anchor="end" font-size="11" fill="#9aa0a6" font-weight="700">3.3 V</text>
+<path d="M70.0 250v5" stroke="currentColor"/>
+<text x="70.0" y="268.0" text-anchor="middle" font-size="11" fill="currentColor">0</text>
+<path d="M147.5 250v5" stroke="currentColor"/>
+<text x="147.5" y="268.0" text-anchor="middle" font-size="11" fill="currentColor">5</text>
+<path d="M225.0 250v5" stroke="currentColor"/>
+<text x="225.0" y="268.0" text-anchor="middle" font-size="11" fill="currentColor">10</text>
+<path d="M302.5 250v5" stroke="currentColor"/>
+<text x="302.5" y="268.0" text-anchor="middle" font-size="11" fill="currentColor">15</text>
+<path d="M380.0 250v5" stroke="currentColor"/>
+<text x="380.0" y="268.0" text-anchor="middle" font-size="11" fill="currentColor">20</text>
+<path d="M457.5 250v5" stroke="currentColor"/>
+<text x="457.5" y="268.0" text-anchor="middle" font-size="11" fill="currentColor">25</text>
+<path d="M535.0 250v5" stroke="currentColor"/>
+<text x="535.0" y="268.0" text-anchor="middle" font-size="11" fill="currentColor">30</text>
+<path d="M612.5 250v5" stroke="currentColor"/>
+<text x="612.5" y="268.0" text-anchor="middle" font-size="11" fill="currentColor">35</text>
+<path d="M690.0 250v5" stroke="currentColor"/>
+<text x="690.0" y="268.0" text-anchor="middle" font-size="11" fill="currentColor">40 ns</text>
+<path d="M70.0 250.0 L147.5 250.0 L149.8 57.1 L302.5 57.1 L304.8 181.9 L457.5 181.9 L459.8 101.2 L612.5 101.2 L614.8 153.4 L690.0 153.4" fill="none" stroke="#16a34a" stroke-width="2.6" stroke-linejoin="round"/>
+<text x="153.5" y="51.1" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">5.44 V</text>
+<text x="308.5" y="197.9" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">1.92 V</text>
+<text x="463.5" y="95.2" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">4.19 V</text>
+<path d="M186.2 250.0V37.096774193548384" stroke="#d9622b" stroke-dasharray="4 3"/><text x="190.2" y="232.3" text-anchor="start" font-size="11" fill="#d9622b" font-weight="700">7.5 ns</text>
+</svg>
+<figcaption>2020-07: uzoq uchdagi kuchlanish. 5 ns da 5.44 V, 15 ns da 1.92 V gacha tushadi. VIH 1.92 V dan yuqori bo'lsa, qabul qilgich 15 ns da "1" ni yo'qotadi.</figcaption>
+</figure>
+
+<h2>7. Imtihon masalasi: 2020-12 (7 ball)</h2>
+<div class="box">
+<p><em>"A transmission line with a specific impedance of 50 Ω is connected on one end to a rail-to-rail square wave driver circuit with output resistance 10 Ω, and at the other end to a receiver with negligible input capacitance and a 265 Ω input impedance. Considering a propagation time TP of the signal over the transmission line of 5 ns, calculate for a transition low-to-high, from 0 V to 5 V, of the driver output: 1. the voltage of the signal at the receiver input at the time t = 2 TP (1 point); 2. the voltage of the signal at the receiver input at the time t = 4 TP (1 point); 3. the voltage of the signal at the receiver input at the time t = 6 TP (1 point); 4. the steady-state voltage on the line (after the transients are extinguished) (2 points); 5. the minimum noise margin of the receiver that ensures a firm incident wave switching (single switching, no ringing) (2 points)."</em></p>
+</div>
+<details><summary>Javob (yechim)</summary>
+<p><strong>Γ lar:</strong> ΓT = (265 − 50)/(265 + 50) = +0.68. ΓG = (10 − 50)/(10 + 50) = −0.67. U = v1 = 5 · 50/60 = 4.17 V.</p>
+<p><strong>1. t = 2tP:</strong> qabul qilgich (uzoq uch) tP da o'zgargan, 3tP gacha o'zgarmaydi. V = (1 + 0.68)·4.17 = <strong>7.01 V</strong>.</p>
+<p><strong>2. t = 4tP</strong> (3tP dagi qiymat): (1 + ΓT + ΓTΓG + ΓT²ΓG)·U = (1 + 0.68 − 0.456 − 0.310)·4.17 = <strong>3.82 V</strong>.</p>
+<p><strong>3. t = 6tP</strong> (5tP dagi qiymat): yana ikki had: + ΓT²ΓG² + ΓT³ΓG² = + 0.207 + 0.141. Jami (0.915 + 0.348)·4.17 ≈ <strong>5.27 V</strong>.</p>
+<p><strong>4. Barqaror:</strong> 5 · 265/(10 + 265) = <strong>4.82 V</strong>.</p>
+<p><strong>5. Shovqin zaxirasi:</strong> qabul qilgich bir marta o'tib, qayta "0" ga qaytmasligi kerak. Eng past nuqta 3.82 V. Rasmiy yechim yuqori sath 5 V dan hisoblaydi: NM = 5 − 3.82 = <strong>1.18 V</strong>.</p>
+</details>
+<figure>
+<svg viewBox="0 0 720 300" role="img" aria-label="2020-12 masalasi: qabul qilgichdagi kuchlanish tP da 7.01 V ga sakraydi, 3tP da 3.82 V ga tushadi, 5tP da 5.27 V, keyin 4.82 V atrofida tinchlanadi" font-family="system-ui,sans-serif">
+<defs><marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<path d="M70 18V260H700" fill="none" stroke="currentColor" stroke-width="1.4"/>
+<text x="702.0" y="264.0" text-anchor="start" font-size="12" fill="currentColor">t</text>
+<text x="64.0" y="14.0" text-anchor="end" font-size="12" fill="currentColor">V</text>
+<path d="M70 121.4H690" stroke="#9333ea" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="64.0" y="125.4" text-anchor="end" font-size="11" fill="#9333ea" font-weight="700">4.82 V</text>
+<path d="M70.0 260v5" stroke="currentColor"/>
+<text x="70.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">0</text>
+<path d="M147.5 260v5" stroke="currentColor"/>
+<text x="147.5" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">tP</text>
+<path d="M225.0 260v5" stroke="currentColor"/>
+<text x="225.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">2tP</text>
+<path d="M302.5 260v5" stroke="currentColor"/>
+<text x="302.5" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">3tP</text>
+<path d="M380.0 260v5" stroke="currentColor"/>
+<text x="380.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">4tP</text>
+<path d="M457.5 260v5" stroke="currentColor"/>
+<text x="457.5" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">5tP</text>
+<path d="M535.0 260v5" stroke="currentColor"/>
+<text x="535.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">6tP</text>
+<path d="M612.5 260v5" stroke="currentColor"/>
+<text x="612.5" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">7tP</text>
+<path d="M690.0 260v5" stroke="currentColor"/>
+<text x="690.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">8tP</text>
+<path d="M70.0 260.0 L147.5 260.0 L149.8 58.4 L302.5 58.4 L304.8 150.2 L457.5 150.2 L459.8 108.4 L612.5 108.4 L614.8 127.4 L690.0 127.4" fill="none" stroke="#16a34a" stroke-width="2.6" stroke-linejoin="round"/>
+<circle cx="225.0" cy="58.4" r="4" fill="#16a34a"/><text x="231.0" y="52.4" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">7.01 V</text>
+<circle cx="380.0" cy="150.2" r="4" fill="#16a34a"/><text x="386.0" y="144.2" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">3.82 V</text>
+<circle cx="535.0" cy="108.4" r="4" fill="#16a34a"/><text x="541.0" y="102.4" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">5.27 V</text>
+</svg>
+<figcaption>2020-12: qabul qilgichdagi kuchlanish. Nuqtalar so'ralgan paytlar (2tP, 4tP, 6tP). Tebranish 4.82 V atrofida so'nadi.</figcaption>
+</figure>
+
+<h2>8. Slayddagi mashq C3.1 (qisqa jadval)</h2>
+<p>Z∞ = 70 Ω, tP = 10 ns, VA = 5 V, VIH = 3 V. Har bir holatda VIH qachon kesilishini lattice usuli bilan topamiz (driver yonida va uzoq uchda):</p>
+<table>
+<tr><th></th><th>RO</th><th>RT</th><th>ΓD</th><th>ΓT</th><th>v1</th><th>Vbarq</th><th>Driver yonida</th><th>Uzoq uchda</th></tr>
+<tr><td>a</td><td>100</td><td>∞</td><td>+0.18</td><td>+1</td><td>2.06</td><td>5.00</td><td>2tP (RWS)</td><td>tP</td></tr>
+<tr><td>b</td><td>100</td><td>200</td><td>+0.18</td><td>+0.48</td><td>2.06</td><td>3.33</td><td>2tP</td><td>tP (3.05 V, chegaraga juda yaqin)</td></tr>
+<tr><td>c</td><td>50</td><td>200</td><td>−0.17</td><td>+0.48</td><td>2.92</td><td>4.00</td><td>2tP (2.92 &lt; 3)</td><td>tP</td></tr>
+<tr><td>d</td><td>50</td><td>100</td><td>−0.17</td><td>+0.18</td><td>2.92</td><td>3.33</td><td>2tP</td><td>tP</td></tr>
+<tr><td>e</td><td>10</td><td>100</td><td>−0.75</td><td>+0.18</td><td>4.38</td><td>4.55</td><td>0 (IWS)</td><td>tP</td></tr>
+<tr><td>f</td><td>10</td><td>10</td><td>−0.75</td><td>−0.75</td><td>4.38</td><td>2.50</td><td colspan="2">barqaror 2.5 V &lt; VIH: "1" umuman qabul qilinmaydi</td></tr>
+</table>
+<p>Xulosa: faqat (e) da ikkala uch ham birinchi to'lqinda o'tadi (IWS). (f) da RT juda kichik: barqaror kuchlanish VIH ga yetmaydi. Slaydda VIH 3…4 V oraliqda deyilgan: VIH = 4 V bo'lsa, (b), (d), (f) da Vbarq &lt; 4 V, ya'ni ular umuman ishlamaydi.</p>
+
+<div class="box check"><strong>O'zingizni tekshiring:</strong>
+<ol>
+<li>Z∞ = 50 Ω, VOH = 3.3 V, VIH = 2.3 V. IWS uchun RS eng ko'pi bilan qancha (L→H)?</li>
+<li>Qaysi terminatsiya kam quvvat sarflaydi va nega?</li>
+<li>RO = Z∞, uchi ochiq, VA = 5 V, VIL = 1.5 V, VIH = 3.5 V, tP = 2 ns. Driver yonidagi qabul qilgich uchun tTXmin, tTXmax, tK?</li>
+</ol>
+<details><summary>Javoblar</summary>
+<ol>
+<li>3.3·50/(RS + 50) &gt; 2.3 → RS + 50 &lt; 71.7 → RS &lt; 21.7 Ω.</li>
+<li>Ketma-ket: liniya oxiri ochiq, barqaror holatda tok oqmaydi.</li>
+<li>v1 = 2.5 V &gt; VIL → tTXmin = 0. 2.5 &lt; VIH; 2tP da 5 V → tTXmax = 4 ns. tK = 4 ns (RWS).</li>
+</ol></details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>IWS</td><td>Incident Wave Switching</td><td>Birinchi to'lqinda o'tish (RO &lt; Z∞)</td></tr>
+<tr><td>RWS</td><td>Reflected Wave Switching</td><td>Birinchi aks etgan to'lqinda o'tish (RO = Z∞)</td></tr>
+<tr><td>Ko'p aks etish</td><td>multiple reflections switching</td><td>Bir necha borib-kelishdan keyin (RO &gt; Z∞)</td></tr>
+<tr><td>Tebranish</td><td>ringing, oscillations</td><td>Manfiy Γ tufayli kuchlanish yuqori-past bo'lishi</td></tr>
+<tr><td>Parallel terminatsiya</td><td>parallel termination</td><td>Uzoq uchda RT = Z∞ yerga</td></tr>
+<tr><td>Ketma-ket terminatsiya</td><td>series termination</td><td>Driver chiqishida RS, RO + RS = Z∞</td></tr>
+<tr><td>Lokal / umumiy skew</td><td>local / overall skew</td><td>Bitta qabul qilgich ichida / barcha qabul qilgichlar bo'yicha</td></tr>
+<tr><td>Nuqtadan nuqtaga</td><td>point-to-point</td><td>Bitta driver, bitta qabul qilgich</td></tr>
+<tr><td>Bus</td><td>bus (multipoint)</td><td>Ko'p qabul qilgichli umumiy liniya</td></tr>
+<tr><td>Shovqin zaxirasi</td><td>noise margin NM</td><td>Chegaragacha qolgan kuchlanish zaxirasi</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<span class="formula">RO &lt; Z∞ → IWS (tez) &nbsp;·&nbsp; RO = Z∞ → RWS (v1 = VA/2) &nbsp;·&nbsp; RO &gt; Z∞ → ko'p aks etish (sekin)</span>
+<span class="formula">IWS: tTX 0…tP, tK = tP &nbsp;·&nbsp; RWS: tP…2tP, tK = tP &nbsp;·&nbsp; MR: tTXmax = N·2tP</span>
+<span class="formula">IWS sharti L→H: VOH·Z∞/(RS + Z∞) &gt; VIH (+NM) &nbsp;·&nbsp; H→L: VOH·RS/(RS + Z∞) &lt; VIL</span>
+<span class="formula">Uzoq uch: tP da (1+ΓT)U; 3tP da (1+ΓT+ΓTΓD+ΓT²ΓD)U; 5tP da + ΓT²ΓD² + ΓT³ΓD²</span>
+<ul>
+<li>Recept: v1 → uzoq uchda (1+ΓT)v1 → driver uchida 2tP da v1+v2+v3 → VIL, VIH bilan solishtirish.</li>
+<li>"Stable/firm reception" = manfiy Γ tufayli keyingi pasayish ham chegaradan yuqori qolsin.</li>
+<li>VOH ishlating, Vcc emas (058).</li>
+<li>Parallel: tez, ko'p quvvat, o'rtadan haydash mumkin. Ketma-ket: kam quvvat, sekin, faqat uchidan.</li>
+<li>Sig'im qo'shilsa: Z∞ ↓, vP ↓, birinchi sakrash ↓, PD ↑.</li>
+<li>Javoblar: 012 → aks etgan to'lqinda; 044 → boshida 0…2 ns (tK 2 ns), oxirida 1 ns (tK 0); 082 → oxirida 1.43 ns (tK 0), boshida 0…2.86 ns (tK 2.86 ns); 024 → RS ≤ 15 Ω; 058 → RS &lt; 29 Ω; 072 → RS &lt; 20 Ω; 2020-07 → 1.92 V; 2020-12 → 7.01, 3.82, 5.27, 4.82, 1.18 V.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="25-uzatish-liniyasi.html">← 25-dars</a><a href="27-bus-protokollar.html">27-dars →</a></footer>
+</main></body></html>
