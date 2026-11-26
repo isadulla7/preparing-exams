@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3. Kompleks sonlar va aylanuvchi strelka</title><link rel="stylesheet" href="../assets/style.css">
+<style>
+svg text{font-family:inherit}
+.s-ink{fill:var(--fg)} .s-muted{fill:var(--muted)}
+.s-line{stroke:var(--border)} .s-axis{stroke:var(--muted)} .s-acc{stroke:var(--accent)}
+.f-acc{fill:var(--accent)} .f-accsoft{fill:var(--accent);fill-opacity:.12} .f-card{fill:var(--card)}
+</style></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Signal analysis darslari</a></nav>
+<h1>3. Kompleks sonlar va aylanuvchi strelka e<sup>jθ</sup></h1>
+<p>O'qish vaqti: 25 daqiqa. Manba: 2-ma'ruza ("Complex signal" slaydi) va Furye mavzusi uchun zarur matematika.</p>
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> j nima; kompleks son qanday chiziladi; modul va faza (burchak); qo'shma son; Eyler formulasi <code>e<sup>jθ</sup> = cos θ + j·sin θ</code>; kosinusni ikkita aylanuvchi strelka orqali yozish. Bularsiz keyingi Furye darslarini tushunib bo'lmaydi.</div>
+<div class="box warn"><b>Nega bu kerak?</b> Imtihondagi Furye jadvalida deyarli har bir qatorda <code>e<sup>−j2πft</sup></code> bor. Ma'ruzada ham shunday deyilgan: haqiqiy signallar oddiy sonlar bilan yoziladi, lekin kompleks sonlar hisobni <b>osonlashtirish</b> uchun ishlatiladigan matematik vosita. Bu darsni bir marta tushunsangiz, keyingi formulalarning yarmi o'z-o'zidan ochiladi.</div>
+
+<h2>1. Yangi "son": j</h2>
+<p>Maktabda o'rgangansiz: hech bir oddiy sonning kvadrati manfiy chiqmaydi. 2² = 4, (−2)² = 4. Matematiklar shunday kelishib olgan: kvadrati −1 ga teng bo'lgan yangi "son" kiritamiz va uni <b>j</b> deb ataymiz.</p>
+<div class="formula">j² = −1</div>
+<p>Matematika kitoblarida u <b>i</b> deb yoziladi, lekin elektronikada i harfi tok uchun band, shuning uchun muhandislar <b>j</b> yozadi. Bu kursda ham doim j.</p>
+<div class="box note">j bilan hisoblash qoidalari oddiy sonlar bilan bir xil, faqat j² ni ko'rsangiz, o'rniga −1 qo'yasiz:<br>
+<code>j·j = −1</code> &nbsp; <code>j³ = j²·j = −j</code> &nbsp; <code>j⁴ = (j²)² = 1</code> &nbsp; <code>1/j = −j</code> (tekshirish: j·(−j) = −j² = 1)</div>
+
+<h2>2. Kompleks son — tekislikdagi nuqta</h2>
+<p><span class="term">Kompleks son</span> — ikki qismdan iborat son:</p>
+<div class="formula">z = a + j·b</div>
+<table>
+<tr><th>Qism</th><th>Nomi</th><th>Belgisi</th></tr>
+<tr><td>a</td><td><b>haqiqiy qism</b> (real part)</td><td>Re(z)</td></tr>
+<tr><td>b</td><td><b>mavhum qism</b> (imaginary part)</td><td>Im(z)</td></tr>
+</table>
+<div class="box analogy">Shahar xaritasi: "uydan 3 ko'cha sharqqa, 4 ko'cha shimolga yur". Ikkita son bitta joyni ko'rsatadi. Kompleks son ham xuddi shunday: a — o'ngga necha qadam, b — yuqoriga necha qadam.</div>
+
+<figure>
+<svg viewBox="0 0 700 300" role="img" aria-label="Kompleks tekislikda z = 3 + 4j">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--fg)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<line x1="110" y1="250" x2="440" y2="250" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/>
+<line x1="170" y1="280" x2="170" y2="30" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/>
+<text class="s-ink" x="440" y="288" text-anchor="end" font-size="14" font-weight="600">haqiqiy o'q (Re)</text>
+<text class="s-ink" x="180" y="39" font-size="14" font-weight="600">mavhum o'q (Im)</text>
+<line class="s-axis" x1="215" y1="246" x2="215" y2="254" stroke-width="1.2"/><text class="s-muted" x="215" y="270" text-anchor="middle" font-size="12">1</text><line class="s-axis" x1="260" y1="246" x2="260" y2="254" stroke-width="1.2"/><text class="s-muted" x="260" y="270" text-anchor="middle" font-size="12">2</text><line class="s-axis" x1="305" y1="246" x2="305" y2="254" stroke-width="1.2"/><text class="s-muted" x="305" y="270" text-anchor="middle" font-size="12">3</text><line class="s-axis" x1="350" y1="246" x2="350" y2="254" stroke-width="1.2"/><text class="s-muted" x="350" y="270" text-anchor="middle" font-size="12">4</text><line class="s-axis" x1="395" y1="246" x2="395" y2="254" stroke-width="1.2"/><text class="s-muted" x="395" y="270" text-anchor="middle" font-size="12">5</text><line class="s-axis" x1="166" y1="205" x2="174" y2="205" stroke-width="1.2"/><text class="s-muted" x="160" y="209" text-anchor="end" font-size="12">1j</text><line class="s-axis" x1="166" y1="160" x2="174" y2="160" stroke-width="1.2"/><text class="s-muted" x="160" y="164" text-anchor="end" font-size="12">2j</text><line class="s-axis" x1="166" y1="115" x2="174" y2="115" stroke-width="1.2"/><text class="s-muted" x="160" y="119" text-anchor="end" font-size="12">3j</text><line class="s-axis" x1="166" y1="70" x2="174" y2="70" stroke-width="1.2"/><text class="s-muted" x="160" y="74" text-anchor="end" font-size="12">4j</text>
+<g class="s-line" stroke-width="1.5" stroke-dasharray="5 4"><line x1="305" y1="70" x2="305" y2="250"/><line x1="305" y1="70" x2="170" y2="70"/></g>
+<line x1="170" y1="250" x2="302" y2="74" stroke-width="3.5" style="stroke:var(--accent)" marker-end="url(#aa)"/>
+<circle class="f-acc" cx="305" cy="70" r="6"/>
+<text class="s-ink" x="317" y="64" font-size="17" font-weight="700">z = 3 + 4j</text>
+<path class="s-ink" d="M210 250 A40 40 0 0 0 194.0 218.0" fill="none" style="stroke:var(--fg)" stroke-width="1.5"/>
+<text class="s-ink" x="218" y="238" font-size="15" font-weight="700">θ</text>
+<text class="s-ink" x="217.5" y="154.0" text-anchor="end" font-size="15" font-weight="700">|z| = 5</text>
+<text class="s-muted" x="313" y="165.0" font-size="14">b = 4</text>
+<text class="s-muted" x="237.5" y="62" text-anchor="middle" font-size="14">a = 3</text>
+<g font-size="14"><text class="s-ink" x="470" y="80">a = Re(z) = 3: o'ngga</text><text class="s-ink" x="470" y="104">b = Im(z) = 4: yuqoriga</text><text class="s-ink" x="470" y="128">|z| = strelka uzunligi</text><text class="s-ink" x="470" y="152">θ = strelka burchagi</text></g>
+</svg>
+<figcaption>Kompleks son — tekislikdagi nuqta yoki boshidan shu nuqtagacha chizilgan strelka. 3 qadam o'ngga, 4 qadam yuqoriga.</figcaption>
+</figure>
+
+<h3>Modul — strelka uzunligi</h3>
+<p><span class="term">Modul</span> |z| — boshidan nuqtagacha bo'lgan masofa. Rasmda to'g'ri burchakli uchburchak bor, shuning uchun Pifagor teoremasi bilan topiladi:</p>
+<div class="formula">|z| = √(a² + b²)</div>
+<p>Misol: z = 3 + 4j uchun |z| = √(9 + 16) = √25 = <b>5</b>.</p>
+
+<h3>Faza (argument) — strelka burchagi</h3>
+<p><span class="term">Faza</span> yoki argument, arg(z) yoki θ — strelka haqiqiy o'qdan qancha burilgani:</p>
+<div class="formula">θ = arg(z) = arctan(b / a)</div>
+<p>Misol: z = 3 + 4j uchun θ = arctan(4/3) ≈ 0,93 rad ≈ 53°.</p>
+<div class="box warn"><b>Diqqat:</b> arctan faqat a &gt; 0 bo'lganda (nuqta o'ng yarimda bo'lsa) to'g'ridan-to'g'ri ishlaydi. Agar a &lt; 0 bo'lsa, nuqta chap yarimda, burchakka π (180°) qo'shiladi. Eng ishonchli yo'l: nuqtani chizib ko'ring.</div>
+<p>2-darsdagi "faza" bilan bir xil so'z ekani tasodif emas: bu yerda ham u <b>burchak</b>, keyin ko'rasiz, aynan to'lqin fazasiga aylanadi.</p>
+
+<h3>Burchak birligi: radian</h3>
+<p>Bu kursda burchak gradusda emas, <b>radian</b>da yoziladi. Faqat shu to'rttasini eslab qoling:</p>
+<table>
+<tr><th>Radian</th><th>0</th><th>π/2</th><th>π</th><th>2π</th></tr>
+<tr><th>Gradus</th><td>0°</td><td>90°</td><td>180°</td><td>360° (to'liq aylana)</td></tr>
+</table>
+
+<h2>3. Qo'shma son: z*</h2>
+<p><span class="term">Qo'shma son</span> (conjugate) z* — mavhum qismining ishorasi teskari qilingan son. Rasmda u haqiqiy o'qqa nisbatan ko'zgudagi aksi.</p>
+<div class="formula">z = a + jb &nbsp;&nbsp;→&nbsp;&nbsp; z* = a − jb</div>
+<p>Eng muhim xossasi — sonni o'z qo'shmasiga ko'paytirsangiz, modulning kvadrati chiqadi:</p>
+<div class="formula">z · z* = (a + jb)(a − jb) = a² − j²b² = a² + b² = |z|²</div>
+<p>Bu tenglik 2-ma'ruzada energiya formulasida ishlatilgan: <code>|f(t)|² = f(t)·f*(t)</code>. Keyingi darsda energiyani hisoblaganda kerak bo'ladi.</p>
+
+<h2>4. Eyler formulasi: e<sup>jθ</sup> — uzunligi 1 bo'lgan strelka</h2>
+<p>Strelkani ikki xil yozish mumkin:</p>
+<ul>
+<li><b>"Qadamlar" bilan:</b> a + jb (o'ngga a, yuqoriga b).</li>
+<li><b>"Uzunlik va burchak" bilan:</b> uzunligi |z|, burchagi θ.</li>
+</ul>
+<p>Uzunligi 1 va burchagi θ bo'lgan strelka uchun o'ngga qadam cos θ, yuqoriga qadam sin θ (maktabdagi trigonometriya). Matematik Eyler bu strelkani juda qisqa yozish mumkinligini ko'rsatgan:</p>
+<div class="formula">e<sup>jθ</sup> = cos θ + j·sin θ</div>
+<p>Bu kursdagi eng muhim formulalardan biri. Uni "sehrli daraja" deb emas, oddiy <b>belgi</b> deb tushuning: <code>e<sup>jθ</sup></code> = "uzunligi 1, burchagi θ bo'lgan strelka".</p>
+
+<figure>
+<svg viewBox="0 0 700 320" role="img" aria-label="Birlik aylana va e^jθ">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--fg)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<line x1="80" y1="160" x2="380" y2="160" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/>
+<line x1="230" y1="300" x2="230" y2="15" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/>
+<circle cx="230" cy="160" r="110" fill="none" class="s-axis" stroke-width="1.5" stroke-dasharray="6 5"/>
+<line x1="230" y1="160" x2="311.3" y2="92.3" stroke-width="3.5" style="stroke:var(--accent)" marker-end="url(#aa)"/>
+<path d="M265 160 A35 35 0 0 0 256.8 137.5" fill="none" style="stroke:var(--fg)" stroke-width="1.5"/>
+<text class="s-ink" x="272" y="150" font-size="14" font-weight="700">θ</text>
+<text class="s-ink" x="324.3" y="83.3" font-size="15" font-weight="700">e<tspan dy="-7" font-size="11">jθ</tspan></text>
+<circle class="f-acc" cx="340.0" cy="160.0" r="6"/><text class="s-ink" x="354.0" y="152.0" text-anchor="start" font-size="15" font-weight="600">e<tspan dy="-7" font-size="11">j0</tspan><tspan dy="7"> = 1</tspan></text><circle class="f-acc" cx="230.0" cy="50.0" r="6"/><text class="s-ink" x="240.0" y="40.0" text-anchor="start" font-size="15" font-weight="600">e<tspan dy="-7" font-size="11">jπ/2</tspan><tspan dy="7"> = j</tspan></text><circle class="f-acc" cx="120.0" cy="160.0" r="6"/><text class="s-ink" x="108.0" y="152.0" text-anchor="end" font-size="15" font-weight="600">e<tspan dy="-7" font-size="11">jπ</tspan><tspan dy="7"> = −1</tspan></text><circle class="f-acc" cx="230.0" cy="270.0" r="6"/><text class="s-ink" x="240.0" y="292.0" text-anchor="start" font-size="15" font-weight="600">e<tspan dy="-7" font-size="11">−jπ/2</tspan><tspan dy="7"> = −j</tspan></text>
+<g font-size="14"><text class="s-ink" x="430" y="70" font-weight="700">e<tspan dy="-6" font-size="11">jθ</tspan><tspan dy="6"> — uzunligi 1 ga teng strelka,</tspan></text>
+<text class="s-ink" x="430" y="92">θ burchakka burilgan.</text>
+<text class="s-muted" x="430" y="130">0 = 0°, &#160;π/2 = 90°,</text>
+<text class="s-muted" x="430" y="152">π = 180°, &#160;2π = 360°</text>
+<text class="s-muted" x="430" y="174">(to'liq aylana)</text>
+<text class="s-muted" x="430" y="212">θ musbat: soat strelkasiga</text>
+<text class="s-muted" x="430" y="234">teskari buriladi.</text></g>
+</svg>
+<figcaption>Hamma e<sup>jθ</sup> strelkalarining uchi radiusi 1 bo'lgan aylanada yotadi. Burchak qancha bo'lsa, strelka shuncha buriladi.</figcaption>
+</figure>
+
+<p>Endi har qanday kompleks sonni uzunlik va burchak orqali yozish mumkin:</p>
+<div class="formula">z = |z| · e<sup>jθ</sup></div>
+<p>Misol: <code>2e<sup>jπ/2</sup></code> — uzunligi 2, tik yuqoriga qaragan strelka, ya'ni 2j.</p>
+
+<h3>Ko'paytirish: uzunliklar ko'paytiriladi, burchaklar qo'shiladi</h3>
+<div class="formula">e<sup>jα</sup> · e<sup>jβ</sup> = e<sup>j(α + β)</sup> &nbsp;&nbsp;&nbsp; |e<sup>jθ</sup>| = 1</div>
+<p>Bu oddiy daraja qoidasi (2³·2⁴ = 2⁷ kabi). Ma'nosi: e<sup>jβ</sup> ga ko'paytirish strelkani β burchakka <b>buradi</b>, uzunligini o'zgartirmaydi. Masalan, j ga ko'paytirish 90° ga buradi.</p>
+
+<h2>5. Aylanuvchi strelka va kosinus</h2>
+<p>Endi burchak o'rniga vaqt bilan o'sib boradigan <code>θ = 2πf₀t</code> qo'yamiz. Strelka <code>e<sup>j2πf₀t</sup></code> vaqt o'tishi bilan aylana boshlaydi: 1 sekundda f₀ marta to'liq aylanadi (2-darsdagi "2π · chastota · t" bilan bir xil).</p>
+<div class="box analogy">Charxpalak (attraksion g'ildiragi) aylanyapti. Quyosh tepadan tushyapti va kabinaning soyasi yerda chapga-o'ngga yuradi. Kabina aylana bo'ylab tekis yuradi, soyasi esa to'lqin chizadi.</div>
+
+<figure>
+<svg viewBox="0 0 700 460" role="img" aria-label="Aylanuvchi strelka va uning soyasi cos">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--fg)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<line x1="80" y1="95" x2="280" y2="95" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/>
+<text class="s-muted" x="284" y="100" font-size="13">Re</text>
+<circle cx="180" cy="95" r="70" fill="none" class="s-axis" stroke-width="1.5" stroke-dasharray="6 5"/>
+<line x1="180" y1="95" x2="218.2" y2="40.7" stroke-width="3.5" style="stroke:var(--accent)" marker-end="url(#aa)"/>
+<path d="M259.2 73.8 A82 82 0 0 0 194.2 14.2" fill="none" style="stroke:var(--fg)" stroke-width="1.5" marker-end="url(#ah)"/>
+<line class="s-line" x1="220.2" y1="37.7" x2="220.2" y2="95" stroke-width="1.5" stroke-dasharray="4 4"/>
+<circle class="f-acc" cx="220.2" cy="95" r="5"/>
+<line class="s-axis" x1="180" y1="175" x2="180" y2="445" stroke-width="1" stroke-dasharray="3 4"/>
+<path class="s-acc" fill="none" stroke-width="3" d="M250.0 190.0 L249.9 190.8 L249.7 191.6 L249.3 192.4 L248.8 193.2 L248.2 194.0 L247.3 194.8 L246.4 195.6 L245.3 196.5 L244.1 197.3 L242.7 198.1 L241.2 198.9 L239.6 199.7 L237.8 200.5 L235.9 201.3 L233.9 202.1 L231.8 202.9 L229.6 203.7 L227.3 204.5 L224.8 205.3 L222.3 206.1 L219.7 206.9 L217.0 207.7 L214.2 208.6 L211.4 209.4 L208.5 210.2 L205.5 211.0 L202.5 211.8 L199.4 212.6 L196.3 213.4 L193.1 214.2 L189.9 215.0 L186.7 215.8 L183.5 216.6 L180.3 217.4 L177.1 218.2 L173.9 219.0 L170.6 219.8 L167.5 220.7 L164.3 221.5 L161.2 222.3 L158.1 223.1 L155.1 223.9 L152.1 224.7 L149.1 225.5 L146.3 226.3 L143.5 227.1 L140.8 227.9 L138.1 228.7 L135.6 229.5 L133.2 230.3 L130.8 231.1 L128.6 231.9 L126.4 232.8 L124.4 233.6 L122.5 234.4 L120.7 235.2 L119.1 236.0 L117.6 236.8 L116.2 237.6 L114.9 238.4 L113.8 239.2 L112.8 240.0 L112.0 240.8 L111.3 241.6 L110.8 242.4 L110.4 243.2 L110.1 244.0 L110.0 244.9 L110.0 245.7 L110.2 246.5 L110.6 247.3 L111.1 248.1 L111.7 248.9 L112.5 249.7 L113.4 250.5 L114.5 251.3 L115.7 252.1 L117.0 252.9 L118.5 253.7 L120.1 254.5 L121.9 255.3 L123.7 256.1 L125.7 257.0 L127.8 257.8 L130.0 258.6 L132.3 259.4 L134.7 260.2 L137.2 261.0 L139.8 261.8 L142.5 262.6 L145.3 263.4 L148.1 264.2 L151.0 265.0 L154.0 265.8 L157.0 266.6 L160.0 267.4 L163.2 268.2 L166.3 269.1 L169.5 269.9 L172.7 270.7 L175.9 271.5 L179.1 272.3 L182.3 273.1 L185.6 273.9 L188.8 274.7 L192.0 275.5 L195.1 276.3 L198.3 277.1 L201.4 277.9 L204.4 278.7 L207.4 279.5 L210.3 280.3 L213.2 281.2 L216.0 282.0 L218.7 282.8 L221.4 283.6 L223.9 284.4 L226.4 285.2 L228.8 286.0 L231.0 286.8 L233.2 287.6 L235.2 288.4 L237.1 289.2 L238.9 290.0 L240.6 290.8 L242.2 291.6 L243.6 292.4 L244.9 293.3 L246.0 294.1 L247.0 294.9 L247.9 295.7 L248.6 296.5 L249.2 297.3 L249.6 298.1 L249.9 298.9 L250.0 299.7 L250.0 300.5 L249.8 301.3 L249.5 302.1 L249.0 302.9 L248.4 303.7 L247.7 304.5 L246.8 305.4 L245.7 306.2 L244.5 307.0 L243.2 307.8 L241.8 308.6 L240.2 309.4 L238.5 310.2 L236.6 311.0 L234.7 311.8 L232.6 312.6 L230.4 313.4 L228.1 314.2 L225.7 315.0 L223.3 315.8 L220.7 316.6 L218.0 317.5 L215.3 318.3 L212.4 319.1 L209.5 319.9 L206.6 320.7 L203.6 321.5 L200.5 322.3 L197.4 323.1 L194.3 323.9 L191.1 324.7 L187.9 325.5 L184.7 326.3 L181.5 327.1 L178.2 327.9 L175.0 328.7 L171.8 329.6 L168.6 330.4 L165.4 331.2 L162.3 332.0 L159.2 332.8 L156.2 333.6 L153.1 334.4 L150.2 335.2 L147.3 336.0 L144.5 336.8 L141.8 337.6 L139.1 338.4 L136.5 339.2 L134.0 340.0 L131.7 340.8 L129.4 341.7 L127.2 342.5 L125.1 343.3 L123.2 344.1 L121.4 344.9 L119.7 345.7 L118.1 346.5 L116.7 347.3 L115.4 348.1 L114.2 348.9 L113.2 349.7 L112.3 350.5 L111.5 351.3 L110.9 352.1 L110.5 352.9 L110.2 353.8 L110.0 354.6 L110.0 355.4 L110.2 356.2 L110.4 357.0 L110.9 357.8 L111.5 358.6 L112.2 359.4 L113.1 360.2 L114.1 361.0 L115.2 361.8 L116.5 362.6 L118.0 363.4 L119.5 364.2 L121.2 365.0 L123.0 365.9 L125.0 366.7 L127.0 367.5 L129.2 368.3 L131.4 369.1 L133.8 369.9 L136.3 370.7 L138.9 371.5 L141.5 372.3 L144.2 373.1 L147.1 373.9 L149.9 374.7 L152.9 375.5 L155.9 376.3 L158.9 377.1 L162.0 378.0 L165.2 378.8 L168.3 379.6 L171.5 380.4 L174.7 381.2 L177.9 382.0 L181.2 382.8 L184.4 383.6 L187.6 384.4 L190.8 385.2 L194.0 386.0 L197.1 386.8 L200.2 387.6 L203.3 388.4 L206.3 389.2 L209.3 390.1 L212.2 390.9 L215.0 391.7 L217.8 392.5 L220.4 393.3 L223.0 394.1 L225.5 394.9 L227.9 395.7 L230.2 396.5 L232.4 397.3 L234.5 398.1 L236.5 398.9 L238.3 399.7 L240.0 400.5 L241.6 401.3 L243.1 402.2 L244.4 403.0 L245.6 403.8 L246.7 404.6 L247.6 405.4 L248.3 406.2 L249.0 407.0 L249.4 407.8 L249.8 408.6 L250.0 409.4 L250.0 410.2 L249.9 411.0 L249.6 411.8 L249.2 412.6 L248.6 413.4 L247.9 414.3 L247.1 415.1 L246.1 415.9 L245.0 416.7 L243.7 417.5 L242.3 418.3 L240.8 419.1 L239.1 419.9 L237.3 420.7 L235.4 421.5 L233.4 422.3 L231.2 423.1 L229.0 423.9 L226.6 424.7 L224.2 425.5 L221.6 426.4 L219.0 427.2 L216.3 428.0 L213.5 428.8 L210.6 429.6 L207.7 430.4 L204.7 431.2 L201.6 432.0"/>
+<line x1="65" y1="190" x2="65" y2="445" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/>
+<text class="s-muted" x="58" y="440" text-anchor="end" font-size="13">vaqt t</text>
+<text class="s-muted" x="58" y="195" text-anchor="end" font-size="13">t = 0</text>
+<g font-size="15">
+<text class="s-ink" x="330" y="60" font-weight="700">Yuqorida: strelka e<tspan dy="-7" font-size="11">j2πf₀t</tspan></text>
+<text class="s-ink" x="330" y="84">(biror lahzada). Vaqt o'tishi bilan aylanadi:</text>
+<text class="s-ink" x="330" y="106">1 sekundda f₀ marta to'liq aylanadi.</text>
+<text class="s-ink" x="330" y="150" font-weight="700">Ko'k nuqta: strelkaning "soyasi"</text>
+<text class="s-ink" x="330" y="174">gorizontal o'qda = haqiqiy qismi.</text>
+<text class="s-ink" x="330" y="230" font-weight="700">Pastda: soya vaqt bo'yicha</text>
+<text class="s-ink" x="330" y="254">chapga-o'ngga yuradi va</text>
+<text class="s-ink" x="330" y="278">cos(2πf₀t) to'lqinini chizadi.</text>
+</g>
+</svg>
+<figcaption>Aylanayotgan strelkaning haqiqiy o'qdagi soyasi — kosinus to'lqini. Shuning uchun Re{e<sup>j2πf₀t</sup>} = cos(2πf₀t).</figcaption>
+</figure>
+
+<p>Eyler formulasidan: strelkaning haqiqiy qismi (soyasi) aynan kosinus, mavhum qismi sinus:</p>
+<div class="formula">e<sup>j2πf₀t</sup> = cos(2πf₀t) + j·sin(2πf₀t)</div>
+
+<h3>Kosinusni strelkalar bilan yozish (Furye uchun eng kerakli)</h3>
+<p>Birinchi strelka soat strelkasiga teskari, ikkinchisi <code>e<sup>−jθ</sup></code> esa soat strelkasi bo'yicha aylanadi. Ikkalasini qo'shsak, mavhum qismlar bir-birini yo'qotadi:</p>
+
+<figure>
+<svg viewBox="0 0 700 300" role="img" aria-label="Ikkita qarama-qarshi aylanuvchi strelka">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--fg)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<line x1="75" y1="150" x2="335" y2="150" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/>
+<line x1="200" y1="270" x2="200" y2="30" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/>
+<circle cx="200" cy="150" r="95" fill="none" class="s-axis" stroke-width="1.5" stroke-dasharray="6 5"/>
+<line x1="200" y1="150" x2="259.1" y2="80.2" stroke-width="3.5" style="stroke:var(--accent)" marker-end="url(#aa)"/>
+<line x1="200" y1="150" x2="259.1" y2="219.8" stroke-width="3.5" style="stroke:var(--accent)" marker-end="url(#aa)"/>
+<line class="s-line" x1="261.1" y1="77.2" x2="261.1" y2="222.8" stroke-width="1.5" stroke-dasharray="4 4"/>
+<circle class="f-acc" cx="261.1" cy="150" r="6"/>
+<text class="s-ink" x="271.1" y="71.2" font-size="15" font-weight="700">e<tspan dy="-7" font-size="11">jθ</tspan></text>
+<text class="s-ink" x="271.1" y="238.8" font-size="15" font-weight="700">e<tspan dy="-7" font-size="11">−jθ</tspan></text>
+<text class="s-ink" x="271.1" y="170" font-size="14">cos θ</text>
+<g font-size="15">
+<text class="s-ink" x="390" y="80">Ikkita strelka teskari tomonga</text>
+<text class="s-ink" x="390" y="102">aylanadi: biri yuqoriga, biri pastga.</text>
+<text class="s-ink" x="390" y="146">Yuqori va pastki qismlari bir-birini</text>
+<text class="s-ink" x="390" y="168">yo'qotadi, faqat gorizontal qism qoladi:</text>
+<text class="s-ink" x="390" y="212" font-weight="700">e<tspan dy="-7" font-size="11">jθ</tspan><tspan dy="7"> + e</tspan><tspan dy="-7" font-size="11">−jθ</tspan><tspan dy="7"> = 2·cos θ</tspan></text>
+</g>
+</svg>
+<figcaption>Kosinus = ikkita teskari aylanuvchi strelkaning yarim yig'indisi. Furye mavzusida "manfiy chastota" shu ikkinchi strelkadan keladi.</figcaption>
+</figure>
+
+<div class="formula">cos θ = (e<sup>jθ</sup> + e<sup>−jθ</sup>) / 2 &nbsp;&nbsp;&nbsp;&nbsp; sin θ = (e<sup>jθ</sup> − e<sup>−jθ</sup>) / (2j)</div>
+<div class="box ok"><b>Nega bu muhim:</b> Furye almashtirishida <code>cos(2πf₀t)</code> signali ikkita chiziqqa aylanadi: biri <b>+f₀</b> da, biri <b>−f₀</b> da, har biri 1/2 balandlikda. Sababi aynan shu formula: kosinus — +f₀ chastotada va −f₀ chastotada aylanuvchi ikki strelkaning yarim yig'indisi. Bu natija 8-9-darslarda kerak bo'ladi.</div>
+
+<h2>6. Kompleks signal (2-ma'ruzadan)</h2>
+<p>Agar signal har bir lahzada kompleks son bo'lsa, u <span class="term">kompleks signal</span> deyiladi. Ma'ruzadagi formulalar yuqorida o'rganganlarimizning o'zi, faqat har biri vaqtga bog'liq:</p>
+<table>
+<tr><th>Formula</th><th>Ma'nosi</th></tr>
+<tr><td><code>f(t) = f<sub>R</sub>(t) + j·f<sub>I</sub>(t)</code></td><td>haqiqiy qism + j · mavhum qism</td></tr>
+<tr><td><code>|f(t)| = √(f<sub>R</sub>²(t) + f<sub>I</sub>²(t))</code></td><td>modul (strelka uzunligi)</td></tr>
+<tr><td><code>arg f(t) = arctan(f<sub>I</sub>(t) / f<sub>R</sub>(t))</code></td><td>faza (strelka burchagi)</td></tr>
+<tr><td><code>f<sub>R</sub>(t) = |f(t)|·cos(arg f(t))</code></td><td>uzunlik va burchakdan haqiqiy qism</td></tr>
+<tr><td><code>f<sub>I</sub>(t) = |f(t)|·sin(arg f(t))</code></td><td>uzunlik va burchakdan mavhum qism</td></tr>
+<tr><td><code>f(t) = |f(t)|·exp(j·arg f(t))</code></td><td>uzunlik × burchak strelkasi (exp(x) = e<sup>x</sup>)</td></tr>
+</table>
+<p>Misol: <code>x(t) = 3e<sup>j2π·10t</sup></code>. Bu uzunligi 3 bo'lgan, sekundiga 10 marta aylanuvchi strelka. Uning moduli doim <b>|x(t)| = 3</b>, ya'ni |x(t)|² = 9 o'zgarmas. Bu keyingi darsda quvvatni hisoblashda juda qulay bo'ladi.</p>
+
+<h2>7. Ishlangan misollar</h2>
+<div class="box note"><b>1-misol.</b> z = 1 + j. Modul, faza va qo'shma sonni toping.<br>
+|z| = √(1 + 1) = √2. θ = arctan(1/1) = π/4 (45°). z* = 1 − j. Tekshirish: z·z* = 1 − j² = 2 = |z|² ✓.<br>
+Shuning uchun <code>1 + j = √2·e<sup>jπ/4</sup></code>.</div>
+<div class="box note"><b>2-misol.</b> e<sup>jπ</sup> nechaga teng?<br>
+Burchak π = 180°: uzunligi 1 bo'lgan strelka chapga qaragan. Demak, e<sup>jπ</sup> = −1. Formula bilan: cos π + j·sin π = −1 + j·0 = −1 ✓.</div>
+<div class="box note"><b>3-misol.</b> 4·cos(2π·50·t) ni strelkalar bilan yozing.<br>
+cos θ = (e<sup>jθ</sup> + e<sup>−jθ</sup>)/2 dan: <code>4·cos(2π·50·t) = 2e<sup>j2π·50t</sup> + 2e<sup>−j2π·50t</sup></code>. Ikki strelka, har birining uzunligi 2, biri +50 Hz, biri −50 Hz chastotada aylanadi.</div>
+
+<h2>O'zingizni tekshiring</h2>
+<p>Avval o'zingiz javob bering, keyin "Javob"ni bosing.</p>
+<div class="box check">1. j² va j⁴ nechaga teng? <details><summary>Javob</summary>j² = −1, j⁴ = (j²)² = (−1)² = 1.</details></div>
+<div class="box check">2. z = −3 + 4j. Haqiqiy qismi, mavhum qismi va moduli qancha? <details><summary>Javob</summary>Re = −3, Im = 4, |z| = √(9 + 16) = 5. Nuqta chap yuqori chorakda.</details></div>
+<div class="box check">3. |e<sup>j7</sup>| nechaga teng? <details><summary>Javob</summary>1. e<sup>jθ</sup> ning uzunligi har qanday θ da 1.</details></div>
+<div class="box check">4. (2 + 3j)·(2 − 3j) = ? <details><summary>Javob</summary>Bu z·z* ko'rinishida: |z|² = 4 + 9 = 13.</details></div>
+<div class="box check">5. Quyidagilardan qaysi biri cos(2πf₀t) ga teng?<br>
+a) e<sup>j2πf₀t</sup> &nbsp; b) (e<sup>j2πf₀t</sup> − e<sup>−j2πf₀t</sup>)/2 &nbsp; c) (e<sup>j2πf₀t</sup> + e<sup>−j2πf₀t</sup>)/2 &nbsp; d) (e<sup>j2πf₀t</sup> + e<sup>−j2πf₀t</sup>)/(2j)
+<details><summary>Javob</summary><b>c)</b>. a) da mavhum qism ham bor (j·sin), b) — j·sin, d) — noto'g'ri formula.</details></div>
+<div class="box check">6. x(t) = 5e<sup>j2π·100t</sup>. |x(t)|² qancha? <details><summary>Javob</summary>|x(t)| = 5 har doim, demak |x(t)|² = 25 (vaqtga bog'liq emas).</details></div>
+<div class="box check">7. e<sup>jπ/2</sup> · e<sup>jπ/2</sup> = ? <details><summary>Javob</summary>e<sup>jπ</sup> = −1. Burchaklar qo'shiladi: 90° + 90° = 180°. Tekshirish: j·j = −1 ✓.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table><tr><th>Atama</th><th>Ma'nosi</th></tr>
+<tr><td>j (mavhum birlik)</td><td>j² = −1 bo'lgan son</td></tr>
+<tr><td>Kompleks son</td><td>z = a + jb: tekislikdagi nuqta yoki strelka</td></tr>
+<tr><td>Haqiqiy qism, Re(z)</td><td>a: o'ngga qadam</td></tr>
+<tr><td>Mavhum qism, Im(z)</td><td>b: yuqoriga qadam</td></tr>
+<tr><td>Modul, |z|</td><td>Strelka uzunligi: √(a² + b²)</td></tr>
+<tr><td>Faza (argument), arg(z)</td><td>Strelka burchagi: arctan(b/a)</td></tr>
+<tr><td>Qo'shma son, z*</td><td>a − jb; z·z* = |z|²</td></tr>
+<tr><td>Radian</td><td>Burchak birligi: π = 180°, 2π = 360°</td></tr>
+<tr><td>Eyler formulasi</td><td>e<sup>jθ</sup> = cos θ + j·sin θ</td></tr>
+<tr><td>Aylanuvchi strelka</td><td>e<sup>j2πf₀t</sup>: sekundiga f₀ marta aylanadi</td></tr>
+</table>
+
+<h2>📝 Konspekt</h2>
+<div class="box note"><p><strong>Shularni bilsangiz, bu mavzuni bilasiz:</strong></p>
+<ol>
+<li><code>j² = −1</code>, <code>1/j = −j</code>. Elektronikada i o'rniga j yoziladi.</li>
+<li><code>z = a + jb</code>: a = Re(z), b = Im(z). Tekislikda nuqta (a; b).</li>
+<li>Modul: <code>|z| = √(a² + b²)</code>. Faza: <code>θ = arctan(b/a)</code> (a &lt; 0 bo'lsa, +π).</li>
+<li>Qo'shma: <code>z* = a − jb</code>, <code>z·z* = |z|²</code>. Shuning uchun <code>|f(t)|² = f(t)·f*(t)</code>.</li>
+<li>Eyler: <code>e<sup>jθ</sup> = cos θ + j·sin θ</code>, <code>|e<sup>jθ</sup>| = 1</code>.</li>
+<li>Qutb ko'rinishi: <code>z = |z|·e<sup>jθ</sup></code>.</li>
+<li>Muhim qiymatlar: <code>e<sup>j0</sup> = 1</code>, <code>e<sup>jπ/2</sup> = j</code>, <code>e<sup>jπ</sup> = −1</code>, <code>e<sup>−jπ/2</sup> = −j</code>, <code>e<sup>j2π</sup> = 1</code>.</li>
+<li>Ko'paytirish: <code>e<sup>jα</sup>·e<sup>jβ</sup> = e<sup>j(α+β)</sup></code>: modullar ko'paytiriladi, fazalar qo'shiladi.</li>
+<li><code>cos θ = (e<sup>jθ</sup> + e<sup>−jθ</sup>)/2</code>, <code>sin θ = (e<sup>jθ</sup> − e<sup>−jθ</sup>)/(2j)</code>.</li>
+<li><code>e<sup>j2πf₀t</sup></code> — sekundiga f₀ marta aylanuvchi strelka; haqiqiy qismi <code>cos(2πf₀t)</code>, moduli doim 1.</li>
+<li>Kompleks signal (2-ma'ruza): <code>f(t) = f<sub>R</sub>(t) + j·f<sub>I</sub>(t) = |f(t)|·exp(j·arg f(t))</code>; <code>f<sub>R</sub> = |f|·cos(arg f)</code>, <code>f<sub>I</sub> = |f|·sin(arg f)</code>.</li>
+</ol></div>
+
+<div class="box ok">O'qib bo'ldingizmi? Chatga <strong>"tushundim"</strong> deb yozing, keyingi darsga o'tamiz. <strong>"Tushunmadim"</strong> bo'lsa, qaysi joy qiyin bo'lganini ayting, darsni soddaroq qilib qayta yozaman.</div>
+<footer class="pager"><a href="02-tolqin.html">← 2. To'lqin</a><a href="./">Darslar ro'yxati</a></footer>
+</main></body></html>
