@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>8. Setup, hold va maksimal chastota</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>8. Setup, hold, kechikish va maksimal chastota (Fmax)</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> flip-flop va mantiqiy elementlar nega "bir zumda" ishlamasligini, setup va hold vaqtlari nima ekanini va sxema qanday eng katta takt chastotasida (Fmax) ishlay olishini hisoblashni. Bu <strong>A mavzu</strong>: Fmax hisobi imtihon masalalarida eng ko'p uchraydigan savollardan biri. Bazadagi 5 ta Fmax masalasini (039, 099, 054, 104, 087) shu darsda to'liq yechamiz. Manba: B2 va B3 slaydlari. O'qish vaqti: 30 daqiqa.</div>
+
+<p>7-darsdan eslatma: D flip-flop taktning frontida D ni "suratga oladi" va Q ga chiqaradi. O'sha darsda hamma narsa bir zumda bo'ladi deb oldik. Haqiqatda esa har bir ish biroz <strong>vaqt</strong> oladi. Bu darsning hammasi shu "biroz vaqt" haqida.</p>
+
+<h2>1. Nega vaqt muhim?</h2>
+<p>Tranzistorlar ochilib-yopilishi uchun nanosekundlar kerak. <strong>1 nanosekund (ns)</strong> = 0.000 000 001 soniya, ya'ni soniyaning milliarddan bir qismi. Bu juda kam, lekin takt soniyasiga yuz millionlab marta "taqillaydi". Shuning uchun nanosekundlar ham hisobga kiradi.</p>
+<div class="box analogy">Estafeta poygasi: har bir yuguruvchi tayoqchani keyingisiga uzatadi. Agar hakam hushtakni (taktni) juda tez-tez chalsa, tayoqcha hali yetib kelmagan bo'ladi va poyga buziladi. Hushtakni qanchalik tez chalish mumkinligini eng sekin yuguruvchi belgilaydi.</div>
+
+<h2>2. Flip-flopning uchta vaqti</h2>
+<p>Flip-flopni <strong>fotograf</strong> deb tasavvur qiling. Takt fronti bu fotoapparat tugmasi bosilgan lahza, D esa suratga tushayotgan odam.</p>
+<table>
+<tr><th>Belgi</th><th>Nomi</th><th>Ma'nosi</th><th>Fotograf misolida</th></tr>
+<tr><td><strong>tSU</strong></td><td><span class="term">Setup vaqti</span> (set-up time)</td><td>D frontdan <strong>oldin</strong> shuncha vaqt o'zgarmay turishi kerak</td><td>Odam surat olinishidan oldin qimirlamay turishi kerak</td></tr>
+<tr><td><strong>tH</strong></td><td><span class="term">Hold vaqti</span> (hold time)</td><td>D frontdan <strong>keyin</strong> ham shuncha vaqt o'zgarmay turishi kerak</td><td>Tugma bosilgandan keyin ham bir lahza qimirlamaslik kerak</td></tr>
+<tr><td><strong>tCKQ</strong></td><td><span class="term">CK→Q kechikish</span> (propagation delay CK→Q)</td><td>Frontdan keyin Q yangi qiymatga o'tguncha ketadigan vaqt</td><td>Surat chiqib kelishi uchun ketadigan vaqt</td></tr>
+</table>
+<p>Savollarda tCKQ har xil yoziladi: T<sub>CK→Q</sub>, T<sub>CK=>Q</sub>, Tckq, Tck-&gt;Q, TPCK-Q. Hammasi bitta narsa.</p>
+
+<figure>
+<svg viewBox="0 0 720 250" role="img" aria-label="Takt fronti atrofida D barqaror turishi kerak bo'lgan oyna: frontdan oldin setup vaqti, frontdan keyin hold vaqti. Q esa frontdan tCKQ keyin o'zgaradi." font-family="system-ui,sans-serif">
+<defs><marker id="g1" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M10 0L0 5L10 10z" fill="#15803d"/></marker><marker id="g2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#15803d"/></marker><marker id="b1" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M10 0L0 5L10 10z" fill="#2563eb"/></marker><marker id="b2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#2563eb"/></marker></defs>
+<rect x="270" y="20" width="140" height="170" fill="#16a34a" fill-opacity=".13"/>
+<line x1="360" y1="20" x2="360" y2="200" stroke="#9aa0a6" stroke-dasharray="4 4"/>
+<text x="80" y="62" text-anchor="end" font-size="15" font-weight="700" fill="#6b7280">CK</text>
+<path d="M100 70H360V40H690" fill="none" stroke="#6b7280" stroke-width="2.5"/>
+<text x="80" y="122" text-anchor="end" font-size="15" font-weight="700" fill="#d9622b">D</text>
+<path d="M100 130H210L220 105H470L480 130H690" fill="none" stroke="#d9622b" stroke-width="2.5"/>
+<path d="M100 105H210L220 130H470L480 105H690" fill="none" stroke="#d9622b" stroke-width="2.5"/>
+<text x="80" y="172" text-anchor="end" font-size="15" font-weight="700" fill="#2563eb">Q</text>
+<path d="M100 180H430V155H690" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+<line x1="270" y1="210" x2="360" y2="210" stroke="#15803d" stroke-width="1.8" marker-start="url(#g1)" marker-end="url(#g2)"/><text x="315.0" y="228" text-anchor="middle" font-size="14" font-weight="700" fill="#15803d">tSU</text>
+<line x1="360" y1="210" x2="410" y2="210" stroke="#15803d" stroke-width="1.8" marker-start="url(#g1)" marker-end="url(#g2)"/><text x="385.0" y="228" text-anchor="middle" font-size="14" font-weight="700" fill="#15803d">tH</text>
+<line x1="360" y1="140" x2="430" y2="140" stroke="#2563eb" stroke-width="1.8" marker-start="url(#b1)" marker-end="url(#b2)"/><text x="395.0" y="158" text-anchor="middle" font-size="14" font-weight="700" fill="#2563eb"></text>
+<text x="438" y="146" font-size="14" font-weight="700" fill="#2563eb">tCKQ</text>
+<text x="340.0" y="245" text-anchor="middle" font-size="13" fill="currentColor">bu oynada D qimirlamasligi kerak</text>
+<text x="360" y="14" text-anchor="middle" font-size="13" fill="currentColor">CK fronti ↑</text>
+</svg>
+<figcaption>Yashil oyna: frontdan tSU oldin va tH keyin D qimirlamasligi kerak. Q esa frontdan tCKQ keyin o'zgaradi.</figcaption>
+</figure>
+
+<h3>Shart buzilsa nima bo'ladi: metastabillik</h3>
+<p>Agar D aynan front paytida o'zgarsa (setup yoki hold buzilsa), slaydda aytilishicha chiqish <strong>aniqlanmagan</strong> bo'ladi: Q 0 ham, 1 ham emas, oraliqdagi kuchlanishda qoladi yoki tebranadi. Bu holat <span class="term">metastabil holat</span> (metastable state) deyiladi. Bir oz vaqt o'tib Q baribir 0 yoki 1 ga tushadi, lekin qaysi biriga va qachon tushishini oldindan aytib bo'lmaydi.</p>
+<div class="box analogy">Tog' cho'qqisida turgan koptok: ozgina shamol (shovqin) uni chapga yoki o'ngga dumalatib yuboradi. Qaysi tomonga ketishini bilmaymiz. Slaydda ham xuddi shu misol bor.</div>
+<p>Slayddagi qoida: turli taktli bloklar orasida signal uzatilsa, metastabillikdan himoyalanish uchun ketma-ket <strong>2 yoki undan ko'p FF</strong> qo'yiladi (resinxronizatsiya). Ularning hammasi birdaniga metastabil bo'lishi ehtimoli juda kichik.</p>
+
+<h2>3. Mantiqiy elementning kechikishi: tP</h2>
+<p>NAND, XOR, AND kabi elementlar ham bir zumda ishlamaydi. Kirish o'zgargandan chiqish o'zgarguncha o'tadigan vaqt <span class="term">tarqalish kechikishi</span> (propagation delay) deyiladi, belgisi <strong>tP</strong>.</p>
+<ul>
+<li><strong>tPHL</strong> (yoki "H-L"): chiqish 1 dan 0 ga tushishidagi kechikish.</li>
+<li><strong>tPLH</strong> (yoki "L-H"): chiqish 0 dan 1 ga ko'tarilishidagi kechikish.</li>
+</ul>
+<div class="box warn"><strong>Fmax hisobida ikkalasidan kattasini olamiz.</strong> Biz eng yomon holatga tayyor bo'lishimiz kerak. Masalan, NAND: H-L = 5 ns, L-H = 4 ns bo'lsa, hisobda <strong>5 ns</strong> (039-savol).</div>
+
+<h2>4. Asosiy formula: maksimal takt chastotasi</h2>
+<p>Bitta FF ning chiqishi mantiq orqali boshqa FF ning kirishiga boradi. Bir frontdan keyingi frontgacha (bir davr T ichida) quyidagi uch ish tugashi kerak:</p>
+<ol>
+<li>FF1 frontdan keyin chiqishini o'zgartiradi: <strong>tCKQ</strong>.</li>
+<li>Yangi qiymat mantiqdan o'tadi: <strong>tlogic</strong> (yo'ldagi barcha elementlar kechikishlarining yig'indisi).</li>
+<li>U FF2 kirishiga keyingi frontdan kamida <strong>tSU</strong> oldin yetib kelishi kerak.</li>
+</ol>
+<figure>
+<svg viewBox="0 0 720 290" role="img" aria-label="FF1 chiqishi mantiq orqali FF2 kirishiga boradi. Takt davri tCKQ, tlogic va tSU yig'indisidan katta bo'lishi kerak." font-family="system-ui,sans-serif">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<rect x="90" y="30" width="80" height="80" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><text x="102" y="60" font-size="14" fill="currentColor">D</text><text x="148" y="60" font-size="14" fill="currentColor">Q</text><path d="M90 88L102 96L90 104" fill="none" stroke="currentColor" stroke-width="1.5"/><text x="130" y="128" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor">FF1</text>
+<rect x="530" y="30" width="80" height="80" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><text x="542" y="60" font-size="14" fill="currentColor">D</text><text x="588" y="60" font-size="14" fill="currentColor">Q</text><path d="M530 88L542 96L530 104" fill="none" stroke="currentColor" stroke-width="1.5"/><text x="570" y="128" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor">FF2</text>
+<rect x="280" y="35" width="160" height="50" rx="6" fill="#2563eb" fill-opacity=".12" stroke="#2563eb" stroke-width="2"/>
+<text x="360" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#2563eb">mantiq</text><text x="360" y="76" text-anchor="middle" font-size="12" fill="#2563eb">(NAND, XOR, ...)</text>
+<path d="M170 56H278" stroke="#555" stroke-width="2" marker-end="url(#ar)"/><path d="M440 56H528" stroke="#555" stroke-width="2" marker-end="url(#ar)"/>
+<path d="M40 150H515V96H530M80 150V96H90" fill="none" stroke="#6b7280" stroke-width="2"/>
+<text x="30" y="155" text-anchor="end" font-size="14" font-weight="700" fill="#6b7280">CK</text>
+<rect x="80" y="200" width="100" height="30" fill="#d9622b" fill-opacity=".22" stroke="#d9622b" stroke-width="1.5"/>
+<text x="130.0" y="220" text-anchor="middle" font-size="13" font-weight="700" fill="#d9622b">tCKQ = 2</text>
+<rect x="180" y="200" width="250" height="30" fill="#2563eb" fill-opacity=".22" stroke="#2563eb" stroke-width="1.5"/>
+<text x="305.0" y="220" text-anchor="middle" font-size="13" font-weight="700" fill="#2563eb">tlogic = 5</text>
+<rect x="430" y="200" width="150" height="30" fill="#16a34a" fill-opacity=".22" stroke="#16a34a" stroke-width="1.5"/>
+<text x="505.0" y="220" text-anchor="middle" font-size="13" font-weight="700" fill="#16a34a">tSU = 3</text>
+<line x1="80" y1="175" x2="80" y2="245" stroke="currentColor" stroke-width="2"/>
+<line x1="580" y1="175" x2="580" y2="245" stroke="currentColor" stroke-width="2"/>
+<text x="80" y="170" text-anchor="middle" font-size="12" fill="currentColor">1-front ↑</text>
+<text x="580" y="170" text-anchor="middle" font-size="12" fill="currentColor">2-front ↑</text>
+<text x="330.0" y="268" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">Tmin = 2 + 5 + 3 = 10 ns  →  Fmax = 1/10 ns = 100 MHz</text>
+</svg>
+<figcaption>Bir davr ichiga uchta bo'lak sig'ishi kerak. Bu misolda 039-savol raqamlari olingan.</figcaption>
+</figure>
+<span class="formula">Tmin = tCKQ + tlogic,max + tSU &nbsp;&nbsp;&nbsp; Fmax = 1 / Tmin</span>
+<p>Bu formula slaydda ("Minimum CK period = TPCK-Q + TPCLmax + TSU") va FSM bo'limida ("Tckmin &gt; TCK-Q + Tdmax + Tsu") aynan shunday yozilgan.</p>
+
+<h3>Birliklarni o'girish</h3>
+<table>
+<tr><th>Tmin</th><th>Fmax = 1/Tmin</th></tr>
+<tr><td>1 ns</td><td>1 GHz = 1000 MHz</td></tr>
+<tr><td>10 ns</td><td>100 MHz</td></tr>
+<tr><td>13 ns</td><td>1000/13 ≈ 77 MHz</td></tr>
+<tr><td>20 ns</td><td>50 MHz</td></tr>
+</table>
+<div class="box analogy">Eng oson yo'l: <strong>Fmax (MHz) = 1000 ÷ Tmin (ns)</strong>. Masalan Tmin = 25 ns → 1000/25 = 40 MHz.</div>
+
+<h3>Masala yechish retsepti (har safar shu tartibda)</h3>
+<ol>
+<li>Sxemadagi har bir <strong>FF → (mantiq) → FF</strong> yo'lini toping. Yo'l FF ning Q chiqishidan boshlanib, boshqa (yoki o'sha) FF ning D/J/K kirishida tugaydi.</li>
+<li>Har bir yo'l uchun yig'indini hisoblang: tCKQ (yo'l boshlanadigan FF niki) + yo'ldagi elementlarning kattaroq tP lari + tSU (yo'l tugaydigan FF niki).</li>
+<li>Eng katta yig'indi beradigan yo'l <span class="term">kritik yo'l</span> (critical path, longest path) deyiladi. Tmin shu.</li>
+<li>Takt frontlarini tekshiring: ikkala FF bir xil frontda ishlasa, kritik yo'lga butun davr T bor. Biri ↑, ikkinchisi ↓ da ishlasa, faqat <strong>yarim davr</strong> T/2 bor (5-bo'lim).</li>
+<li>Fmax = 1 / Tmin.</li>
+</ol>
+<div class="box warn"><strong>Hold vaqti Fmax ga ta'sir qilmaydi.</strong> 054-savol yechimida ham shunday yozilgan: "the hold time does not influence the maximum operation frequency". Masalada tH berilgan bo'lsa ham, Fmax formulasiga qo'shmang. tH faqat alohida "hold buzilishi bormi?" degan savolda kerak (7-bo'lim).</div>
+
+<h3>Slayddagi misol: sinxron hisoblagich</h3>
+<p>B3 slaydida: 4 bitli sinxron hisoblagich, oxirgi FF ning kirishiga signal <strong>ikkita AND</strong> elementidan o'tib keladi. Berilgan: TAND = 10 ns, TCKQ = 8 ns, TSU = 3 ns.</p>
+<ol>
+<li>Eng uzun yo'l: FF → AND → AND → FF4.</li>
+<li>Tmin = 8 + 10 + 10 + 3 = <strong>31 ns</strong>.</li>
+<li>Fmax = 1000 / 31 ≈ <strong>32 MHz</strong>.</li>
+</ol>
+<p>Slayd qo'shimchasi: hisoblagich qancha bitli bo'lsa, AND lar shuncha ko'p bo'ladi va Fmax kamayadi. Har qo'shimcha bosqich yana bitta TAND qo'shadi.</p>
+
+<h2>5. Imtihon masalalari</h2>
+
+<h3>039-masala</h3>
+<div class="box"><em>Consider the circuit shown in the figure, where the Q outputs of the FF are initially at 0. Calculate the maximum clock frequency assuming the following parameters: FF1, FF2, and FF3: Tck→Q = 2 ns; Th = 1 ns; Tsu = 3 ns. NAND gate: Tp = 5 ns for H-L and Tp = 4 ns for L-H.</em></div>
+<figure><img src="img/q039.png" alt="039-masala sxemasi: NAND, FF1, FF2, FF3" style="max-width:100%;background:#fff;border-radius:6px"><figcaption>Asl sxema (savol faylidan).</figcaption></figure>
+<p><strong>Tarjima:</strong> FF chiqishlari boshida 0. Berilgan parametrlarda maksimal takt chastotasini toping.</p>
+<p><strong>Yechim:</strong></p>
+<ol>
+<li>FF1 va FF2 ikkalasi ham CK dan bir xil frontda (doirachali, ↓) ishlaydi, demak butun davr bor.</li>
+<li>Eng uzun yo'l: FF chiqishi → NAND → FF1 ning D kirishi.</li>
+<li>NAND uchun kattaroq kechikish: max(5, 4) = 5 ns.</li>
+<li>Tmin = tCKQ + tP + tSU = 2 + 5 + 3 = <strong>10 ns</strong>.</li>
+<li>Fmax = 1 / 10 ns = <strong>100 MHz</strong>.</li>
+</ol>
+<p>Th = 1 ns ishlatilmadi. Bu ataylab berilgan "ortiqcha" ma'lumot.</p>
+
+<h3>099-masala (039 ning boshqa raqamli varianti)</h3>
+<div class="box"><em>Consider the circuit shown in the figure, where the Q outputs of the FF are initially at 0. Calculate the maximum clock frequency assuming the following parameters: FF1, FF2, and FF3: TCK=>Q = 5 ns; TH = 1 ns; TSU = 5 ns. NAND gate: TP = 3 ns for both H-L and L-H transitions.</em></div>
+<figure><img src="img/q099.png" alt="099-masala sxemasi" style="max-width:100%;background:#fff;border-radius:6px"></figure>
+<p><strong>Yechim:</strong> xuddi 039 kabi, faqat raqamlar boshqa.</p>
+<ol>
+<li>Tmin = 5 + 3 + 5 = <strong>13 ns</strong>.</li>
+<li>Fmax = 1000 / 13 ≈ <strong>77 MHz</strong>.</li>
+</ol>
+
+<h3>054-masala: yarim davr</h3>
+<div class="box"><em>In the diagram in the figure, all the FFs have the outputs Q initialized to 0. All FFs have TSU = 4 ns and TH = 2 ns. Evaluate the maximum clock frequency for which the circuit works properly.</em></div>
+<figure><img src="img/q054.png" alt="054-masala sxemasi: FF1 oddiy takt, FF2 doirachali takt" style="max-width:100%;background:#fff;border-radius:6px"></figure>
+<p><strong>Diqqat qiling:</strong> FF1 ning takt kirishi oddiy (↑ frontda ishlaydi), FF2 ning takt kirishida esa <strong>doiracha</strong> bor (↓ frontda ishlaydi). Yechimda tCKQ = 5 ns va NAND tP = 3 ns deb olingan.</p>
+<figure>
+<svg viewBox="0 0 720 170" role="img" aria-label="Bir FF ko'tariluvchi frontda, ikkinchisi tushuvchi frontda ishlasa, signalga faqat yarim davr qoladi." font-family="system-ui,sans-serif">
+<defs><marker id="e1" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M10 0L0 5L10 10z" fill="#d9622b"/></marker><marker id="e2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#d9622b"/></marker></defs>
+<text x="70" y="62" text-anchor="end" font-size="15" font-weight="700" fill="#6b7280">CK</text>
+<path d="M90 70H150V40H300V70H450V40H600V70H680" fill="none" stroke="#6b7280" stroke-width="2.5"/>
+<line x1="150" y1="28" x2="150" y2="120" stroke="#9aa0a6" stroke-dasharray="4 4"/><text x="150" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">↑ FF1</text>
+<line x1="300" y1="28" x2="300" y2="120" stroke="#9aa0a6" stroke-dasharray="4 4"/><text x="300" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">↓ FF2</text>
+<line x1="450" y1="28" x2="450" y2="120" stroke="#9aa0a6" stroke-dasharray="4 4"/><text x="450" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">↑ FF1</text>
+<line x1="600" y1="28" x2="600" y2="120" stroke="#9aa0a6" stroke-dasharray="4 4"/><text x="600" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">↓ FF2</text>
+<line x1="300" y1="100" x2="450" y2="100" stroke="#d9622b" stroke-width="2" marker-start="url(#e1)" marker-end="url(#e2)"/>
+<text x="375" y="92" text-anchor="middle" font-size="14" font-weight="700" fill="#d9622b">T/2</text>
+<line x1="150" y1="135" x2="450" y2="135" stroke="#2563eb" stroke-width="2"/><text x="300" y="158" text-anchor="middle" font-size="14" font-weight="700" fill="#2563eb">butun davr T</text>
+</svg>
+<figcaption>FF2 ↓ frontda chiqaradi, FF1 esa keyingi ↑ frontda qabul qiladi. Ular orasida faqat yarim davr bor.</figcaption>
+</figure>
+<p><strong>Yechim:</strong></p>
+<ol>
+<li>Eng og'ir yo'l: FF2 (↓ front) → NAND → FF1 (↑ front). Bu yo'lga faqat <strong>T/2</strong> vaqt bor.</li>
+<li>T/2 ≥ tCKQ + tP + tSU = 5 + 3 + 4 = <strong>12 ns</strong>.</li>
+<li>Demak T ≥ 2 × 12 = 24 ns.</li>
+<li>Fmax = 1000 / 24 ≈ <strong>41.6 MHz</strong>.</li>
+</ol>
+<div class="box warn">Sxemada takt belgisidagi doirachaga doim qarang. Turli frontlar bo'lsa, yig'indini <strong>2 ga ko'paytirasiz</strong>. Bu eng ko'p xato qilinadigan joy.</div>
+
+<h3>104-masala: har xil FF lar</h3>
+<div class="box"><em>Consider the schematic in the figure, where the FF have the outputs Q initialized to 0. Assuming that F = not (Q1 * not (Q2)), what is the maximum operating frequency of the circuit assuming that the delays are: 1. D type FF: Tck-&gt;Q = 6 ns (both H-L and L-H), TSU = 3 ns. 2. JK type FF: Tck-&gt;Q = 4 ns (both H-L and L-H), TSU = 2 ns. 3. Combinational logic f: TLHf = 6 ns, THLf = 7 ns.</em></div>
+<figure><img src="img/q104.png" alt="104-masala sxemasi: ikkita D FF, f bloki, JK FF" style="max-width:100%;background:#fff;border-radius:6px"></figure>
+<p><strong>Yechim:</strong> hamma FF bir xil CK ↑ frontda ishlaydi. Har bir yo'lni sanab chiqamiz:</p>
+<table>
+<tr><th>Yo'l</th><th>Hisob</th><th>Jami</th></tr>
+<tr><td>Q1 (D FF) → FF2 ning D</td><td>6 + 3</td><td>9 ns</td></tr>
+<tr><td>Q1 yoki Q2 (D FF) → f → JK ning J, K</td><td>6 + max(6, 7) + 2</td><td><strong>15 ns</strong></td></tr>
+<tr><td>Q3 (JK FF) → FF1 ning D</td><td>4 + 3</td><td>7 ns</td></tr>
+</table>
+<p>Kritik yo'l 15 ns. Fmax = 1000 / 15 ≈ <strong>66.7 MHz</strong>.</p>
+<p>E'tibor bering: tCKQ <strong>yo'l boshlanadigan</strong> FF dan (D FF: 6 ns), tSU esa <strong>yo'l tugaydigan</strong> FF dan (JK: 2 ns) olinadi.</p>
+
+<h2>6. Hold buzilishini tekshirish</h2>
+<p>Setup "signal juda <strong>sekin</strong> kelmasin" degani bo'lsa, hold "signal juda <strong>tez</strong> kelmasin" degani. Frontdan keyin FF2 ning D si yana tH vaqt o'zgarmasligi kerak. Lekin FF1 ham o'sha frontda o'zgaradi va yangi qiymat eng qisqa yo'l bilan juda tez yetib kelsa, FF2 hali "suratni olib bo'lmagan" bo'ladi.</p>
+<span class="formula">Hold buzilmaydi, agar: tCKQ + tlogic,min ≥ tH</span>
+<p>Bu yerda <strong>eng qisqa</strong> yo'l (eng kam kechikish) olinadi. Fmax esa eng uzun yo'l bilan hisoblanadi.</p>
+
+<h3>087-masala: Fmax va hold</h3>
+<div class="box"><em>Consider the circuit shown in the figure, where the logic gates have the following parameters: XOR: Tp = 0.25 ns for transition H-L and Tp = 0.35 ns for L-H. MUX: Tp = 0.1 ns for both transitions. FF: Tckq = 0.1 ns, Tsu = 0.2 ns, Th = 0.15 ns. Calculate the maximum clock frequency. Indicate if there are violations of the hold time (Yes / No).</em></div>
+<figure><img src="img/q087.png" alt="087-masala sxemasi: A, B, Ci FF lari, ikkita XOR, MUX, S va Co FF lari" style="max-width:100%;background:#fff;border-radius:6px"></figure>
+<p><strong>1-qism, Fmax.</strong> Yo'llarni sanaymiz (XOR uchun kattaroq 0.35 ns):</p>
+<table>
+<tr><th>Yo'l</th><th>Hisob</th><th>Jami</th></tr>
+<tr><td>A → MUX → S</td><td>0.1 + 0.1 + 0.2</td><td>0.4 ns</td></tr>
+<tr><td>A → XOR → MUX (tanlash kirishi) → S</td><td>0.1 + 0.35 + 0.1 + 0.2</td><td>0.75 ns</td></tr>
+<tr><td>A → XOR → XOR → Co</td><td>0.1 + 0.35 + 0.35 + 0.2</td><td><strong>1 ns</strong></td></tr>
+<tr><td>Ci → XOR → Co</td><td>0.1 + 0.35 + 0.2</td><td>0.65 ns</td></tr>
+</table>
+<p>Kritik yo'l 1 ns → Fmax = 1 / 1 ns = <strong>1 GHz</strong>.</p>
+<p><strong>2-qism, hold.</strong> Eng qisqa yo'l: A → MUX → S. Kechikish: tCKQ + tMUX = 0.1 + 0.1 = 0.2 ns. Bu tH = 0.15 ns dan katta. Javob: <strong>No</strong>, hold buzilishi yo'q.</p>
+
+<h2>O'zingizni tekshiring</h2>
+<div class="box check">tCKQ = 4 ns, yo'lda bitta AND (tP = 6 ns), tSU = 2 ns, tH = 1 ns. Fmax? <details><summary>Javob</summary>Tmin = 4 + 6 + 2 = 12 ns (tH qo'shilmaydi). Fmax = 1000/12 ≈ <strong>83 MHz</strong>.</details></div>
+<div class="box check">Yo'lda ikkita NAND bor, har biri H-L = 3 ns, L-H = 2 ns. tCKQ = 5 ns, tSU = 5 ns. Tmin? <details><summary>Javob</summary>Har NAND uchun kattasi 3 ns: 5 + 3 + 3 + 5 = <strong>16 ns</strong> (Fmax = 62.5 MHz).</details></div>
+<div class="box check">Yo'l yig'indisi 10 ns, lekin birinchi FF ↑, ikkinchisi ↓ frontda ishlaydi. Fmax? <details><summary>Javob</summary>Yarim davr: T/2 ≥ 10 ns → T ≥ 20 ns → Fmax = <strong>50 MHz</strong>.</details></div>
+<div class="box check">tCKQ = 0.1 ns, eng qisqa yo'lda mantiq yo'q (Q to'g'ridan-to'g'ri D ga ulangan), tH = 0.3 ns. Hold buziladimi? <details><summary>Javob</summary>0.1 + 0 = 0.1 ns &lt; 0.3 ns → <strong>ha, buziladi</strong>.</details></div>
+<div class="box check">D aynan takt fronti paytida o'zgardi. Bu nima deyiladi va oqibati qanday? <details><summary>Javob</summary>Setup (yoki hold) buzilishi. Chiqish <strong>metastabil</strong> bo'ladi: 0 ham, 1 ham emas yoki tebranadi.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Nanosekund (ns)</td><td>nanosecond</td><td>Soniyaning milliarddan bir qismi</td></tr>
+<tr><td>Setup vaqti</td><td>set-up time (tSU)</td><td>D frontdan oldin barqaror turishi kerak bo'lgan vaqt</td></tr>
+<tr><td>Hold vaqti</td><td>hold time (tH)</td><td>D frontdan keyin barqaror turishi kerak bo'lgan vaqt</td></tr>
+<tr><td>CK→Q kechikish</td><td>clock-to-Q delay (tCKQ)</td><td>Frontdan Q o'zgarguncha vaqt</td></tr>
+<tr><td>Tarqalish kechikishi</td><td>propagation delay (tP, tPHL, tPLH)</td><td>Element kirishidan chiqishigacha kechikish</td></tr>
+<tr><td>Kritik yo'l</td><td>critical (longest) path</td><td>Eng ko'p kechikadigan FF→FF yo'li</td></tr>
+<tr><td>Maksimal chastota</td><td>maximum clock frequency (Fmax)</td><td>Sxema to'g'ri ishlaydigan eng katta takt chastotasi</td></tr>
+<tr><td>Metastabil holat</td><td>metastable state</td><td>Setup/hold buzilganda chiqish aniqlanmagan holati</td></tr>
+<tr><td>Buzilish</td><td>violation</td><td>Vaqt shartining bajarilmasligi</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<p><strong>Ta'riflar</strong></p>
+<ul>
+<li><strong>tSU</strong> (setup): D frontdan <em>oldin</em> barqaror turadigan minimal vaqt.</li>
+<li><strong>tH</strong> (hold): D frontdan <em>keyin</em> barqaror turadigan minimal vaqt.</li>
+<li><strong>tCKQ</strong>: frontdan Q o'zgarguncha kechikish.</li>
+<li>Setup yoki hold buzilsa → <strong>metastabillik</strong> (chiqish aniqlanmagan). Himoya: ketma-ket 2+ FF.</li>
+</ul>
+<p><strong>Formulalar</strong></p>
+<span class="formula">Tmin = tCKQ + tlogic,max + tSU &nbsp;·&nbsp; Fmax = 1/Tmin</span>
+<span class="formula">Hold OK: tCKQ + tlogic,min ≥ tH</span>
+<ul>
+<li>Fmax (MHz) = 1000 / Tmin (ns). 10 ns → 100 MHz, 1 ns → 1 GHz.</li>
+<li>Element tPHL ≠ tPLH bo'lsa → Fmax uchun <strong>kattasini</strong> oling.</li>
+<li>tCKQ yo'l boshidagi FF dan, tSU yo'l oxiridagi FF dan.</li>
+</ul>
+<p><strong>Esda tuting</strong></p>
+<ul>
+<li>Hamma FF→FF yo'llarini sanab chiqing, eng kattasi kritik yo'l.</li>
+<li>tH Fmax ga <strong>kirmaydi</strong>.</li>
+<li>Takt belgisida doiracha bor-yo'qligini tekshiring: ↑ va ↓ aralash bo'lsa, T/2 ≥ yig'indi → T = 2 × yig'indi (054).</li>
+<li>Bazadagi javoblar: 039 → 100 MHz, 099 → 77 MHz, 054 → 41.6 MHz, 104 → 66.7 MHz, 087 → 1 GHz va hold buzilishi yo'q.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="07-latch-flip-flop.html">← 7-dars</a><a href="./">Darslar ro'yxati →</a></footer>
+</main></body></html>
