@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>9. Registrlar, hisoblagichlar va FSM</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>9. Registrlar, hisoblagichlar va holatlar mashinasi (FSM)</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> bir nechta flip-flopni birlashtirib nima yasash mumkinligini: registr, hisoblagich (counter) va holatlar mashinasi (FSM). Eng muhimi, <strong>vaqt diagrammasini qadamma-qadam chizish usuli</strong>. Bu <strong>A mavzu</strong>: 2020-07, 2020-12, 2021-01 imtihonlarining 1-masalasi aynan shu mavzudan (har biri 7 ball). Ularni shu darsda to'liq yechamiz. Manba: B3 slaydlari. O'qish vaqti: 35 daqiqa.</div>
+
+<p>7-darsdan eslatma: D FF frontda D ni oladi; JK da J = K = 1 bo'lsa Q har frontda almashadi (toggle); toggle qiluvchi FF chastotani 2 ga bo'ladi. 8-darsdan: hamma narsa kechikadi, lekin bu darsda (masalalarda aytilganidek) <strong>kechikishlar nolga teng</strong> deb olamiz.</p>
+
+<h2>1. Registr: bir nechta bitni saqlash</h2>
+<p>Bitta FF 1 bit saqlaydi. Umumiy takt bilan ishlaydigan N ta FF to'plami <span class="term">registr</span> (register) deyiladi va N bitli sonni saqlaydi.</p>
+<p>Ma'lumot ikki xil yuboriladi:</p>
+<ul>
+<li><strong>Parallel</strong>: N bit bir vaqtda, N ta simda. Tez, lekin sim ko'p. Chip ichida va plata ustida ishlatiladi.</li>
+<li><strong>Ketma-ket</strong> (serial): bitlar bitta simda navbat bilan, har taktda 1 bit. Sekinroq, lekin sim bitta. Uzoq masofalarda ishlatiladi (USB, Ethernet, SATA).</li>
+</ul>
+<p><span class="term">Siljitish registri</span> (shift register): FF lar zanjir bo'lib ulangan (Q1 → D2, Q2 → D3 ...). Har frontda bitlar bitta qadam oldinga siljiydi.</p>
+<table>
+<tr><th>Turi</th><th>Kirish → chiqish</th><th>Vazifasi</th></tr>
+<tr><td>SISO</td><td>ketma-ket → ketma-ket</td><td>Signalni N takt kechiktiradi (3 ta FF → 3 taktdan keyin chiqadi)</td></tr>
+<tr><td>SIPO</td><td>ketma-ket → parallel</td><td>Ketma-ket kelgan bitlarni parallel songa aylantiradi (masalan USB qabul qilish)</td></tr>
+<tr><td>PISO</td><td>parallel → ketma-ket</td><td>Sonni bir zarbada yuklaydi (PL buyrug'i), keyin bitta-bitta chiqaradi</td></tr>
+<tr><td>PIPO</td><td>parallel → parallel</td><td>Oddiy N bitli registr</td></tr>
+</table>
+<div class="box analogy">Navbatdagi odamlar: har hushtakda (taktda) hamma bir qadam oldinga suriladi. Oldingi odam chiqib ketadi, orqaga yangisi qo'shiladi. Bu SISO.</div>
+
+<h2>2. Asinxron (ripple) hisoblagich</h2>
+<p>Toggle qiluvchi FF lardan zanjir yasaymiz: birinchisi CK dan, keyingisi oldingisining chiqishidan takt oladi. Har bosqich chastotani yana 2 ga bo'ladi. Natijada chiqishlar birgalikda <strong>ikkilik sonda sanaydi</strong> (5-darsdagi ikkilik sanoq).</p>
+<figure>
+<svg viewBox="0 0 720 238" role="img" aria-label="3 bitli hisoblagich: Q0 har frontda, Q1 har 2 frontda, Q2 har 4 frontda almashadi; Q2 Q1 Q0 birga 0 dan 7 gacha sanaydi" font-family="system-ui,sans-serif">
+<line x1="130.6" y1="22" x2="130.6" y2="206" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="201.8" y1="22" x2="201.8" y2="206" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="272.9" y1="22" x2="272.9" y2="206" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="344.1" y1="22" x2="344.1" y2="206" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="415.3" y1="22" x2="415.3" y2="206" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="486.5" y1="22" x2="486.5" y2="206" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="557.6" y1="22" x2="557.6" y2="206" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="628.8" y1="22" x2="628.8" y2="206" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<text x="85" y="52" text-anchor="end" font-size="14" font-weight="700" fill="#6b7280">CK</text>
+<path d="M95 60H130.6V34H166.2V60H201.8V34H237.4V60H272.9V34H308.5V60H344.1V34H379.7V60H415.3V34H450.9V60H486.5V34H522.1V60H557.6V34H593.2V60H628.8V34H664.4V60H700.0" fill="none" stroke="#6b7280" stroke-width="2.4"/>
+<text x="85" y="98" text-anchor="end" font-size="14" font-weight="700" fill="#16a34a">Q0</text>
+<path d="M95 106H130.6V80H201.8V106H272.9V80H344.1V106H415.3V80H486.5V106H557.6V80H628.8V106H700.0" fill="none" stroke="#16a34a" stroke-width="2.4"/>
+<text x="85" y="144" text-anchor="end" font-size="14" font-weight="700" fill="#2563eb">Q1</text>
+<path d="M95 152H201.8V126H344.1V152H486.5V126H628.8V152H700.0" fill="none" stroke="#2563eb" stroke-width="2.4"/>
+<text x="85" y="190" text-anchor="end" font-size="14" font-weight="700" fill="#d9622b">Q2</text>
+<path d="M95 198H344.1V172H628.8V198H700.0" fill="none" stroke="#d9622b" stroke-width="2.4"/>
+<text x="112.8" y="222" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">0</text>
+<text x="166.2" y="222" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">1</text>
+<text x="237.4" y="222" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">2</text>
+<text x="308.5" y="222" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">3</text>
+<text x="379.7" y="222" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">4</text>
+<text x="450.9" y="222" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">5</text>
+<text x="522.1" y="222" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">6</text>
+<text x="593.2" y="222" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">7</text>
+<text x="664.4" y="222" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">0</text>
+</svg>
+<figcaption>Q2 Q1 Q0 ni birga o'qing: 000, 001, 010, ..., 111 va yana 000. Pastdagi raqam shu taktdagi son.</figcaption>
+</figure>
+<ul>
+<li>N ta FF → 2<sup>N</sup> gacha sanaydi (0 dan 2<sup>N</sup> − 1 gacha), oxirgi chiqish chastotasi f / 2<sup>N</sup>.</li>
+<li>Keyingi FF ning takti oldingisining Q̄ (yoki tushuvchi fronti) dan olinsa, <strong>yuqoriga</strong> sanaydi (0, 1, 2, ...). Q dan va ko'tariluvchi frontdan olinsa, <strong>pastga</strong> sanaydi (0, 7, 6, 5, ...). Slaydda ham "count down: 11, 10, 01, 00" misoli bor.</li>
+<li><strong>Kamchiligi:</strong> kechikishlar qo'shilib boradi. Bitta FF kechikishi Tpd bo'lsa, M-chi chiqish M·Tpd kechikadi. Chiqishlar har xil vaqtda o'zgaradi va o'tish paytida noto'g'ri sonlar paydo bo'lishi mumkin.</li>
+</ul>
+<div class="box analogy">Domino: birinchi tosh yiqilib ikkinchisini, u uchinchisini yiqitadi. Oxirgisi eng kech yiqiladi. Asinxron hisoblagich ham shunday.</div>
+
+<h2>3. Sinxron hisoblagich</h2>
+<p><span class="term">Sinxron</span> (synchronous) hisoblagichda <strong>hamma FF bitta CK dan</strong> takt oladi. Qaysi FF almashishi kerakligini AND elementlari hal qiladi (masalan, 3-bit faqat Q1·Q2 = 1 bo'lganda almashadi).</p>
+<ul>
+<li>Hamma chiqishlar bir vaqtda, bir xil kechikish bilan o'zgaradi. Tezroq, lekin sxema murakkabroq.</li>
+<li>Fmax ni 8-darsdagi formula beradi: eng uzun yo'l oxirgi FF ga AND lar zanjiri orqali boradi. Slayddagi misol: 8 + 10 + 10 + 3 = 31 ns.</li>
+</ul>
+<table>
+<tr><th></th><th>Asinxron (ripple)</th><th>Sinxron</th></tr>
+<tr><td>Takt</td><td>Har FF ga har xil (oldingisidan)</td><td>Hammasiga bitta CK</td></tr>
+<tr><td>Kechikish</td><td>Bosqich soniga bog'liq (M·Tpd)</td><td>Hammasida bir xil</td></tr>
+<tr><td>Sxema</td><td>Oddiy</td><td>Murakkabroq (qo'shimcha AND lar)</td></tr>
+</table>
+
+<h2>4. Ixtiyoriy modulli hisoblagich va FF soni</h2>
+<p><span class="term">Modul</span> (modulus) N degani hisoblagich 0, 1, ..., N−1 ni sanab yana 0 ga qaytadi. Masalan, modul 5: 0, 1, 2, 3, 4, 0, ... Buning uchun kombinatsion sxema N holatini (masalan 101) tanib, hamma FF ni reset qiladi.</p>
+<span class="formula">Kerakli FF soni n: 2<sup>n</sup> ≥ N bo'ladigan eng kichik n</span>
+<table>
+<tr><th>N (modul yoki holatlar soni)</th><th>FF soni</th><th>Nega</th></tr>
+<tr><td>8</td><td>3</td><td>2³ = 8</td></tr>
+<tr><td>9</td><td>4</td><td>2³ = 8 yetmaydi, 2⁴ = 16</td></tr>
+<tr><td>17</td><td>5</td><td>2⁴ = 16 yetmaydi, 2⁵ = 32</td></tr>
+<tr><td>32 (bo'lgich)</td><td>5</td><td>2⁵ = 32</td></tr>
+</table>
+<p>Bu slayddagi takrorlash savollari: "modul 17 hisoblagich uchun nechta FF?" → 5; "9 holatli FSM uchun nechta FF?" → 4.</p>
+
+<h2>5. Holatlar mashinasi (FSM)</h2>
+<p><span class="term">FSM</span> (finite state machine, chekli holatlar mashinasi): sxemaning "holati" uning FF laridagi qiymatlar. Har taktda mashina bir holatdan keyingisiga o'tadi. Keyingi holat <strong>hozirgi holat va kirishlardan</strong> kombinatsion sxema (next state network) yordamida hisoblanadi.</p>
+<div class="box analogy">Kir yuvish mashinasi (slayddagi misol): holatlar A = suv olish, B = yuvish, C = siqish, D = quritish. Har "taktda" keyingisiga o'tadi: A → B → C → D → A. Hisoblagich ham FSM ning eng oddiy turi.</div>
+<p><span class="term">Holatlar diagrammasi</span> (state diagram): holatlar doiracha bilan, o'tishlar strelka bilan chiziladi. Strelka ustiga qaysi kirishda shu o'tish bo'lishi yoziladi.</p>
+<p>Slayddagi mashq: JK flip-flopni FSM sifatida loyihalash. Kelgusi holat D = Q·K̄ + Q̄·J. Fmax esa 8-darsdagi formula bilan: Tckmin &gt; TCK-Q + Tdmax + Tsu.</p>
+
+<h2>6. Vaqt diagrammasini chizish retsepti</h2>
+<p>Imtihon masalalarining ko'pi: "FF lar boshida 0. Birinchi N takt uchun signallarni chizing" yoki "signal chastotasini toping". Har doim shu tartibda ishlang:</p>
+<ol>
+<li><strong>Sxemani o'qing.</strong> Har bir FF uchun yozing: D (yoki J, K) qayerdan keladi, takt qayerdan keladi (CK, ↑ yoki ↓, yoki boshqa FF chiqishi).</li>
+<li><strong>Jadval tuzing.</strong> Ustunlar: takt raqami, har bir Q, kombinatsion signallar. 0-qator: boshlang'ich holat (hamma Q = 0), undan kombinatsion signallarni hisoblang.</li>
+<li><strong>Har frontda:</strong> yangi Q larni <em>frontdan oldingi</em> qatordagi qiymatlardan hisoblang. Hammasi bir vaqtda o'zgaradi, shuning uchun yangi qiymatni darhol boshqa FF ga ishlatmang.</li>
+<li>Yangi Q lardan kombinatsion signallarni (NAND, XOR, f) qayta hisoblang.</li>
+<li>Jadval takrorlana boshlaguncha davom eting. Takrorlanish uzunligi = <strong>davr</strong>. Chastota = f<sub>CLK</sub> ÷ (davr, taktlarda).</li>
+</ol>
+<div class="box warn">Eng ko'p xato: 3-qadamda yangi hisoblangan Q ni o'sha frontning o'zida boshqa FF ga berib yuborish. Front lahzasida hamma FF <strong>eski</strong> qiymatlarni "suratga oladi".</div>
+
+<h2>7. Imtihon masalalari</h2>
+
+<h3>2020-12 imtihoni, 1-masala (7 ball)</h3>
+<div class="box"><em>The Q (non-inverted) outputs of the three flip-flop circuits (FF1, FF2, and FF3) in the schematic below are initially set to logic level low ("0"). The frequency of the clock signal "CLK" is 1000 kHz. Determine: 1. the frequency of the signal B = ... kHz (1 point); 2. the frequency of the signal C = ... kHz (1 point); 3. the frequency of the signal A = ... kHz (2 points); 4. the maximum frequency of a sine wave signal that can be converted by a flash ADC using the signal D as its clock: ... kHz (3 points).</em></div>
+<figure><img src="img/e1204.png" alt="2020-12 masala sxemasi: JK FF, ikkita D FF, XOR" style="max-width:100%;background:#fff;border-radius:6px"><figcaption>Asl sxema (imtihon faylidan).</figcaption></figure>
+<p><strong>1-qadam, sxemani o'qish:</strong></p>
+<ul>
+<li>FF2 va FF3: D = Q̄ (toggle). Ular <strong>2 bitli asinxron hisoblagich</strong>: B = FF2 chiqishi, C = FF3 chiqishi. Yechimga ko'ra CB ketma-ketligi 00 → 01 → 10 → 11 → 00 (yuqoriga sanaydi).</li>
+<li>D = B XOR C.</li>
+<li>FF1 (JK): J = K = D, takti CLK. D = 1 bo'lsa frontda almashadi, D = 0 bo'lsa saqlaydi.</li>
+</ul>
+<p><strong>2-qadam, jadval</strong> (k-qator = k-frontdan keyingi takt):</p>
+<table>
+<tr><th>Takt</th><th>C</th><th>B</th><th>D = B⊕C</th><th>A</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td></tr><tr><td>2</td><td>1</td><td>0</td><td>1</td><td>1 (D edi 1 → almashdi)</td></tr><tr><td>3</td><td>1</td><td>1</td><td>0</td><td>0 (D edi 1 → almashdi)</td></tr><tr><td>4</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>5</td><td>0</td><td>1</td><td>1</td><td>0</td></tr><tr><td>6</td><td>1</td><td>0</td><td>1</td><td>1 (D edi 1 → almashdi)</td></tr><tr><td>7</td><td>1</td><td>1</td><td>0</td><td>0 (D edi 1 → almashdi)</td></tr><tr><td>8</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+</table>
+<figure>
+<svg viewBox="0 0 720 284" role="img" aria-label="2020-12 imtihon masalasi vaqt diagrammasi" font-family="system-ui,sans-serif">
+<line x1="126.8" y1="22" x2="126.8" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="190.5" y1="22" x2="190.5" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="254.2" y1="22" x2="254.2" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="317.9" y1="22" x2="317.9" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="381.6" y1="22" x2="381.6" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="445.3" y1="22" x2="445.3" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="508.9" y1="22" x2="508.9" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="572.6" y1="22" x2="572.6" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="636.3" y1="22" x2="636.3" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<text x="85" y="52" text-anchor="end" font-size="14" font-weight="700" fill="#6b7280">CLK</text>
+<path d="M95 60H126.8V34H158.7V60H190.5V34H222.4V60H254.2V34H286.1V60H317.9V34H349.7V60H381.6V34H413.4V60H445.3V34H477.1V60H508.9V34H540.8V60H572.6V34H604.5V60H636.3V34H668.2V60H700.0" fill="none" stroke="#6b7280" stroke-width="2.4"/>
+<text x="85" y="98" text-anchor="end" font-size="14" font-weight="700" fill="#16a34a">B</text>
+<path d="M95 106H126.8V80H190.5V106H254.2V80H317.9V106H381.6V80H445.3V106H508.9V80H572.6V106H636.3V80H700.0" fill="none" stroke="#16a34a" stroke-width="2.4"/>
+<text x="85" y="144" text-anchor="end" font-size="14" font-weight="700" fill="#2563eb">C</text>
+<path d="M95 152H190.5V126H317.9V152H445.3V126H572.6V152H700.0" fill="none" stroke="#2563eb" stroke-width="2.4"/>
+<text x="85" y="190" text-anchor="end" font-size="14" font-weight="700" fill="#d9622b">D = B⊕C</text>
+<path d="M95 198H126.8V172H254.2V198H381.6V172H508.9V198H636.3V172H700.0" fill="none" stroke="#d9622b" stroke-width="2.4"/>
+<text x="85" y="236" text-anchor="end" font-size="14" font-weight="700" fill="#9333ea">A</text>
+<path d="M95 244H190.5V218H254.2V244H445.3V218H508.9V244H700.0" fill="none" stroke="#9333ea" stroke-width="2.4"/>
+<text x="110.9" y="268" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">0</text>
+<text x="158.7" y="268" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">1</text>
+<text x="222.4" y="268" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">2</text>
+<text x="286.1" y="268" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">3</text>
+<text x="349.7" y="268" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">4</text>
+<text x="413.4" y="268" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">5</text>
+<text x="477.1" y="268" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">6</text>
+<text x="540.8" y="268" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">7</text>
+<text x="604.5" y="268" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">8</text>
+<text x="668.2" y="268" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">9</text>
+</svg>
+<figcaption>Jadvaldagi qiymatlar vaqt diagrammasi ko'rinishida. Pastdagi raqamlar takt raqami.</figcaption>
+</figure>
+<p><strong>3-qadam, chastotalar</strong> (f<sub>CLK</sub> = 1000 kHz):</p>
+<ol>
+<li>B har frontda almashadi → davri 2 takt → <strong>500 kHz</strong>.</li>
+<li>C har 2 frontda almashadi → davri 4 takt → <strong>250 kHz</strong>.</li>
+<li>A: 0, 0, 1, 0, keyin takrorlanadi → davri 4 takt → <strong>250 kHz</strong>.</li>
+<li>D: 0, 1, 1, 0, keyin takrorlanadi → davri 4 takt → 250 kHz. Flash ADC D taktida ishlasa, sinusni uning <strong>yarim</strong> chastotasigacha o'zgartira oladi (Nyquist qoidasi, 16-darsda batafsil): 250 / 2 = <strong>125 kHz</strong>.</li>
+</ol>
+<p>Rasmiy javoblar: 500, 250, 250, 125.</p>
+
+<h3>2021-01 imtihoni, 5-masala (7 ball): o'sha sxema, XOR o'rniga f</h3>
+<div class="box"><em>The non-inverted outputs Q of the three flip-flop circuits (FF1, FF2, and FF3) in the schematic below are initially set to logic level low ("0"). The frequency of the clock signal "CLK" is 1200 kHz. The block f implements the function D = NOT(B + C). Assuming negligible propagation delays, analyze the circuit signals for a sufficient number of clock periods and determine: the frequency of B, C, A, and the maximum frequency of a sine wave signal that can be converted by a flash ADC using the signal D as its clock.</em></div>
+<figure><img src="img/e0115.png" alt="2021-01 masala sxemasi" style="max-width:100%;background:#fff;border-radius:6px"></figure>
+<table>
+<tr><th>Takt</th><th>C</th><th>B</th><th>D = NOT(B+C)</th><th>A</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1 (D edi 1 → almashdi)</td></tr>
+<tr><td>2</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>3</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>4</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>5</td><td>0</td><td>1</td><td>0</td><td>0 (D edi 1 → almashdi)</td></tr>
+<tr><td>6–8</td><td colspan="4">... A = 0 davom etadi, 9-taktda yana 1</td></tr>
+</table>
+<ul>
+<li>B: davri 2 takt → 1200/2 = <strong>600 kHz</strong>.</li>
+<li>C: davri 4 takt → <strong>300 kHz</strong>.</li>
+<li>A: 4 takt 1, 4 takt 0 → davri 8 takt → 1200/8 = <strong>150 kHz</strong>.</li>
+<li>D: davri 4 takt → 300 kHz → flash ADC: 300/2 = <strong>150 kHz</strong>.</li>
+</ul>
+<p>Rasmiy javoblar: 600, 300, 150, 150.</p>
+
+<h3>2020-07 imtihoni, 1-masala (7 ball)</h3>
+<div class="box"><em>The direct outputs "Q" of the flip-flops FF1–FF4 in the schematic below are set initially to logic level zero (low). The block "func", which has three inputs and one output, implements the following combinational logic function: F(A, B, C) = Ā·B̄ + C̄. We assume that all circuits have negligible propagation delays. Determine in which of the first nine clock cycles the output "D" of the circuit is at logic level one (high).</em></div>
+<figure><img src="img/e0710.png" alt="2020-07 masala sxemasi: uchta D FF zanjiri, func bloki, FF4" style="max-width:100%;background:#fff;border-radius:6px"></figure>
+<p><strong>Sxemani o'qish:</strong> FF1, FF2, FF3 da D = Q̄ (toggle). FF2 takti Q1 dan, FF3 takti Q2 dan olinadi (↑ front) → <strong>3 bitli asinxron pastga sanovchi hisoblagich</strong>. A = Q1, B = Q2, C = Q3. FF4: D = F, takti CLK. Demak D chiqishi F ni <strong>bir takt kechiktirib</strong> takrorlaydi.</p>
+<table>
+<tr><th>Takt</th><th>C B A (son)</th><th>F = Ā·B̄ + C̄</th><th>D (shu taktda) = oldingi taktdagi F</th></tr>
+<tr><td>0 (boshlanish)</td><td>000 (0)</td><td>1</td><td>0</td></tr>
+<tr><td>1</td><td>111 (7)</td><td>0</td><td><strong>1</strong></td></tr>
+<tr><td>2</td><td>110 (6)</td><td>0</td><td>0</td></tr>
+<tr><td>3</td><td>101 (5)</td><td>0</td><td>0</td></tr>
+<tr><td>4</td><td>100 (4)</td><td>1</td><td>0</td></tr>
+<tr><td>5</td><td>011 (3)</td><td>1</td><td><strong>1</strong></td></tr>
+<tr><td>6</td><td>010 (2)</td><td>1</td><td><strong>1</strong></td></tr>
+<tr><td>7</td><td>001 (1)</td><td>1</td><td><strong>1</strong></td></tr>
+<tr><td>8</td><td>000 (0)</td><td>1</td><td><strong>1</strong></td></tr>
+<tr><td>9</td><td>111 (7)</td><td>0</td><td><strong>1</strong></td></tr>
+</table>
+<p>F ni hisoblash misoli, 4-takt: C = 1, B = 0, A = 0 → Ā·B̄ = 1·1 = 1 → F = 1. 1-takt: C = 1, B = 1, A = 1 → Ā·B̄ = 0, C̄ = 0 → F = 0.</p>
+<p>Javob: D <strong>1, 5, 6, 7, 8, 9</strong>-taktlarda 1. Bu rasmiy javob bilan bir xil.</p>
+
+<h3>069-savol: ↑ va ↓ frontlar aralash</h3>
+<div class="box"><em>In the diagram in the figure, all the FFs have the outputs Q initialized to 0. Draw the waveforms at the nodes A, Q1, Q2, and Q3 for the first four clock periods assuming that all the circuit components have zero delay.</em></div>
+<figure><img src="img/q054.png" alt="069-savol sxemasi (054 bilan bir xil)" style="max-width:100%;background:#fff;border-radius:6px"><figcaption>Sxema 8-darsdagi 054-masala bilan bir xil.</figcaption></figure>
+<p><strong>Sxemani o'qish:</strong> A = NAND(Q1, Q2). FF1: D = A, ↑ frontda. FF2: D = Q1, <strong>↓ frontda</strong> (doiracha). FF3: D = Q̄3 (2 ga bo'lgich), takti FF2 ning Q̄ chiqishidan, ya'ni Q2 tushganda almashadi. Rasmiy yechimdagi izoh: "A = 0 faqat Q1 = Q2 = 1 bo'lganda; FF3 2 ga bo'lgich va sxemaning qolgan qismiga ta'sir qilmaydi".</p>
+<figure>
+<svg viewBox="0 0 720 260" role="img" aria-label="069-savol vaqt diagrammasi: Q1 ko'tariluvchi frontda, Q2 tushuvchi frontda o'zgaradi" font-family="system-ui,sans-serif">
+<line x1="150.0" y1="22" x2="150.0" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="260.0" y1="22" x2="260.0" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="370.0" y1="22" x2="370.0" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="480.0" y1="22" x2="480.0" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="590.0" y1="22" x2="590.0" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<text x="150.0" y="16" text-anchor="middle" font-size="12" fill="currentColor">↑</text>
+<text x="260.0" y="16" text-anchor="middle" font-size="12" fill="currentColor">↑</text>
+<text x="370.0" y="16" text-anchor="middle" font-size="12" fill="currentColor">↑</text>
+<text x="480.0" y="16" text-anchor="middle" font-size="12" fill="currentColor">↑</text>
+<text x="590.0" y="16" text-anchor="middle" font-size="12" fill="currentColor">↑</text>
+<text x="205.0" y="16" text-anchor="middle" font-size="12" fill="currentColor">↓</text>
+<text x="315.0" y="16" text-anchor="middle" font-size="12" fill="currentColor">↓</text>
+<text x="425.0" y="16" text-anchor="middle" font-size="12" fill="currentColor">↓</text>
+<text x="535.0" y="16" text-anchor="middle" font-size="12" fill="currentColor">↓</text>
+<text x="645.0" y="16" text-anchor="middle" font-size="12" fill="currentColor">↓</text>
+<text x="85" y="52" text-anchor="end" font-size="14" font-weight="700" fill="#6b7280">CK</text>
+<path d="M95 60H150.0V34H205.0V60H260.0V34H315.0V60H370.0V34H425.0V60H480.0V34H535.0V60H590.0V34H645.0V60H700.0" fill="none" stroke="#6b7280" stroke-width="2.4"/>
+<text x="85" y="98" text-anchor="end" font-size="14" font-weight="700" fill="#16a34a">A</text>
+<path d="M95 80H205.0V106H260.0V80H425.0V106H480.0V80H645.0V106H700.0" fill="none" stroke="#16a34a" stroke-width="2.4"/>
+<text x="85" y="144" text-anchor="end" font-size="14" font-weight="700" fill="#2563eb">Q1</text>
+<path d="M95 152H150.0V126H260.0V152H370.0V126H480.0V152H590.0V126H700.0" fill="none" stroke="#2563eb" stroke-width="2.4"/>
+<text x="85" y="190" text-anchor="end" font-size="14" font-weight="700" fill="#d9622b">Q2</text>
+<path d="M95 198H205.0V172H315.0V198H425.0V172H535.0V198H645.0V172H700.0" fill="none" stroke="#d9622b" stroke-width="2.4"/>
+<text x="85" y="236" text-anchor="end" font-size="14" font-weight="700" fill="#9333ea">Q3</text>
+<path d="M95 244H315.0V218H535.0V244H700.0" fill="none" stroke="#9333ea" stroke-width="2.4"/>
+</svg>
+<figcaption>↑ frontlarda Q1 = A (frontdan oldingi), ↓ frontlarda Q2 = Q1. Q3 har safar Q2 1 dan 0 ga tushganda almashadi.</figcaption>
+</figure>
+
+<h3>023-savol: D, D va JK</h3>
+<div class="box"><em>Consider the schematic in the figure, where the FF have the outputs Q initialized to 0. Assuming that F = not (Q1 * not (Q2)), represent the waveforms without delays at nodes Q1, Q2, Q3, and F for the first five clock cycles.</em></div>
+<figure><img src="img/q104.png" alt="023-savol sxemasi (104 bilan bir xil)" style="max-width:100%;background:#fff;border-radius:6px"><figcaption>Sxema 8-darsdagi 104-masala bilan bir xil.</figcaption></figure>
+<p><strong>Sxemani o'qish:</strong> FF1: D = Q3. FF2: D = Q1. JK: J = K = F (F = 1 da almashadi, F = 0 da saqlaydi). Hammasi CK ↑ da.</p>
+<table>
+<tr><th>Takt</th><th>Q1</th><th>Q2</th><th>Q3</th><th>F = NOT(Q1·Q̄2)</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr><tr><td>2</td><td>1</td><td>0</td><td>0</td><td>0</td></tr><tr><td>3</td><td>0</td><td>1</td><td>0</td><td>1</td></tr><tr><td>4</td><td>0</td><td>0</td><td>1</td><td>1</td></tr><tr><td>5</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+</table>
+<figure>
+<svg viewBox="0 0 720 284" role="img" aria-label="023-savol vaqt diagrammasi" font-family="system-ui,sans-serif">
+<line x1="150.0" y1="22" x2="150.0" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="260.0" y1="22" x2="260.0" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="370.0" y1="22" x2="370.0" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="480.0" y1="22" x2="480.0" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<line x1="590.0" y1="22" x2="590.0" y2="252" stroke="#9aa0a6" stroke-opacity=".6" stroke-dasharray="3 4"/>
+<text x="85" y="52" text-anchor="end" font-size="14" font-weight="700" fill="#6b7280">CK</text>
+<path d="M95 60H150.0V34H205.0V60H260.0V34H315.0V60H370.0V34H425.0V60H480.0V34H535.0V60H590.0V34H645.0V60H700.0" fill="none" stroke="#6b7280" stroke-width="2.4"/>
+<text x="85" y="98" text-anchor="end" font-size="14" font-weight="700" fill="#16a34a">F</text>
+<path d="M95 80H260.0V106H370.0V80H590.0V106H700.0" fill="none" stroke="#16a34a" stroke-width="2.4"/>
+<text x="85" y="144" text-anchor="end" font-size="14" font-weight="700" fill="#2563eb">Q1</text>
+<path d="M95 152H260.0V126H370.0V152H590.0V126H700.0" fill="none" stroke="#2563eb" stroke-width="2.4"/>
+<text x="85" y="190" text-anchor="end" font-size="14" font-weight="700" fill="#d9622b">Q2</text>
+<path d="M95 198H370.0V172H480.0V198H700.0" fill="none" stroke="#d9622b" stroke-width="2.4"/>
+<text x="85" y="236" text-anchor="end" font-size="14" font-weight="700" fill="#9333ea">Q3</text>
+<path d="M95 244H150.0V218H260.0V244H480.0V218H590.0V244H700.0" fill="none" stroke="#9333ea" stroke-width="2.4"/>
+<text x="122.5" y="268" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">0</text>
+<text x="205.0" y="268" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">1</text>
+<text x="315.0" y="268" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">2</text>
+<text x="425.0" y="268" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">3</text>
+<text x="535.0" y="268" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">4</text>
+<text x="645.0" y="268" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">5</text>
+</svg>
+<figcaption>Rasmiy yechimdagi diagramma bilan bir xil: Q3 1 va 4-taktlarda 1, F esa 2 va 5-taktlarda 0.</figcaption>
+</figure>
+
+<h2>O'zingizni tekshiring</h2>
+<div class="box check">6 ta holatli FSM uchun nechta FF kerak? <details><summary>Javob</summary>2² = 4 yetmaydi, 2³ = 8 → <strong>3 ta</strong>.</details></div>
+<div class="box check">Asinxron hisoblagichda har FF kechikishi 5 ns. 4-chi chiqish frontdan qancha kechikadi? <details><summary>Javob</summary>4 × 5 = <strong>20 ns</strong>. Sinxron hisoblagichda hammasi 5 ns bo'lardi.</details></div>
+<div class="box check">CLK = 800 kHz. 3 bitli hisoblagichning eng katta biti (Q2) chastotasi? <details><summary>Javob</summary>800 / 2³ = <strong>100 kHz</strong>.</details></div>
+<div class="box check">2020-12 masalasida XOR o'rniga AND bo'lsa (D = B·C), D ning chastotasi qancha? <details><summary>Javob</summary>D faqat CB = 11 da 1: 0, 0, 0, 1, 0, 0, 0, 1 ... Davri 4 takt → 1000/4 = <strong>250 kHz</strong>.</details></div>
+<div class="box check">Uzoq masofaga ma'lumot uzatish uchun ketma-ket yoki parallel aloqa ishlatiladi? Nega? <details><summary>Javob</summary><strong>Ketma-ket</strong>: bitta sim, kam xarajat va quvvat.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Registr</td><td>register</td><td>Umumiy taktli N ta FF, N bit saqlaydi</td></tr>
+<tr><td>Siljitish registri</td><td>shift register (SISO, SIPO, PISO, PIPO)</td><td>Har taktda bitlar bir qadam siljiydi</td></tr>
+<tr><td>Ketma-ket / parallel</td><td>serial / parallel</td><td>Bitta simda navbat bilan / ko'p simda birga</td></tr>
+<tr><td>Hisoblagich</td><td>counter</td><td>Taktlarni ikkilik sonda sanaydi</td></tr>
+<tr><td>Asinxron hisoblagich</td><td>asynchronous (ripple) counter</td><td>Har FF oldingisidan takt oladi</td></tr>
+<tr><td>Sinxron hisoblagich</td><td>synchronous counter</td><td>Hamma FF bitta CK dan</td></tr>
+<tr><td>Modul</td><td>modulus</td><td>Nechta holatdan keyin qaytadan boshlashi</td></tr>
+<tr><td>Chastota bo'lgich</td><td>frequency divider</td><td>Chastotani 2<sup>N</sup> ga bo'ladi</td></tr>
+<tr><td>Holatlar mashinasi</td><td>FSM (finite state machine)</td><td>Holatdan holatga taktda o'tuvchi sxema</td></tr>
+<tr><td>Holatlar diagrammasi</td><td>state diagram</td><td>Holatlar (doira) va o'tishlar (strelka) rasmi</td></tr>
+<tr><td>Kelgusi holat sxemasi</td><td>next state network</td><td>Keyingi holatni hisoblovchi kombinatsion sxema</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<p><strong>Registrlar</strong></p>
+<ul>
+<li>Parallel: tez, ko'p sim, qisqa masofa. Ketma-ket: 1 sim, sekin, uzoq masofa.</li>
+<li>SISO (kechiktirish), SIPO (ketma-ket → parallel), PISO (parallel → ketma-ket, PL buyrug'i), PIPO.</li>
+</ul>
+<p><strong>Hisoblagichlar</strong></p>
+<span class="formula">N ta toggle FF: 0 … 2<sup>N</sup>−1 sanaydi, oxirgi chiqish f / 2<sup>N</sup></span>
+<span class="formula">FF soni: 2<sup>n</sup> ≥ (modul yoki holatlar soni) bo'ladigan eng kichik n</span>
+<ul>
+<li>Asinxron: takt zanjir bo'ylab, kechikish M·Tpd, oddiy. Sinxron: bitta CK, kechikish bir xil, tezroq, murakkabroq.</li>
+<li>Modul N: N holatini tanib hammasini reset qiladi.</li>
+</ul>
+<p><strong>FSM</strong></p>
+<ul>
+<li>Holat = FF qiymatlari. Kelgusi holat = f(hozirgi holat, kirishlar). Tckmin &gt; tCKQ + tdmax + tSU.</li>
+</ul>
+<p><strong>Vaqt diagrammasi retsepti</strong></p>
+<ul>
+<li>Jadval: 0-qator boshlang'ich (Q = 0). Har frontda yangi Q = frontdan <em>oldingi</em> qiymatlardan.</li>
+<li>JK: J = K = 1 almashtir, J = K = 0 saqla. D = Q̄ → har frontda almashadi.</li>
+<li>Signal chastotasi = f<sub>CLK</sub> / (takrorlanish uzunligi, taktlarda).</li>
+<li>Flash ADC D taktida → sinus max = f<sub>D</sub> / 2.</li>
+<li>Imtihon javoblari: 2020-12 → 500, 250, 250, 125; 2021-01 → 600, 300, 150, 150; 2020-07 → 1, 5, 6, 7, 8, 9-taktlar.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="08-setup-hold-fmax.html">← 8-dars</a><a href="./">Darslar ro'yxati →</a></footer>
+</main></body></html>
