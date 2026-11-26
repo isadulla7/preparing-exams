@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>40. Mashq: Measurements</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>40. Mashq: Measurements (imtihon uslubidagi masalalar)</h1>
+
+<div class="box note"><strong>Bu dars nima uchun:</strong> Measurements qismi imtihonda 9 ball beradi, 2019 imtihonlarida bu 6 ballik "sensor + noaniqlik" masalasi edi (39-dars). Bu yerda shu turdagi 3 ta yangi masala bor (raqamlarini men tuzdim, usuli rasmiy yechimlardagidek). Avval o'zingiz yeching, keyin javobni oching. Vaqt: 45 daqiqa.</div>
+<div class="box warn"><strong>Eslatma:</strong> sizning materiallaringizda Measurements bo'yicha test savollari yo'q, faqat 2019 yilgi 3 ta masala bor. Shuning uchun bu mashqlar slaydlardagi mavzular asosida tuzildi. Agar 2020–2021 yillardagi Measurements savollarini topsangiz, yuboring, ularni ham qo'shaman.</div>
+
+<h2>Retsept (yodlang)</h2>
+<ol>
+<li>Model: chiqish = f(o'lchanuvchi, boshqa kattaliklar).</li>
+<li>Kalibrovka: o'lchanuvchi = f<sup>−1</sup>(chiqish, …).</li>
+<li>Nominal qiymatlarni qo'yib qiymatni toping.</li>
+<li>Har bir noaniq kattalik bo'yicha |hosila|.</li>
+<li>Foizlarni absolyutga aylantiring.</li>
+<li>δ = Σ |hosila|·δx (+ sensor noaniqligi).</li>
+<li>(qiymat ± δ) birlik, 2 muhim raqam.</li>
+</ol>
+
+<h2>Masala 1: rezistiv sensor, bo'luvchi (2019-06 B kabi)</h2>
+<div class="box">
+<p>Sxema 39-darsdagi B variant kabi: VS → Rθ → RF → yer, VF RF da o'lchanadi. Rθ = R0(1 + Aθ), R0 = 500 Ω, A = 0.0039 °C<sup>−1</sup>. Sensor noaniqligi δθ = 0.3 °C + 0.005·|θ|. RF = 500 Ω ± 0.1%, VS = (3.300 ± 0.003) V. VF = (1.500 ± 0.002) V bo'lganda θ ni toping.</p>
+</div>
+<details><summary>Yechim</summary>
+<p>θ = (1/A)(RF·VS/(R0·VF) − RF/R0 − 1) = 256.4·(3.3/1.5 − 1 − 1) = 256.4·0.2 = <strong>51.3 °C</strong>.</p>
+<ul>
+<li>|∂θ/∂RF| = (1/A)·|VS/(R0·VF) − 1/R0| = 256.4·|0.0044 − 0.002| = 0.615 °C/Ω; δRF = 0.5 Ω → 0.31 °C</li>
+<li>|∂θ/∂VS| = RF/(A·R0·VF) = 171 °C/V; δVS = 0.003 V → 0.51 °C</li>
+<li>|∂θ/∂VF| = RF·VS/(A·R0·VF²) = 376 °C/V; δVF = 0.002 V → 0.75 °C</li>
+<li>Sensor: 0.3 + 0.005·51.3 = 0.56 °C</li>
+</ul>
+<p>δθ = 0.31 + 0.51 + 0.75 + 0.56 = 2.1 °C. <strong>θ = (51.3 ± 2.1) °C.</strong></p>
+</details>
+
+<h2>Masala 2: fotodiod (2019-06 A kabi)</h2>
+<div class="box">
+<p>Fotodiod: ISC = S·Ev + IOFF, S = (5.00 ± 0.05) nA/lux, IOFF = (2 ± 10) nA. Trans-rezistiv kuchaytirgich RF = 200 kΩ ± 0.5%. Vout = (1.002 ± 0.004) V. Ev = ?</p>
+</div>
+<details><summary>Yechim</summary>
+<p>RF·S = 2·10<sup>5</sup> · 5·10<sup>−9</sup> = 10<sup>−3</sup> V/lux. Ev = Vout/(RF·S) − IOFF/S = 1002 − 2·10<sup>−9</sup>/5·10<sup>−9</sup> = 1002 − 0.4 = <strong>1001.6 lux</strong>.</p>
+<ul>
+<li>Vout: 1/(RF·S)·δVout = 1000 · 0.004 = 4.0 lux</li>
+<li>S: Vout/(RF·S²)·δS = 2.004·10<sup>11</sup> · 0.05·10<sup>−9</sup> = 10.0 lux (diqqat: aniq formulada IOFF/S² hadi ham bor, u juda kichik: 0.004 lux)</li>
+<li>RF: Vout/(RF²·S)·δRF = 0.005 · 1002 = 5.0 lux</li>
+<li>IOFF: (1/S)·δIOFF = 2·10<sup>8</sup> · 10<sup>−8</sup> = 2.0 lux</li>
+</ul>
+<p>δEv = 4.0 + 10.0 + 5.0 + 2.0 = 21 lux. <strong>Ev = (1002 ± 21) lux.</strong></p>
+</details>
+
+<h2>Masala 3: volt-ampermetr usuli + Pt1000</h2>
+<div class="box">
+<p>Pt1000 (R0 = 1000 Ω, A = 3.9083·10<sup>−3</sup> °C<sup>−1</sup>, chiziqli model R = R0(1 + Aθ), class A: δθ<sup>S</sup> = 0.15 °C + 0.002·|θ|) orqali I = 1.0000 mA tok o'tkaziladi va kuchlanish o'lchanadi.</p>
+<ul>
+<li>Voltmetr: o'qish 1.2345 V, shkala 2 V, δV = ±(0.01% reading + 0.002% range).</li>
+<li>Ampermetr: o'qish 1.0000 mA, shkala 2 mA, δI = ±(0.05% reading + 0.01% range).</li>
+</ul>
+<p>R va θ ni noaniqligi bilan toping.</p>
+</div>
+<details><summary>Yechim</summary>
+<p><strong>Asbob noaniqliklari:</strong> δV = 0.0001·1.2345 + 0.00002·2 = 123.5 µV + 40 µV = 0.16 mV. δI = 0.0005·1 + 0.0001·2 = 0.5 µA + 0.2 µA = 0.7 µA.</p>
+<p><strong>R = V/I</strong> = 1.2345/0.001 = 1234.5 Ω. Bo'linma: εR = εV + εI = 0.16/1234.5 + 0.7/1000 = 0.013% + 0.070% = 0.083% → δR = 1.03 Ω. R = (1234.5 ± 1.0) Ω.</p>
+<p><strong>θ = (R/R0 − 1)/A</strong> = 0.2345/0.0039083 = <strong>60.0 °C</strong>.</p>
+<p>|∂θ/∂R| = 1/(R0·A) = 0.256 °C/Ω → 1.03 · 0.256 = 0.26 °C. Sensor: 0.15 + 0.002·60 = 0.27 °C.</p>
+<p>δθ = 0.26 + 0.27 = 0.53 °C. <strong>θ = (60.0 ± 0.5) °C.</strong></p>
+</details>
+
+<h2>Nazariy savollar (slaydlardagi "final check" uslubida)</h2>
+<div class="box">
+<ol>
+<li>Absolyut va nisbiy noaniqlik farqi nima? Nega nisbiy kerak?</li>
+<li>"±(0.003% reading + 0.0007% range)" qanday o'qiladi?</li>
+<li>To'g'ridan-to'g'ri va bilvosita o'lchash farqi?</li>
+<li>Eng yomon holat modelida nega |…| olinadi?</li>
+<li>Yuklama effekti nima? Voltmetr misolida qanday tuzatiladi?</li>
+<li>Repeatability va reproducibility farqi?</li>
+</ol>
+<details><summary>Javoblar</summary>
+<ol>
+<li>Absolyut = birlikda (δm), nisbiy = δm/m0. Nisbiy o'lchash sifatini ko'rsatadi (bir xil δ katta qiymatda yaxshiroq).</li>
+<li>O'qilgan qiymatning 0.003% i plus shkalaning 0.0007% i.</li>
+<li>To'g'ridan-to'g'ri: bitta asbob ko'rsatkichi. Bilvosita: formula orqali boshqa o'lchashlardan.</li>
+<li>Xatolar bir-birini kamaytirib yubormasligi uchun: hammasi bir vaqtda eng yomon tomonda bo'lishi mumkin.</li>
+<li>Asbob ulanganda o'lchanayotgan sxema o'zgaradi. VO = Vm(1 + RO/RV).</li>
+<li>Repeatability: bir xil usul, asbob, operator, sharoitda takrorlash farqi. Reproducibility: turli usul/asbob/operator bilan farq.</li>
+</ol></details>
+</div>
+
+<h2>📝 Konspekt (eng qisqa varaq)</h2>
+<div class="box">
+<span class="formula">δ = A%·reading + B%·range &nbsp;·&nbsp; ε = δ/x</span>
+<span class="formula">δy = Σ|∂f/∂xi|·δxi &nbsp;·&nbsp; yig'indi: δ qo'shiladi &nbsp;·&nbsp; ko'paytma/bo'linma: ε qo'shiladi</span>
+<span class="formula">Bo'luvchi: θ = (1/A)(RF·VS/(R0·VF) − RF/R0 − 1) &nbsp;·&nbsp; fotodiod: Ev = Vout/(RF·S) − IOFF/S</span>
+<span class="formula">R = V/I &nbsp;·&nbsp; θ = (R/R0 − 1)/A &nbsp;·&nbsp; δθ = δR/(R0·A) + δθ<sub>S</sub></span>
+<ul>
+<li>Javoblar: 1 → (51.3 ± 2.1) °C; 2 → (1002 ± 21) lux; 3 → R = (1234.5 ± 1.0) Ω, θ = (60.0 ± 0.5) °C.</li>
+</ul>
+</div>
+
+<div class="box ok">Yechib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi masala qiyinligini ayting).</div>
+
+<footer class="pager"><a href="39-sensorlar-noaniqlik.html">← 39-dars</a><a href="./">Darslar ro'yxati →</a></footer>
+</main></body></html>

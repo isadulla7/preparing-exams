@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>39. Sensorlar va imtihon masalalari</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>39. Sensorlar (Pt100, NTC, fotodiod) va Measurements imtihon masalalari</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> rezistiv harorat sensori va fotodiod qanday ishlashini; ularning chiqishini kuchlanishga aylantiruvchi sxemalarni (bo'luvchi, trans-rezistiv kuchaytirgich); va eng muhimi, imtihondagi 6 ballik Measurements masalasini qadamma-qadam yechishni. Uchta haqiqiy imtihon masalasi (2019-06 A, 2019-06 B, 2019-07) to'liq yechilgan. Oldin 35-darsni o'qing. Manba: Carullo, Sensors 1–3 slaydlari va 2019 imtihon yechimlari. O'qish vaqti: 45 daqiqa.</div>
+
+<h2>1. Sensor nima</h2>
+<p><span class="term">Transduser</span> (transducer) = kirish signalini o'zgartirib chiqaradigan har qanday qurilma (kuchaytirgich, filtr, ADC). <span class="term">Sensor</span> = o'lchanayotgan kattalikni birinchi bo'lib "sezadigan" transduser: harorat → qarshilik, yorug'lik → tok va hokazo.</p>
+<figure>
+<svg viewBox="0 0 720 150" role="img" aria-label="O'lchash zanjiri: o'lchanuvchi kattalik, sensor, signalni tayyorlash sxemasi, ADC, qayta ishlash va natija" font-family="system-ui,sans-serif">
+<defs><marker id="ch" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<rect x="14" y="40" width="124" height="60" rx="8" fill="#9aa0a6" fill-opacity=".12" stroke="#9aa0a6" stroke-width="1.6"/><text x="76.0" y="64.0" text-anchor="middle" font-size="13" fill="#9aa0a6" font-weight="700">kattalik</text><text x="76.0" y="84.0" text-anchor="middle" font-size="10" fill="currentColor">θ, Ev …</text>
+<path d="M138 70H154" stroke="#555" stroke-width="1.6" marker-end="url(#ch)"/>
+<rect x="156" y="40" width="124" height="60" rx="8" fill="#2563eb" fill-opacity=".12" stroke="#2563eb" stroke-width="1.6"/><text x="218.0" y="64.0" text-anchor="middle" font-size="13" fill="#2563eb" font-weight="700">sensor</text><text x="218.0" y="84.0" text-anchor="middle" font-size="10" fill="currentColor">R(θ), Isc(Ev)</text>
+<path d="M280 70H296" stroke="#555" stroke-width="1.6" marker-end="url(#ch)"/>
+<rect x="298" y="40" width="124" height="60" rx="8" fill="#d9622b" fill-opacity=".12" stroke="#d9622b" stroke-width="1.6"/><text x="360.0" y="64.0" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">tayyorlash</text><text x="360.0" y="84.0" text-anchor="middle" font-size="10" fill="currentColor">bo'luvchi, kuchaytirgich</text>
+<path d="M422 70H438" stroke="#555" stroke-width="1.6" marker-end="url(#ch)"/>
+<rect x="440" y="40" width="124" height="60" rx="8" fill="#16a34a" fill-opacity=".12" stroke="#16a34a" stroke-width="1.6"/><text x="502.0" y="64.0" text-anchor="middle" font-size="13" fill="#16a34a" font-weight="700">ADC</text><text x="502.0" y="84.0" text-anchor="middle" font-size="10" fill="currentColor">16a–20-darslar</text>
+<path d="M564 70H580" stroke="#555" stroke-width="1.6" marker-end="url(#ch)"/>
+<rect x="582" y="40" width="124" height="60" rx="8" fill="#9333ea" fill-opacity=".12" stroke="#9333ea" stroke-width="1.6"/><text x="644.0" y="64.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">hisoblash</text><text x="644.0" y="84.0" text-anchor="middle" font-size="10" fill="currentColor">θ = f⁻¹(V) ± δθ</text>
+<text x="360.0" y="126.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">Kalibrovka funksiyasi: chiqishdan kirishni topish (teskari formula)</text>
+</svg>
+<figcaption>Ma'lumot yig'ish tizimi. Sensor chiqishi tayyorlanadi, raqamga aylantiriladi, keyin teskari formula bilan o'lchanuvchi hisoblanadi.</figcaption>
+</figure>
+<ul>
+<li><span class="term">Passiv sensor</span>: chiqishi qarshilik (yoki sig'im) o'zgarishi. Tashqi manba (VS) kerak. Misol: Pt100, NTC, tenzorezistor.</li>
+<li><span class="term">Aktiv sensor</span>: o'zi kuchlanish, tok yoki zaryad beradi. Ko'pincha kuchaytirgich kerak. Misol: termojuft, fotodiod.</li>
+</ul>
+<p><span class="term">Kalibrovka funksiyasi</span> (calibration function): chiqishdan kirishni topish formulasi, ya'ni sensor formulasining teskarisi. Masalan R = f(θ) bo'lsa, θ = f<sup>−1</sup>(R).</p>
+
+<h2>2. Rezistiv harorat sensorlari</h2>
+<h3>Pt100 (platina RTD)</h3>
+<span class="formula">Rθ = R0 · (1 + A·θ + B·θ²) &nbsp;&nbsp;&nbsp; Pt100: R0 = 100 Ω (0 °C da), A = 3.9083·10<sup>−3</sup> °C<sup>−1</sup>, B = −5.775·10<sup>−7</sup> °C<sup>−2</sup></span>
+<p>Imtihonda soddalashtirilgan chiziqli model ishlatiladi: <strong>Rθ = R0·(1 + A·θ)</strong>. Sensor noaniqligi odatda δθ = a + b·|θ| ko'rinishida beriladi (masalan class A: 0.15 °C + 0.002·|θ|).</p>
+<ul>
+<li>Sezgirlik past: Pt100 da ≈ 0.39 Ω/°C. Shuning uchun simlar qarshiligi xavfli: 0.5 Ω xato ≈ 1.3 °C xato. Yechim: <strong>4 simli ulanish</strong> (tok ikki simdan, kuchlanish boshqa ikki simdan o'lchanadi).</li>
+<li><span class="term">O'z-o'zini qizdirish</span> (self-heating): o'lchash toki IT sensorni isitadi (P = IT²·R). Pt100 uchun IT ≈ 1 mA yaxshi murosa.</li>
+<li>Termoelektrik kuchlanish: juda kichik tokda sezilarli bo'ladi; tok yo'nalishini almashtirib ikki o'lchash o'rtachasi olinadi.</li>
+</ul>
+<h3>NTC termistor</h3>
+<p>Yarim o'tkazgich, harorat oshsa qarshiligi <strong>kamayadi</strong> (Negative Temperature Coefficient). Sezgirlik yuqori (−3…−10 %/°C), lekin juda nochiziqli; diapazon −100…+300 °C. Beta formula: R<sub>T</sub> = A·e<sup>β/T</sup>, ya'ni 1/T = 1/T0 + (1/β)·ln(R<sub>T</sub>/R0) (T kelvinda). PTC asosan himoya uchun ishlatiladi.</p>
+<table>
+<tr><th></th><th>RTD (Pt100)</th><th>NTC</th></tr>
+<tr><td>Eng kichik noaniqlik</td><td>0.01 °C</td><td>0.1 °C</td></tr>
+<tr><td>Diapazon</td><td>−270…1100 °C</td><td>−100…300 °C</td></tr>
+<tr><td>Vaqt doimiysi</td><td>1…50 s</td><td>0.05…2.5 s</td></tr>
+<tr><td>Kamchilik</td><td>past sezgirlik</td><td>katta nochiziqlilik</td></tr>
+</table>
+
+<h3>Kuchlanish bo'luvchi bilan ulash</h3>
+<p>Qarshilikni kuchlanishga aylantirishning eng oddiy usuli: sensor Rθ va doimiy RF ketma-ket, VS ga ulanadi, RF dagi kuchlanish o'lchanadi:</p>
+<span class="formula">VF = VS · RF / (RF + Rθ)</span>
+<p>VS va RF ning noaniqligi ham natijaga o'tadi (ular "ta'sir qiluvchi kattalik"). Shuning uchun barqaror manba va rezistor kerak.</p>
+
+<h2>3. Fotodiod va trans-rezistiv kuchaytirgich</h2>
+<p><span class="term">Yoritilganlik</span> (illuminance) Ev, birligi <strong>lux</strong> (lx = lm/m²): sirtga tushayotgan yorug'lik. Uy chirog'i 30…300 lx, ofis stoli 100…1000 lx, quyosh 10<sup>5</sup> lx.</p>
+<p>Fotodiod yorug'lik tushganda tok beradi (qisqa tutashuv toki):</p>
+<span class="formula">ISC = S · Ev + IOFF &nbsp;&nbsp;&nbsp; (S = sezgirlik, A/lx; IOFF = qorong'ilikdagi tok)</span>
+<p>Tokni kuchlanishga aylantirish uchun <span class="term">trans-rezistiv kuchaytirgich</span> (trans-resistance, transimpedance amplifier) ishlatiladi: op-amp, teskari aloqada RF. 19-darsdagi qoidalardan: tok to'liq RF orqali o'tadi:</p>
+<span class="formula">Vout = RF · ISC</span>
+<p><img src="img/e1906a.png" alt="Fotodiod op-amp ning minus kirishiga ulangan, teskari aloqa rezistori RF, chiqish Vout" style="max-width:100%;background:#fff;border-radius:6px"></p>
+
+<h2>4. Imtihon masalasini yechish retsepti (6 ball)</h2>
+<ol>
+<li><strong>Model:</strong> sxemadan chiqish formulasini yozing (bo'luvchi yoki Vout = RF·ISC).</li>
+<li><strong>Kalibrovka funksiyasi:</strong> uni o'lchanuvchiga nisbatan yeching (θ = …, Ev = …).</li>
+<li><strong>Qiymat:</strong> nominal qiymatlarni qo'ying.</li>
+<li><strong>Sezgirliklar:</strong> har bir noaniq kattalik bo'yicha |∂/∂x|.</li>
+<li><strong>Absolyut noaniqliklar:</strong> foizlarni absolyutga aylantiring (1% · 100 kΩ = 1 kΩ).</li>
+<li><strong>Yig'indi:</strong> δ = Σ|c|·δx (+ sensorning o'z noaniqligi, agar berilgan bo'lsa).</li>
+<li><strong>Natija:</strong> (qiymat ± noaniqlik) birlik.</li>
+</ol>
+
+<h2>5. Imtihon masalasi: 2019-06, A varianti (fotodiod)</h2>
+<div class="box">
+<p><em>"The figure above shows a system for the measurement of the illuminance EV through a photodiode and a trans-resistance amplifier. The photodiode is characterized by the following input/output relationship: ISC = S·EV + IOFF where S = (10 ± 0.1) nA/lux and IOFF = (0 ± 50) nA. The resistor RF has a nominal value of 100 kΩ and a relative tolerance of ±1%. Estimate value and uncertainty of the illuminance EV when Vout = (0.734 ± 0.005) V."</em></p>
+</div>
+<details><summary>Javob (rasmiy yechim, tushuntirish bilan)</summary>
+<p><strong>1. Model:</strong> Vout = RF·ISC = RF·(S·Ev + IOFF).</p>
+<p><strong>2. Kalibrovka:</strong> Ev = Vout/(RF·S) − IOFF/S.</p>
+<p><strong>3. Qiymat:</strong> RF·S = 10<sup>5</sup> · 10·10<sup>−9</sup> = 10<sup>−3</sup> V/lux. Ev = 0.734/10<sup>−3</sup> − 0 = <strong>734 lux</strong>.</p>
+<p><strong>4. Sezgirliklar:</strong></p>
+<ul>
+<li>|∂Ev/∂Vout| = 1/(RF·S) = 1000 lux/V</li>
+<li>|∂Ev/∂S| = Vout/(RF·S²) = 0.734/(10<sup>5</sup>·10<sup>−16</sup>) = 7.34·10<sup>10</sup> lux/(A/lux)</li>
+<li>|∂Ev/∂RF| = Vout/(RF²·S) = 0.734/(10<sup>10</sup>·10<sup>−8</sup>) = 7.34·10<sup>−3</sup> lux/Ω</li>
+<li>|∂Ev/∂IOFF| = 1/S = 10<sup>8</sup> lux/A</li>
+</ul>
+<p><strong>5. Absolyut noaniqliklar:</strong> δVout = 0.005 V; δS = 0.1·10<sup>−9</sup> A/lux; δRF = 0.01·10<sup>5</sup> = 1000 Ω; δIOFF = 50·10<sup>−9</sup> A.</p>
+<p><strong>6. Yig'indi:</strong> δEv = 1000·0.005 + 7.34·10<sup>10</sup>·10<sup>−10</sup> + 7.34·10<sup>−3</sup>·1000 + 10<sup>8</sup>·5·10<sup>−8</sup> = 5.00 + 7.34 + 7.34 + 5.00 ≈ 24.7 lux.</p>
+<p><strong>Natija: Ev = (734 ± 25) lux.</strong></p>
+<p><strong>Tekshiruv usuli:</strong>: Vout, S, RF ko'paytma/bo'linmada, nisbiylar: 0.68% + 1% + 1% = 2.68% · 734 = 19.7 lux; IOFF qismi alohida: 5 lux. Jami 24.7 lux. Bir xil!</p>
+</details>
+
+<h2>6. Imtihon masalasi: 2019-06, B varianti (rezistiv harorat sensori)</h2>
+<p><img src="img/e1906b.png" alt="VS manba, ketma-ket Rθ sensor va RF rezistor; VF RF dagi kuchlanish" style="max-width:100%;background:#fff;border-radius:6px"></p>
+<div class="box">
+<p><em>"The figure above shows a system for the measurement of the temperature θ through a passive resistive sensor that has the following input/output relationship: Rθ = R0·(1 + A·θ) where R0 = 1000 Ω and A = 0.004 (°C)<sup>−1</sup>. The uncertainty of the sensor is expressed as: δθ = 0.5 °C + 0.003·|θ|. The resistor RF has a nominal value of 1 kΩ and a relative tolerance of ±0.5% and the voltage supply is VS = (5 ± 0.005) V. Estimate value and uncertainty of the temperature θ when VF = (2.750 ± 0.005) V."</em></p>
+</div>
+<details><summary>Javob (rasmiy yechim, tushuntirish bilan)</summary>
+<p><strong>1. Model:</strong> VF = VS·RF/(RF + Rθ) = VS·RF/(RF + R0 + R0·A·θ).</p>
+<p><strong>2. Kalibrovka</strong> (θ ga nisbatan yechamiz): RF + R0 + R0Aθ = VS·RF/VF → </p>
+<span class="formula">θ = (1/A) · ( RF·VS/(R0·VF) − RF/R0 − 1 )</span>
+<p><strong>3. Qiymat:</strong> RF·VS/(R0·VF) = 1000·5/(1000·2.75) = 1.8182; RF/R0 = 1. θ = 250·(1.8182 − 1 − 1) = 250·(−0.1818) = <strong>−45.455 °C</strong>.</p>
+<p><strong>4. Sezgirliklar:</strong></p>
+<ul>
+<li>|∂θ/∂RF| = |(1/A)·(VS/(R0·VF) − 1/R0)| = 250·|0.0018182 − 0.001| = 0.20 °C/Ω</li>
+<li>|∂θ/∂VS| = RF/(A·R0·VF) = 1000/(0.004·1000·2.75) = 91 °C/V</li>
+<li>|∂θ/∂VF| = RF·VS/(A·R0·VF²) = 5000/(0.004·1000·7.5625) = 165 °C/V</li>
+</ul>
+<p><strong>5. Absolyut noaniqliklar:</strong> δRF = 0.005·1000 = 5 Ω; δVS = 0.005 V; δVF = 0.005 V; sensor: δθ<sup>S</sup> = 0.5 + 0.003·45.455 ≈ 0.64 °C.</p>
+<p><strong>6. Yig'indi:</strong> δθ = 0.20·5 + 91·0.005 + 165·0.005 + 0.64 = 1.0 + 0.45 + 0.83 + 0.64 ≈ 2.9 °C.</p>
+<p><strong>Natija: θ = (−45.5 ± 2.9) °C.</strong></p>
+<p>Diqqat: sensorning o'z noaniqligi δθ<sup>S</sup> oxirida <strong>qo'shiladi</strong> (u allaqachon °C da).</p>
+</details>
+
+<h2>7. Imtihon masalasi: 2019-07 (6 ball)</h2>
+<div class="box">
+<p><em>"The figure shows a system for the measurement of the temperature θ through a passive resistive sensor that has the following input/output relationship: Rθ = R0·(1 + A·θ) where R0 = 100 Ω and A = 0.004 (°C)<sup>−1</sup>. The uncertainty of the sensor is expressed as: δθ = 0.6 °C + 0.01·|θ|. The resistor RF has a nominal value of 1 kΩ and a relative tolerance of ±0.2% and the voltage supply is VS = 1 V ± 0.5 mV. Estimate value and uncertainty of the temperature θ when VF = (0.8800 ± 0.0005) V."</em></p>
+<p>Sxema B variantidagi bilan bir xil. Rasmiy yechim: "B variantining yechimiga qarang". Quyida shu usul bilan hisoblangan javob (raqamlar men tomonimdan hisoblandi, rasmiy son berilmagan).</p>
+</div>
+<details><summary>Javob (yechim)</summary>
+<p><strong>Qiymat:</strong> RF·VS/(R0·VF) = 1000·1/(100·0.88) = 11.364; RF/R0 = 10. θ = 250·(11.364 − 10 − 1) = 250·0.3636 = <strong>90.9 °C</strong>.</p>
+<p><strong>Sezgirliklar va hissalar:</strong></p>
+<ul>
+<li>|∂θ/∂RF| = 250·(1/88 − 1/100) = 0.341 °C/Ω; δRF = 0.002·1000 = 2 Ω → 0.68 °C</li>
+<li>|∂θ/∂VS| = 1000/(0.004·100·0.88) = 2841 °C/V; δVS = 0.0005 V → 1.42 °C</li>
+<li>|∂θ/∂VF| = 1000·1/(0.004·100·0.7744) = 3228 °C/V; δVF = 0.0005 V → 1.61 °C</li>
+<li>Sensor: 0.6 + 0.01·90.9 = 1.51 °C</li>
+</ul>
+<p>δθ = 0.68 + 1.42 + 1.61 + 1.51 = 5.2 °C.</p>
+<p><strong>Natija: θ = (90.9 ± 5.2) °C.</strong></p>
+</details>
+
+<div class="box check"><strong>O'zingizni tekshiring:</strong>
+<ol>
+<li>Fotodiod S = (20 ± 0.2) nA/lux, IOFF = (0 ± 20) nA, RF = 50 kΩ ± 1%, Vout = (0.500 ± 0.002) V. Ev = ? δEv = ?</li>
+<li>Pt100 ning sezgirligi taxminan qancha Ω/°C? Nega 4 simli ulanish kerak?</li>
+<li>NTC qarshiligi harorat oshganda qanday o'zgaradi?</li>
+</ol>
+<details><summary>Javoblar</summary>
+<ol>
+<li>RF·S = 5·10<sup>4</sup>·2·10<sup>−8</sup> = 10<sup>−3</sup> V/lux → Ev = 500 lux. Nisbiylar: 0.4% (Vout) + 1% (S) + 1% (RF) = 2.4% → 12 lux. IOFF: (1/S)·δIOFF = 5·10<sup>7</sup>·2·10<sup>−8</sup> = 1 lux. δEv = 13 lux. Ev = (500 ± 13) lux.</li>
+<li>≈ 0.39 Ω/°C (100 Ω · 0.0039). Simlar qarshiligi (masalan 0.5 Ω) 1 °C dan ortiq xato beradi; 4 simli ulanish uni yo'qotadi.</li>
+<li>Kamayadi (manfiy koeffitsient), juda nochiziqli.</li>
+</ol></details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Sensor</td><td>sensor</td><td>O'lchanuvchini sezuvchi birinchi transduser</td></tr>
+<tr><td>Transduser</td><td>transducer</td><td>Signalni o'zgartiruvchi har qanday qurilma</td></tr>
+<tr><td>Passiv / aktiv sensor</td><td>passive / active sensor</td><td>Tashqi manba kerak / o'zi signal beradi</td></tr>
+<tr><td>Kalibrovka funksiyasi</td><td>calibration function</td><td>Chiqishdan kirishni topish formulasi</td></tr>
+<tr><td>RTD, Pt100</td><td>resistance temperature detector</td><td>Platina qarshilik termometri, R0 = 100 Ω</td></tr>
+<tr><td>Termistor NTC/PTC</td><td>thermistor</td><td>Yarim o'tkazgichli harorat sensori</td></tr>
+<tr><td>O'z-o'zini qizdirish</td><td>self-heating</td><td>O'lchash toki sensorni isitadi</td></tr>
+<tr><td>4 simli ulanish</td><td>4-wire connection</td><td>Sim qarshiligi ta'sirini yo'qotadi</td></tr>
+<tr><td>Fotodiod</td><td>photodiode</td><td>Yorug'likdan tok hosil qiluvchi diod</td></tr>
+<tr><td>Yoritilganlik</td><td>illuminance Ev (lux)</td><td>Sirtga tushgan yorug'lik oqimi zichligi</td></tr>
+<tr><td>Sezgirlik</td><td>sensitivity S</td><td>Chiqish/kirish nisbati (A/lx, Ω/°C)</td></tr>
+<tr><td>Trans-rezistiv kuchaytirgich</td><td>trans-resistance amplifier</td><td>Tokni kuchlanishga: Vout = RF·I</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<span class="formula">Rθ = R0(1 + Aθ) &nbsp;·&nbsp; bo'luvchi: VF = VS·RF/(RF + Rθ) → θ = (1/A)(RF·VS/(R0·VF) − RF/R0 − 1)</span>
+<span class="formula">ISC = S·Ev + IOFF &nbsp;·&nbsp; Vout = RF·ISC → Ev = Vout/(RF·S) − IOFF/S</span>
+<span class="formula">δ = Σ|∂/∂x|·δx + δ<sub>sensor</sub></span>
+<ul>
+<li>Retsept: model → kalibrovka → qiymat → sezgirliklar → absolyut δ lar → yig'indi → natija.</li>
+<li>Tolerantlik foizini absolyutga aylantiring. Sensor noaniqligi (°C) oxirida qo'shiladi.</li>
+<li>Tekshiruv: ko'paytma/bo'linma qismi uchun nisbiylar yig'indisi.</li>
+<li>Pt100: R0 = 100 Ω, ≈ 0.39 Ω/°C, 4 simli ulanish, IT ≈ 1 mA. NTC: R ↓ harorat ↑, nochiziqli, sezgir.</li>
+<li>Javoblar: 2019-06 A → (734 ± 25) lux; 2019-06 B → (−45.5 ± 2.9) °C; 2019-07 → (90.9 ± 5.2) °C.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="35-olchash-noaniqligi.html">← 35-dars</a><a href="40-mashq-measurements.html">40-dars →</a></footer>
+</main></body></html>

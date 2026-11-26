@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>35. O'lchash noaniqligi</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>35. O'lchash noaniqligi: natijani qanday yozish va noaniqlikni qanday hisoblash</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> nega har bir o'lchash natijasi "qiymat ± noaniqlik" ko'rinishida yoziladi; absolyut va nisbiy noaniqlik; asbob pasportidagi "±(A% reading + B% range)" yozuvini qanday o'qish; bilvosita o'lchashda noaniqlik qanday tarqalishi (hosila qoidasi, eng yomon holat). Imtihonning Measurements qismidagi 6 ballik masala aynan shu hisob (39-darsda imtihon masalalari). Manba: A. Carullo, "Uncertainty estimation – Review". O'qish vaqti: 40 daqiqa.</div>
+
+<h2>1. Nega "±" kerak</h2>
+<p>Hech bir o'lchash mutlaq aniq emas. Chizg'ich bilan stolni o'lchasangiz 120.3 sm chiqadi, lekin chizg'ichning o'zi biroz xato, ko'zingiz chiziqni aniq ko'rmaydi, stol chetlari tekis emas. Shuning uchun haqiqiy uzunlik "120.3 atrofida, ±0.2 sm ichida" deyiladi.</p>
+<p>O'lchanadigan kattalik <span class="term">measurand</span> (o'lchanuvchi) deyiladi. Natija esa bitta son emas, balki <strong>oraliq</strong>:</p>
+<span class="formula">m = (m0 ± δm) U</span>
+<ul>
+<li>m0: o'lchangan (berilgan) qiymat, oraliq markazi.</li>
+<li>δm: <span class="term">absolyut noaniqlik</span> (absolute uncertainty), oraliqning yarim kengligi, o'sha birlikda (U).</li>
+</ul>
+<figure>
+<svg viewBox="0 0 720 170" role="img" aria-label="O'lchash natijasi oraliq sifatida: markazda m0, ikki tomonda δm. Haqiqiy qiymat shu oraliq ichida; oraliqdagi hamma qiymat bir xil ishonchli" font-family="system-ui,sans-serif">
+<path d="M60 90H660" stroke="currentColor" stroke-width="1.4"/>
+<rect x="160" y="72" width="400" height="36" rx="6" fill="#2563eb" fill-opacity=".14" stroke="#2563eb" stroke-width="1.6"/>
+<path d="M360 64V116" stroke="#dc2626" stroke-width="2.4"/><text x="360.0" y="56.0" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="700">m0 (o'lchangan qiymat)</text>
+<text x="160.0" y="130.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">m0 − δm</text><text x="560.0" y="130.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">m0 + δm</text>
+<path d="M360 146H560" stroke="#9333ea" stroke-width="2.5"/><text x="460.0" y="162.0" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">δm = absolyut noaniqlik</text>
+<text x="360.0" y="24.0" text-anchor="middle" font-size="13" fill="currentColor" font-weight="700">m = (m0 ± δm) U   →   haqiqiy qiymat shu oraliqda</text>
+</svg>
+<figcaption>Deterministik yondashuv: haqiqiy qiymat oraliq ichida va oraliqdagi barcha qiymatlar bir xil "ishonchli".</figcaption>
+</figure>
+<p>Kursda <span class="term">deterministik yondashuv</span> (deterministic approach) ishlatiladi: o'lchanuvchi aniq shu oraliq ichida deb hisoblanadi. Bu yondashuv bugun ham asboblar pasportida, sanoatda va "eng yomon holat" loyihalashda ishlatiladi.</p>
+
+<h2>2. Absolyut va nisbiy noaniqlik</h2>
+<p>Absolyut noaniqlik o'lchashning sifatini to'liq ko'rsatmaydi. Slayddagi misol: l1 = (13.56 ± 0.07) m va l2 = (2320.11 ± 0.07) m. δ bir xil, lekin ikkinchisi juda aniqroq (va qimmatroq) o'lchash. Shuning uchun <span class="term">nisbiy noaniqlik</span> ham ishlatiladi:</p>
+<span class="formula">ε = δm / m0 &nbsp;&nbsp;&nbsp; ε% = 100 · δm / m0</span>
+<p>l1 = 13.56 m, ±0.52 %; l2 = 2320.11 m, ±0.0030 %. Yozish shakli: <strong>m = m0 U, ± ε%</strong>.</p>
+<div class="box warn"><strong>Diqqat:</strong> ishlab chiqaruvchilar ko'pincha nisbiy noaniqlikni o'lchangan qiymatga emas, <strong>shkalaga</strong> (range) nisbatan beradi. Slayd misoli: 30 V o'lchanadi.
+<ul>
+<li>Voltmetr 1: shkala 50 V, noaniqlik 1% <strong>o'lchangan qiymatdan</strong> → δ = 0.01 · 30 = 0.3 V.</li>
+<li>Voltmetr 2: shkala 100 V, 0.5% shkaladan → δ = 0.005 · 100 = 0.5 V.</li>
+</ul>
+Natija: V1 → (30 ± 0.3) V, V2 → (30 ± 0.5) V. Ya'ni "0.5%" kichikroq ko'rinsa ham, shkalaga nisbatan bo'lgani uchun natija yomonroq. Har doim foiz <strong>nimaga nisbatan</strong> ekanini tekshiring.</div>
+
+<h2>3. Noaniqlik qayerdan keladi</h2>
+<ul>
+<li><strong>Asbob</strong>: kalibrovka funksiyasi aniq emas (offset, gain xatosi, nochiziqlilik); ta'sir qiluvchi kattaliklar (<span class="term">influence quantities</span>: harorat, namlik, ta'minot kuchlanishi, vibratsiya, elektromagnit maydon); cheklangan ruxsat (kvantlash); <span class="term">yuklama effekti</span> (asbob ulanganda o'lchanayotgan sxema o'zgaradi).</li>
+<li><strong>O'lchanuvchi</strong>: ta'rifi cheklangan aniqlikda berilgan (<span class="term">definitional uncertainty</span>), bu eng kichik erishiladigan noaniqlik.</li>
+<li><strong>Usul</strong>: turli asbob/operator bilan natija farqi (<span class="term">reproducibility</span>, takrorlanuvchanlik); bir xil sharoitda takrorlaganda tasodifiy farq (<span class="term">repeatability</span>, qaytariluvchanlik).</li>
+<li><strong>Model</strong>: bilvosita usulda formula o'lchanuvchini to'liq tasvirlamasligi (masalan kub hajmi V = L³, lekin kub ideal emas).</li>
+</ul>
+
+<h2>4. Asbob pasportini o'qish: ±(A% reading + B% range)</h2>
+<p>Raqamli multimetr pasportida shunday jadval bo'ladi (slayd):</p>
+<table>
+<tr><th>Funksiya</th><th>Shkala</th><th>24 soat, (23 ± 1) °C</th><th>90 kun, (23 ± 5) °C</th></tr>
+<tr><td rowspan="2">DCV</td><td>100 mV</td><td>0.003 + 0.003</td><td>0.004 + 0.0035</td></tr>
+<tr><td>1 V</td><td>0.002 + 0.0006</td><td>0.003 + 0.0007</td></tr>
+</table>
+<p>Har katakda ikki son: A (o'qilgan qiymatning foizi) va B (shkalaning foizi). Qaysi ustun: kalibrovkadan beri o'tgan vaqt va harorat qaysi oraliqqa tushishiga qarab.</p>
+<span class="formula">δV = ±(A% · o'qilgan qiymat + B% · shkala)</span>
+<div class="box"><strong>Slayd misoli:</strong> Vm = 0.76588 V, harorat 25 °C, namlik 65%, kalibrovkadan 50 kun o'tgan.
+<ul>
+<li>50 kun &gt; 24 soat, 25 °C ∉ (23 ± 1) → <strong>90 kun</strong> ustuni, (23 ± 5) °C ichida. Shkala 1 V. A = 0.003, B = 0.0007.</li>
+<li>δV = 0.003/100 · 0.76588 + 0.0007/100 · 1 = 23·10<sup>−6</sup> + 7·10<sup>−6</sup> = <strong>30 µV</strong>.</li>
+<li>Natija: V = (0.76588 ± 0.00003) V.</li>
+</ul></div>
+
+<h2>5. To'g'ridan-to'g'ri va bilvosita o'lchash</h2>
+<ul>
+<li><span class="term">To'g'ridan-to'g'ri</span> (direct): natija bitta asbobdan o'qiladi (yoki etalon bilan solishtiriladi). Noaniqlik = barcha hissalar <strong>yig'indisi</strong> (asbob + takrorlanuvchanlik + …).</li>
+<li><span class="term">Bilvosita</span> (indirect): o'lchanuvchi formula orqali boshqa o'lchangan kattaliklardan hisoblanadi: Y = f(X1, X2, …, XN). Masalan qarshilik R = V/I, zichlik = massa/hajm. Imtihon masalalari doim shu turda.</li>
+</ul>
+
+<h2>6. Noaniqlik tarqalishi (eng muhim formula)</h2>
+<p>Y = f(X1, …, XN), har bir xi = (xi0 ± δxi). Avval qiymat:</p>
+<span class="formula">y0 = f(x10, x20, …, xN0)</span>
+<p>Keyin noaniqlik (<strong>eng yomon holat modeli</strong>, worst-case):</p>
+<span class="formula">δy = Σ |∂f/∂xi| · δxi &nbsp;&nbsp;&nbsp; (hosilalar nominal qiymatlarda hisoblanadi)</span>
+<p>∂f/∂xi = <span class="term">sezgirlik koeffitsienti</span> ci: xi 1 birlik o'zgarsa, y qancha o'zgaradi. Modul belgisi xatolar bir-birini kamaytirishiga yo'l qo'ymaydi.</p>
+<div class="box note"><strong>Xususiy hosila nima?</strong> Bir nechta o'zgaruvchili formulada bittasi bo'yicha hosila olinadi, qolganlari o'zgarmas son deb qaraladi. Masalan f = x1·x2/x3 uchun ∂f/∂x1 = x2/x3 (x2, x3 son kabi); ∂f/∂x3 = −x1·x2/x3².</div>
+<figure>
+<svg viewBox="0 0 720 200" role="img" aria-label="Eng yomon holat: Y = X1 + X2 + X3. Har bir X o'z oralig'ining eng chetida bo'lishi mumkin; Y ning oralig'i uchala oraliq kengligi yig'indisiga teng" font-family="system-ui,sans-serif">
+<text x="106.0" y="45.0" text-anchor="end" font-size="13" fill="#2563eb" font-weight="700">x1</text>
+<rect x="120" y="31" width="60" height="18" rx="4" fill="#2563eb" fill-opacity=".18" stroke="#2563eb"/>
+<text x="190.0" y="45.0" text-anchor="start" font-size="12" fill="#2563eb">±δx1</text>
+<text x="106.0" y="79.0" text-anchor="end" font-size="13" fill="#16a34a" font-weight="700">x2</text>
+<rect x="120" y="65" width="40" height="18" rx="4" fill="#16a34a" fill-opacity=".18" stroke="#16a34a"/>
+<text x="170.0" y="79.0" text-anchor="start" font-size="12" fill="#16a34a">±δx2</text>
+<text x="106.0" y="113.0" text-anchor="end" font-size="13" fill="#d9622b" font-weight="700">x3</text>
+<rect x="120" y="99" width="80" height="18" rx="4" fill="#d9622b" fill-opacity=".18" stroke="#d9622b"/>
+<text x="210.0" y="113.0" text-anchor="start" font-size="12" fill="#d9622b">±δx3</text>
+<text x="106.0" y="161.0" text-anchor="end" font-size="13" fill="#9333ea" font-weight="700">y</text>
+<rect x="120" y="145" width="180" height="22" rx="4" fill="#9333ea" fill-opacity=".18" stroke="#9333ea" stroke-width="1.6"/>
+<text x="310.0" y="161.0" text-anchor="start" font-size="13" fill="#9333ea" font-weight="700">±δy = ±(δx1 + δx2 + δx3)</text>
+<text x="470.0" y="60.0" text-anchor="start" font-size="12" fill="currentColor">Hammasi bir vaqtda eng chetda</text>
+<text x="470.0" y="78.0" text-anchor="start" font-size="12" fill="currentColor">bo'lishi mumkin deb olamiz:</text>
+<text x="470.0" y="96.0" text-anchor="start" font-size="12" fill="currentColor">"worst case" (eng yomon holat).</text>
+<text x="470.0" y="120.0" text-anchor="start" font-size="12" fill="currentColor">|…| belgisi: xatolar bir-birini</text>
+<text x="470.0" y="138.0" text-anchor="start" font-size="12" fill="currentColor">"yeyishiga" yo'l qo'ymaydi.</text>
+</svg>
+<figcaption>Yig'indi uchun: har bir kattalikning noaniqligi qo'shiladi, chunki hammasi bir vaqtda eng chetda bo'lishi mumkin.</figcaption>
+</figure>
+
+<h2>7. Tayyor qoidalar (hosila olmasdan)</h2>
+<table>
+<tr><th>Formula</th><th>Noaniqlik</th></tr>
+<tr><td>Y = a·X1 ± b·X2 (yig'indi yoki ayirma)</td><td>δy = a·δx1 + b·δx2 (<strong>absolyutlar</strong> qo'shiladi, ayirmada ham!)</td></tr>
+<tr><td>Y = a·X1·X2 / (b·X3) (ko'paytma/bo'linma)</td><td>εy = εx1 + εx2 + εx3 (<strong>nisbiylar</strong> qo'shiladi)</td></tr>
+<tr><td>Y = a·X<sup>n</sup></td><td>εy = |n|·εx</td></tr>
+<tr><td>Y = a·X<sup>1/n</sup> (ildiz)</td><td>εy = εx / n</td></tr>
+</table>
+<div class="box"><strong>Misol:</strong> R = V/I, V = (5.00 ± 0.02) V, I = (2.00 ± 0.01) mA. εV = 0.4%, εI = 0.5% → εR = 0.9%. R0 = 2.5 kΩ, δR = 0.009 · 2500 = 22.5 Ω. R = (2.500 ± 0.023) kΩ.</div>
+
+<h2>8. Slayddagi to'liq misol: voltmetrning yuklama effekti</h2>
+<figure>
+<svg viewBox="0 0 720 200" role="img" aria-label="Kuchlanish manbai VO ichki qarshiligi RO bilan voltmetrga ulangan; voltmetr kirish qarshiligi RV. Voltmetr VO emas, bo'luvchidan keyingi Vm ni ko'rsatadi" font-family="system-ui,sans-serif">
+<text x="130.0" y="24.0" text-anchor="middle" font-size="13" fill="#2563eb" font-weight="700">Manba</text><text x="470.0" y="24.0" text-anchor="middle" font-size="13" fill="#16a34a" font-weight="700">Voltmetr</text>
+<rect x="40" y="36" width="190" height="140" rx="10" fill="#2563eb" fill-opacity=".05" stroke="#2563eb" stroke-dasharray="5 4"/>
+<rect x="380" y="36" width="190" height="140" rx="10" fill="#16a34a" fill-opacity=".05" stroke="#16a34a" stroke-dasharray="5 4"/>
+<circle cx="80" cy="110" r="16" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="80.0" y="115.0" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">VO</text>
+<path d="M80 94V60H120" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M120 60h7.5l3.8 -6l3.8 6l3.8 6l3.8 -6l3.8 -6l3.8 6l3.8 6l3.8 -6l3.8 -6l3.8 6l3.8 6l3.8 -6h7.5" fill="none" stroke="#d9622b" stroke-width="1.6"/><text x="150.0" y="48.0" text-anchor="middle" font-size="12" fill="#d9622b" font-weight="700">RO</text>
+<path d="M180 60H470V85" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M470 85v6.25l-6 3.1l6 3.1l6 3.1l-6 3.1l-6 3.1l6 3.1l6 3.1l-6 3.1l-6 3.1l6 3.1l6 3.1l-6 3.1v6.25" fill="none" stroke="#16a34a" stroke-width="1.6"/><text x="486.0" y="115.0" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">RV</text>
+<path d="M80 126V160H470V135" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<path d="M420 68V152" stroke="#dc2626" stroke-width="1.5"/><text x="412.0" y="114.0" text-anchor="end" font-size="12" fill="#dc2626" font-weight="700">Vm</text>
+<text x="650.0" y="90.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">Vm = VO·RV/(RV + RO)</text>
+<text x="650.0" y="114.0" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="700">Vm < VO</text>
+<text x="650.0" y="138.0" text-anchor="middle" font-size="11" fill="currentColor">(yuklama effekti)</text>
+</svg>
+<figcaption>Voltmetr ichki qarshiligi RV cheksiz emas, shuning uchun u manbadan tok oladi va ko'rsatgan Vm haqiqiy VO dan biroz kichik.</figcaption>
+</figure>
+<div class="box">
+<p><strong>Shart:</strong> manba RO = 100 Ω ± 5%. Voltmetr: δV = (0.01% reading + 0.0005 V), RV = 1 MΩ ± 5%. O'qish Vm = 9.9925 V. VO = ?</p>
+<p><strong>1. Model:</strong> bo'luvchi: Vm = VO · RV/(RV + RO) → <strong>VO = Vm · (1 + RO/RV)</strong>.</p>
+<p><strong>2. Effekt sezilarlimi?</strong> Vm·RO/RV = 9.9925 · 10<sup>−4</sup> ≈ 1 mV. Asbob noaniqligi δVm = 0.0001 · 9.9925 + 0.0005 = 1.5 mV. 1 mV ni 1.5 mV bilan solishtirsa bo'ladi, demak tashlab bo'lmaydi.</p>
+<p><strong>3. Qiymat:</strong> VO = 9.9925 · (1 + 10<sup>−4</sup>) = 9.993499 V.</p>
+<p><strong>4. Sezgirliklar:</strong></p>
+<ul>
+<li>∂VO/∂Vm = 1 + RO/RV = 1.0001 → 1.0001 · 1.5 mV = 1.5 mV</li>
+<li>∂VO/∂RO = Vm/RV = 10<sup>−5</sup> V/Ω, δRO = 5 Ω → 0.05 mV</li>
+<li>∂VO/∂RV = −Vm·RO/RV² = −10<sup>−9</sup> V/Ω, δRV = 5·10<sup>4</sup> Ω → 0.05 mV</li>
+</ul>
+<p><strong>5. Jami:</strong> δVO = 1.5 + 0.05 + 0.05 = <strong>1.6 mV</strong>. ε = 0.0016/9.9935 = 0.016 %.</p>
+<p><strong>6. Natija:</strong> <strong>VO = (9.9935 ± 0.0016) V</strong> yoki VO = 9.9935 V, ± 0.016 %.</p>
+</div>
+<div class="box note"><strong>Yaxlitlash qoidasi</strong> (rasmiy yechimlardagi kabi): noaniqlikni 1–2 muhim raqamgacha yaxlitlang (1.6 mV, 25 lux, 2.9 °C), qiymatni esa noaniqlik bilan bir xil xonagacha yozing (9.9935 V, 734 lux, −45.5 °C).</div>
+
+<div class="box check"><strong>O'zingizni tekshiring:</strong>
+<ol>
+<li>DMM: 10 V shkala, ±(0.02% reading + 0.005% range). O'qish 7.5000 V. δV = ?</li>
+<li>P = V·I, εV = 0.2%, εI = 0.3%. εP = ?</li>
+<li>Y = X1 − X2, x1 = (10.0 ± 0.1), x2 = (9.0 ± 0.1). y va εy?</li>
+<li>S = πr², εr = 1%. εS = ?</li>
+</ol>
+<details><summary>Javoblar</summary>
+<ol>
+<li>0.0002·7.5 + 0.00005·10 = 1.5 mV + 0.5 mV = 2.0 mV. V = (7.5000 ± 0.0020) V.</li>
+<li>εP = 0.5%.</li>
+<li>y = 1.0 ± 0.2 (absolyutlar qo'shiladi), εy = 20%! Yaqin sonlar ayirmasi juda noaniq.</li>
+<li>εS = 2·1% = 2%.</li>
+</ol></details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>O'lchanuvchi</td><td>measurand</td><td>O'lchanayotgan kattalik</td></tr>
+<tr><td>Noaniqlik</td><td>uncertainty δ</td><td>Natija oralig'ining yarim kengligi</td></tr>
+<tr><td>Absolyut / nisbiy</td><td>absolute / relative uncertainty</td><td>δm / δm/m0</td></tr>
+<tr><td>Deterministik yondashuv</td><td>deterministic approach</td><td>Haqiqiy qiymat aniq oraliq ichida</td></tr>
+<tr><td>Eng yomon holat</td><td>worst-case model</td><td>|ci|·δxi lar yig'indisi</td></tr>
+<tr><td>Sezgirlik koeffitsienti</td><td>sensitivity coefficient ci</td><td>∂f/∂xi</td></tr>
+<tr><td>To'g'ridan-to'g'ri / bilvosita</td><td>direct / indirect method</td><td>Bitta asbobdan / formula orqali</td></tr>
+<tr><td>O'lchash modeli</td><td>measurement model (function)</td><td>Y = f(X1…XN)</td></tr>
+<tr><td>Ta'sir qiluvchi kattalik</td><td>influence quantity</td><td>Harorat, namlik, ta'minot…</td></tr>
+<tr><td>Yuklama effekti</td><td>load effect</td><td>Asbob sxemani o'zgartiradi</td></tr>
+<tr><td>Qaytariluvchanlik / takrorlanuvchanlik</td><td>repeatability / reproducibility</td><td>Bir xil sharoitda / turli sharoitda farq</td></tr>
+<tr><td>Tolerantlik</td><td>tolerance</td><td>Komponent qiymatining ruxsat etilgan chetlanishi (± %)</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<span class="formula">m = (m0 ± δm) U &nbsp;·&nbsp; ε = δm/m0 &nbsp;·&nbsp; ε% = 100·δm/m0</span>
+<span class="formula">δV = A%·reading + B%·range</span>
+<span class="formula">y0 = f(x10…xN0) &nbsp;·&nbsp; δy = Σ |∂f/∂xi|·δxi</span>
+<span class="formula">Yig'indi/ayirma: δ lar qo'shiladi &nbsp;·&nbsp; ko'paytma/bo'linma: ε lar qo'shiladi &nbsp;·&nbsp; Xⁿ: |n|·ε</span>
+<ul>
+<li>Retsept: (1) model Y = f(X); (2) y0; (3) har bir hosila; (4) har bir |ci|·δxi; (5) yig'indi; (6) yaxlitlab yozish.</li>
+<li>Tolerantlik foizda berilsa: δR = tolerantlik · R0 (masalan 1% · 100 kΩ = 1 kΩ).</li>
+<li>Foiz nimaga nisbatan (reading yoki range) ekanini tekshiring.</li>
+<li>Yuklama effekti: Vm = VO·RV/(RV + RO) → VO = Vm(1 + RO/RV).</li>
+<li>Javoblar: pasport misoli → 30 µV; voltmetr misoli → VO = (9.9935 ± 0.0016) V.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="34-boost-buckboost-flyback.html">← 34-dars</a><a href="39-sensorlar-noaniqlik.html">39-dars →</a></footer>
+</main></body></html>
