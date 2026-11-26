@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>7. Latch va flip-flop: 1 bitni saqlash</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>7. Latch va flip-flop: 1 bitni saqlash</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> sxema 1 bitni qanday eslab qolishini. Latch va flip-flop orasidagi farq, D, JK, T flip-floplar va reset (tozalash) buyrug'i. Bu <strong>A mavzu</strong>: imtihonda deyarli har safar flip-flop masalasi tushadi. Testlarda latch va flip-flop haqida 5 ta savol bor, ularning hammasini shu darsda yechamiz. Manba: B2 slaydlari. O'qish vaqti: 25 daqiqa.</div>
+
+<p>5-darsdan eslatma: kombinatsion sxemalar hech narsani eslab qolmaydi. Endi <strong>eslab qoladigan</strong> sxemalarni o'rganamiz.</p>
+
+<h2>1. Takt signali (clock)</h2>
+<p><span class="term">Takt</span> (CK yoki CLK) to'xtovsiz 0-1-0-1 almashib turadigan signal. U sxemaga "hozir yangilan" deb buyruq beradi, xuddi orkestrdagi dirijyor tayoqchasi yoki metronom kabi.</p>
+<ul>
+<li><strong>Ko'tariluvchi front</strong> (rising edge, positive edge): 0 → 1 o'tish lahzasi. Belgisi ↑.</li>
+<li><strong>Tushuvchi front</strong> (falling edge, negative edge): 1 → 0 o'tish lahzasi. Belgisi ↓.</li>
+<li><strong>Davr</strong> T: bir to'liq tsikl vaqti. <strong>Chastota</strong> f = 1/T. Masalan T = 10 ns → f = 100 MHz.</li>
+</ul>
+
+<h2>2. Latch: eshik ochiq bo'lsa kuzatadi, yopiq bo'lsa eslab qoladi</h2>
+<p><span class="term">D latch</span> ikkita kirishga ega: <strong>D</strong> (ma'lumot) va <strong>LE</strong> (latch enable, ruxsat). Chiqishi <strong>Q</strong>.</p>
+<table>
+<tr><th>LE (high-level latch uchun)</th><th>Holat nomi</th><th>Q nima qiladi</th></tr>
+<tr><td>LE = 1</td><td>Shaffof (transparent)</td><td><strong>D ni kuzatadi</strong>: D o'zgarsa, Q ham o'zgaradi</td></tr>
+<tr><td>LE = 0</td><td>Xotira (latched, memory)</td><td><strong>Oxirgi qiymatni saqlaydi</strong>, D o'zgarsa ham o'zgarmaydi</td></tr>
+</table>
+<div class="box analogy">Deraza: ochiq bo'lsa (LE = 1) ko'chadagi hamma narsani ko'rasiz. Yopilgan lahzada ko'rgan manzarangiz "rasm" bo'lib qoladi va ko'chada nima bo'lsa ham o'zgarmaydi.</div>
+<p><strong>Low-level latch</strong> (past darajaga sezgir) teskari ishlaydi: LE = <strong>0</strong> da shaffof, LE = <strong>1</strong> da xotira. Slayd yoki savolda "high level sensitive" yoki "low level sensitive" deyilganiga diqqat qiling. Butun savol shunga bog'liq.</p>
+
+<h3>Imtihon savollari: 004, 088, 092</h3>
+<div class="box"><strong>004:</strong> <em>A high level sensitive latch has the command LE (latch enable) = 1. In this condition:</em><br>a) the output always remains at 1 &nbsp; b) the output does not change even if the input changes &nbsp; c) the output changes state following the input &nbsp; d) the output always remains at 0</div>
+<p>High-level latch, LE = 1 → shaffof → Q kirishni kuzatadi. Javob <strong>c)</strong>.</p>
+<div class="box"><strong>088:</strong> <em>A high-level sensitive latch has the LE command (latch enable) = 0. In this condition:</em><br>a) the output always remains at 0 &nbsp; b) the output changes state following the input &nbsp; c) the output does not change even if the input changes &nbsp; d) the output always remains at 1</div>
+<p>High-level latch, LE = 0 → xotira → Q o'zgarmaydi. Javob <strong>c)</strong>.</p>
+<div class="box"><strong>092:</strong> <em>A low level sensitive latch has the LE command (latch enable) = 1. In this condition:</em><br>a) the output always remains at 1 &nbsp; b) the output does not change even if the input changes &nbsp; c) the output changes state following the input &nbsp; d) the output always remains at 0</div>
+<p>Diqqat: bu <strong>low</strong>-level latch. Uning uchun LE = 1 bu xotira holati → Q o'zgarmaydi. Javob <strong>b)</strong>.</p>
+<p>Qoida: "always remains at 0/1" variantlari latch savollarida deyarli har doim noto'g'ri. Latch faqat ikki narsa qiladi: <strong>kuzatadi</strong> yoki <strong>saqlaydi</strong>.</p>
+
+<h2>3. Flip-flop: faqat front lahzasida "suratga oladi"</h2>
+<p><span class="term">D flip-flop</span> (D FF) latchdan farqli ravishda D ni faqat takt <strong>frontida</strong> o'qiydi. Qolgan butun vaqt davomida Q o'zgarmaydi, D qanday o'zgarishidan qat'i nazar.</p>
+<ul>
+<li><strong>Positive edge-triggered:</strong> ko'tariluvchi frontda (0→1) ishlaydi. Belgisida CK kirishi yonida kichik uchburchak ▷ bor.</li>
+<li><strong>Negative edge-triggered:</strong> tushuvchi frontda (1→0) ishlaydi. Belgisida uchburchak oldida doiracha bor.</li>
+</ul>
+<div class="box analogy">Latch = video kamera (deraza ochiq paytda hammasini yozadi). Flip-flop = fotoapparat (faqat tugma bosilgan lahzani suratga oladi).</div>
+<p>Ichkaridan flip-flop ikkita latchdan yasaladi: <strong>master</strong> va <strong>slave</strong> (master-slave D FF). Ular teskari LE bilan ishlaydi, shuning uchun hech qachon ikkalasi bir vaqtda shaffof bo'lmaydi va natijada faqat front lahzasi muhim bo'ladi.</p>
+
+<h3>Latch va flip-flopni taqqoslash</h3>
+<p>Bir xil CK va D signallari berilgan. Latch (LE = CK, high-level) va positive edge D FF chiqishlarini solishtiring:</p>
+<figure>
+<svg viewBox="0 0 700 300" role="img" aria-label="Vaqt diagrammasi: CK, D, latch chiqishi va flip-flop chiqishi" font-family="system-ui,sans-serif">
+<line x1="180" y1="30" x2="180" y2="270" stroke="#2563eb" stroke-opacity=".25" stroke-dasharray="4 3"/>
+<line x1="260" y1="30" x2="260" y2="270" stroke="#2563eb" stroke-opacity=".25" stroke-dasharray="4 3"/>
+<line x1="340" y1="30" x2="340" y2="270" stroke="#2563eb" stroke-opacity=".25" stroke-dasharray="4 3"/>
+<line x1="420" y1="30" x2="420" y2="270" stroke="#2563eb" stroke-opacity=".25" stroke-dasharray="4 3"/>
+<line x1="500" y1="30" x2="500" y2="270" stroke="#2563eb" stroke-opacity=".25" stroke-dasharray="4 3"/>
+<line x1="580" y1="30" x2="580" y2="270" stroke="#2563eb" stroke-opacity=".25" stroke-dasharray="4 3"/>
+<line x1="660" y1="30" x2="660" y2="270" stroke="#2563eb" stroke-opacity=".25" stroke-dasharray="4 3"/>
+<text x="88" y="58" text-anchor="end" font-size="14" font-weight="700" fill="#888">CK</text>
+<path d="M100 40H140V66H180V40H220V66H260V40H300V66H340V40H380V66H420V40H460V66H500V40H540V66H580V40H620V66H660V40H660" fill="none" stroke="#888" stroke-width="2.5"/>
+<text x="88" y="118" text-anchor="end" font-size="14" font-weight="700" fill="#d9622b">D</text>
+<path d="M100 126H130V100H215V126H255V100H335V126H455V100H505V126H610V100H660" fill="none" stroke="#d9622b" stroke-width="2.5"/>
+<text x="88" y="178" text-anchor="end" font-size="14" font-weight="700" fill="#16a34a">Q latch</text>
+<path d="M100 186H130V160H215V186H260V160H340V186H455V160H505V186H610V160H660" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+<text x="88" y="238" text-anchor="end" font-size="14" font-weight="700" fill="#2563eb">Q FF</text>
+<path d="M100 246H180V220H340V246H500V220H580V246H660V220H660" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+<text x="380" y="292" text-anchor="middle" font-size="13" fill="currentColor">Ko'k chiziqlar: CK ning ko'tariluvchi fronti (0→1). FF faqat shu lahzada D ni "suratga oladi".</text>
+</svg>
+<figcaption>Yashil (latch): CK = 1 bo'lgan butun vaqt davomida D ni kuzatadi. Ko'k (FF): faqat ko'k chiziqlardagi D qiymatini oladi va keyingi frontgacha saqlaydi. FF boshlang'ich holati Q = 0.</figcaption>
+</figure>
+<p>Qanday o'qish kerak: har bir ko'k chiziqda D ning qiymatiga qarang. Shu qiymat FF chiqishiga keyingi ko'k chiziqqacha yoziladi. Imtihondagi vaqt diagrammasi masalalari (007, 017, 023, 050, 069) aynan shu qoida bilan chiziladi.</p>
+
+<h2>4. JK va T flip-floplar</h2>
+<p><span class="term">JK flip-flop</span> ikkita kirishga ega: J va K. Takt frontida quyidagini qiladi:</p>
+<table>
+<tr><th>J</th><th>K</th><th>Frontdan keyin Q</th><th>Eslab qolish</th></tr>
+<tr><td>0</td><td>0</td><td>O'zgarmaydi</td><td>"hech narsa qilma"</td></tr>
+<tr><td>0</td><td>1</td><td>0</td><td>K = "Kill" (o'chir)</td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>J = "Jump" (yoq)</td></tr>
+<tr><td>1</td><td>1</td><td><strong>Teskarisiga almashadi</strong> (toggle)</td><td>"almashtir"</td></tr>
+</table>
+<p><span class="term">T flip-flop</span> (toggle): T = 1 bo'lsa har frontda almashadi, T = 0 bo'lsa saqlaydi. JK da J = K = 1 qilsak, u T flip-flopga aylanadi. D FF da D = Q̄ (o'z chiqishining teskarisi) ulansa ham xuddi shunday bo'ladi.</p>
+
+<h3>Muhim natija: flip-flop chastotani 2 ga bo'ladi</h3>
+<figure>
+<svg viewBox="0 0 700 170" role="img" aria-label="T flip-flop: har bir ko'tariluvchi frontda Q almashadi, chastota ikki marta kamayadi" font-family="system-ui,sans-serif">
+<line x1="180" y1="20" x2="180" y2="150" stroke="#2563eb" stroke-opacity=".25" stroke-dasharray="4 3"/>
+<line x1="260" y1="20" x2="260" y2="150" stroke="#2563eb" stroke-opacity=".25" stroke-dasharray="4 3"/>
+<line x1="340" y1="20" x2="340" y2="150" stroke="#2563eb" stroke-opacity=".25" stroke-dasharray="4 3"/>
+<line x1="420" y1="20" x2="420" y2="150" stroke="#2563eb" stroke-opacity=".25" stroke-dasharray="4 3"/>
+<line x1="500" y1="20" x2="500" y2="150" stroke="#2563eb" stroke-opacity=".25" stroke-dasharray="4 3"/>
+<line x1="580" y1="20" x2="580" y2="150" stroke="#2563eb" stroke-opacity=".25" stroke-dasharray="4 3"/>
+<line x1="660" y1="20" x2="660" y2="150" stroke="#2563eb" stroke-opacity=".25" stroke-dasharray="4 3"/>
+<text x="88" y="43" text-anchor="end" font-size="14" font-weight="700" fill="#888">CK</text>
+<path d="M100 25H140V51H180V25H220V51H260V25H300V51H340V25H380V51H420V25H460V51H500V25H540V51H580V25H620V51H660V25H660" fill="none" stroke="#888" stroke-width="2.5"/>
+<text x="88" y="88" text-anchor="end" font-size="14" font-weight="700" fill="#16a34a">Q1 (f/2)</text>
+<path d="M100 96H180V70H260V96H340V70H420V96H500V70H580V96H660V70H660" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+<text x="88" y="133" text-anchor="end" font-size="14" font-weight="700" fill="#2563eb">Q2 (f/4)</text>
+<path d="M100 141H260V115H420V141H580V115H660" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+</svg>
+<figcaption>Q1 har frontda almashadi: uning davri CK davridan 2 marta uzun, chastotasi 2 marta kichik. Q2 yana 2 ga bo'ladi.</figcaption>
+</figure>
+<p>Har bir toggle qiluvchi flip-flop chastotani <strong>2 ga bo'ladi</strong>. Ketma-ket N ta shunday FF chastotani 2<sup>N</sup> ga bo'ladi. Masalan, 100 MHz takt va 3 ta FF → oxirgi chiqish 100/8 = 12.5 MHz. Bu hisoblagich (counter) masalalarining asosi (9-dars).</p>
+
+<h3>Imtihon savoli: 055</h3>
+<div class="box"><em>A JK flip-flop has inputs J and K both logical one. The output Q:</em><br>a) is equal to the output Qn &nbsp; b) is always equal to one &nbsp; c) changes state at each clock cycle &nbsp; d) changes state every two clock cycles</div>
+<p>J = K = 1 → toggle → Q har takt tsiklida almashadi. Javob <strong>c)</strong>. (Qn bu Q̄, ya'ni teskari chiqish.)</p>
+
+<h2>5. Asinxron reset va set</h2>
+<p>Ko'p flip-floplarda qo'shimcha kirishlar bor:</p>
+<ul>
+<li><strong>RESET</strong> (yoki CLEAR, CLR): Q ni majburan <strong>0</strong> qiladi.</li>
+<li><strong>SET</strong> (yoki PRESET): Q ni majburan <strong>1</strong> qiladi.</li>
+</ul>
+<p><strong>Asinxron</strong> degani: taktni kutmaydi, darhol ishlaydi va aktiv bo'lib turgan butun vaqt davomida takt va D ni e'tiborsiz qoldiradi.</p>
+<p><strong>Active low</strong> (past darajada aktiv) degani: buyruq signal <strong>0</strong> bo'lganda ishlaydi. Nomining ustida chiziq bo'ladi: RST̄ yoki nRST. <strong>Active high</strong> esa 1 da ishlaydi.</p>
+
+<h3>Imtihon savoli: 103</h3>
+<div class="box"><em>In a negative edge-triggered flip-flop with asynchronous active low reset (RST), if RST = 0:</em><br>a) the output goes to 0 if the input D is at 0<br>b) the output goes to 0 if CK goes from 1 to 0<br>c) the output goes to 0 if CK goes from 0 to 1<br>d) the output always remains at 0</div>
+<p>Tahlil: reset <strong>active low</strong>, RST = 0 → reset aktiv. Reset <strong>asinxron</strong> → taktni kutmaydi va D ga qaramaydi. Demak Q doim 0. Javob <strong>d)</strong>. "Negative edge-triggered" so'zi chalg'itish uchun: reset aktiv bo'lganda front ahamiyatsiz.</p>
+
+<h2>O'zingizni tekshiring</h2>
+<div class="box check">Low-level latch, LE = 0. Q nima qiladi? <details><summary>Javob</summary>Low-level uchun LE = 0 shaffof holat: <strong>Q D ni kuzatadi</strong>.</details></div>
+<div class="box check">Positive edge D FF. Front kelganda D = 1 edi, keyin front oralig'ida D = 0 bo'ldi. Q qancha? <details><summary>Javob</summary>Q frontdagi qiymatni oladi va keyingi frontgacha saqlaydi: <strong>Q = 1</strong>.</details></div>
+<div class="box check">JK FF da J = 0, K = 1. Frontdan keyin Q? <details><summary>Javob</summary><strong>0</strong> (K = "o'chir").</details></div>
+<div class="box check">50 MHz taktga 2 ta toggle FF ketma-ket ulangan. Ikkinchisi chiqishi chastotasi? <details><summary>Javob</summary>50 / 2² = <strong>12.5 MHz</strong>.</details></div>
+<div class="box check">Asinxron active high SET, SET = 1. Q qancha? <details><summary>Javob</summary>Active high → aktiv → Q doim <strong>1</strong>.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Takt</td><td>clock (CK, CLK)</td><td>Sxemani qadamlab yurgizuvchi 0-1 signal</td></tr>
+<tr><td>Ko'tariluvchi / tushuvchi front</td><td>rising (positive) / falling (negative) edge</td><td>0→1 / 1→0 o'tish lahzasi</td></tr>
+<tr><td>Latch</td><td>latch</td><td>LE ga qarab kuzatadi yoki saqlaydi</td></tr>
+<tr><td>Ruxsat kirishi</td><td>LE (latch enable)</td><td>Latchni shaffof qiluvchi buyruq</td></tr>
+<tr><td>Shaffof / xotira holati</td><td>transparent / latched (memory)</td><td>Q = D / Q saqlanadi</td></tr>
+<tr><td>Flip-flop (FF)</td><td>edge-triggered flip-flop</td><td>Faqat frontda D ni oladi</td></tr>
+<tr><td>Master-slave</td><td>master-slave</td><td>Ikki latchdan yasalgan FF</td></tr>
+<tr><td>JK, T flip-flop</td><td>JK, toggle FF</td><td>J=K=1 / T=1 da almashadi</td></tr>
+<tr><td>Asinxron reset/set</td><td>asynchronous reset (clear) / set (preset)</td><td>Taktni kutmay Q ni 0/1 qiladi</td></tr>
+<tr><td>Active low / high</td><td>active low / high</td><td>0 da / 1 da ishlaydigan buyruq</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<p><strong>Latch (darajaga sezgir)</strong></p>
+<ul>
+<li>High-level: LE = 1 → shaffof (Q = D); LE = 0 → saqlaydi.</li>
+<li>Low-level: LE = 0 → shaffof; LE = 1 → saqlaydi.</li>
+<li>Testda: "follows the input" yoki "does not change". "Always 0/1" deyarli doim noto'g'ri (004, 088, 092).</li>
+</ul>
+<p><strong>Flip-flop (frontga sezgir)</strong></p>
+<ul>
+<li>Faqat frontda D ni oladi va keyingi frontgacha saqlaydi.</li>
+<li>Positive edge ↑ (0→1), negative edge ↓ (1→0, belgida doiracha).</li>
+<li>Vaqt diagrammasi: har frontda D ga qarang → Q ga yozing.</li>
+</ul>
+<p><strong>JK jadvali</strong></p>
+<span class="formula">00 → saqla · 01 → 0 · 10 → 1 · 11 → almashtir (toggle)</span>
+<ul>
+<li>J = K = 1 → har tsiklda almashadi (055). T FF = JK (J=K=1) = D FF (D = Q̄).</li>
+<li>Toggle FF chastotani 2 ga bo'ladi; N ta FF → f / 2<sup>N</sup>.</li>
+</ul>
+<p><strong>Asinxron reset/set</strong></p>
+<ul>
+<li>Taktni va D ni kutmaydi. Aktiv bo'lsa Q doim 0 (reset) yoki 1 (set).</li>
+<li>Active low (RST̄): 0 da aktiv. RST = 0 → Q doim 0 (103).</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="05-raqamli-0-1.html">← 5-dars</a><a href="./">Darslar ro'yxati →</a></footer>
+</main></body></html>
