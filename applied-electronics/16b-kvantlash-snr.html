@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>16b. Kvantlash, SNR va ENOB</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>16b. Kvantlash, desibel, SNR va ENOB</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> ADC qiymatni qanday yaxlitlashini (kvantlash), kerakli bitlar sonini hisoblash, desibel (dB) nima ekanini, signal/shovqin nisbati (SNR) formulalarini, ENOB ni va anti-aliasing filtrining qutblari sonini hisoblashni. Bazadagi 10 ta savol (016, 109, 049, 033, 042, 078, 019, 053, 045 va slayd mashqlari) shu yerda yechiladi. Manba: D1 slaydlarining ikkinchi yarmi. O'qish vaqti: 40 daqiqa. Avval <a href="16a-namuna-olish-aliasing.html">16a-darsni</a> o'qing.</div>
+
+<h2>1. Kvantlash: qiymatni pog'onaga yaxlitlash</h2>
+<p>ADC kirishi bir oraliqda ishlaydi: 0 dan <strong>S</strong> gacha. S <span class="term">to'liq shkala</span> (full scale, input range, input dynamic). Masalan, 0–10 V yoki ±1 V (bunda S = 2 V).</p>
+<p>N bitli ADC bu oraliqni <strong>2<sup>N</sup></strong> ta teng bo'lakka bo'ladi va har bo'lakka bitta son (kod) beradi: 0 dan 2<sup>N</sup> − 1 gacha.</p>
+<figure>
+<svg viewBox="0 0 720 340" role="img" aria-label="3 bitli kvantlash: kirish kuchlanishi 8 ta oraliqqa bo'linadi, har oraliqqa bitta kod. Pastda kvantlash xatosi minus yarim LSB dan plus yarim LSB gacha" font-family="system-ui,sans-serif">
+<path d="M70 20V230H490" fill="none" stroke="currentColor" stroke-width="1.5"/>
+<line x1="70" y1="230" x2="470" y2="30.0" stroke="#9aa0a6" stroke-dasharray="5 4"/>
+<path d="M70 217.5H120.0V192.5H170.0V167.5H220.0V142.5H270.0V117.5H320.0V92.5H370.0V67.5H420.0V42.5H470.0" fill="none" stroke="#2563eb" stroke-width="2.6"/>
+<text x="62" y="221.5" text-anchor="end" font-size="11" fill="#2563eb">000</text>
+<text x="62" y="196.5" text-anchor="end" font-size="11" fill="#2563eb">001</text>
+<text x="62" y="171.5" text-anchor="end" font-size="11" fill="#2563eb">010</text>
+<text x="62" y="146.5" text-anchor="end" font-size="11" fill="#2563eb">011</text>
+<text x="62" y="121.5" text-anchor="end" font-size="11" fill="#2563eb">100</text>
+<text x="62" y="96.5" text-anchor="end" font-size="11" fill="#2563eb">101</text>
+<text x="62" y="71.5" text-anchor="end" font-size="11" fill="#2563eb">110</text>
+<text x="62" y="46.5" text-anchor="end" font-size="11" fill="#2563eb">111</text>
+<text x="70" y="246" text-anchor="middle" font-size="12" fill="currentColor">0</text><text x="470" y="246" text-anchor="middle" font-size="12" fill="currentColor">S</text>
+<text x="270.0" y="246" text-anchor="middle" font-size="12" fill="currentColor">kirish kuchlanishi A</text>
+<line x1="220.0" y1="256" x2="270.0" y2="256" stroke="#d9622b" stroke-width="2"/><text x="245.0" y="272" text-anchor="middle" font-size="12" font-weight="700" fill="#d9622b">1 LSB = S/2ᴺ</text>
+<line x1="70" y1="300" x2="470" y2="300" stroke="#9aa0a6"/>
+<path d="M70.0 278L120.0 322M120.0 278L170.0 322M170.0 278L220.0 322M220.0 278L270.0 322M270.0 278L320.0 322M320.0 278L370.0 322M370.0 278L420.0 322M420.0 278L470.0 322" fill="none" stroke="#16a34a" stroke-width="2"/>
+<text x="480" y="282" font-size="12" fill="#15803d">+½ LSB</text><text x="480" y="326" font-size="12" fill="#15803d">−½ LSB</text><text x="62" y="304" text-anchor="end" font-size="12" font-weight="700" fill="#15803d">εq</text>
+<text x="510" y="70" font-size="13" fill="currentColor">3 bit → 2³ = 8 ta kod</text><text x="510" y="92" font-size="13" fill="currentColor">(000 dan 111 gacha)</text>
+<text x="510" y="130" font-size="13" fill="#2563eb">ko'k: chiqish kodi</text><text x="510" y="152" font-size="13" fill="#9aa0a6">kulrang: ideal to'g'ri chiziq</text><text x="510" y="174" font-size="13" fill="#15803d">yashil: kvantlash xatosi</text>
+</svg>
+<figcaption>3 bitli ADC: kirish 8 ta oraliqqa bo'linadi. Bitta oraliq ichidagi hamma kuchlanish bir xil kod oladi.</figcaption>
+</figure>
+<ul>
+<li><span class="term">LSB</span> (least significant bit, eng kichik pog'ona): bitta oraliqning kengligi. <strong>LSB = S / 2<sup>N</sup></strong>.</li>
+<li><span class="term">Kvantlash xatosi</span> εq (quantization error): haqiqiy qiymat bilan kod bildirgan qiymat orasidagi farq. U −½ LSB dan +½ LSB gacha bo'ladi.</li>
+</ul>
+<span class="formula">LSB = S / 2<sup>N</sup> &nbsp;&nbsp;&nbsp; |εq|max = LSB / 2 = S / 2<sup>N+1</sup></span>
+<div class="box analogy">Chizg'ich faqat santimetr bo'linmalariga ega bo'lsa, 7.3 sm ni "7" deb yozasiz. Xato eng ko'pi bilan yarim santimetr. Millimetrli chizg'ich (ko'proq bit) xatoni kamaytiradi.</div>
+<p>Misol: S = 10 V, N = 8 → LSB = 10 / 256 ≈ 39 mV, maksimal xato ≈ 19.5 mV.</p>
+
+<h3>Kerakli bitlar sonini topish</h3>
+<p>Xato foizda (to'liq shkalaga nisbatan) beriladi. Nisbiy xato:</p>
+<span class="formula">LSB bo'yicha: 1 / 2<sup>N</sup> &nbsp;&nbsp;&nbsp; ±½ LSB bo'yicha: 1 / 2<sup>N+1</sup></span>
+<div class="box warn"><strong>Diqqat, rasmiy yechimlarda ikki xil usul bor.</strong> 016-savolda xato = 1/2<sup>N</sup> (LSB) deb olingan. 109-savolda "bipolar quantization error" deyilgan va 1/2<sup>N+1</sup> olingan. 049-savol yechimida ikkala javob ham to'g'ri deyilgan. Test savolida ikkala usul bilan hisoblang va qaysi natija variantlarda borligiga qarang.</div>
+
+<h4>016-savol</h4>
+<div class="box"><em>In an A/D conversion system, how many bits are needed to obtain a total error of less than 1.2%, assuming that half of this error is due to quantization?</em><br>a) 8 &nbsp; b) 9 &nbsp; c) 10 &nbsp; d) 7</div>
+<ol>
+<li>Kvantlash xatosi: 1.2% / 2 = 0.6% = 0.006.</li>
+<li>Rasmiy yechim: 1/2<sup>N</sup> ≤ 0.006 → 2<sup>N</sup> ≥ 100 / 0.6 ≈ 166.</li>
+<li>2<sup>7</sup> = 128 yetmaydi, 2<sup>8</sup> = 256 yetadi → <strong>a) 8</strong>.</li>
+</ol>
+
+<h4>109-savol</h4>
+<div class="box"><em>A group of four analog signals has (for each channel) levels between –1 V and +1 V, maximum frequency Fmax = 2 kHz. The A/D converter has input dynamic from 0 V to +10 V. ... Calculate the minimum number of bits of the converter for a bipolar quantization error below 0.1%.</em></div>
+<ol>
+<li>Bipolyar (±½ LSB): 1/2<sup>N+1</sup> &lt; 0.001 → 2<sup>N+1</sup> &gt; 1000.</li>
+<li>2<sup>10</sup> = 1024 → N + 1 = 10 → <strong>N = 9 bit</strong> (rasmiy javob).</li>
+</ol>
+
+<h4>049-savol</h4>
+<div class="box"><em>... Calculate the number of bits of the converter to have a quantization error less than 0.2%.</em></div>
+<p>1/2<sup>N</sup> &lt; 0.002 → 2<sup>N</sup> &gt; 500 → <strong>N = 9</strong>. Rasmiy yechim: "8 is also good considering as relative error 1/2<sup>N+1</sup>" (2<sup>9</sup> = 512 &gt; 500 → N = 8).</p>
+
+<h2>2. Desibel (dB) nima?</h2>
+<p>Elektronikada nisbatlar juda katta bo'lishi mumkin (1 000 000 baravar). Bunday sonlar bilan ishlash qulay bo'lishi uchun <span class="term">desibel</span> (dB) ishlatiladi. dB nisbatni "nechta nol bor" degan tilga o'giradi.</p>
+<p><strong>Logarifm</strong> nima: lg(x) = log<sub>10</sub>(x) "10 ni necha marta ko'paytirsak x chiqadi" degani. lg(100) = 2, lg(1000) = 3. log<sub>2</sub>(x) esa "2 ni necha marta": log<sub>2</sub>(8) = 3, log<sub>2</sub>(256) = 8. Kalkulyatorda "log" tugmasi lg ni beradi.</p>
+<span class="formula">Quvvatlar nisbati: dB = 10 · lg(P1/P2) &nbsp;&nbsp;&nbsp; Kuchlanishlar (amplitudalar) nisbati: dB = 20 · lg(V1/V2)</span>
+<table>
+<tr><th>Amplituda nisbati</th><th>dB</th></tr>
+<tr><td>2 baravar</td><td>≈ 6 dB</td></tr>
+<tr><td>10 baravar</td><td>20 dB</td></tr>
+<tr><td>100 baravar</td><td>40 dB</td></tr>
+<tr><td>256 baravar (8 bit)</td><td>20 · lg 256 ≈ 48 dB</td></tr>
+<tr><td>1000 baravar</td><td>60 dB</td></tr>
+</table>
+<p>Eslab qolish uchun: <strong>amplituda 2 baravar = 6 dB</strong>. Shuning uchun keyinroq "1 bit = 6 dB" chiqadi: har qo'shimcha bit pog'onani 2 baravar kichraytiradi.</p>
+<p>dB dan orqaga o'girish: x dB → amplituda nisbati 10<sup>x/20</sup>, quvvat nisbati 10<sup>x/10</sup>. Masalan, 40 dB → 10<sup>2</sup> = 100 baravar amplituda.</p>
+
+<h2>3. SNR: signal va shovqin nisbati</h2>
+<p><span class="term">SNR</span> (signal-to-noise ratio, signal/shovqin nisbati) foydali signal quvvati shovqin quvvatidan necha baravar kattaligini dB da ko'rsatadi. Katta SNR yaxshi.</p>
+<div class="box analogy">Shovqinli xonada gaplashish: siz qanchalik baland gapirsangiz (signal) va atrof qanchalik jim bo'lsa (shovqin), sizni shunchalik yaxshi eshitishadi. SNR shu "eshitilish" darajasi.</div>
+<p>Kvantlash xatosi tasodifiy shovqin kabi ta'sir qiladi. Undan kelib chiqadigan nisbat <span class="term">SNRq</span> (kvantlash SNR). Slaydda signal shakliga qarab uchta formula bor (signal to'liq shkalani egallasa):</p>
+<table>
+<tr><th>Signal shakli</th><th>SNRq</th></tr>
+<tr><td>Uchburchak (triangular)</td><td><strong>6·N</strong> dB</td></tr>
+<tr><td>Sinus (sinusoidal)</td><td><strong>6·N + 1.76</strong> dB</td></tr>
+<tr><td>Ovoz (voice, Gauss taqsimoti)</td><td><strong>6·N − 4.77</strong> dB</td></tr>
+</table>
+<ul>
+<li><strong>Har bit +6 dB</strong> qo'shadi. 2 bit qo'shsak, SNRq 12 dB ga ortadi (slayddagi takrorlash savoli).</li>
+<li>Formulalar signal <strong>to'liq shkala</strong>ni egallaganda to'g'ri. Signal amplitudasi 2 baravar kichik bo'lsa, SNRq 6 dB ga kamayadi (10 baravar kichik bo'lsa 20 dB ga). Signal S dan katta bo'lsa, ADC to'yinadi (overload) va SNRq juda tez yomonlashadi.</li>
+</ul>
+
+<h3>Slayddagi mashq (Lecture Exercise 2): sinus, to'liq shkala</h3>
+<table>
+<tr><th>N</th><th>SNRq = 6N + 1.76</th><th>Amplituda S/2 bo'lsa (−6 dB)</th></tr>
+<tr><td>6</td><td>37.76 dB</td><td>31.76 dB</td></tr>
+<tr><td>8</td><td>49.76 dB</td><td>43.76 dB</td></tr>
+<tr><td>9</td><td>55.76 dB</td><td>49.76 dB</td></tr>
+<tr><td>16</td><td>97.76 dB</td><td>91.76 dB</td></tr>
+</table>
+
+<h3>2020-07 imtihonidan bir qism</h3>
+<p>"Uchburchak signal, SNR = 45 dB. Kvantlash SNR undan yaxshi bo'lishi uchun nechta bit kerak?" Uchburchak: 6N ≥ 45 → N ≥ 7.5 → <strong>N = 8</strong>. (Masalaning davomi, ADC turi va tezligi, 18-darsda.)</p>
+
+<h2>4. ENOB: haqiqatda nechta bit ishlayapti</h2>
+<p>Haqiqiy tizimda kvantlashdan tashqari boshqa xatolar ham bor (aliasing, kuchaytirgich shovqini, jitter). Shuning uchun o'lchangan umumiy SNR ideal 6N + 1.76 dan kichik bo'ladi. Shu umumiy SNR ga mos keladigan "foydali" bitlar soni <span class="term">ENOB</span> (effective number of bits):</p>
+<span class="formula">ENOB = (SNR − 1.76) / 6.02</span>
+<div class="box analogy">10 megapikselli kamera, lekin linzasi xira. Surat aslida 8 megapikselli kameranikidek chiqadi. ADC "10 bitli" bo'lsa ham, shovqin tufayli faqat 8 biti foydali bo'lishi mumkin.</div>
+<h4>033, 042, 078-savollar</h4>
+<table>
+<tr><th>Savol</th><th>Berilgan</th><th>Hisob</th><th>Javob</th></tr>
+<tr><td>033</td><td>10 bit, SNR = 50 dB</td><td>(50 − 1.76) / 6.02 = 8.01</td><td><strong>b) 8 bits</strong></td></tr>
+<tr><td>042</td><td>10 bit, SNR = 55.76 dB</td><td>(55.76 − 1.76) / 6.02 = 8.97</td><td><strong>c) 9 bit</strong></td></tr>
+<tr><td>078</td><td>10 bit, SNR = 56 dB</td><td>(56 − 1.76) / 6.02 = 9.01</td><td><strong>c) 9 bits</strong></td></tr>
+</table>
+<p>ADC ning bitlar soni (10) hisobga kirmaydi. Bu chalg'ituvchi ma'lumot.</p>
+
+<h2>5. Aliasing SNR va anti-aliasing filtri</h2>
+<p>16a-darsdan: Fmax dan yuqoridagi chastotalar birinchi nusxa sifatida foydali bandga tushadi. Eng xavflisi <strong>Fs − Fmax</strong> chastotadagi qism: u aynan band chetiga (Fmax ga) tushadi. Filtr shu chastotada signalni qanchalik so'ndirsa, <span class="term">SNRa</span> (aliasing SNR) shuncha bo'ladi.</p>
+<p>Filtrning keskinligi <span class="term">qutblar</span> soni (poles, filtr tartibi) bilan belgilanadi. Har bir qutb:</p>
+<span class="formula">1 qutb = 20 dB/dekada = 6 dB/oktava</span>
+<ul>
+<li><strong>Dekada</strong>: chastota 10 baravar oshishi. Dekadalar soni = lg(f2/f1).</li>
+<li><strong>Oktava</strong>: chastota 2 baravar oshishi. Oktavalar soni = log<sub>2</sub>(f2/f1).</li>
+</ul>
+<figure>
+<svg viewBox="0 0 720 290" role="img" aria-label="Past chastota filtrining so'ndirishi: 1, 2, 3 qutbli filtrlar har dekadada 20, 40, 60 dB so'ndiradi" font-family="system-ui,sans-serif">
+<line x1="80" y1="30.0" x2="690" y2="30.0" stroke="#9aa0a6" stroke-opacity=".35"/><text x="72" y="34.0" text-anchor="end" font-size="12" fill="currentColor">0 dB</text>
+<line x1="80" y1="80.0" x2="690" y2="80.0" stroke="#9aa0a6" stroke-opacity=".35"/><text x="72" y="84.0" text-anchor="end" font-size="12" fill="currentColor">-20 dB</text>
+<line x1="80" y1="130.0" x2="690" y2="130.0" stroke="#9aa0a6" stroke-opacity=".35"/><text x="72" y="134.0" text-anchor="end" font-size="12" fill="currentColor">-40 dB</text>
+<line x1="80" y1="180.0" x2="690" y2="180.0" stroke="#9aa0a6" stroke-opacity=".35"/><text x="72" y="184.0" text-anchor="end" font-size="12" fill="currentColor">-60 dB</text>
+<line x1="80" y1="230.0" x2="690" y2="230.0" stroke="#9aa0a6" stroke-opacity=".35"/><text x="72" y="234.0" text-anchor="end" font-size="12" fill="currentColor">-80 dB</text>
+<line x1="80.0" y1="30" x2="80.0" y2="230" stroke="#9aa0a6" stroke-opacity=".5"/><text x="80.0" y="248" text-anchor="middle" font-size="12" fill="currentColor">Fmax</text>
+<line x1="385.0" y1="30" x2="385.0" y2="230" stroke="#9aa0a6" stroke-opacity=".5"/><text x="385.0" y="248" text-anchor="middle" font-size="12" fill="currentColor">10·Fmax</text>
+<line x1="690.0" y1="30" x2="690.0" y2="230" stroke="#9aa0a6" stroke-opacity=".5"/><text x="690.0" y="248" text-anchor="middle" font-size="12" fill="currentColor">100·Fmax</text>
+<path d="M80 30.0H80.0L690.0 130.0" fill="none" stroke="#16a34a" stroke-width="2.4"/>
+<text x="391.0" y="74.0" font-size="12" font-weight="700" fill="#16a34a">1 qutb: 20 dB/dek</text>
+<path d="M80 30.0H80.0L690.0 230.0" fill="none" stroke="#2563eb" stroke-width="2.4"/>
+<text x="391.0" y="124.0" font-size="12" font-weight="700" fill="#2563eb">2 qutb: 40 dB/dek</text>
+<path d="M80 30.0H80.0L486.7 230.0" fill="none" stroke="#d9622b" stroke-width="2.4"/>
+<text x="391.0" y="174.0" font-size="12" font-weight="700" fill="#d9622b">3 qutb: 60 dB/dek</text>
+<text x="385.0" y="274" text-anchor="middle" font-size="12" fill="currentColor">chastota (logarifmik o'q: har bo'linma 10 baravar)</text>
+</svg>
+<figcaption>Qutblar ko'p bo'lsa, filtr Fmax dan keyin tezroq so'ndiradi.</figcaption>
+</figure>
+<span class="formula">SNRa = Np · 20 · lg((Fs − Fmax)/Fmax) = Np · 6 · log<sub>2</sub>((Fs − Fmax)/Fmax)</span>
+<span class="formula">Np = SNRa / [20 · lg((Fs − Fmax)/Fmax)] &nbsp;→&nbsp; yuqoriga yaxlitlanadi</span>
+
+<h4>019-savol</h4>
+<div class="box"><em>Which of the variations below does not affect the aliasing signal/noise ratio (SNRa)?</em><br>a) Low pass filter on the input signal &nbsp; b) Increase of the A/D sampling rate &nbsp; c) Increase of the number of A/D bits &nbsp; d) High pass filter on the input signal</div>
+<p>SNRa filtrga (a, d) va Fs ga (b) bog'liq. Bitlar soni faqat kvantlash xatosiga ta'sir qiladi → <strong>c)</strong>.</p>
+
+<h4>Slayddagi Exercise 1 (davomi): filtr qutblari</h4>
+<p>16a-darsdagi tizim: 8 bit, har kanal Fs = 25 kHz, band 5 kHz, "aliasing SNR 3 dB higher than the quantization SNR".</p>
+<ol>
+<li>SNRq = 6 · 8 + 1.76 = 49.76 dB → SNRa = 49.76 + 3 = <strong>52.76 dB</strong>.</li>
+<li>Birinchi alias: 25 − 5 = <strong>20 kHz</strong>. Nisbat 20/5 = 4 = <strong>2 oktava</strong> → har qutb 2 · 6 = 12 dB beradi.</li>
+<li>Np = 52.76 / 12 = 4.4 → <strong>5 qutb</strong>.</li>
+</ol>
+
+<h4>045-savol</h4>
+<div class="box"><em>An A/D conversion system has two input channels. On each channel there is a bipolar signal with effective value 50 mVeff and a frequency band 0→8 MHz. The A/D converter has an input dynamic of ±1 V. We have also a S/H circuit with the acquisition time (Tacq) of 4 ns. Indicate the requirements of the anti-aliasing filter for an aliasing error equal to the maximum quantization error.</em></div>
+<ol>
+<li>Filtrning kesish chastotasi: band chegarasi, <strong>8 MHz</strong>.</li>
+<li>16a-darsdagi 076 dan: har kanal 64 MS/s → birinchi alias 64 − 8 = <strong>56 MHz</strong>.</li>
+<li>Kvantlash xatosi 1/256 (8 bit, 108-savoldagi kabi) → filtr 56 MHz da 256 baravar so'ndirishi kerak: 20 · lg 256 = <strong>48 dB</strong>.</li>
+<li>8 dan 56 MHz gacha: lg(56/8) = lg 7 = <strong>0.845 dekada</strong>.</li>
+<li>Kerakli keskinlik: 48 / 0.845 = 56.8 dB/dek. 2 qutb (40) yetmaydi, <strong>3 qutb (60 dB/dek)</strong> yetadi.</li>
+</ol>
+
+<h2>6. Umumiy SNR</h2>
+<p>Har xil xatolar bir-biriga bog'liq emas, shuning uchun ularning <strong>quvvatlari qo'shiladi</strong>. Slayddagi formula:</p>
+<span class="formula">SNRt = −10 · lg(10<sup>−SNR1/10</sup> + 10<sup>−SNR2/10</sup> + ...)</span>
+<p>Natija doim eng yomon (eng kichik) SNR dan ham kichikroq chiqadi.</p>
+
+<h4>053-savol</h4>
+<div class="box"><em>A four-channel acquisition system uses an eight-bit tracking A/D converter with 100 MHz clock frequency and a Sample &amp; Hold circuit with 1 μs acquisition time. For each channel, we have a sampling frequency Fs = 70 kHz, the maximum frequency of the signal Fmax = 23 kHz, and an eight-pole anti-aliasing filter. Calculate: the quantization signal-to-noise ratio for sinusoidal signals, SNRq; the aliasing signal-to-noise ratio, SNRa; and the total signal-to-noise ratio, SNRtot.</em></div>
+<ol>
+<li>SNRq = 6 · 8 + 1.76 ≈ <strong>50 dB</strong>.</li>
+<li>(Fs − Fmax)/Fmax = (70 − 23)/23 ≈ 2 = 1 oktava → SNRa = 8 qutb · 6 dB · 1 = <strong>48 dB</strong>.</li>
+<li>Rasmiy yechim: SNRtot = −20 · lg(10<sup>−48/20</sup> + 10<sup>−50/20</sup>) = −20 · lg(0.00398 + 0.00316) ≈ <strong>43 dB</strong>.</li>
+</ol>
+<div class="box warn">053 ning rasmiy yechimi xato <em>amplitudalarini</em> qo'shgan (eng yomon holat) va 43 dB olgan. Slayddagi quvvat formulasi bilan 45.9 dB chiqadi. Imtihon savollari shu bazadan olinadi, shuning uchun 053 kabi savolda <strong>43 dB</strong> ni bering, yoki ikkala usulni ham yozib, qaysi biri ekanini ko'rsating.</div>
+
+<h2>O'zingizni tekshiring</h2>
+<div class="box check">S = 5 V, N = 10. LSB va maksimal kvantlash xatosi? <details><summary>Javob</summary>LSB = 5/1024 ≈ <strong>4.9 mV</strong>, xato ≤ <strong>2.45 mV</strong>.</details></div>
+<div class="box check">Sinus signal uchun SNRq ≥ 70 dB kerak. Nechta bit? <details><summary>Javob</summary>6N + 1.76 ≥ 70 → N ≥ 11.4 → <strong>12 bit</strong>.</details></div>
+<div class="box check">12 bitli ADC, o'lchangan SNR = 62 dB. ENOB? <details><summary>Javob</summary>(62 − 1.76)/6.02 ≈ <strong>10 bit</strong>.</details></div>
+<div class="box check">Fs = 100 kHz, Fmax = 20 kHz, SNRa ≥ 60 dB. Necha qutb? <details><summary>Javob</summary>Alias 80 kHz, 80/20 = 4 = 2 oktava → har qutb 12 dB → 60/12 = <strong>5 qutb</strong>.</details></div>
+<div class="box check">Amplituda nisbati 1000. Necha dB? <details><summary>Javob</summary>20 · lg 1000 = <strong>60 dB</strong>.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>To'liq shkala</td><td>full scale S, input range/dynamic</td><td>ADC kirish oralig'i</td></tr>
+<tr><td>LSB</td><td>least significant bit</td><td>Bitta pog'ona: S/2<sup>N</sup></td></tr>
+<tr><td>Kvantlash xatosi</td><td>quantization error εq</td><td>±½ LSB gacha yaxlitlash xatosi</td></tr>
+<tr><td>Desibel</td><td>decibel (dB)</td><td>Nisbatning logarifmik o'lchovi</td></tr>
+<tr><td>SNR, SNRq, SNRa, SNRt</td><td>signal-to-noise ratio (quantization, aliasing, total)</td><td>Signal/shovqin nisbati</td></tr>
+<tr><td>ENOB</td><td>effective number of bits</td><td>Umumiy SNR ga mos foydali bitlar</td></tr>
+<tr><td>Qutb</td><td>pole (filter order)</td><td>Filtr keskinligi birligi, 20 dB/dek</td></tr>
+<tr><td>Dekada / oktava</td><td>decade / octave</td><td>Chastota 10 / 2 baravar</td></tr>
+<tr><td>To'yinish</td><td>overload, saturation</td><td>Signal shkaladan chiqib ketishi</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<p><strong>Kvantlash</strong></p>
+<span class="formula">LSB = S/2<sup>N</sup> &nbsp;·&nbsp; |εq| ≤ LSB/2 = S/2<sup>N+1</sup></span>
+<ul>
+<li>Bitlar: 1/2<sup>N</sup> ≤ xato (016) yoki bipolyar 1/2<sup>N+1</sup> ≤ xato (109). Ikkalasini hisoblab, variantga qarang.</li>
+</ul>
+<p><strong>dB</strong></p>
+<ul>
+<li>Quvvat: 10·lg, amplituda: 20·lg. ×2 = 6 dB, ×10 = 20 dB, ×256 = 48 dB.</li>
+</ul>
+<p><strong>SNR</strong></p>
+<span class="formula">Uchburchak 6N · Sinus 6N + 1.76 · Ovoz 6N − 4.77 (dB)</span>
+<span class="formula">ENOB = (SNR − 1.76)/6.02</span>
+<ul>
+<li>+1 bit = +6 dB. Amplituda yarim → −6 dB.</li>
+<li>Umumiy: SNRt = −10·lg Σ10<sup>−SNRi/10</sup> (slayd); 053 rasmiy yechimi −20·lg Σ10<sup>−SNRi/20</sup> → 43 dB.</li>
+</ul>
+<p><strong>Anti-aliasing filtri</strong></p>
+<span class="formula">SNRa = Np · 20·lg((Fs − Fmax)/Fmax) &nbsp;·&nbsp; 1 qutb = 20 dB/dek = 6 dB/okt</span>
+<ul>
+<li>Bitlar soni SNRa ga ta'sir qilmaydi (019).</li>
+<li>Javoblar: 016 → 8; 109 → 9; 049 → 9 (yoki 8); 033 → 8; 042, 078 → 9; Ex.1 → 5 qutb; 045 → 48 dB, 3 qutb; 053 → 50, 48, 43 dB.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="16a-namuna-olish-aliasing.html">← 16a-dars</a><a href="./">Darslar ro'yxati →</a></footer>
+</main></body></html>
