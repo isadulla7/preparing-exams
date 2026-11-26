@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>30. Diskret tizimlar xossalari, ayirmali tenglama</title><link rel="stylesheet" href="../assets/style.css">
+<style>
+svg text{font-family:inherit}
+.s-ink{fill:var(--fg)} .s-muted{fill:var(--muted)}
+.s-line{stroke:var(--border)} .s-axis{stroke:var(--muted)} .s-acc{stroke:var(--accent)} .s-mut{stroke:var(--muted)}
+.f-acc{fill:var(--accent)} .f-accsoft{fill:var(--accent);fill-opacity:.12} .f-card{fill:var(--card)}
+main{overflow-wrap:break-word} .tw{overflow-x:auto} @media (max-width:480px){th,td{padding:4px 6px;font-size:.92em}}
+.sol{border-left:4px solid var(--accent);padding-left:12px;margin:.6em 0}
+td.c,th.c{text-align:center}
+</style></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Signal analysis darslari</a></nav>
+<h1>30. Diskret tizimlar xossalari, ayirmali tenglama</h1>
+<p>O'qish vaqti: 50 daqiqa. Manba: 34-ma'ruza ("Introduction to discrete-time LTI systems. Systems classification and examples"), mashg'ulot: "Exercises 3 — Linear systems" (1-masala).</p>
+<div class="box warn"><b>Bu A mavzu.</b> Imtihonda tipik savol: "y(n) = … tizimi chiziqlimi? statsionarmi? kauzalmi? xotirasi bormi?" — 4 ta variantdan to'g'ri xossalar to'plamini tanlash. Shuningdek "ayirmali tenglama rekursivmi?", "ZSR va ZIR nima?". 11-darsdagi uzluksiz tizimlar g'oyasi — faqat t o'rniga n.</div>
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> kirish-chiqish munosabati; chiziqlilik, statsionarlik, kauzallik, xotira, passivlik va ularni tekshirish retsepti; ma'ruzadagi barcha misollar; 10 ta tizimning tayyor jadvali; ayirmali tenglama, rekursiv/norekursiv; nol holat javobi (ZSR) va nol kirish javobi (ZIR).</div>
+
+<h2>1. Kirish-chiqish munosabati</h2>
+<p>Diskret tizim — kirish ketma-ketligi x(n) ni chiqish y(n) ga aylantiruvchi qoida (operator) L[·]:</p>
+<div class="formula">y(n) = L[x(n)]</div>
+<p>Tizimlar L[·] ning matematik ko'rinishiga qarab tasniflanadi (ma'ruza).</p>
+<div class="box analogy"><b>O'xshatish — oshxona retsepti.</b> Kirish — mahsulotlar, chiqish — taom, L — retsept. "Chiziqli" retsept: ikki baravar mahsulot → ikki baravar taom. "Statsionar": dushanba ham, juma ham bir xil retsept. "Kauzal": oshpaz ertaga keladigan mahsulotdan bugun ovqat qila olmaydi. "Xotirasiz": har likopcha faqat hozir berilgan mahsulotdan.</div>
+
+<h2>2. Chiziqlilik</h2>
+<div class="formula">L[α<sub>1</sub>x<sub>1</sub>(n) + α<sub>2</sub>x<sub>2</sub>(n)] = α<sub>1</sub>L[x<sub>1</sub>(n)] + α<sub>2</sub>L[x<sub>2</sub>(n)] &nbsp;&nbsp; (istalgan α<sub>1</sub>, α<sub>2</sub> uchun)</div>
+<p><b>Tekshirish retsepti:</b> (1) chap tomon — kombinatsiyani tizimga bering; (2) o'ng tomon — har birini alohida berib, kombinatsiya qiling; (3) solishtiring.</p>
+<div class="box ok"><b>Tezkor belgilar.</b> Chiziqli <b>emas</b>, agar formulada: x ning kvadrati, ildizi, moduli, cos(x), e<sup>x</sup> kabi funksiyasi; yoki x ga bog'liq bo'lmagan qo'shiluvchi (y = x + 2: x = 0 da y ≠ 0) bo'lsa. n ga ko'paytirish (n·x(n)) yoki argumentni o'zgartirish (x(2n), x(−n)) chiziqlilikni <b>buzmaydi</b>.</div>
+
+<h2>3. Statsionarlik (vaqtga invariantlik)</h2>
+<p>Chiqish faqat kirish signalining <b>shakliga</b> bog'liq, uni qaysi lahzada berganimizga emas:</p>
+<div class="formula">L[x(n)] = y(n) &nbsp;⇒&nbsp; L[x(n − k)] = y(n − k) &nbsp;&nbsp; barcha k uchun</div>
+<p>Kirish k ga kechiksa (yoki oldinga surilsa), chiqish ham aynan k ga kechikadi. Ya'ni tizim har qanday vaqtda bir xil ishlaydi.</p>
+<p><b>Tekshirish retsepti:</b> (1) L[x(n − k)] — formulada <b>faqat x ning argumentidagi</b> n ni n − k bilan almashtiring; (2) y(n − k) — formuladagi <b>hamma</b> n ni n − k bilan almashtiring; (3) solishtiring.</p>
+<div class="box ok"><b>Tezkor belgilar.</b> Statsionar <b>emas</b>, agar formulada x dan tashqarida n bor (n·x(n), cos(n)·x(n)) yoki x ning argumenti n ning "cho'ziq" funksiyasi (x(2n), x(−n), x(n²)).</div>
+
+<h3>Ma'ruza misollari</h3>
+<div class="sol">
+<p><b>1-misol: y(n) = x(n) + x(n − 1).</b> Chiziqlilik: L[α<sub>1</sub>x<sub>1</sub> + α<sub>2</sub>x<sub>2</sub>] = α<sub>1</sub>x<sub>1</sub>(n) + α<sub>2</sub>x<sub>2</sub>(n) + α<sub>1</sub>x<sub>1</sub>(n−1) + α<sub>2</sub>x<sub>2</sub>(n−1) = α<sub>1</sub>[x<sub>1</sub>(n) + x<sub>1</sub>(n−1)] + α<sub>2</sub>[x<sub>2</sub>(n) + x<sub>2</sub>(n−1)] — teng → <b>chiziqli</b>. Statsionarlik: L[x(n − k)] = x(n − k) + x(n − k − 1) = y(n − k) → <b>statsionar</b>.</p>
+<p><b>2-misol: y(n) = √x(n).</b> √(α<sub>1</sub>x<sub>1</sub> + α<sub>2</sub>x<sub>2</sub>) ≠ α<sub>1</sub>√x<sub>1</sub> + α<sub>2</sub>√x<sub>2</sub> → <b>chiziqli emas</b>. L[x(n − n<sub>0</sub>)] = √x(n − n<sub>0</sub>) = y(n − n<sub>0</sub>) → <b>statsionar</b>.</p>
+<p><b>3-misol: y(n) = n·x(n).</b> [α<sub>1</sub>x<sub>1</sub> + α<sub>2</sub>x<sub>2</sub>]·n = α<sub>1</sub>x<sub>1</sub>n + α<sub>2</sub>x<sub>2</sub>n → <b>chiziqli</b>. Lekin L[x(n − n<sub>0</sub>)] = x(n − n<sub>0</sub>)·<b>n</b>, y(n − n<sub>0</sub>) = x(n − n<sub>0</sub>)·<b>(n − n<sub>0</sub>)</b> — farqli → <b>statsionar emas</b> ("kuchaytirish" vaqt o'tishi bilan o'zgaradi).</p>
+</div>
+
+<figure>
+<svg viewBox="0 0 720 175" role="img" aria-label="n·x(n) tizimining statsionar emasligi">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<line x1="14.0" y1="150.0" x2="235.0" y2="150.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="235.0" y="168.0" text-anchor="end" font-size="13">n</text><line x1="57.1" y1="156.0" x2="57.1" y2="35.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><circle class="f-acc" cx="35.3" cy="150.0" r="2.2"/><circle class="f-acc" cx="57.1" cy="150.0" r="2.2"/><line class="s-acc" x1="78.9" y1="150.0" x2="78.9" y2="131.2" stroke-width="2.2"/><circle class="f-acc" cx="78.9" cy="131.2" r="3.5"/><text class="s-ink" x="84.9" y="135.2" text-anchor="start" font-size="11">1</text><line class="s-acc" x1="100.7" y1="150.0" x2="100.7" y2="112.5" stroke-width="2.2"/><circle class="f-acc" cx="100.7" cy="112.5" r="3.5"/><text class="s-ink" x="106.7" y="116.5" text-anchor="start" font-size="11">2</text><circle class="f-acc" cx="122.5" cy="150.0" r="2.2"/><circle class="f-acc" cx="144.3" cy="150.0" r="2.2"/><circle class="f-acc" cx="166.1" cy="150.0" r="2.2"/><circle class="f-acc" cx="187.9" cy="150.0" r="2.2"/><circle class="f-acc" cx="209.7" cy="150.0" r="2.2"/><line x1="57.1" y1="147.0" x2="57.1" y2="153.0" style="stroke:var(--muted)"/><text class="s-muted" x="57.1" y="168.0" text-anchor="middle" font-size="11">0</text><line x1="78.9" y1="147.0" x2="78.9" y2="153.0" style="stroke:var(--muted)"/><text class="s-muted" x="78.9" y="168.0" text-anchor="middle" font-size="11">1</text><line x1="100.7" y1="147.0" x2="100.7" y2="153.0" style="stroke:var(--muted)"/><text class="s-muted" x="100.7" y="168.0" text-anchor="middle" font-size="11">2</text><line x1="144.3" y1="147.0" x2="144.3" y2="153.0" style="stroke:var(--muted)"/><text class="s-muted" x="144.3" y="168.0" text-anchor="middle" font-size="11">4</text><line x1="166.1" y1="147.0" x2="166.1" y2="153.0" style="stroke:var(--muted)"/><text class="s-muted" x="166.1" y="168.0" text-anchor="middle" font-size="11">5</text><text class="s-ink" x="20.0" y="33.0" text-anchor="start" font-size="13" font-weight="700">L[x(n)] = n·x(n)</text><line x1="249.0" y1="150.0" x2="470.0" y2="150.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="470.0" y="168.0" text-anchor="end" font-size="13">n</text><line x1="292.1" y1="156.0" x2="292.1" y2="35.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><circle class="f-acc" cx="270.3" cy="150.0" r="2.2"/><circle class="f-acc" cx="292.1" cy="150.0" r="2.2"/><circle class="f-acc" cx="313.9" cy="150.0" r="2.2"/><circle class="f-acc" cx="335.7" cy="150.0" r="2.2"/><circle class="f-acc" cx="357.5" cy="150.0" r="2.2"/><line class="s-acc" x1="379.3" y1="150.0" x2="379.3" y2="75.0" stroke-width="2.2"/><circle class="f-acc" cx="379.3" cy="75.0" r="3.5"/><text class="s-ink" x="385.3" y="79.0" text-anchor="start" font-size="11">4</text><line class="s-acc" x1="401.1" y1="150.0" x2="401.1" y2="56.2" stroke-width="2.2"/><circle class="f-acc" cx="401.1" cy="56.2" r="3.5"/><text class="s-ink" x="407.1" y="60.2" text-anchor="start" font-size="11">5</text><circle class="f-acc" cx="422.9" cy="150.0" r="2.2"/><circle class="f-acc" cx="444.7" cy="150.0" r="2.2"/><line x1="292.1" y1="147.0" x2="292.1" y2="153.0" style="stroke:var(--muted)"/><text class="s-muted" x="292.1" y="168.0" text-anchor="middle" font-size="11">0</text><line x1="379.3" y1="147.0" x2="379.3" y2="153.0" style="stroke:var(--muted)"/><text class="s-muted" x="379.3" y="168.0" text-anchor="middle" font-size="11">4</text><line x1="401.1" y1="147.0" x2="401.1" y2="153.0" style="stroke:var(--muted)"/><text class="s-muted" x="401.1" y="168.0" text-anchor="middle" font-size="11">5</text><text class="s-ink" x="255.0" y="33.0" text-anchor="start" font-size="13" font-weight="700">L[x(n − 3)] = n·x(n − 3)</text><line x1="484.0" y1="150.0" x2="705.0" y2="150.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="705.0" y="168.0" text-anchor="end" font-size="13">n</text><line x1="527.1" y1="156.0" x2="527.1" y2="35.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><circle class="f-acc" cx="505.3" cy="150.0" r="2.2"/><circle class="f-acc" cx="527.1" cy="150.0" r="2.2"/><circle class="f-acc" cx="548.9" cy="150.0" r="2.2"/><circle class="f-acc" cx="570.7" cy="150.0" r="2.2"/><circle class="f-acc" cx="592.5" cy="150.0" r="2.2"/><line class="s-acc" x1="614.3" y1="150.0" x2="614.3" y2="131.2" stroke-width="2.2"/><circle class="f-acc" cx="614.3" cy="131.2" r="3.5"/><text class="s-ink" x="620.3" y="135.2" text-anchor="start" font-size="11">1</text><line class="s-acc" x1="636.1" y1="150.0" x2="636.1" y2="112.5" stroke-width="2.2"/><circle class="f-acc" cx="636.1" cy="112.5" r="3.5"/><text class="s-ink" x="642.1" y="116.5" text-anchor="start" font-size="11">2</text><circle class="f-acc" cx="657.9" cy="150.0" r="2.2"/><circle class="f-acc" cx="679.7" cy="150.0" r="2.2"/><line x1="527.1" y1="147.0" x2="527.1" y2="153.0" style="stroke:var(--muted)"/><text class="s-muted" x="527.1" y="168.0" text-anchor="middle" font-size="11">0</text><line x1="614.3" y1="147.0" x2="614.3" y2="153.0" style="stroke:var(--muted)"/><text class="s-muted" x="614.3" y="168.0" text-anchor="middle" font-size="11">4</text><line x1="636.1" y1="147.0" x2="636.1" y2="153.0" style="stroke:var(--muted)"/><text class="s-muted" x="636.1" y="168.0" text-anchor="middle" font-size="11">5</text><text class="s-ink" x="490.0" y="33.0" text-anchor="start" font-size="13" font-weight="700">y(n − 3)</text>
+</svg>
+<figcaption>y(n) = n·x(n) statsionar emasligi: kirish — n = 1, 2 da ikkita 1. Uni 3 ga kechiktirib bersak (o'rtada), chiqish 4 va 5 bo'ladi. Lekin asl chiqishni 3 ga kechiktirsak (o'ngda), 1 va 2. Farqli → tizim vaqt o'tishi bilan o'zgaradi.</figcaption>
+</figure>
+
+<h2>4. Kauzallik</h2>
+<p>Kauzal tizimning joriy chiqishi y(n) <b>kelajakdagi</b> kirish qiymatlariga x(n + k), k &gt; 0, bog'liq emas.</p>
+<div class="sol">
+<p><b>Ma'ruza:</b> y(n) = x(2n) — <b>kauzal emas</b>: masalan, y(2) = x(4), ya'ni 2-lahzada 4-lahzadagi (kelajak) kirishni bilish kerak.</p>
+<p>y(n) = x(n) + x(n − 1) — <b>kauzal</b>: faqat joriy va oldingi qiymat.</p>
+</div>
+<p>Ehtiyot bo'ling: y(n) = x(−n) ham kauzal emas (n = −3 da y(−3) = x(3) — kelajak). Faqat bitta n uchun kelajakka qarash kifoya — tizim kauzal emas.</p>
+
+<h2>5. Xotira</h2>
+<p><b>Xotirasiz</b> tizim: y(n) faqat <b>shu lahzadagi</b> x(n) ga bog'liq. Aks holda tizimda <b>xotira</b> bor — o'tgan (yoki kelajak) qiymatlarni saqlashi kerak.</p>
+<div class="sol">
+<p>y(n) = 3x(n) — xotirasiz.</p>
+<p>y(n) = 2x(n) − 3x(n − 1) — xotira <b>1</b>; y(n) = 3x(n − 3) — xotira <b>3</b> (ma'ruza).</p>
+<p>y(n) = Σ<sub>k=0</sub><sup>N</sup> α<sub>k</sub>x(n − k) — xotira <b>N</b>. N &lt; ∞ — chekli xotira, aks holda cheksiz xotira.</p>
+</div>
+
+<h2>6. Passivlik</h2>
+<p>Chekli energiyali E<sub>x</sub> kirishga energiyasi <b>E<sub>y</sub> ≤ E<sub>x</sub> &lt; ∞</b> bo'lgan chiqish beradigan tizim — <span class="term">passiv</span>: Σ|y(n)|² ≤ Σ|x(n)|². Tenglik bajarilsa — <span class="term">isrofsiz</span> (lossless): energiyani saqlaydi.</p>
+<div class="sol"><p>y(n) = ½x(n) — passiv (E<sub>y</sub> = E<sub>x</sub>/4). y(n) = x(n − 3) — isrofsiz (energiya surishga bog'liq emas, 23-dars). y(n) = 2x(n) — passiv emas (E<sub>y</sub> = 4E<sub>x</sub>).</p></div>
+
+<h2>7. Tayyor jadval (imtihon uchun mashq)</h2>
+<div class="tw"><table>
+<tr><th>Tizim</th><th class="c">Chiziqli</th><th class="c">Statsionar</th><th class="c">Kauzal</th><th class="c">Xotirasiz</th><th>Izoh</th></tr>
+<tr><td>y = x(n) + x(n − 1)</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td class="c">✗</td><td>ma'ruza 1-misol, xotira 1</td></tr>
+<tr><td>y = √x(n)</td><td class="c">✗</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td>ma'ruza 2-misol</td></tr>
+<tr><td>y = n·x(n)</td><td class="c">✓</td><td class="c">✗</td><td class="c">✓</td><td class="c">✓</td><td>ma'ruza 3-misol</td></tr>
+<tr><td>y = x(2n)</td><td class="c">✓</td><td class="c">✗</td><td class="c">✗</td><td class="c">✗</td><td>downsampling</td></tr>
+<tr><td>y = x(−n)</td><td class="c">✓</td><td class="c">✗</td><td class="c">✗</td><td class="c">✗</td><td>L[x(n−k)] = x(−n−k), y(n−k) = x(−n+k)</td></tr>
+<tr><td>y = x(n) + 2</td><td class="c">✗</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td>x = 0 da y = 2 ≠ 0</td></tr>
+<tr><td>y = x²(n)</td><td class="c">✗</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td>kvadrat</td></tr>
+<tr><td>y = x(n + 1) − x(n)</td><td class="c">✓</td><td class="c">✓</td><td class="c">✗</td><td class="c">✗</td><td>kelajak x(n + 1)</td></tr>
+<tr><td>y = Σ<sub>k=−∞</sub><sup>n</sup> x(k)</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td class="c">✗</td><td>akkumulyator, cheksiz xotira</td></tr>
+<tr><td>y = cos(πn)·x(n)</td><td class="c">✓</td><td class="c">✗</td><td class="c">✓</td><td class="c">✓</td><td>x dan tashqarida n</td></tr>
+</table></div>
+
+<h2>8. LTI tizimlar va ayirmali tenglama</h2>
+<p>Amalda eng muhim sinf — bir vaqtda chiziqli va statsionar tizimlar (<b>LTI</b>). Kauzal diskret LTI tizim <span class="term">o'zgarmas koeffitsiyentli chekli ayirmali tenglama</span> bilan tavsiflanadi (odatda a<sub>0</sub> = 1):</p>
+<div class="formula">y(n) = −Σ<sub>k=1</sub><sup>M</sup> a<sub>k</sub>·y(n − k) + Σ<sub>k=0</sub><sup>N</sup> b<sub>k</sub>·x(n − k)</div>
+<p>Ya'ni chiqish = joriy kirish x(n), N ta oldingi kirish va M ta <b>oldingi chiqish</b>ning chiziqli kombinatsiyasi. (Uzluksizdagi differensial tenglamaning diskret o'xshashi: hosila o'rniga surish.)</p>
+<ul>
+<li><span class="term">Rekursiv</span>: kamida bitta a<sub>i</sub> ≠ 0 (i = 1 … M) — chiqish o'z o'tmishiga bog'liq ("qayta aloqa"). 31-darsda: <b>IIR</b>.</li>
+<li><span class="term">Norekursiv</span>: hamma a<sub>i</sub> = 0 — chiqish faqat kirishlardan. 31-darsda: <b>FIR</b>.</li>
+</ul>
+
+<figure>
+<svg viewBox="0 0 720 265" role="img" aria-label="Ayirmali tenglamaning blok sxemasi">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<text class="s-ink" x="20.0" y="70.0" text-anchor="start" font-size="14" font-weight="700">x[n]</text><path d="M60 65 L110 65" fill="none" stroke-width="1.6" style="stroke:var(--muted)"/><circle cx="110" cy="65" r="3" style="fill:var(--muted)"/><path d="M110 65 L347 65" fill="none" stroke-width="1.6" style="stroke:var(--muted)" marker-end="url(#ah)"/><path d="M110 65 L110 130 L160 130" fill="none" stroke-width="1.6" style="stroke:var(--muted)" marker-end="url(#ah)"/><rect class="f-accsoft s-acc" x="160" y="110" width="60" height="40" rx="6" stroke-width="1.6"/><text class="s-ink" x="190.0" y="135.0" text-anchor="middle" font-size="14" font-weight="700">z⁻¹</text><path d="M220 130 L270 130" fill="none" stroke-width="1.6" style="stroke:var(--muted)" marker-end="url(#ah)"/><rect class="f-accsoft s-acc" x="270" y="112" width="46" height="36" rx="6" stroke-width="1.6"/><text class="s-ink" x="293.0" y="135.0" text-anchor="middle" font-size="14" font-weight="700">−1</text><path d="M316 130 L360 130 L360 79" fill="none" stroke-width="1.6" style="stroke:var(--muted)" marker-end="url(#ah)"/><circle cx="360" cy="65" r="13" class="f-card" stroke-width="1.6" style="stroke:var(--fg)"/><text class="s-ink" x="360.0" y="71.0" text-anchor="middle" font-size="17" font-weight="700">+</text><path d="M373 65 L470 65" fill="none" stroke-width="1.6" style="stroke:var(--muted)"/><circle cx="470" cy="65" r="3" style="fill:var(--muted)"/><path d="M470 65 L640 65" fill="none" stroke-width="1.6" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-ink" x="650.0" y="70.0" text-anchor="start" font-size="14" font-weight="700">y[n]</text><path d="M470 65 L470 210 L440 210" fill="none" stroke-width="1.6" style="stroke:var(--muted)" marker-end="url(#ah)"/><rect class="f-accsoft s-acc" x="380" y="190" width="60" height="40" rx="6" stroke-width="1.6"/><text class="s-ink" x="410.0" y="215.0" text-anchor="middle" font-size="14" font-weight="700">z⁻¹</text><path d="M380 210 L330 210" fill="none" stroke-width="1.6" style="stroke:var(--muted)" marker-end="url(#ah)"/><rect class="f-accsoft s-acc" x="270" y="192" width="58" height="36" rx="6" stroke-width="1.6"/><text class="s-ink" x="299.0" y="215.0" text-anchor="middle" font-size="14" font-weight="700">3/2</text><path d="M270 210 L240 210 L240 175" fill="none" stroke-width="1.6" style="stroke:var(--muted)"/><path d="M240 175 L350 175 L357 79" fill="none" stroke-width="1.6" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="160.0" y="102.0" text-anchor="start" font-size="12">x[n − 1]</text><text class="s-muted" x="480.0" y="205.0" text-anchor="start" font-size="12">y[n − 1]</text><text class="s-ink" x="20.0" y="250.0" text-anchor="start" font-size="13" font-weight="700">y[n] = x[n] − x[n − 1] + (3/2)·y[n − 1]  — rekursiv (pastki qayta aloqa zanjiri)</text>
+</svg>
+<figcaption>Exercises 3, 1-masala sxemasi. z<sup>−1</sup> bloki — bir namunaga kechiktirish (29-darsdagi surish xossasi). Yuqori qism — kirishlar (b<sub>0</sub> = 1, b<sub>1</sub> = −1), pastki qism — chiqishni qaytarib qo'shish (a<sub>1</sub> = −3/2). Pastki zanjir borligi — tenglama rekursiv.</figcaption>
+</figure>
+
+<h2>9. Ayirmali tenglamani yechish: ZSR va ZIR</h2>
+<p>Vazifa: x(n) va <b>boshlang'ich shartlar</b> y(−1), …, y(−M) ma'lum bo'lsa, n ≥ 0 uchun y(n) ni topish. Umumiy yechim ikki qismga ajraladi:</p>
+<div class="formula">y(n) = y<sub>so</sub>(n) + y<sub>io</sub>(n)</div>
+<ul>
+<li><b>y<sub>so</sub>(n)</b> — <span class="term">nol holat javobi</span> (Zero State Response, <b>ZSR</b>): boshlang'ich shartlar <b>nol</b>, kirish bor. Tenglama: y<sub>so</sub>(n) + Σa<sub>k</sub>y<sub>so</sub>(n − k) = Σb<sub>k</sub>x(n − k), y(−M) … y(−1) = 0.</li>
+<li><b>y<sub>io</sub>(n)</b> — <span class="term">nol kirish javobi</span> (Zero Input Response, <b>ZIR</b>): kirish <b>nol</b>, faqat boshlang'ich shartlar: y<sub>io</sub>(n) + Σa<sub>k</sub>y<sub>io</sub>(n − k) = 0, y<sub>io</sub>(k) = y(k), k = −M … −1.</li>
+</ul>
+<p>Turg'un LTI tizimlarda ZIR vaqt o'tishi bilan so'nadi — shuning uchun uni <b>o'tkinchi javob</b> (transient) ham deyishadi. Ma'ruza: keyingi darslarda barqaror (steady) xulqqa e'tibor beramiz, ya'ni <b>boshlang'ich shartlarni nol</b> deb olamiz.</p>
+
+<h3>Ma'ruza misoli: y(n) = ½y(n − 1) + x(n), y(−1) = 1</h3>
+<div class="sol">
+<p><b>ZSR</b> (y<sub>so</sub>(n) = 0, n &lt; 0): qadamma-qadam:</p>
+<p>y<sub>so</sub>(0) = ½·0 + x(0) = x(0); &nbsp; y<sub>so</sub>(1) = ½x(0) + x(1); &nbsp; y<sub>so</sub>(2) = ¼x(0) + ½x(1) + x(2); …</p>
+<p class="formula">y<sub>so</sub>(n) = Σ<sub>k=0</sub><sup>n</sup> (½)<sup>n−k</sup>x(k) = (1/2ⁿ)·Σ<sub>k=0</sub><sup>n</sup> 2<sup>k</sup>x(k)</p>
+<p><b>ZIR</b> (x = 0, y<sub>io</sub>(−1) = 1): y<sub>io</sub>(0) = ½, y<sub>io</sub>(1) = ¼, y<sub>io</sub>(2) = ⅛, … → <b>y<sub>io</sub>(n) = 1/2<sup>n+1</sup></b>.</p>
+<p><b>To'liq:</b> y(n) = (1/2ⁿ)·[½ + Σ<sub>k=0</sub><sup>n</sup> 2<sup>k</sup>x(k)].</p>
+</div>
+<h3>Davomi: kirish x(n) = u(n) bo'lsa</h3>
+<div class="sol">
+<p>y<sub>so</sub>(n) = Σ<sub>k=0</sub><sup>n</sup> (½)<sup>n−k</sup> = 1 + ½ + … + (½)ⁿ = 2[1 − (½)<sup>n+1</sup>] = <b>2 − (½)ⁿ</b> (chekli geometrik qator).</p>
+<p>y(n) = 2 − (½)ⁿ + (½)<sup>n+1</sup> = <b>2 − (½)<sup>n+1</sup></b>. Tekshiruv rekursiya bilan: y(0) = ½·1 + 1 = 1,5 ✓ (2 − ½); y(1) = 0,75 + 1 = 1,75 ✓ (2 − ¼). n → ∞ da y → 2 — barqaror qiymat, ZIR so'nib ketdi.</p>
+</div>
+
+<figure>
+<svg viewBox="0 0 720 175" role="img" aria-label="ZSR va ZIR">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<line x1="14.0" y1="150.0" x2="235.0" y2="150.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="235.0" y="168.0" text-anchor="end" font-size="13">n</text><line x1="50.6" y1="156.0" x2="50.6" y2="35.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><circle class="f-acc" cx="32.6" cy="150.0" r="2.2"/><line class="s-acc" x1="50.6" y1="150.0" x2="50.6" y2="127.2" stroke-width="2.2"/><circle class="f-acc" cx="50.6" cy="127.2" r="3.5"/><line class="s-acc" x1="68.6" y1="150.0" x2="68.6" y2="138.6" stroke-width="2.2"/><circle class="f-acc" cx="68.6" cy="138.6" r="3.5"/><line class="s-acc" x1="86.5" y1="150.0" x2="86.5" y2="144.3" stroke-width="2.2"/><circle class="f-acc" cx="86.5" cy="144.3" r="3.5"/><line class="s-acc" x1="104.5" y1="150.0" x2="104.5" y2="147.1" stroke-width="2.2"/><circle class="f-acc" cx="104.5" cy="147.1" r="3.5"/><line class="s-acc" x1="122.5" y1="150.0" x2="122.5" y2="148.6" stroke-width="2.2"/><circle class="f-acc" cx="122.5" cy="148.6" r="3.5"/><line class="s-acc" x1="140.5" y1="150.0" x2="140.5" y2="149.3" stroke-width="2.2"/><circle class="f-acc" cx="140.5" cy="149.3" r="3.5"/><line class="s-acc" x1="158.5" y1="150.0" x2="158.5" y2="149.6" stroke-width="2.2"/><circle class="f-acc" cx="158.5" cy="149.6" r="3.5"/><line class="s-acc" x1="176.4" y1="150.0" x2="176.4" y2="149.8" stroke-width="2.2"/><circle class="f-acc" cx="176.4" cy="149.8" r="3.5"/><line class="s-acc" x1="194.4" y1="150.0" x2="194.4" y2="149.9" stroke-width="2.2"/><circle class="f-acc" cx="194.4" cy="149.9" r="3.5"/><line class="s-acc" x1="212.4" y1="150.0" x2="212.4" y2="150.0" stroke-width="2.2"/><circle class="f-acc" cx="212.4" cy="150.0" r="3.5"/><line x1="50.6" y1="147.0" x2="50.6" y2="153.0" style="stroke:var(--muted)"/><text class="s-muted" x="50.6" y="168.0" text-anchor="middle" font-size="11">0</text><line x1="140.5" y1="147.0" x2="140.5" y2="153.0" style="stroke:var(--muted)"/><text class="s-muted" x="140.5" y="168.0" text-anchor="middle" font-size="11">5</text><text class="s-ink" x="20.0" y="33.0" text-anchor="start" font-size="13" font-weight="700">ZIR = 1/2ⁿ⁺¹</text><line x1="249.0" y1="150.0" x2="470.0" y2="150.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="470.0" y="168.0" text-anchor="end" font-size="13">n</text><line x1="285.6" y1="156.0" x2="285.6" y2="35.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><circle class="f-acc" cx="267.6" cy="150.0" r="2.2"/><line class="s-acc" x1="285.6" y1="150.0" x2="285.6" y2="104.3" stroke-width="2.2"/><circle class="f-acc" cx="285.6" cy="104.3" r="3.5"/><line class="s-acc" x1="303.6" y1="150.0" x2="303.6" y2="81.5" stroke-width="2.2"/><circle class="f-acc" cx="303.6" cy="81.5" r="3.5"/><line class="s-acc" x1="321.5" y1="150.0" x2="321.5" y2="70.1" stroke-width="2.2"/><circle class="f-acc" cx="321.5" cy="70.1" r="3.5"/><line class="s-acc" x1="339.5" y1="150.0" x2="339.5" y2="64.4" stroke-width="2.2"/><circle class="f-acc" cx="339.5" cy="64.4" r="3.5"/><line class="s-acc" x1="357.5" y1="150.0" x2="357.5" y2="61.5" stroke-width="2.2"/><circle class="f-acc" cx="357.5" cy="61.5" r="3.5"/><line class="s-acc" x1="375.5" y1="150.0" x2="375.5" y2="60.1" stroke-width="2.2"/><circle class="f-acc" cx="375.5" cy="60.1" r="3.5"/><line class="s-acc" x1="393.5" y1="150.0" x2="393.5" y2="59.4" stroke-width="2.2"/><circle class="f-acc" cx="393.5" cy="59.4" r="3.5"/><line class="s-acc" x1="411.4" y1="150.0" x2="411.4" y2="59.1" stroke-width="2.2"/><circle class="f-acc" cx="411.4" cy="59.1" r="3.5"/><line class="s-acc" x1="429.4" y1="150.0" x2="429.4" y2="58.9" stroke-width="2.2"/><circle class="f-acc" cx="429.4" cy="58.9" r="3.5"/><line class="s-acc" x1="447.4" y1="150.0" x2="447.4" y2="58.8" stroke-width="2.2"/><circle class="f-acc" cx="447.4" cy="58.8" r="3.5"/><line x1="285.6" y1="147.0" x2="285.6" y2="153.0" style="stroke:var(--muted)"/><text class="s-muted" x="285.6" y="168.0" text-anchor="middle" font-size="11">0</text><line x1="375.5" y1="147.0" x2="375.5" y2="153.0" style="stroke:var(--muted)"/><text class="s-muted" x="375.5" y="168.0" text-anchor="middle" font-size="11">5</text><text class="s-ink" x="255.0" y="33.0" text-anchor="start" font-size="13" font-weight="700">ZSR = 2 − (½)ⁿ</text><line x1="484.0" y1="150.0" x2="705.0" y2="150.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="705.0" y="168.0" text-anchor="end" font-size="13">n</text><line x1="520.6" y1="156.0" x2="520.6" y2="35.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><circle class="f-acc" cx="502.6" cy="150.0" r="2.2"/><line class="s-acc" x1="520.6" y1="150.0" x2="520.6" y2="81.5" stroke-width="2.2"/><circle class="f-acc" cx="520.6" cy="81.5" r="3.5"/><line class="s-acc" x1="538.6" y1="150.0" x2="538.6" y2="70.1" stroke-width="2.2"/><circle class="f-acc" cx="538.6" cy="70.1" r="3.5"/><line class="s-acc" x1="556.5" y1="150.0" x2="556.5" y2="64.4" stroke-width="2.2"/><circle class="f-acc" cx="556.5" cy="64.4" r="3.5"/><line class="s-acc" x1="574.5" y1="150.0" x2="574.5" y2="61.5" stroke-width="2.2"/><circle class="f-acc" cx="574.5" cy="61.5" r="3.5"/><line class="s-acc" x1="592.5" y1="150.0" x2="592.5" y2="60.1" stroke-width="2.2"/><circle class="f-acc" cx="592.5" cy="60.1" r="3.5"/><line class="s-acc" x1="610.5" y1="150.0" x2="610.5" y2="59.4" stroke-width="2.2"/><circle class="f-acc" cx="610.5" cy="59.4" r="3.5"/><line class="s-acc" x1="628.5" y1="150.0" x2="628.5" y2="59.1" stroke-width="2.2"/><circle class="f-acc" cx="628.5" cy="59.1" r="3.5"/><line class="s-acc" x1="646.4" y1="150.0" x2="646.4" y2="58.9" stroke-width="2.2"/><circle class="f-acc" cx="646.4" cy="58.9" r="3.5"/><line class="s-acc" x1="664.4" y1="150.0" x2="664.4" y2="58.8" stroke-width="2.2"/><circle class="f-acc" cx="664.4" cy="58.8" r="3.5"/><line class="s-acc" x1="682.4" y1="150.0" x2="682.4" y2="58.7" stroke-width="2.2"/><circle class="f-acc" cx="682.4" cy="58.7" r="3.5"/><line x1="520.6" y1="147.0" x2="520.6" y2="153.0" style="stroke:var(--muted)"/><text class="s-muted" x="520.6" y="168.0" text-anchor="middle" font-size="11">0</text><line x1="610.5" y1="147.0" x2="610.5" y2="153.0" style="stroke:var(--muted)"/><text class="s-muted" x="610.5" y="168.0" text-anchor="middle" font-size="11">5</text><text class="s-ink" x="490.0" y="33.0" text-anchor="start" font-size="13" font-weight="700">y = 2 − (½)ⁿ⁺¹</text>
+</svg>
+<figcaption>y(n) = ½y(n − 1) + x(n), x(n) = u(n), y(−1) = 1. Chapda nol kirish javobi (faqat boshlang'ich shartdan, so'nadi), o'rtada nol holat javobi (faqat kirishdan, 2 ga intiladi), o'ngda ularning yig'indisi.</figcaption>
+</figure>
+
+<h2>10. Yechilgan misol (Exercises 3, 1-masala): impuls javobi rekursiya bilan</h2>
+<p>Tizim: <b>y[n] = x[n] − x[n − 1] + (3/2)·y[n − 1]</b> (sxemada ikki z<sup>−1</sup> bloki: biri kirishni, biri chiqishni kechiktiradi). Impuls javobini toping.</p>
+<div class="sol">
+<p><b>Ta'rif bo'yicha</b> (mashg'ulotdagi muqobil yechim): impuls javobi h[n] — kirish δ[n] bo'lganda, nol boshlang'ich holatda (h[n] = 0, n &lt; 0) chiqish:</p>
+<p class="formula">h[n] = δ[n] − δ[n − 1] + (3/2)·h[n − 1]</p>
+<p>h[0] = 1 − 0 + (3/2)·0 = <b>1</b>; &nbsp; h[1] = 0 − 1 + (3/2)·1 = <b>½</b>; &nbsp; h[2] = 0 − 0 + (3/2)·½ = <b>¾</b>; &nbsp; h[3] = (3/2)·¾ = (3/2)²·½; …</p>
+<p>Qonuniyat: <b>h[n] = δ[n] + ½·(3/2)<sup>n−1</sup>·u[n − 1]</b>.</p>
+<p><b>Z orqali</b> (mashg'ulotdagi asosiy yechim, 29-dars usuli): Y(1 − (3/2)z<sup>−1</sup>) = X(1 − z<sup>−1</sup>) → H(z) = (1 − z<sup>−1</sup>)/(1 − (3/2)z<sup>−1</sup>) = 1/(1 − (3/2)z<sup>−1</sup>) − z<sup>−1</sup>/(1 − (3/2)z<sup>−1</sup>). Teskari: h[n] = (3/2)ⁿu[n] − (3/2)<sup>n−1</sup>u[n − 1] = … = ½(3/2)<sup>n−1</sup>u[n − 1] + δ[n] ✓ — bir xil.</p>
+<p>E'tibor: h[n] cheksiz o'sadi (qutb 3/2 &gt; 1) — bu tizim <b>turg'un emas</b> (32-dars).</p>
+</div>
+
+<h2>O'zingizni tekshiring</h2>
+<p>1–6-savollar imtihondagi test shaklida.</p>
+<div class="box check">1. y(n) = n·x(n) tizimi:<br>a) chiziqli, statsionar &nbsp; b) chiziqli, statsionar emas &nbsp; c) chiziqli emas, statsionar &nbsp; d) chiziqli emas, statsionar emas
+<details><summary>Javob</summary><b>b)</b> ma'ruza 3-misoli.</details></div>
+<div class="box check">2. y(n) = x(n) + 5 tizimi:<br>a) chiziqli &nbsp; b) chiziqli emas, statsionar &nbsp; c) statsionar emas &nbsp; d) kauzal emas
+<details><summary>Javob</summary><b>b)</b> x = 0 da y = 5.</details></div>
+<div class="box check">3. y(n) = x(2n) tizimi:<br>a) kauzal &nbsp; b) kauzal emas &nbsp; c) xotirasiz &nbsp; d) chiziqli emas
+<details><summary>Javob</summary><b>b)</b> y(2) = x(4).</details></div>
+<div class="box check">4. y(n) = 2x(n) − 3x(n − 4) ning xotirasi:<br>a) 0 &nbsp; b) 1 &nbsp; c) 3 &nbsp; d) 4
+<details><summary>Javob</summary><b>d)</b></details></div>
+<div class="box check">5. y(n) = 0,5y(n − 1) + x(n) tenglamasi:<br>a) norekursiv &nbsp; b) rekursiv &nbsp; c) chiziqli emas &nbsp; d) xotirasiz
+<details><summary>Javob</summary><b>b)</b> a<sub>1</sub> ≠ 0.</details></div>
+<div class="box check">6. Nol kirish javobi (ZIR) nimaga bog'liq?<br>a) faqat kirishga &nbsp; b) faqat boshlang'ich shartlarga &nbsp; c) ikkalasiga &nbsp; d) hech biriga
+<details><summary>Javob</summary><b>b)</b></details></div>
+<div class="box check">7. y(n) = y(n − 1) + x(n) ning impuls javobi? <details><summary>Javob</summary>h(0) = 1, h(1) = 1, … → h(n) = u(n) (akkumulyator).</details></div>
+<div class="box check">8. y(n) = ½x(n) + ½x(n − 1) passivmi? <details><summary>Javob</summary>Ha. x = δ(n) da E<sub>y</sub> = ¼ + ¼ = ½ ≤ 1; umuman ham E<sub>y</sub> ≤ E<sub>x</sub> (o'rtacha olish energiyani oshirmaydi).</details></div>
+
+<h2>📝 Konspekt</h2>
+<div class="box note"><p><strong>Shularni bilsangiz, bu mavzuni bilasiz</strong> (34-ma'ruza):</p>
+<ol>
+<li>Tizim: <code>y(n) = L[x(n)]</code>.</li>
+<li>Chiziqli: <code>L[α<sub>1</sub>x<sub>1</sub> + α<sub>2</sub>x<sub>2</sub>] = α<sub>1</sub>L[x<sub>1</sub>] + α<sub>2</sub>L[x<sub>2</sub>]</code>. Buzadi: x², √x, |x|, cos x, + o'zgarmas.</li>
+<li>Statsionar: <code>L[x(n − k)] = y(n − k)</code>. Tekshirish: L[x(n−k)] da faqat x argumentidagi n almashtiriladi, y(n−k) da hamma n. Buzadi: n·x(n), x(2n), x(−n).</li>
+<li>Kauzal: y(n) kelajak x(n + k), k &gt; 0 ga bog'liq emas. x(2n), x(−n), x(n+1) — kauzal emas.</li>
+<li>Xotirasiz: faqat x(n). Σ<sub>k=0</sub><sup>N</sup>α<sub>k</sub>x(n − k) — xotira N.</li>
+<li>Passiv: E<sub>y</sub> ≤ E<sub>x</sub>; tenglik — isrofsiz.</li>
+<li>Ma'ruza misollari: x(n) + x(n−1) — L, TI; √x(n) — L emas, TI; n·x(n) — L, TI emas.</li>
+<li>Kauzal LTI: <code>y(n) = −Σ<sub>k=1</sub><sup>M</sup>a<sub>k</sub>y(n−k) + Σ<sub>k=0</sub><sup>N</sup>b<sub>k</sub>x(n−k)</code>. Rekursiv — biror a<sub>k</sub> ≠ 0; norekursiv — hammasi 0.</li>
+<li><code>y = y<sub>so</sub> + y<sub>io</sub></code>: ZSR — nol boshlang'ich holat; ZIR — nol kirish (turg'un tizimda so'nadi, "o'tkinchi").</li>
+<li>Ma'ruza: y = ½y(n−1) + x, y(−1) = 1 → ZIR = 1/2<sup>n+1</sup>, ZSR = Σ(½)<sup>n−k</sup>x(k).</li>
+<li>Impuls javobi rekursiya bilan: x = δ, nol holat, qadamma-qadam hisoblash.</li>
+</ol></div>
+
+<div class="box ok">O'qib bo'ldingizmi? Chatga <strong>"tushundim"</strong> deb yozing. <strong>"Tushunmadim"</strong> bo'lsa, qaysi joy qiyin bo'lganini ayting, darsni soddaroq qilib qayta yozaman.</div>
+<footer class="pager"><a href="29-teskari-z.html">← 29. Teskari Z</a><a href="./">Darslar ro'yxati</a></footer>
+</main></body></html>
