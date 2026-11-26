@@ -86,6 +86,116 @@
 </table>
 <p>Har bir savolning to'liq matni va yechimi ko'rsatilgan darsda bor. Jadvaldagi javobni yopib, o'zingiz yechib ko'ring.</p>
 
+<h2>5. 2018–2019 imtihonlaridan: liniya masalalari (8–11 ball)</h2>
+<div class="box note">Eski imtihonlarning ikkinchi masalasi ikki turda bo'lgan: (A) bitta liniyada <strong>tTX va skew</strong> (lattice bilan), (B) ma'lumot va takt (CLK) liniyalari bilan <strong>flip-flop to'g'ri qabul qilishi uchun t0</strong>. Ikkalasi ham 25–26-darslardagi usul bilan yechiladi.</div>
+
+<h3>2019-07, Exercise 2 (11 ball): tTX va skew, Γ ≠ 0</h3>
+<div class="box"><p><em>A printed circuit board of length L= 27 cm can be considered as a transmission line with a characteristic impedance Z0 = 150 Ω and propagation speed v0= 0.5c. 1) If a signal x(t) = 3.3 V u(t) is provided at one end by a generator of impedance 300 Ω and at the other end there is a logic gate with infinite input impedance and logic thresholds VIL= 0.9V and VIH = 2.7V compute the transmission time and the skew of the signal over the line. (8 points) 2) If the capacitance per unit length of the line increases by a factor of 4 how do change the values of Z0 and v0 ? (3 points)</em></p></div>
+<figure><svg viewBox="0 0 720 290" role="img" aria-label="2019-07 masalasi: qabul qilgich kuchlanishi 1.8 ns da 2.2 V ga sakraydi (VIL dan o'tdi, VIH dan yo'q), 5.4 ns da 2.93 V ga chiqadi (VIH dan o'tdi), keyin 3.3 V ga yaqinlashadi" font-family="system-ui,sans-serif">
+<defs><marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<path d="M70 18V250H700" fill="none" stroke="currentColor" stroke-width="1.4"/>
+<text x="702.0" y="254.0" text-anchor="start" font-size="12" fill="currentColor">t</text>
+<text x="64.0" y="14.0" text-anchor="end" font-size="12" fill="currentColor">V</text>
+<path d="M70 195.0H690" stroke="#2563eb" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="64.0" y="199.0" text-anchor="end" font-size="11" fill="#2563eb" font-weight="700">VIL 0.9 V</text>
+<path d="M70 85.0H690" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="64.0" y="89.0" text-anchor="end" font-size="11" fill="#dc2626" font-weight="700">VIH 2.7 V</text>
+<path d="M70.0 250v5" stroke="currentColor"/>
+<text x="70.0" y="268.0" text-anchor="middle" font-size="11" fill="currentColor">0</text>
+<path d="M147.5 250v5" stroke="currentColor"/>
+<text x="147.5" y="268.0" text-anchor="middle" font-size="11" fill="currentColor">1.8</text>
+<path d="M225.0 250v5" stroke="currentColor"/>
+<text x="225.0" y="268.0" text-anchor="middle" font-size="11" fill="currentColor">3.6</text>
+<path d="M302.5 250v5" stroke="currentColor"/>
+<text x="302.5" y="268.0" text-anchor="middle" font-size="11" fill="currentColor">5.4</text>
+<path d="M380.0 250v5" stroke="currentColor"/>
+<text x="380.0" y="268.0" text-anchor="middle" font-size="11" fill="currentColor">7.2</text>
+<path d="M457.5 250v5" stroke="currentColor"/>
+<text x="457.5" y="268.0" text-anchor="middle" font-size="11" fill="currentColor">9</text>
+<path d="M535.0 250v5" stroke="currentColor"/>
+<text x="535.0" y="268.0" text-anchor="middle" font-size="11" fill="currentColor">10.8</text>
+<path d="M612.5 250v5" stroke="currentColor"/>
+<text x="612.5" y="268.0" text-anchor="middle" font-size="11" fill="currentColor">12.6</text>
+<path d="M690.0 250v5" stroke="currentColor"/>
+<text x="690.0" y="268.0" text-anchor="middle" font-size="11" fill="currentColor">14.4 ns</text>
+<path d="M70.0 250.0 L147.5 250.0 L149.8 115.6 L302.5 115.6 L304.8 70.7 L457.5 70.7 L459.8 55.8 L612.5 55.8 L614.8 50.8 L690.0 50.8" fill="none" stroke="#16a34a" stroke-width="2.6" stroke-linejoin="round"/>
+<text x="153.5" y="131.6" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">2.20 V</text>
+<text x="308.5" y="64.7" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">2.93 V</text>
+<text x="463.5" y="71.8" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">3.18 V</text>
+<path d="M147.5 250.0V36.111111111111114" stroke="#d9622b" stroke-dasharray="4 3"/><text x="151.5" y="48.3" text-anchor="start" font-size="11" fill="#d9622b" font-weight="700">tmin = 1.8 ns</text>
+<path d="M302.5 250.0V36.111111111111114" stroke="#9333ea" stroke-dasharray="4 3"/><text x="306.5" y="48.3" text-anchor="start" font-size="11" fill="#9333ea" font-weight="700">tmax = tTX = 5.4 ns</text>
+</svg><figcaption>Qabul qilgichdagi kuchlanish. Birinchi sakrash VIL dan o'tadi, lekin VIH ga yetmaydi: VIH dan faqat ikkinchi kelishda (3tP) o'tiladi.</figcaption></figure>
+<details><summary>Yechim</summary>
+<ol>
+<li>v = 0.5c = 15 sm/ns → tP = 27/15 = <strong>1.8 ns</strong>.</li>
+<li>ΓL = +1 (ochiq uch). ΓG = (300 − 150)/(300 + 150) = <strong>+1/3</strong>.</li>
+<li>Boshlang'ich to'lqin: 3.3 · 150/(150 + 300) = <strong>1.1 V</strong>.</li>
+<li>t = tP = 1.8 ns: uzoq uchda 1.1 + 1.1 = <strong>2.2 V</strong>. 0.9 V dan o'tdi, 2.7 V dan yo'q → <strong>tmin = 1.8 ns</strong>.</li>
+<li>Qaytgan 1.1 V generatorga kelib 1.1/3 = 0.367 V qaytadi. t = 3tP = 5.4 ns: 2.2 + 0.367 + 0.367 = <strong>2.93 V</strong> &gt; 2.7 V → <strong>tmax = tTX = 5.4 ns</strong>.</li>
+<li>Skew: tK = tmax − tmin = 5.4 − 1.8 = <strong>3.6 ns</strong>.</li>
+</ol>
+<p>(2) Z0 = √(L/C): C 4 marta oshsa Z0 2 marta kamayadi → <strong>75 Ω</strong>. v = 1/√(LC): v ham 2 marta kamayadi → <strong>0.25c</strong>.</p>
+</details>
+
+<h3>2019-06 A va B, Exercise 2 (moslashgan generator)</h3>
+<div class="box"><p>A: VOH = 4 V, Rg = Z∞ = 150 Ω, v = 0.7c, L = 25 sm, uzoq uch ochiq, VIL = 1 V, VIH = 2.4 V. B: Rg = Z∞ = 160 Ω, VOH = 4 V, v = 0.75c, L = 30 sm, VIL = 1.2 V, VIH = 2.7 V. tTX va skew?</p></div>
+<details><summary>Yechim</summary>
+<p>Rg = Z∞ → liniyaga VOH/2 = 2 V kiradi; ochiq uchda ikkilanib 4 V bo'ladi, bir sakrashda ikkala chegaradan ham o'tadi. Qaytgan to'lqin generatorda yutiladi (ΓG = 0).</p>
+<p>A: tTX = tP = 25/21 = <strong>1.19 ns</strong>, tK = <strong>0</strong>. B: tTX = 30/22.5 = <strong>1.33 ns</strong>, tK = <strong>0</strong>.</p>
+<p>Xulosa: generator moslashgan bo'lsa (RWS), skew yo'q; ΓG ≠ 0 bo'lsa (2019-07), bir nechta sakrash va skew paydo bo'ladi.</p>
+</details>
+
+<h3>2018-03, Exercise 3 (8 ball): DATA va CLK, minimal t0</h3>
+<div class="box"><p><em>Given the schematic of the figure, where the parameters of the transmission lines are: L1 = 35 cm, L2 = 20 cm, v= c/3 (c is the speed of the light). where the input signals are DATA= 3.3 u(t) and CLK = 3.3 u(t−t0) and the parameters of the flip-flops are the threshold voltage VT = 1.7 V and set-up time = 2 ns determine the minimum value of t0 which will guarantee the correct transmission of the data.</em></p>
+<img src="img/e1803ex3.png" alt="2018-03 sxemasi: DATA generatori R0 orqali L1 liniyasiga, liniya oxiri qabul qilgichning D kirishiga. CLK generatori L2 liniyasiga, oxirida R0 ga ulangan, keyin qabul qilgichning takt kirishiga" style="max-width:100%;background:#fff;border-radius:6px"></div>
+<details><summary>Yechim</summary>
+<p><strong>Qoida:</strong> D kirishidagi ma'lumot takt chetidan kamida <span class="term">setup</span> vaqti oldin barqaror bo'lishi kerak (8-dars):</p>
+<span class="formula">tCLK + t0 ≥ tDATA + tsetup</span>
+<p>v = c/3 = 10 sm/ns.</p>
+<ul>
+<li>DATA: Rg = R0 = Z∞ (RWS) → 1.65 V kiradi, ochiq D kirishda 3.3 V &gt; 1.7 V. tDATA = 35/10 = <strong>3.5 ns</strong>.</li>
+<li>CLK: liniya oxirida R0 (moslashgan terminatsiya, IWS) → 3.3 V birinchi kelishdayoq. tCLK = 20/10 = <strong>2 ns</strong>.</li>
+</ul>
+<p>t0 ≥ 3.5 + 2 − 2 = <strong>3.5 ns</strong>.</p>
+</details>
+
+<h3>2019-02, Exercise 2 (11 ball): ikki qabul qilgich</h3>
+<div class="box"><p><em>Given the schematic of the figure, where the parameters of the transmission lines are: L1 = 35 cm, L2 = 20 cm, L3=30 cm, L4= 30cm, v= c/3 (c is the speed of the light), R0 = 100 Ω where the input signals are DATA1= 3.3 u(t), DATA2= 3.3 u(t) and CLK = 3.3 u(t−t0) and the parameters of the flip-flops are the threshold voltage VT = 2.4 V and set-up time tsetup= 2 ns determine the minimum value of t0 which will guarantee the correct transmission of the data to both flip flops.</em></p>
+<img src="img/e1902ex2.png" alt="2019-02 sxemasi: DATA1 R0 orqali L1 ga, DATA2 2R0 orqali L3 ga; bitta CLK generatori L2 va L4 liniyalariga, ikkalasining oxirida R0; RECEIVER1 va RECEIVER2" style="max-width:100%;background:#fff;border-radius:6px"></div>
+<figure><svg viewBox="0 0 720 270" role="img" aria-label="2019-02 masalasi, L3 liniyasi: RECEIVER2 dagi DATA2 3 ns da 2.2 V (2.4 V dan past), 9 ns da 2.93 V ga chiqadi" font-family="system-ui,sans-serif">
+<defs><marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<path d="M70 18V230H700" fill="none" stroke="currentColor" stroke-width="1.4"/>
+<text x="702.0" y="234.0" text-anchor="start" font-size="12" fill="currentColor">t</text>
+<text x="64.0" y="14.0" text-anchor="end" font-size="12" fill="currentColor">V</text>
+<path d="M70 96.7H690" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="64.0" y="100.7" text-anchor="end" font-size="11" fill="#dc2626" font-weight="700">VT 2.4 V</text>
+<path d="M70.0 230v5" stroke="currentColor"/>
+<text x="70.0" y="248.0" text-anchor="middle" font-size="11" fill="currentColor">0</text>
+<path d="M225.0 230v5" stroke="currentColor"/>
+<text x="225.0" y="248.0" text-anchor="middle" font-size="11" fill="currentColor">3</text>
+<path d="M380.0 230v5" stroke="currentColor"/>
+<text x="380.0" y="248.0" text-anchor="middle" font-size="11" fill="currentColor">6</text>
+<path d="M535.0 230v5" stroke="currentColor"/>
+<text x="535.0" y="248.0" text-anchor="middle" font-size="11" fill="currentColor">9</text>
+<path d="M690.0 230v5" stroke="currentColor"/>
+<text x="690.0" y="248.0" text-anchor="middle" font-size="11" fill="currentColor">12 ns</text>
+<path d="M70.0 230.0 L225.0 230.0 L229.7 107.8 L535.0 107.8 L539.6 67.0 L690.0 67.0" fill="none" stroke="#16a34a" stroke-width="2.6" stroke-linejoin="round"/>
+<text x="231.0" y="123.8" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">2.20 V</text>
+<text x="541.0" y="83.0" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">2.93 V</text>
+<path d="M535.0 230.0V35.55555555555557" stroke="#9333ea" stroke-dasharray="4 3"/><text x="539.0" y="46.7" text-anchor="start" font-size="11" fill="#9333ea" font-weight="700">9 ns: 2.4 V dan o'tdi</text>
+</svg><figcaption>L3 liniyasi oxiridagi DATA2 kuchlanishi (Rg = 2R0 = 200 Ω, Z∞ = 100 Ω, tP = 3 ns).</figcaption></figure>
+<details><summary>Yechim</summary>
+<p>Liniyalar Z∞ = R0 = 100 Ω deb olinadi (rasmiy yechimdagidek). v = 10 sm/ns.</p>
+<ul>
+<li><strong>L1 (DATA1)</strong>: Rg = R0 → 1.65 V, oxirida 3.3 V &gt; 2.4 V. tD1 = <strong>3.5 ns</strong>.</li>
+<li><strong>L2 (CLK1)</strong>: oxiri R0 bilan moslashgan, qaytish yo'q. tCK1 = <strong>2 ns</strong>.</li>
+<li><strong>L3 (DATA2)</strong>: tP = 3 ns. ΓG = (200 − 100)/300 = 1/3, ΓL = +1. Boshlang'ich to'lqin 3.3 · 100/300 = 1.1 V. 3 ns da 2.2 V &lt; 2.4 V (yetmaydi!). 9 ns da 2.2 + 0.367 + 0.367 = 2.93 V &gt; 2.4 V → tD2 = <strong>9 ns</strong>.</li>
+<li><strong>L4 (CLK2)</strong>: moslashgan, tCK2 = <strong>3 ns</strong>.</li>
+</ul>
+<p>REC1: t0 ≥ 3.5 + 2 − 2 = 3.5 ns. REC2: t0 ≥ 9 + 2 − 3 = 8 ns. Ikkalasi uchun ham: <strong>t0min = 8 ns</strong> (kattasi).</p>
+</details>
+
+
 <h2>📝 Konspekt (eng qisqa varaq)</h2>
 <div class="box">
 <span class="formula">τ = RC &nbsp;·&nbsp; t = τ·ln(VDD/(VDD − V)) &nbsp;·&nbsp; tK = tTXmax − tTXmin</span>
@@ -96,7 +206,9 @@
 <ul>
 <li>RO &lt; Z∞ → IWS; RO = Z∞ → RWS; RO &gt; Z∞ → ko'p aks etish.</li>
 <li>Ochiq +1, qisqa −1, moslangan 0. Barqaror holat Z∞ ga bog'liq emas.</li>
-<li>Crosstalk: kuchlanish ↑ → ↑; masofa ↑ → ↓; differensial → ↓.</li>
+<li>Crosstalk: kuchlanish ↑ → ↑; masofa ↑ → ↓; differensial → ↓.</li><li>Flip-flop + liniyalar: tCLK + t0 ≥ tDATA + tsetup; tDATA = VT dan o'tgan vaqt (ΓG ≠ 0 bo'lsa 3tP bo'lishi mumkin). Bir nechta qabul qilgich: t0 = eng kattasi.</li>
+<li>C/uzunlik ×4 → Z∞ /2, v /2. L/uzunlik ×4 → Z∞ ×2, v /2.</li>
+<li>2018–19 javoblari: 2019-07 → tTX 5.4 ns, tK 3.6 ns, 75 Ω, 0.25c; 2019-06 → 1.19 / 1.33 ns, tK 0; 2018-03 → t0 ≥ 3.5 ns; 2019-02 → t0 ≥ 8 ns.</li>
 </ul>
 </div>
 

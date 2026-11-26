@@ -116,6 +116,152 @@
 <tr><td>2020-12, 2021-01</td><td>Flash ADC D taktida: sinus max</td><td>f<sub>D</sub>/2 (125 va 150 kHz)</td><td>9, 16a</td></tr>
 </table>
 
+<h2>2018–2019 imtihonlaridan: SAR ADC masalalari (6–14 ball)</h2>
+<div class="box note">Eski imtihonlarda (2018-03, 2019-02, 2019-06, 2019-07) <strong>birinchi masala deyarli har doim SAR ADC</strong> edi. Savollar bir xil qolipda: (1) sxemani chizing, (2) DAC chiqishi ketma-ketligi, (3) taktlar soni va natija kodi, (4) o'zgartirish vaqti va signalning maksimal chastotasi, (5) SNR. Quyida rasmiy yechimlar, qadam-baqadam.</div>
+
+<h3>Qolip: 5 ta savol, 5 ta formula</h3>
+<table>
+<tr><th>Savol</th><th>Qanday yechiladi</th></tr>
+<tr><td>Sxema</td><td>Komparator (+ kirishga Vin, − kirishga DAC chiqishi) → SAR registr → chiqish kodi; kod DAC ga qaytib boradi (18-dars rasmi).</td></tr>
+<tr><td>DAC ketma-ketligi</td><td>1-taktda DAC = FS/2. Har taktda: Vin ≥ DAC → bit = 1 (qoldiramiz), aks holda 0 (olib tashlaymiz). Keyingi qadam yarmi: FS/4, FS/8 …</td></tr>
+<tr><td>Taktlar soni</td><td>N bit → <strong>N takt</strong> (har taktda bitta bit).</td></tr>
+<tr><td>Vaqt va chastota</td><td>Tc = N/fck; fc = 1/Tc (maksimal namuna olish chastotasi); signal f0 ≤ fc/2 (Nyquist).</td></tr>
+<tr><td>SNR</td><td>Uchburchak 6N, sinus 6N + 1.76; signal to'liq diapazonni egallamasa: <strong>− 20·lg(diapazon / Vpp)</strong>. O'rtacha qiymat (offset) ahamiyatsiz, faqat Vpp muhim.</td></tr>
+</table>
+
+<h3>2018-03, Exercise 1 (9 ball)</h3>
+<div class="box"><p><em>A successive approximations 8 bit A/D converter has a clock of 1 MHz and an input range of 10 V. If at the input there is a voltage of 4.8V and a conversion is started compute: 1) The sequence of values at the output of the internal D/A converter as a function of the time (7 points) 2) The number of cycles required for the conversion (1 point) 3) The final digital output voltage (1 point)</em></p></div>
+<figure><svg viewBox="0 0 720 260" role="img" aria-label="SAR ADC 8 bit, 0–10 V, kirish 4.8 V: DAC chiqishi har taktda 5, 2.5, 3.75, 4.375, 4.6875, 4.84375, 4.765625, 4.8046875 V; bitlar 0,1,1,1,1,0,1,0" font-family="system-ui,sans-serif">
+<path d="M70 20V220H700" fill="none" stroke="currentColor" stroke-width="1.4"/>
+<text x="702" y="224" font-size="12" fill="currentColor">t</text><text x="64" y="16" text-anchor="end" font-size="12" fill="currentColor">V</text>
+<path d="M70 133.6H690" stroke="#dc2626" stroke-width="1.6" stroke-dasharray="6 4"/><text x="64" y="137.6" text-anchor="end" font-size="12" fill="#dc2626" font-weight="700">Vin 4.8</text>
+<path d="M70.0 130.0H146.2" stroke="#2563eb" stroke-width="2.6"/>
+<text x="108.1" y="122.0" text-anchor="middle" font-size="11" fill="currentColor">5</text>
+<text x="108.1" y="238" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">0</text>
+<text x="108.1" y="254" text-anchor="middle" font-size="10" fill="#9aa0a6">1-takt</text>
+<path d="M146.2 175.0H222.5" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M146.2 130.0V175.0" stroke="#2563eb" stroke-width="1.2"/>
+<text x="184.4" y="191.0" text-anchor="middle" font-size="11" fill="currentColor">2.5</text>
+<text x="184.4" y="238" text-anchor="middle" font-size="13" fill="#16a34a" font-weight="700">1</text>
+<text x="184.4" y="254" text-anchor="middle" font-size="10" fill="#9aa0a6">2-takt</text>
+<path d="M222.5 152.5H298.8" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M222.5 175.0V152.5" stroke="#2563eb" stroke-width="1.2"/>
+<text x="260.6" y="168.5" text-anchor="middle" font-size="11" fill="currentColor">3.75</text>
+<text x="260.6" y="238" text-anchor="middle" font-size="13" fill="#16a34a" font-weight="700">1</text>
+<text x="260.6" y="254" text-anchor="middle" font-size="10" fill="#9aa0a6">3-takt</text>
+<path d="M298.8 141.2H375.0" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M298.8 152.5V141.2" stroke="#2563eb" stroke-width="1.2"/>
+<text x="336.9" y="157.2" text-anchor="middle" font-size="11" fill="currentColor">4.375</text>
+<text x="336.9" y="238" text-anchor="middle" font-size="13" fill="#16a34a" font-weight="700">1</text>
+<text x="336.9" y="254" text-anchor="middle" font-size="10" fill="#9aa0a6">4-takt</text>
+<path d="M375.0 135.6H451.2" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M375.0 141.2V135.6" stroke="#2563eb" stroke-width="1.2"/>
+<text x="413.1" y="151.6" text-anchor="middle" font-size="11" fill="currentColor">4.6875</text>
+<text x="413.1" y="238" text-anchor="middle" font-size="13" fill="#16a34a" font-weight="700">1</text>
+<text x="413.1" y="254" text-anchor="middle" font-size="10" fill="#9aa0a6">5-takt</text>
+<path d="M451.2 132.8H527.5" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M451.2 135.6V132.8" stroke="#2563eb" stroke-width="1.2"/>
+<text x="489.4" y="124.8" text-anchor="middle" font-size="11" fill="currentColor">4.84375</text>
+<text x="489.4" y="238" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">0</text>
+<text x="489.4" y="254" text-anchor="middle" font-size="10" fill="#9aa0a6">6-takt</text>
+<path d="M527.5 134.2H603.8" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M527.5 132.8V134.2" stroke="#2563eb" stroke-width="1.2"/>
+<text x="565.6" y="150.2" text-anchor="middle" font-size="11" fill="currentColor">4.76562</text>
+<text x="565.6" y="238" text-anchor="middle" font-size="13" fill="#16a34a" font-weight="700">1</text>
+<text x="565.6" y="254" text-anchor="middle" font-size="10" fill="#9aa0a6">7-takt</text>
+<path d="M603.8 133.5H680.0" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M603.8 134.2V133.5" stroke="#2563eb" stroke-width="1.2"/>
+<text x="641.9" y="125.5" text-anchor="middle" font-size="11" fill="currentColor">4.80469</text>
+<text x="641.9" y="238" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">0</text>
+<text x="641.9" y="254" text-anchor="middle" font-size="10" fill="#9aa0a6">8-takt</text>
+<text x="64" y="238" text-anchor="end" font-size="11" fill="currentColor">bit:</text>
+</svg><figcaption>Ko'k: DAC chiqishi har taktda (1 µs). Yashil 1 = DAC ≤ 4.8 V, bit qoladi; to'q sariq 0 = DAC &gt; 4.8 V, bit olib tashlanadi.</figcaption></figure>
+<details><summary>Yechim</summary>
+<table>
+<tr><th>Takt (t)</th><th>Sinab ko'rilgan bit</th><th>DAC, V</th><th>4.8 ≥ DAC?</th><th>Bit</th></tr>
+<tr><td>1 (0–1 µs)</td><td>b7 (5 V)</td><td>5</td><td>yo'q</td><td>0</td></tr>
+<tr><td>2</td><td>b6 (2.5)</td><td>2.5</td><td>ha</td><td>1</td></tr>
+<tr><td>3</td><td>b5 (1.25)</td><td>3.75</td><td>ha</td><td>1</td></tr>
+<tr><td>4</td><td>b4 (0.625)</td><td>4.375</td><td>ha</td><td>1</td></tr>
+<tr><td>5</td><td>b3 (0.3125)</td><td>4.6875</td><td>ha</td><td>1</td></tr>
+<tr><td>6</td><td>b2 (0.156)</td><td>4.84375</td><td>yo'q</td><td>0</td></tr>
+<tr><td>7</td><td>b1 (0.078)</td><td>4.765625</td><td>ha</td><td>1</td></tr>
+<tr><td>8 (7–8 µs)</td><td>b0 (0.039)</td><td>4.8046875</td><td>yo'q</td><td>0</td></tr>
+</table>
+<p>(2) <strong>8 takt</strong> (8 µs). (3) Kod <strong>0111 1010</strong> = 122; chiqishga mos kuchlanish 122 · 10/256 = 4.766 V.</p>
+<div class="box warn"><strong>Diqqat:</strong> rasmiy varaqda oxirgi kod <strong>0111 1011</strong> deb yozilgan. Lekin o'sha varaqning o'zidagi oxirgi DAC qiymati 4.804 V &gt; 4.8 V, ya'ni algoritm bo'yicha oxirgi bit 0 bo'ladi (tekshiruv: 4.8/10 · 256 = 122.9 → pastga yaxlitlash 122). Imtihonda jadvalni to'liq ko'rsating: ball asosan ketma-ketlik uchun (7 ball).</div>
+</details>
+
+<h3>2018-03, Exercise 2 (5 ball)</h3>
+<div class="box"><p><em>A triangular signal with 5kHz frequency is digitalized with a 12 bit AD converter, with an input range of 5 V. 1. Find the SNR when the input signal has peak to peak amplitude of 2.5 V (2 points) 2. If the spectrum of the signal may be considered 0 after the 8th harmonic which is the minimum sampling frequency (3 points)</em></p></div>
+<details><summary>Yechim</summary>
+<p>(1) Uchburchak: 6N = 72 dB. Signal diapazonning yarmi: 20·lg(5/2.5) = 6 dB. SNR = 72 − 6 = <strong>66 dB</strong>.</p>
+<p>(2) <span class="term">Garmonika</span> = asosiy chastotaga karrali chastota (5, 10, 15 … kHz). 8-garmonika 8 · 5 = 40 kHz → signal kengligi B = 40 kHz. Nyquist: fs ≥ 2B = <strong>80 kHz</strong>.</p>
+</details>
+
+<h3>2019-02, Exercise 1 (14 ball)</h3>
+<div class="box"><p><em>A successive approximations 7 bit A/D converter has a clock of 2 MHz and an input range from 0V to 5 V. If at the input there is a constant voltage of 2.6V and a conversion is started compute: 1) The sequence of values at the output of the internal D/A converter as a function of the time (7 points) 2) The number of cycles required for the conversion (1 point) 3) The final digital output voltage (1 point). If the converter is used to sample and convert the values of a sinusoidal waveform with frequency f0, average value of 3V and peak to peak value of 2.5 V which are 4. The maximum frequency f0 of the signal (2 points) 5. The Signal-to-Noise Ratio (SNR) in dB associated to the conversion (3 points)</em></p></div>
+<figure><svg viewBox="0 0 720 260" role="img" aria-label="SAR ADC 7 bit, 0–5 V, kirish 2.6 V: DAC chiqishi 2.5, 3.75, 3.125, 2.8125, 2.65625, 2.578125, 2.6171875 V; bitlar 1,0,0,0,0,1,0" font-family="system-ui,sans-serif">
+<path d="M70 20V220H700" fill="none" stroke="currentColor" stroke-width="1.4"/>
+<text x="702" y="224" font-size="12" fill="currentColor">t</text><text x="64" y="16" text-anchor="end" font-size="12" fill="currentColor">V</text>
+<path d="M70 126.4H690" stroke="#dc2626" stroke-width="1.6" stroke-dasharray="6 4"/><text x="64" y="130.4" text-anchor="end" font-size="12" fill="#dc2626" font-weight="700">Vin 2.6</text>
+<path d="M70.0 130.0H157.1" stroke="#2563eb" stroke-width="2.6"/>
+<text x="113.6" y="146.0" text-anchor="middle" font-size="11" fill="currentColor">2.5</text>
+<text x="113.6" y="238" text-anchor="middle" font-size="13" fill="#16a34a" font-weight="700">1</text>
+<text x="113.6" y="254" text-anchor="middle" font-size="10" fill="#9aa0a6">1-takt</text>
+<path d="M157.1 85.0H244.3" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M157.1 130.0V85.0" stroke="#2563eb" stroke-width="1.2"/>
+<text x="200.7" y="77.0" text-anchor="middle" font-size="11" fill="currentColor">3.75</text>
+<text x="200.7" y="238" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">0</text>
+<text x="200.7" y="254" text-anchor="middle" font-size="10" fill="#9aa0a6">2-takt</text>
+<path d="M244.3 107.5H331.4" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M244.3 85.0V107.5" stroke="#2563eb" stroke-width="1.2"/>
+<text x="287.9" y="99.5" text-anchor="middle" font-size="11" fill="currentColor">3.125</text>
+<text x="287.9" y="238" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">0</text>
+<text x="287.9" y="254" text-anchor="middle" font-size="10" fill="#9aa0a6">3-takt</text>
+<path d="M331.4 118.8H418.6" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M331.4 107.5V118.8" stroke="#2563eb" stroke-width="1.2"/>
+<text x="375.0" y="110.8" text-anchor="middle" font-size="11" fill="currentColor">2.8125</text>
+<text x="375.0" y="238" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">0</text>
+<text x="375.0" y="254" text-anchor="middle" font-size="10" fill="#9aa0a6">4-takt</text>
+<path d="M418.6 124.4H505.7" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M418.6 118.8V124.4" stroke="#2563eb" stroke-width="1.2"/>
+<text x="462.1" y="116.4" text-anchor="middle" font-size="11" fill="currentColor">2.65625</text>
+<text x="462.1" y="238" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">0</text>
+<text x="462.1" y="254" text-anchor="middle" font-size="10" fill="#9aa0a6">5-takt</text>
+<path d="M505.7 127.2H592.9" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M505.7 124.4V127.2" stroke="#2563eb" stroke-width="1.2"/>
+<text x="549.3" y="143.2" text-anchor="middle" font-size="11" fill="currentColor">2.57812</text>
+<text x="549.3" y="238" text-anchor="middle" font-size="13" fill="#16a34a" font-weight="700">1</text>
+<text x="549.3" y="254" text-anchor="middle" font-size="10" fill="#9aa0a6">6-takt</text>
+<path d="M592.9 125.8H680.0" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M592.9 127.2V125.8" stroke="#2563eb" stroke-width="1.2"/>
+<text x="636.4" y="117.8" text-anchor="middle" font-size="11" fill="currentColor">2.61719</text>
+<text x="636.4" y="238" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">0</text>
+<text x="636.4" y="254" text-anchor="middle" font-size="10" fill="#9aa0a6">7-takt</text>
+<text x="64" y="238" text-anchor="end" font-size="11" fill="currentColor">bit:</text>
+</svg><figcaption>Har takt 0.5 µs. DAC: 2.5 → 3.75 → 3.125 → 2.8125 → 2.65625 → 2.578125 → 2.6171875 V.</figcaption></figure>
+<details><summary>Yechim</summary>
+<p>(1) Bitlar: 2.5 ≤ 2.6 → 1; 3.75 → 0; 3.125 → 0; 2.8125 → 0; 2.65625 → 0; 2.578 ≤ 2.6 → 1; 2.617 → 0.</p>
+<p>(2) <strong>7 takt</strong> (7 · 0.5 µs = 3.5 µs). (3) Kod <strong>1000010</strong> = 66 (66 · 5/128 = 2.578 V).</p>
+<p>(4) fc = 2 MHz / 7 = 285.7 kHz (maksimal namuna olish chastotasi) → f0 ≤ fc/2 = <strong>142.9 kHz</strong>.</p>
+<p>(5) Sinus: 6 · 7 + 1.76 = 43.76 dB; Vpp = 2.5 V diapazon 5 V ning yarmi → −6 dB. SNR = <strong>37.8 dB</strong> (rasmiy varaqda 37.6). Rasmiy izoh: <em>"average does not count: it is the peak-to-peak value which counts"</em>.</p>
+</details>
+
+<h3>2019-06 (A va B variant) va 2019-07, Exercise 1 (6 ball)</h3>
+<div class="box"><p><em>1. Draw the schematic of a 8-bit Successive approximations A/D converter (1 point) 2. If the input range is 0V ÷ 10 V and the clock frequency is 2 MHz compute the maximum conversion time (2 points) 3. Which is the maximum bandwidth of the signal to be converted. (1 point) 4. If the input signal is a triangular waveform with peak-to-peak value of 5V and average value of 2.5V which is the SNR associated to the AD conversion? (2 points)</em> (2019-06 A va 2019-07 matni bir xil; B variantida: 7 bit, 0–8 V, 2.5 MHz, uchburchak 0.8 Vpp va 2.5 V uchun DAC ketma-ketligi.)</p></div>
+<details><summary>Yechim (A / 2019-07)</summary>
+<p>Tc = 8/(2 MHz) = <strong>4 µs</strong>; fc = 250 kHz → signal kengligi ≤ <strong>125 kHz</strong>.</p>
+<p>SNR = 6 · 8 − 20·lg(10/5) = 48 − 6 = <strong>42 dB</strong>.</p>
+<p>A variantida yana 2.8 V uchun ketma-ketlik so'ralgan: 5, 2.5, 3.75, 3.125, 2.8125, 2.65625, 2.734375, 2.7734375 → kod <strong>01000111</strong> = 71.</p>
+</details>
+<details><summary>Yechim (B)</summary>
+<p>Tc = 7/(2.5 MHz) = <strong>2.8 µs</strong>; fc = 357 kHz → ≤ <strong>178 kHz</strong>.</p>
+<p>SNR = 6 · 7 − 20·lg(8/0.8) = 42 − 20 = <strong>22 dB</strong>.</p>
+<p>2.5 V uchun: 4, 2, 3, 2.5, 2.75, 2.625, 2.5625 → kod <strong>0101000</strong> = 40. Diqqat: 4-taktda DAC = 2.5 = Vin, teng bo'lsa bit 1 qoladi (rasmiy yechimdagidek).</p>
+</details>
+
+
 <h2>O'zingizni tekshiring: yangi raqamlar bilan</h2>
 <div class="box check">3 kanal, har birida 0–10 kHz, K = 2. S/H Tacq = 2 μs. ADC Tconv qanchadan oshmasligi kerak? <details><summary>Javob</summary>Kanalga 2 · 2 · 10 = 40 kHz, jami 120 kHz → Ts = 8.33 μs → Tconv ≤ <strong>6.33 μs</strong>.</details></div>
 <div class="box check">Signal 0.5…1.5 V, ADC 0…5 V. G va input offset? <details><summary>Javob</summary>G = 5/1 = <strong>5</strong>; chiqish offseti 2.5 − 5 · 1 = −2.5 V; input offset <strong>−0.5 V</strong>. Tekshiruv: (0.5 − 0.5) · 5 = 0, (1.5 − 0.5) · 5 = 5 ✓.</details></div>
@@ -134,6 +280,7 @@
 <li>Filtr: alias = Fs − Fmax, kerakli dB → qutblar.</li>
 <li>Kuchaytirgich: G va offset.</li>
 </ol>
+<p><strong>SAR masalasi</strong>: DAC 1-taktda FS/2; Vin ≥ DAC → 1, aks holda 0; qadam har safar yarmi. N bit = N takt, Tc = N/fck, f0 ≤ 1/(2Tc). SNR: uchburchak 6N, sinus 6N + 1.76, minus 20·lg(diapazon/Vpp); o'rtacha qiymat ahamiyatsiz.</p>
 <p><strong>Ikki baravar teng SNR yig'indisi</strong>: quvvatlar qo'shilsa −3 dB, amplitudalar qo'shilsa −6 dB.</p>
 </div>
 

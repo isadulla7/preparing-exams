@@ -168,6 +168,47 @@
 <li>Buck (L chiqishga ketma-ket).</li>
 </ol></details></div>
 
+<h2>7. 2019 imtihonlaridan: formulani keltirib chiqarish (4–6 ball)</h2>
+<div class="box note">2019 yilgi imtihonlarning uchinchi masalasi: sxemani chizish, boshqaruvchi kattalikni aytish va <strong>uzatish funksiyasini keltirib chiqarish</strong> ("not just writing the result"). Faqat javobni yozsangiz 4 balldan ko'p qismini yo'qotasiz, shuning uchun quyidagi 4 qadamni yodlang.</div>
+<div class="box"><p><strong>2019-06 A:</strong> <em>Draw the schematic of a buck-boost converter (1 point). Which is the control variable of the converter? (1 point). Derive (that is not just writing the result) the value of the input/output transfer function as a function of the control variable assuming that the converter is operating in CCM (4 points)</em></p>
+<p><strong>2019-06 B:</strong> xuddi shu savol, lekin <em>boost converter</em> uchun. <strong>2019-07:</strong> <em>Draw the schematic of a buck-boost converter (2 point). Which is the control variable of the converter? (2 point)</em></p></div>
+<figure><svg viewBox="0 0 720 250" role="img" aria-label="Kalitni boshqaruvchi signal: T1 davomida yoqilgan, T2 davomida o'chirilgan, davr Tsw. Pastda induktivlik toki: T1 da Ia dan Ib gacha chiziqli o'sadi, T2 da Ib dan Ia gacha kamayadi" font-family="system-ui,sans-serif">
+<text x="52.0" y="64.0" text-anchor="end" font-size="12" fill="#2563eb" font-weight="700">kalit</text><path d="M60 80H80V40H230V80H340V40H490V80H600V40H620" fill="none" stroke="#2563eb" stroke-width="2"/>
+<text x="155.0" y="32.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">T1 = D·Tsw (ON)</text><text x="285.0" y="32.0" text-anchor="middle" font-size="12" fill="#d9622b" font-weight="700">T2 = (1−D)·Tsw</text>
+<path d="M60 220H630" stroke="currentColor" stroke-width="1.2"/><text x="52.0" y="170.0" text-anchor="end" font-size="12" fill="#16a34a" font-weight="700">iL</text>
+<path d="M80 200 L230 130 L340 200 L490 130 L600 200" fill="none" stroke="#16a34a" stroke-width="2.6"/>
+<path d="M70 200H620M70 130H620" stroke="#9aa0a6" stroke-dasharray="4 4"/>
+<text x="624.0" y="204.0" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">Ia</text><text x="624.0" y="134.0" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">Ib</text>
+<text x="145.0" y="158.0" text-anchor="end" font-size="11" fill="#16a34a">qiyalik VL/L > 0</text><text x="301.0" y="158.0" text-anchor="start" font-size="11" fill="#d9622b">qiyalik < 0</text>
+<text x="360.0" y="244.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">Barqaror holat: bir davrda tok qancha o'ssa, shuncha kamayadi (Ib − Ia bir xil)</text>
+</svg><figcaption>Ikkala keltirib chiqarishning asosi: T1 da tok Ia → Ib o'sadi, T2 da Ib → Ia qaytadi.</figcaption></figure>
+
+<h3>4 qadamli retsept</h3>
+<ol>
+<li><strong>Boshqaruvchi kattalik</strong> (control variable): kalitni boshqaruvchi signalning <span class="term">duty cycle</span> D si. Rasmiy javob: <em>"The control variable of the converter is the duty cycle D of the waveform controlling the switch."</em></li>
+<li>T1 (kalit ON) va T2 (kalit OFF) da induktivlikdagi kuchlanish VL ni yozing.</li>
+<li>Tok chiziqli o'zgaradi: ΔI = (VL/L)·T. T1 dagi o'sish = T2 dagi kamayish (Ib − Ia).</li>
+<li>T1 = D·Tsw, T2 = (1 − D)·Tsw qo'yib, VU/VI ni toping.</li>
+</ol>
+
+<details><summary>Buck-boost (2019-06 A, rasmiy yechim)</summary>
+<p>Sxema: VI → kalit → (L yerga) → diod (teskari) → CU ‖ yuklama → VU.</p>
+<p>T1 da: VL = VI → Ib = Ia + (VI/L)·T1 → Ib − Ia = (VI/L)·T1.</p>
+<p>T2 da: VL = VU → Ia = Ib + (VU/L)·T2 → Ib − Ia = −(VU/L)·T2.</p>
+<p>Tenglashtiramiz: (VI/L)·T1 = −(VU/L)·T2 → VU/VI = −T1/T2.</p>
+<p>T1 = D·Tsw, T2 = (1 − D)·Tsw:</p>
+<span class="formula">VU/VI = −D/(1 − D) = D/(D − 1)</span>
+</details>
+<details><summary>Boost (2019-06 B, rasmiy yechim)</summary>
+<p>Sxema: VI → L → diod → CU ‖ yuklama → VU; kalit L va diod orasidan yerga.</p>
+<p>T1 da: VL = VI → Ib − Ia = (VI/L)·T1.</p>
+<p>T2 da: VL = VI − VU → Ia = Ib + ((VI − VU)/L)·T2 → Ib − Ia = ((VU − VI)/L)·T2.</p>
+<p>Tenglashtiramiz: VI·T1 = (VU − VI)·T2 → VI·(T1 + T2) = VU·T2 → VU/VI = (T1 + T2)/T2 = Tsw/((1 − D)Tsw):</p>
+<span class="formula">VU/VI = 1/(1 − D)</span>
+</details>
+<div class="box check">Xuddi shu usul bilan buck uchun keltirib chiqaring (T1 da VL = VI − VU, T2 da VL = −VU). <details><summary>Javob</summary>(VI − VU)·T1 = VU·T2 → VI·T1 = VU·(T1 + T2) → <strong>VU/VI = D</strong>.</details></div>
+
+
 <h2>Yangi atamalar</h2>
 <table>
 <tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
@@ -193,6 +234,7 @@
 <li>Shovqin: buck → kirishga, boost → chiqishga, buck-boost → ikkalasiga.</li>
 <li>L ning parazit qarshiligi L da quvvat yo'qotadi.</li>
 <li>Javoblar: 014 → c; 063 → d; 006 → c; 080 → b; 105 → b; 079 → d (4); 020 → d; 052 → c; 048 → c; 018 → b; 111 → b; 025 → c; 043 → a; 047 → c; 2021-07 → d.</li>
+<li>Keltirib chiqarish (2019): VL ni T1 va T2 da yozing → (VL1/L)·T1 = −(VL2/L)·T2 → T1 = D·Tsw, T2 = (1 − D)·Tsw. Boshqaruvchi kattalik: duty cycle D.</li>
 </ul>
 </div>
 
