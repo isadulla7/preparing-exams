@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>20. Mashq: A/D va D/A</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>20. Mashq: A/D va D/A (20 ta savol bir joyda)</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> yangi nazariya yo'q. Bazadagi 20 ta A/D–D/A savolining hammasi shu yerda, javoblari va qaysi darsda tushuntirilgani bilan. Imtihonda savollar bitta "ssenariy" atrofida guruh bo'lib keladi (bir tizim haqida 3–4 savol), shuning uchun ularni ssenariy bo'yicha qayta yechamiz. Avval o'zingiz yeching, keyin "Yechim" ni oching. O'qish vaqti: 40 daqiqa.</div>
+
+<h2>Har masalada ishlatiladigan formulalar</h2>
+<table>
+<tr><th>Nima topiladi</th><th>Formula</th><th>Dars</th></tr>
+<tr><td>Nyquist, oversampling</td><td>Fs ≥ 2·BW; Fs = K·2·BW</td><td>16a</td></tr>
+<tr><td>Bitta namuna vaqti</td><td>Ts = Tacq + Tconv</td><td>16a</td></tr>
+<tr><td>Kanallar soni</td><td>Fs,max / Fs,kanal</td><td>16a</td></tr>
+<tr><td>Kvantlash xatosi</td><td>1/2<sup>N</sup> yoki 1/2<sup>N+1</sup></td><td>16b</td></tr>
+<tr><td>SNRq</td><td>uchburchak 6N, sinus 6N + 1.76</td><td>16b</td></tr>
+<tr><td>ENOB</td><td>(SNR − 1.76)/6.02</td><td>16b</td></tr>
+<tr><td>SNRa, qutblar</td><td>Np · 20·lg((Fs − Fmax)/Fmax)</td><td>16b</td></tr>
+<tr><td>ADC tezligi</td><td>flash 1; SAR N; tracking 2<sup>N</sup> takt</td><td>18</td></tr>
+<tr><td>Kuchaytirgich</td><td>G = ΔV<sub>ADC</sub>/ΔV<sub>sig</sub>; offset o'rtalardan</td><td>19</td></tr>
+</table>
+
+<h2>Ssenariy A: 4 kanal, ±1 V, Fmax = 2 kHz, ADC 0–10 V</h2>
+<div class="box"><em>A group of four analog signals has (for each channel) levels between –1 V and +1 V, maximum frequency Fmax = 2 kHz. The A/D converter has input dynamic from 0 V to +10 V. The overall sampling frequency Fs is four times the minimum.</em></div>
+<ol>
+<li>060 / 071: blok sxemani chizing.</li>
+<li>093: kuchaytirgichning gain va input offseti.</li>
+<li>109: bipolyar kvantlash xatosi 0.1% dan kichik bo'lishi uchun minimal bitlar.</li>
+<li>Qo'shimcha: umumiy Fs qancha?</li>
+</ol>
+<details><summary>Yechim</summary>
+<ol>
+<li>Himoya → kuchaytirgich → LPF (har kanalda) → MUX → S/H → ADC.</li>
+<li>G = 10/2 = <strong>5</strong>; input offset <strong>+1 V</strong>.</li>
+<li>1/2<sup>N+1</sup> &lt; 0.001 → <strong>9 bit</strong>.</li>
+<li>Minimum 2 · 2 = 4 kHz, to'rt baravari 16 kHz kanalga, 4 kanal → <strong>64 kHz</strong>.</li>
+</ol>
+</details>
+
+<h2>Ssenariy B: 4 kanal, Fmax lar har xil, tracking ADC</h2>
+<div class="box"><em>A group of four analog signals has (for each channel) levels from –1V to +1V, maximum frequency of the individual channels Fmax,1 = 3 kHz, Fmax,2 = 2.5 kHz, Fmax,3 = 1 kHz, Fmax,4 = 2 kHz. The A/D converter is a tracking circuit with input dynamics from 0 V to +10 V.</em></div>
+<ol>
+<li>035: tracking ADC blok sxemasi; Tconv,max = 8.5 μs, fck = 125 MHz da maksimal bitlar.</li>
+<li>051: kuchaytirgich rezistorlari (VREF = +10 V).</li>
+</ol>
+<details><summary>Yechim</summary>
+<ol>
+<li>Komparator → U/D hisoblagich → DAC → komparatorga qayta. 125 MHz · 8.5 μs = 1062 takt, 2<sup>N</sup> ≤ 1062 → <strong>10 bit</strong>.</li>
+<li>R4/R3 = 1/10; V+ = 1.82 V da Vout = 10 V → R2/R1 = <strong>4.5</strong>.</li>
+</ol>
+<p>Diqqat: kanallar Fmax i har xil bo'lsa, umumiy MUX bitta tezlikda aylansa, hamma kanal eng tez kanal (3 kHz) bo'yicha hisoblanadi.</p>
+</details>
+
+<h2>Ssenariy C: 4 kanal, 8 bitli tracking ADC, 100 MHz</h2>
+<div class="box"><em>A four-channel acquisition system uses an eight-bit tracking A/D converter with 100 MHz clock frequency and a Sample &amp; Hold circuit with 1 μs acquisition time. For each channel, we want to have a sampling frequency Fs equal to three times the maximum frequency Fmax of the signal and an eight-pole anti-aliasing filter.</em></div>
+<ol>
+<li>013: har kanal uchun Fmax.</li>
+<li>053: SNRq, SNRa, SNRtot (sinus).</li>
+<li>071: blok sxema.</li>
+</ol>
+<details><summary>Yechim</summary>
+<ol>
+<li>Tconv = 256/100 MHz = 2.56 μs; Fconv = 1/3.56 μs ≈ 280 kHz; kanalga 70 kHz; Fmax = 70/3 ≈ <strong>23.3 kHz</strong>.</li>
+<li>SNRq ≈ <strong>50 dB</strong>; (70 − 23)/23 ≈ 2 → SNRa = 8 · 6 · 1 = <strong>48 dB</strong>; SNRtot ≈ <strong>43 dB</strong> (rasmiy, amplitudalar yig'indisi).</li>
+<li>Himoya → kuchaytirgich → LPF (8 qutb) → MUX → S/H → tracking ADC.</li>
+</ol>
+</details>
+
+<h2>Ssenariy D: N kanal, Fmax = 5 kHz, Tacq 4 μs, Tconv 6 μs</h2>
+<div class="box"><em>Consider N analog signals with a maximum frequency of 5 kHz. The signals are converted into a digital with a S/H and an A/D converter which have a 4 μs acquisition time and a 6 μs conversion time, respectively.</em></div>
+<ol>
+<li>049: kvantlash xatosi 0.2% dan kichik bo'lishi uchun bitlar.</li>
+<li>095: K = 2.5 da maksimal kanallar soni va blok sxema.</li>
+</ol>
+<details><summary>Yechim</summary>
+<ol>
+<li>1/2<sup>N</sup> &lt; 0.002 → <strong>9 bit</strong> (1/2<sup>N+1</sup> bilan 8 ham qabul qilinadi).</li>
+<li>Fs,max = 100 kHz; kanalga 2.5 · 2 · 5 = 25 kHz → <strong>4 kanal</strong>.</li>
+</ol>
+</details>
+
+<h2>Ssenariy E: 2 kanal, 0–8 MHz, ±1 V, Tacq 4 ns</h2>
+<div class="box"><em>An A/D conversion system has two input channels. On each channel there is a bipolar signal with effective value 50 mVeff and a frequency band 0→8 MHz. The A/D converter has an input dynamic of ±1 V. We have also a S/H circuit with the acquisition time (Tacq) of 4 ns.</em></div>
+<ol>
+<li>076: blok sxema; har kanal minimumdan 4 baravar tez bo'lishi uchun Tconv.</li>
+<li>108: 8 bit, komparator 2 ns. Qaysi ADC turi, murakkabligi.</li>
+<li>045: aliasing xatosi = maksimal kvantlash xatosi bo'lishi uchun filtr talablari.</li>
+</ol>
+<details><summary>Yechim</summary>
+<ol>
+<li>Kanalga 4 · 16 = 64 MS/s, jami 128 MS/s → Ts = 7.8 ns → Tconv = <strong>3.8 ns</strong>.</li>
+<li>3.8 ns ga faqat bitta 2 ns solishtirish sig'adi → <strong>flash</strong>, 2<sup>8</sup> − 1 = <strong>255 komparator</strong>.</li>
+<li>Kesish 8 MHz; alias 64 − 8 = 56 MHz; 20·lg 256 = 48 dB; lg(56/8) = 0.845 dek → 56.8 dB/dek → <strong>3 qutb</strong>.</li>
+</ol>
+<p>Qiziq tomoni: signal samarali qiymati 50 mV, ADC esa ±1 V. Kuchaytirgich kerak (sinus cho'qqisi 50·√2 ≈ 71 mV → G ≈ 1/0.071 ≈ 14). Bu savolda so'ralmagan, lekin imtihonda so'ralishi mumkin.</p>
+</details>
+
+<h2>Testlar (7 ta)</h2>
+<table>
+<tr><th>№</th><th>Savol (qisqa)</th><th>Javob</th><th>Nega</th></tr>
+<tr><td>010</td><td>Vaznli rezistorlar hammasi −2%</td><td>b) gain error</td><td>Bir xil % → qiyalik</td></tr>
+<tr><td>097</td><td>R-2R hammasi −5%</td><td>b) gain error</td><td>Nisbatlar saqlanadi, shkala o'zgaradi</td></tr>
+<tr><td>016</td><td>Jami 1.2%, yarmi kvantlash</td><td>a) 8</td><td>2<sup>N</sup> ≥ 166</td></tr>
+<tr><td>019</td><td>SNRa ga nima ta'sir qilmaydi</td><td>c) bitlar soni</td><td>Bitlar faqat SNRq ga</td></tr>
+<tr><td>033</td><td>10 bit, SNR 50 dB, ENOB</td><td>b) 8</td><td>(50 − 1.76)/6.02</td></tr>
+<tr><td>042</td><td>10 bit, SNR 55.76 dB</td><td>c) 9</td><td>(55.76 − 1.76)/6.02</td></tr>
+<tr><td>078</td><td>10 bit, SNR 56 dB</td><td>c) 9</td><td>(56 − 1.76)/6.02</td></tr>
+</table>
+<p>Imtihonlardan yana ikkita test: SAR vaqti → bitlar soniga proporsional (2021-06, d); flash vaqti → signal sathiga bog'liq emas (2021-07, b). Ular 18-darsda.</p>
+
+<h2>Imtihon masalalari (7 ball)</h2>
+<table>
+<tr><th>Imtihon</th><th>Mavzu</th><th>Javob</th><th>Dars</th></tr>
+<tr><td>2020-07</td><td>Uchburchak, SNR 45 dB, eng oddiy ADC, 200 kHz</td><td>781.25 Hz</td><td>18</td></tr>
+<tr><td>2020-12, 2021-01</td><td>Flash ADC D taktida: sinus max</td><td>f<sub>D</sub>/2 (125 va 150 kHz)</td><td>9, 16a</td></tr>
+</table>
+
+<h2>O'zingizni tekshiring: yangi raqamlar bilan</h2>
+<div class="box check">3 kanal, har birida 0–10 kHz, K = 2. S/H Tacq = 2 μs. ADC Tconv qanchadan oshmasligi kerak? <details><summary>Javob</summary>Kanalga 2 · 2 · 10 = 40 kHz, jami 120 kHz → Ts = 8.33 μs → Tconv ≤ <strong>6.33 μs</strong>.</details></div>
+<div class="box check">Signal 0.5…1.5 V, ADC 0…5 V. G va input offset? <details><summary>Javob</summary>G = 5/1 = <strong>5</strong>; chiqish offseti 2.5 − 5 · 1 = −2.5 V; input offset <strong>−0.5 V</strong>. Tekshiruv: (0.5 − 0.5) · 5 = 0, (1.5 − 0.5) · 5 = 5 ✓.</details></div>
+<div class="box check">12 bitli SAR, komparator 5 ns. Tconv va maksimal Fs (S/H Tacq = 40 ns)? <details><summary>Javob</summary>Tconv = 12 · 5 = 60 ns; Ts = 100 ns → Fs = <strong>10 MHz</strong>.</details></div>
+<div class="box check">Fs = 40 kHz, Fmax = 10 kHz, SNRa = 50 dB. Necha qutb? <details><summary>Javob</summary>(40 − 10)/10 = 3 → 20·lg 3 = 9.54 dB har qutb → 50/9.54 = 5.2 → <strong>6 qutb</strong>.</details></div>
+<div class="box check">10 bitli tizim, SNRq = 61.8 dB, SNRa = 61.8 dB. Umumiy SNR (slayd formulasi) va ENOB? <details><summary>Javob</summary>Ikki teng quvvat: 61.8 − 3 = <strong>58.8 dB</strong>; ENOB = (58.8 − 1.76)/6.02 ≈ <strong>9.5 bit</strong>.</details></div>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<p><strong>Ssenariy masalasini yechish tartibi</strong></p>
+<ol>
+<li>Blok sxema: himoya → kuchaytirgich → LPF → MUX → S/H → ADC.</li>
+<li>Kanalga Fs: K·2·Fmax (yoki savoldagi qoida). Jami: × kanallar.</li>
+<li>Vaqt: Ts = Tacq + Tconv. ADC turi: Tconv ga qarab (flash 1, SAR N, tracking 2<sup>N</sup> takt).</li>
+<li>Bitlar: xato foizidan yoki SNR dan.</li>
+<li>Filtr: alias = Fs − Fmax, kerakli dB → qutblar.</li>
+<li>Kuchaytirgich: G va offset.</li>
+</ol>
+<p><strong>Ikki baravar teng SNR yig'indisi</strong>: quvvatlar qo'shilsa −3 dB, amplitudalar qo'shilsa −6 dB.</p>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="19-signal-tayyorlash.html">← 19-dars</a><a href="./">Darslar ro'yxati →</a></footer>
+</main></body></html>
