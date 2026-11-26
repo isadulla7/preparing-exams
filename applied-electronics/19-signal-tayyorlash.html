@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>19. Signalni ADC uchun tayyorlash</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>19. Signalni ADC uchun tayyorlash: himoya, kuchaytirish, siljitish</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> 16a-darsdagi blok sxemaning birinchi qismi (kanal tayyorlash) qanday ishlashini: himoya, kuchaytirgichning gain va offsetini hisoblash, operatsion kuchaytirgichdagi rezistorlarni tanlash, MUX va S/H xatolari. Bazadagi 093 va 051-savollar hamda slayddagi to'liq mashq shu yerda. Manba: D5 slaydlari. O'qish vaqti: 35 daqiqa.</div>
+
+<h2>1. Nega signalni tayyorlash kerak</h2>
+<p>16b-darsdan: SNRq formulasi signal ADC ning <strong>to'liq shkalasini</strong> egallaganda to'g'ri. Signal shkalaning yarmini egallasa, 6 dB (1 bit) yo'qotiladi. Shuning uchun signal ADC oralig'iga aniq moslanadi:</p>
+<ul>
+<li><strong>Kuchaytirish</strong> (yoki susaytirish): signal oralig'ini ADC oralig'iga teng qilish.</li>
+<li><strong>Sathni siljitish</strong> (level shift): masalan, bipolyar (−1…+1 V) signalni unipolyar (0…10 V) ADC ga moslash.</li>
+</ul>
+<p>ADC oralig'i ikki xil bo'ladi: <span class="term">unipolyar</span> (0…S, masalan 0–5 V, 0–10 V) yoki <span class="term">bipolyar</span> (−S/2…+S/2, masalan ±5 V, ±10 V).</p>
+<figure>
+<svg viewBox="0 0 720 260" role="img" aria-label="Kirish oralig'i minus 1 dan plus 1 voltgacha, ADC oralig'i 0 dan 10 voltgacha; kuchaytirgich birinchisini ikkinchisiga to'liq cho'zadi" font-family="system-ui,sans-serif">
+<rect x="188" y="40" width="24" height="180" rx="4" fill="#2563eb" fill-opacity=".18" stroke="#2563eb" stroke-width="1.8"/><text x="200" y="28" text-anchor="middle" font-size="13" font-weight="700" fill="#2563eb">signal: 2 V oraliq</text><text x="180" y="224.0" text-anchor="end" font-size="12" fill="currentColor">−1 V</text><text x="180" y="134.0" text-anchor="end" font-size="12" fill="currentColor">0 V</text><text x="180" y="44.0" text-anchor="end" font-size="12" fill="currentColor">+1 V</text>
+<rect x="508" y="40" width="24" height="180" rx="4" fill="#16a34a" fill-opacity=".18" stroke="#16a34a" stroke-width="1.8"/><text x="520" y="28" text-anchor="middle" font-size="13" font-weight="700" fill="#16a34a">ADC: 10 V oraliq</text><text x="540" y="224.0" text-anchor="start" font-size="12" fill="currentColor">0 V</text><text x="540" y="134.0" text-anchor="start" font-size="12" fill="currentColor">5 V</text><text x="540" y="44.0" text-anchor="start" font-size="12" fill="currentColor">10 V</text>
+<path d="M212 40L508 40" stroke="#d9622b" stroke-width="1.5" stroke-dasharray="5 4"/>
+<path d="M212 130L508 130" stroke="#d9622b" stroke-width="1.5" stroke-dasharray="5 4"/>
+<path d="M212 220L508 220" stroke="#d9622b" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="300" y="105" width="120" height="50" rx="8" fill="#d9622b" fill-opacity=".12" stroke="#d9622b" stroke-width="1.8"/><text x="360" y="127" text-anchor="middle" font-size="13" font-weight="700" fill="#d9622b">kuchaytirgich</text><text x="360" y="145" text-anchor="middle" font-size="12" fill="#d9622b">G = 10/2 = 5</text>
+<text x="360" y="250" text-anchor="middle" font-size="12" fill="currentColor">−1 V → 0 V, 0 V → 5 V, +1 V → 10 V: oraliq 5 baravar cho'ziladi va yuqoriga suriladi</text>
+</svg>
+<figcaption>093-savoldagi holat: 2 V li signal oralig'i 10 V li ADC oralig'iga cho'ziladi.</figcaption>
+</figure>
+
+<h2>2. Himoya</h2>
+<p>Tashqaridan keladigan signalda statik zaryad, xalaqit yoki tasodifiy yuqori kuchlanish bo'lishi mumkin. Himoya sxemasi kirishni xavfsiz chegarada ushlaydi:</p>
+<ul>
+<li><strong>Diodli cheklagich</strong> (clamp): diodlar kirishni manba kuchlanishlari VDD+ va VDD− orasida ushlaydi (4-darsdagi diod).</li>
+<li><strong>Zener diodlar</strong>: kirishni Zener kuchlanishi + Vγ bilan cheklaydi.</li>
+<li>Ketma-ket <strong>rezistor R</strong> himoya ishlaganda tokni cheklaydi.</li>
+</ul>
+<p>Muhim: tizim o'chiq bo'lganda VDD = 0 V. Shunda ham kirishga signal kelsa, himoya kerak.</p>
+
+<h2>3. Kuchaytirgich: gain va offset</h2>
+<p>Kerakli kuchaytirgich kirish va chiqishni to'g'ri chiziq bilan bog'laydi:</p>
+<span class="formula">Vout = G · Vin + Voff,out &nbsp;&nbsp; yoki &nbsp;&nbsp; Vout = G · (Vin + Voff,in)</span>
+<ol>
+<li><strong>Gain</strong>: G = (ADC oralig'i) / (signal oralig'i) = ΔVout / ΔVin.</li>
+<li><strong>Chiqish offseti</strong>: o'rtalarni moslash. Voff,out = (ADC o'rtasi) − G · (signal o'rtasi).</li>
+<li><strong>Kirish offseti</strong>: Voff,in = Voff,out / G (kuchaytirishdan oldin qo'shiladigan kuchlanish).</li>
+</ol>
+
+<h3>093-savol</h3>
+<div class="box"><em>A group of four analog signals has (for each channel) levels between –1 V and +1 V, maximum frequency Fmax = 2 kHz. The A/D converter has input dynamic from 0 V to +10 V. The overall sampling frequency Fs is four times the minimum. Fill the amplifier specifications: gain: ……… input offset: ………</em></div>
+<ol>
+<li>G = 10 V / 2 V = <strong>5</strong>.</li>
+<li>Signal o'rtasi 0 V, ADC o'rtasi 5 V → Voff,out = 5 − 5 · 0 = 5 V.</li>
+<li>Voff,in = 5 / 5 = <strong>+1 V</strong>. Tekshiruv: (−1 + 1) · 5 = 0 V ✓, (+1 + 1) · 5 = 10 V ✓.</li>
+</ol>
+<p>Rasmiy javob: gain 5, input offset +1 V.</p>
+
+<h2>4. Operatsion kuchaytirgich: ikki oddiy qoida</h2>
+<p><span class="term">Operatsion kuchaytirgich</span> (op-amp) uchburchak belgili, ikki kirishli (+ va −) kuchaytirgich. Teskari aloqa (chiqishdan − kirishga rezistor) bilan ishlatilganda ideal op-amp uchun ikki qoida yetadi:</p>
+<ol>
+<li>Kirishlarga <strong>tok kirmaydi</strong>.</li>
+<li>Kirishlar kuchlanishi <strong>teng</strong>: V− = V+.</li>
+</ol>
+<p>Bulardan ikki asosiy sxema chiqadi:</p>
+<table>
+<tr><th>Sxema</th><th>Kuchaytirish</th></tr>
+<tr><td>Invertlamaydigan (non-inverting): signal + ga, R1 − dan yerga, R2 chiqishdan − ga</td><td>Vout = V+ · (1 + R2/R1)</td></tr>
+<tr><td>Invertlovchi (inverting): signal R1 orqali − ga, R2 chiqishdan − ga, + yerda</td><td>Vout = −Vin · R2/R1</td></tr>
+</table>
+<p><strong>Superpozitsiya</strong>: + kirishga ikki manba ikki rezistor orqali ulangan bo'lsa, V+ ikki hissa yig'indisi: har manba boshqasi 0 deb olinganda beradigan kuchlanish (2-darsdagi kuchlanish bo'lgich).</p>
+
+<h3>051-savol</h3>
+<div class="box"><em>A group of four analog signals has (for each channel) levels from –1V to +1V, maximum frequency of the individual channels Fmax,1 = 3 kHz, Fmax,2 = 2.5 kHz, Fmax,3 = 1 kHz, Fmax,4 = 2 kHz. The A/D converter is a tracking circuit with input dynamics from 0 V to +10 V. List the specifications of the conditioning amplifier in the figure and calculate the values of all resistances. Assume that VREF = +10 V.</em></div>
+<figure><img src="img/q051.png" alt="051-savol sxemasi: op-amp, R1 R2 teskari aloqada, + kirishga Vin R4 orqali va VREF R3 orqali" style="max-width:360px;width:100%;background:#fff;border-radius:6px"><figcaption>Asl sxema (savol faylidan).</figcaption></figure>
+<p><strong>Spetsifikatsiya</strong>: Vin = −1 V → Vout = 0 V; Vin = +1 V → Vout = 10 V (gain 5, 093 dagi kabi).</p>
+<p><strong>+ kirish</strong> (superpozitsiya): Vin R4 orqali, VREF R3 orqali keladi:</p>
+<span class="formula">V+ = Vin · R3/(R3 + R4) + VREF · R4/(R3 + R4)</span>
+<ol>
+<li>Vin = −1 V da Vout = 0 bo'lishi uchun V+ = 0: −1 · R3 + 10 · R4 = 0 → <strong>R4/R3 = 1/10</strong>. Masalan R4 = 1 kΩ, R3 = 10 kΩ.</li>
+<li>Vin = +1 V da: V+ = 1 · 10/11 + 10 · 1/11 = 20/11 ≈ <strong>1.82 V</strong>.</li>
+<li>Invertlamaydigan kuchaytirish: 1.82 · (1 + R2/R1) = 10 → 1 + R2/R1 = 5.5 → <strong>R2/R1 = 4.5</strong>. Masalan R2 = 4.5 kΩ, R1 = 1 kΩ.</li>
+</ol>
+<p>Rasmiy javob bilan bir xil.</p>
+
+<h2>5. Slayddagi to'liq mashq (Exercise 2 va 3)</h2>
+<div class="box"><em>Draw the block schematic of a 4-channel A/D conversion system with unipolar input signals from 1 V to 2 V, frequency band 0 Hz to 15 kHz; A/D converter with input scale 0 V to 5 V and Tc = 1 µs; sample-and-hold with acquisition time Ta = 700 ns. For the conditioning amplifier provide the specifications ... Determine the possible sampling frequency range. Indicate the anti-aliasing filter characteristics for SNRa ≥ 60 dB. Indicate the maximum aperture jitter for an error due only to aperture jitter EJA &lt; 0.1%. Indicate the minimum number of bits to obtain a quantization error at most equal to aliasing error.</em></div>
+<p><strong>Namuna olish chastotasi:</strong></p>
+<ol>
+<li>Tc + Ta = 1.7 μs → Fs ≤ 588 kHz umumiy → 4 kanal: har biriga ≤ <strong>147 kHz</strong>.</li>
+<li>Nyquist: Fs ≥ 2 · 15 = <strong>30 kHz</strong>. Oraliq: 30–147 kHz. Maksimal oversampling K = 147/30 = 4.9.</li>
+</ol>
+<p><strong>Kuchaytirgich:</strong></p>
+<ol>
+<li>G = 5 V / 1 V = <strong>5</strong>.</li>
+<li>Chiqish offseti: 2.5 − 5 · 1.5 = <strong>−5 V</strong>; kirish offseti −5/5 = <strong>−1 V</strong>. Tekshiruv: (1 − 1) · 5 = 0 ✓, (2 − 1) · 5 = 5 ✓.</li>
+<li>Sxemada: 1 + R2/R1 = 5 → R2/R1 = 4; R1 ning pastki uchi yerga emas, Vp ga ulanadi: −Vp · R2/R1 = −5 V → Vp = 1.25 V.</li>
+</ol>
+<p><strong>Anti-aliasing filtri</strong> (16b-dars formulasi):</p>
+<ol>
+<li>Fs = 30 kHz da: birinchi alias 15 kHz, ya'ni aynan band chetida → cheksiz qutb kerak, imkonsiz.</li>
+<li>Fs = 147 kHz da: Np = 60 / [20 · lg((147 − 15)/15)] = 60 / 18.9 = 3.18 → <strong>4 qutb</strong>.</li>
+<li>4 qutb bilan Fs ni kamaytirsa ham bo'ladi: Fs = 15 · (1 + 10<sup>60/80</sup>) ≈ <strong>99.4 kHz</strong>.</li>
+</ol>
+<p><strong>Apertura jitteri</strong> (S/H namuna olish lahzasidagi tasodifiy kechikish, 7-bo'lim): xato ΔV = tJA · (signal o'zgarish tezligi).</p>
+<ol>
+<li>ADC dagi sinus: amplituda 2.5 V, 15 kHz → eng katta tezlik 2π · 15 kHz · 2.5 V ≈ 0.24 V/μs.</li>
+<li>Ruxsat etilgan xato: 0.1% · 5 V = 5 mV → tJA ≤ 5 mV / 0.24 V/μs ≈ <strong>21 ns</strong>.</li>
+</ol>
+<p><strong>Bitlar soni</strong>: SNRq = SNRa = 60 dB → 6N + 1.76 = 60 → N = 9.7 → <strong>10 bit</strong>.</p>
+<p><strong>Exercise 3, umumiy SNR</strong>: jitter, aliasing va kvantlash xatolari har biri 0.001 (60 dB). SNRt = −20 · lg(0.001 · √3) = <strong>55.2 dB</strong>, ENOB = (55.2 − 1.76)/6.02 ≈ <strong>8.9 bit</strong>. (Bu yerda xatolar kvadratlari qo'shilgan: √(A1² + A2² + A3²), bu slayddagi quvvat yig'indisi bilan bir xil.)</p>
+
+<h2>6. Differensial signallar</h2>
+<p><span class="term">Bir uchli</span> (single-ended) signal yerga nisbatan o'lchanadi: simga tushgan xalaqit signalga qo'shilib qoladi. <span class="term">Differensial</span> signal ikki simdagi kuchlanishlar <em>farqi</em>: xalaqit ikkala simga bir xil tushadi (umumiy rejim, common mode) va farqda yo'qoladi.</p>
+<ul>
+<li>Differensial signal xalaqitga sezgir emas va o'zi ham xalaqit tarqatmaydi.</li>
+<li>Ularni <strong>instrumental kuchaytirgich</strong> (instrumentation amplifier) bilan kuchaytiriladi: kirish qarshiligi katta, umumiy rejimni yo'qotadi.</li>
+</ul>
+<div class="box analogy">Ikki kishining bo'yini solishtirish: ikkalasi bir xil zinapoyaga chiqsa ham (umumiy rejim), bo'ylarining farqi o'zgarmaydi.</div>
+
+<h2>7. MUX va S/H xatolari</h2>
+<table>
+<tr><th>Blok</th><th>Xato</th><th>Sababi va ta'siri</th></tr>
+<tr><td rowspan="3">MUX</td><td>Gain xatosi</td><td>Yopiq kalit qarshiligi RON yuklama RL bilan bo'lgich hosil qiladi → kuchaytirish &lt; 1</td></tr>
+<tr><td>Offset</td><td>Ochiq kalitlarning qochqin toklari Ioff yig'indisi chiqishda kuchlanish beradi</td></tr>
+<tr><td>Feedthrough, band</td><td>Kalit sig'imi CDS orqali boshqa kanallar sizib o'tadi; RON·CP past chastota filtri bandni cheklaydi</td></tr>
+<tr><td rowspan="4">S/H</td><td>Apertura kechikishi va jitteri</td><td>Kalit ochilish lahzasi kechikadi va tebranadi: ΔV = tJA · SRmax</td></tr>
+<tr><td>Pedestal</td><td>Kalit yopilganda zaryad kondensatorga sizadi → kichik sakrash</td></tr>
+<tr><td>Decay (droop)</td><td>Ushlab turishda kondensator RL va Ioff orqali sekin zaryadsizlanadi</td></tr>
+<tr><td>Feedthrough</td><td>Ushlab turishda kirish signali parazit sig'im orqali sizadi</td></tr>
+</table>
+<ul>
+<li><strong>MUX filtrdan keyin</strong> turishi kerak: filtr oldingi qiymatlarni "eslaydi", uni kanallar orasida bo'lishib bo'lmaydi (kanallar aralashib ketadi).</li>
+<li>Ko'p kanalli tizimda S/H va ADC umumiy bo'lishi mumkin, agar har o'zgartirish oldingisiga bog'liq bo'lmasa. <strong>Tracking ADC ni ishlatmang</strong>: u oldingi qiymatdan boshlaydi.</li>
+<li>S/H kondensatorini kattalashtirish: decay va pedestal kamayadi, lekin olish vaqti (Tacq) uzayadi va band torayadi.</li>
+</ul>
+
+<h2>O'zingizni tekshiring</h2>
+<div class="box check">Signal 0…2 V, ADC 0…5 V. G va offset? <details><summary>Javob</summary>G = 5/2 = <strong>2.5</strong>; o'rtalar: 2.5 − 2.5 · 1 = 0 → offset <strong>0</strong>.</details></div>
+<div class="box check">Slayd savoli: 10 V p-p bipolyar signalni 0–5 V ADC ga moslash uchun nima kerak? <details><summary>Javob</summary>Signal −5…+5 V. G = 5/10 = <strong>0.5</strong> (susaytirish), chiqish offseti 2.5 − 0.5 · 0 = <strong>+2.5 V</strong> (kirish offseti +5 V).</details></div>
+<div class="box check">Invertlamaydigan kuchaytirgich, R1 = 2 kΩ, R2 = 8 kΩ, V+ = 0.5 V. Vout? <details><summary>Javob</summary>0.5 · (1 + 4) = <strong>2.5 V</strong>.</details></div>
+<div class="box check">Nega MUX dan keyin tracking ADC ishlatilmaydi? <details><summary>Javob</summary>Tracking oldingi qiymatdan qadamlab yuradi; kanal almashganda yangi qiymat butunlay boshqa bo'lishi mumkin va 2<sup>N</sup> takt kerak bo'ladi. O'zgartirishlar <strong>bir-biridan mustaqil</strong> bo'lishi kerak.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Signalni tayyorlash</td><td>signal conditioning</td><td>Signalni ADC ga moslash</td></tr>
+<tr><td>Unipolyar / bipolyar</td><td>unipolar / bipolar</td><td>0…S / −S/2…+S/2 oraliq</td></tr>
+<tr><td>Sathni siljitish</td><td>level shift, offset</td><td>Doimiy kuchlanish qo'shish</td></tr>
+<tr><td>Cheklagich</td><td>clamp, amplitude limiting</td><td>Kirishni xavfsiz oraliqda ushlash</td></tr>
+<tr><td>Operatsion kuchaytirgich</td><td>operational amplifier (op-amp)</td><td>Ikki kirishli kuchaytirgich, teskari aloqa bilan</td></tr>
+<tr><td>Invertlamaydigan / invertlovchi</td><td>non-inverting / inverting</td><td>1 + R2/R1 / −R2/R1</td></tr>
+<tr><td>Differensial signal</td><td>differential signal</td><td>Ikki sim farqi</td></tr>
+<tr><td>Umumiy rejim</td><td>common mode</td><td>Ikkala simga bir xil tushgan qism</td></tr>
+<tr><td>Instrumental kuchaytirgich</td><td>instrumentation amplifier</td><td>Differensial signal uchun aniq kuchaytirgich</td></tr>
+<tr><td>Apertura jitteri</td><td>aperture jitter</td><td>Namuna lahzasining tebranishi</td></tr>
+<tr><td>Pedestal, decay, feedthrough</td><td>pedestal, decay (droop), feedthrough</td><td>S/H xatolari</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<span class="formula">G = ΔV<sub>ADC</sub> / ΔV<sub>signal</sub> &nbsp;·&nbsp; Voff,out = V̄<sub>ADC</sub> − G·V̄<sub>signal</sub> &nbsp;·&nbsp; Voff,in = Voff,out / G</span>
+<span class="formula">Op-amp: V− = V+, kirish toki 0 &nbsp;·&nbsp; non-inv: 1 + R2/R1 &nbsp;·&nbsp; inv: −R2/R1</span>
+<span class="formula">Jitter: ΔV = tJA · 2πf·A</span>
+<ul>
+<li>Signal ADC shkalasini to'liq egallashi kerak (aks holda SNRq yo'qoladi).</li>
+<li>Himoya: diod clamp, Zener, ketma-ket R.</li>
+<li>MUX: RON → gain, Ioff → offset, CDS → feedthrough. MUX filtrdan keyin. Ko'p kanalga tracking ADC yaramaydi.</li>
+<li>S/H: apertura jitteri, pedestal, decay, feedthrough.</li>
+<li>Javoblar: 093 → G = 5, kirish offseti +1 V; 051 → R4/R3 = 1/10, V+ = 1.82 V, R2/R1 = 4.5; slayd mashqi → 30–147 kHz, G = 5, offset −1 V, 4 qutb, 21 ns, 10 bit, SNRt 55.2 dB, ENOB 8.9.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="17-dac.html">← 17-dars</a><a href="./">Darslar ro'yxati →</a></footer>
+</main></body></html>
