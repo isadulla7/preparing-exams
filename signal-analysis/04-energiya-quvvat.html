@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>4. Energiya va quvvat, signallar turlari</title><link rel="stylesheet" href="../assets/style.css">
+<style>
+svg text{font-family:inherit}
+.s-ink{fill:var(--fg)} .s-muted{fill:var(--muted)}
+.s-line{stroke:var(--border)} .s-axis{stroke:var(--muted)} .s-acc{stroke:var(--accent)}
+.f-acc{fill:var(--accent)} .f-accsoft{fill:var(--accent);fill-opacity:.12} .f-card{fill:var(--card)}
+.tw{overflow-x:auto} @media (max-width:480px){th,td{padding:4px 6px;font-size:.92em}}
+.sol{border-left:4px solid var(--accent);padding-left:12px;margin:.6em 0}
+</style></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Signal analysis darslari</a></nav>
+<h1>4. Energiya va quvvat, signallar turlari</h1>
+<p>O'qish vaqti: 40 daqiqa. Manba: 2-ma'ruza ("Classification of analog signals, Energy &amp; Power"), konspekt 3-bob, mashg'ulotlar: Ex2_Energy and Power, SAP Practices (Power, Energy).</p>
+<div class="box warn"><b>Bu A mavzu</b> (ustuvorlik rejasida "albatta o'rganing"). Imtihonda "bu signalning energiyasi/quvvati nechaga teng?" yoki "bu signal energiya signalimi, quvvat signalimi?" degan savollar kutiladi.</div>
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> ikkita yangi asosiy signal (pog'ona u(t) va to'rtburchak impuls); integral nima ekanini (yuza sifatida); signal <b>energiyasi</b> va <b>quvvati</b>ni hisoblash; signallarni energiya va quvvatga qarab turlarga ajratish; 8 ta ishlangan misol, mashg'ulotlardagi masalalar bilan.</div>
+
+<h2>1. Ikkita yangi signal: u(t) va p<sub>T</sub>(t)</h2>
+<p>Masalalarda bu ikkala signal juda ko'p uchraydi.</p>
+<div class="tw"><table>
+<tr><th>Signal</th><th>Ta'rif</th><th>Oddiy tilda</th></tr>
+<tr><td><b>Birlik pog'ona</b><br><code>u(t)</code> (step)</td><td>u(t) = 1, agar t ≥ 0<br>u(t) = 0, agar t &lt; 0</td><td>"Kalitni t = 0 da yoqish": oldin 0, keyin doim 1.</td></tr>
+<tr><td><b>To'rtburchak impuls</b><br><code>p<sub>T</sub>(t)</code><br>(boshqa yozuvlari: Π(t/T), rect(t/T))</td><td>p<sub>T</sub>(t) = 1, agar |t| &lt; T/2<br>p<sub>T</sub>(t) = 0, boshqa joyda</td><td>0 atrofida T uzunlikdagi "quti": −T/2 dan +T/2 gacha 1, qolgan joyda 0.</td></tr>
+</table></div>
+<div class="box note"><b>Ko'paytirish "kesib oladi":</b> biror signalni u(t) ga ko'paytirsangiz, uning t &lt; 0 qismi o'chadi (0 ga ko'paytiriladi), t ≥ 0 qismi o'zgarmaydi. Masalan, <code>e<sup>−2t</sup>·u(t)</code> — faqat t ≥ 0 da bor, kamayib boradigan signal.<br>
+<b>Surilgan quti:</b> 2-darsdagi qoida bo'yicha <code>p<sub>4</sub>(t − 2)</code> — markazi t = 2 da, uzunligi 4 bo'lgan quti, ya'ni t = 0 dan t = 4 gacha 1.</div>
+
+<h2>2. Signal turlari: davomiylik va amplituda bo'yicha (2-ma'ruza)</h2>
+<ul>
+<li><span class="term">Chekli davomiylikdagi signal</span> (limited support) — faqat biror [t₁, t₂] oraliqda noldan farq qiladi. Signal noldan farq qiladigan oraliq uning <b>tayanchi</b> (support) deyiladi. Misol: p<sub>T</sub>(t) ning tayanchi [−T/2, T/2].</li>
+<li><span class="term">Cheklangan amplitudali signal</span> — qiymatlari biror [a, b] oraliqdan chiqmaydi. Misol: cos(t) doim −1 va 1 orasida.</li>
+<li><span class="term">Fizik signal</span> — haqiqiy dunyoda bo'la oladigan signal. U <b>ham davomiyligi, ham amplitudasi cheklangan</b>: har bir haqiqiy signal qachondir boshlanadi va tugaydi, qiymati ham cheksiz bo'lmaydi.</li>
+<li><span class="term">Impulsli signal</span> (pulsed) — cheksiz qisqa vaqtda cheksiz katta qiymat oladi. Bunday signal fizik jihatdan bo'lmaydi, lekin juda foydali matematik model. Grafikda <b>strelka</b> bilan chiziladi. Uni (Dirak deltasi δ(t)) 6-darsda batafsil o'rganamiz.</li>
+</ul>
+<p>Ma'ruzadagi izoh: muhandislar ko'pincha fizik signalni ham "cheksiz davom etadi" deb oladi (masalan, protsessor takt signalini cheksiz to'rtburchak to'lqin deb). Bu hisobni osonlashtiradi.</p>
+
+<h2>3. Integral — grafik ostidagi yuza</h2>
+<p>Energiya formulasida <b>∫</b> (integral) belgisi bor. Qo'rqmang: bu yerda uning ma'nosi bitta — <b>grafik ostidagi yuza</b>.</p>
+
+<figure>
+<svg viewBox="0 0 700 260" role="img" aria-label="Integral — grafik ostidagi yuza">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker></defs>
+<rect x="70.0" y="73.7" width="26.5" height="146.3" class="f-accsoft" style="stroke:var(--accent);stroke-opacity:.35"/><rect x="98.0" y="111.6" width="26.5" height="108.4" class="f-accsoft" style="stroke:var(--accent);stroke-opacity:.35"/><rect x="126.0" y="139.7" width="26.5" height="80.3" class="f-accsoft" style="stroke:var(--accent);stroke-opacity:.35"/><rect x="154.0" y="160.5" width="26.5" height="59.5" class="f-accsoft" style="stroke:var(--accent);stroke-opacity:.35"/><rect x="182.0" y="175.9" width="26.5" height="44.1" class="f-accsoft" style="stroke:var(--accent);stroke-opacity:.35"/><rect x="210.0" y="187.4" width="26.5" height="32.6" class="f-accsoft" style="stroke:var(--accent);stroke-opacity:.35"/><rect x="238.0" y="195.8" width="26.5" height="24.2" class="f-accsoft" style="stroke:var(--accent);stroke-opacity:.35"/><rect x="266.0" y="202.1" width="26.5" height="17.9" class="f-accsoft" style="stroke:var(--accent);stroke-opacity:.35"/><rect x="294.0" y="206.7" width="26.5" height="13.3" class="f-accsoft" style="stroke:var(--accent);stroke-opacity:.35"/><rect x="322.0" y="210.2" width="26.5" height="9.8" class="f-accsoft" style="stroke:var(--accent);stroke-opacity:.35"/><rect x="350.0" y="212.7" width="26.5" height="7.3" class="f-accsoft" style="stroke:var(--accent);stroke-opacity:.35"/><rect x="378.0" y="214.6" width="26.5" height="5.4" class="f-accsoft" style="stroke:var(--accent);stroke-opacity:.35"/><rect x="406.0" y="216.0" width="26.5" height="4.0" class="f-accsoft" style="stroke:var(--accent);stroke-opacity:.35"/><rect x="434.0" y="217.0" width="26.5" height="3.0" class="f-accsoft" style="stroke:var(--accent);stroke-opacity:.35"/><rect x="462.0" y="217.8" width="26.5" height="2.2" class="f-accsoft" style="stroke:var(--accent);stroke-opacity:.35"/><rect x="490.0" y="218.4" width="26.5" height="1.6" class="f-accsoft" style="stroke:var(--accent);stroke-opacity:.35"/>
+<line x1="70" y1="220" x2="70" y2="30" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/>
+<line x1="50" y1="220" x2="660" y2="220" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/>
+<path class="s-acc" fill="none" stroke-width="3" d="M70.0 50.0 L71.9 53.4 L73.7 56.7 L75.6 59.9 L77.5 63.1 L79.3 66.2 L81.2 69.2 L83.1 72.2 L84.9 75.1 L86.8 78.0 L88.7 80.8 L90.5 83.6 L92.4 86.3 L94.3 88.9 L96.1 91.5 L98.0 94.1 L99.9 96.6 L101.7 99.0 L103.6 101.4 L105.5 103.7 L107.3 106.0 L109.2 108.3 L111.1 110.5 L112.9 112.7 L114.8 114.8 L116.7 116.9 L118.5 118.9 L120.4 120.9 L122.3 122.9 L124.1 124.8 L126.0 126.7 L127.9 128.5 L129.7 130.4 L131.6 132.1 L133.5 133.9 L135.3 135.6 L137.2 137.3 L139.1 138.9 L140.9 140.5 L142.8 142.1 L144.7 143.6 L146.5 145.1 L148.4 146.6 L150.3 148.1 L152.1 149.5 L154.0 150.9 L155.9 152.3 L157.7 153.6 L159.6 154.9 L161.5 156.2 L163.3 157.5 L165.2 158.7 L167.1 159.9 L168.9 161.1 L170.8 162.3 L172.7 163.4 L174.5 164.5 L176.4 165.6 L178.3 166.7 L180.1 167.8 L182.0 168.8 L183.9 169.8 L185.7 170.8 L187.6 171.8 L189.5 172.7 L191.3 173.7 L193.2 174.6 L195.1 175.5 L196.9 176.4 L198.8 177.2 L200.7 178.1 L202.5 178.9 L204.4 179.7 L206.3 180.5 L208.1 181.3 L210.0 182.1 L211.9 182.8 L213.7 183.6 L215.6 184.3 L217.5 185.0 L219.3 185.7 L221.2 186.4 L223.1 187.0 L224.9 187.7 L226.8 188.3 L228.7 188.9 L230.5 189.6 L232.4 190.2 L234.3 190.8 L236.1 191.3 L238.0 191.9 L239.9 192.5 L241.7 193.0 L243.6 193.5 L245.5 194.1 L247.3 194.6 L249.2 195.1 L251.1 195.6 L252.9 196.1 L254.8 196.5 L256.7 197.0 L258.5 197.4 L260.4 197.9 L262.3 198.3 L264.1 198.8 L266.0 199.2 L267.9 199.6 L269.7 200.0 L271.6 200.4 L273.5 200.8 L275.3 201.2 L277.2 201.5 L279.1 201.9 L280.9 202.3 L282.8 202.6 L284.7 203.0 L286.5 203.3 L288.4 203.6 L290.3 203.9 L292.1 204.3 L294.0 204.6 L295.9 204.9 L297.7 205.2 L299.6 205.5 L301.5 205.8 L303.3 206.0 L305.2 206.3 L307.1 206.6 L308.9 206.9 L310.8 207.1 L312.7 207.4 L314.5 207.6 L316.4 207.9 L318.3 208.1 L320.1 208.3 L322.0 208.6 L323.9 208.8 L325.7 209.0 L327.6 209.2 L329.5 209.5 L331.3 209.7 L333.2 209.9 L335.1 210.1 L336.9 210.3 L338.8 210.5 L340.7 210.6 L342.5 210.8 L344.4 211.0 L346.3 211.2 L348.1 211.4 L350.0 211.5 L351.9 211.7 L353.7 211.9 L355.6 212.0 L357.5 212.2 L359.3 212.3 L361.2 212.5 L363.1 212.6 L364.9 212.8 L366.8 212.9 L368.7 213.1 L370.5 213.2 L372.4 213.3 L374.3 213.5 L376.1 213.6 L378.0 213.7 L379.9 213.9 L381.7 214.0 L383.6 214.1 L385.5 214.2 L387.3 214.3 L389.2 214.4 L391.1 214.5 L392.9 214.7 L394.8 214.8 L396.7 214.9 L398.5 215.0 L400.4 215.1 L402.3 215.2 L404.1 215.3 L406.0 215.4 L407.9 215.4 L409.7 215.5 L411.6 215.6 L413.5 215.7 L415.3 215.8 L417.2 215.9 L419.1 216.0 L420.9 216.0 L422.8 216.1 L424.7 216.2 L426.5 216.3 L428.4 216.3 L430.3 216.4 L432.1 216.5 L434.0 216.6 L435.9 216.6 L437.7 216.7 L439.6 216.8 L441.5 216.8 L443.3 216.9 L445.2 216.9 L447.1 217.0 L448.9 217.1 L450.8 217.1 L452.7 217.2 L454.5 217.2 L456.4 217.3 L458.3 217.3 L460.1 217.4 L462.0 217.5 L463.9 217.5 L465.7 217.6 L467.6 217.6 L469.5 217.6 L471.3 217.7 L473.2 217.7 L475.1 217.8 L476.9 217.8 L478.8 217.9 L480.7 217.9 L482.5 218.0 L484.4 218.0 L486.3 218.0 L488.1 218.1 L490.0 218.1 L491.9 218.1 L493.7 218.2 L495.6 218.2 L497.5 218.3 L499.3 218.3 L501.2 218.3 L503.1 218.4 L504.9 218.4 L506.8 218.4 L508.7 218.5 L510.5 218.5 L512.4 218.5 L514.3 218.5 L516.1 218.6 L518.0 218.6 L519.9 218.6 L521.7 218.7 L523.6 218.7 L525.5 218.7 L527.3 218.7 L529.2 218.8 L531.1 218.8 L532.9 218.8 L534.8 218.8 L536.7 218.9 L538.5 218.9 L540.4 218.9 L542.3 218.9 L544.1 218.9 L546.0 219.0 L547.9 219.0 L549.7 219.0 L551.6 219.0 L553.5 219.0 L555.3 219.1 L557.2 219.1 L559.1 219.1 L560.9 219.1 L562.8 219.1 L564.7 219.2 L566.5 219.2 L568.4 219.2 L570.3 219.2 L572.1 219.2 L574.0 219.2 L575.9 219.2 L577.7 219.3 L579.6 219.3 L581.5 219.3 L583.3 219.3 L585.2 219.3 L587.1 219.3 L588.9 219.3 L590.8 219.4 L592.7 219.4 L594.5 219.4 L596.4 219.4 L598.3 219.4 L600.1 219.4 L602.0 219.4 L603.9 219.4 L605.7 219.5 L607.6 219.5 L609.5 219.5 L611.3 219.5 L613.2 219.5 L615.1 219.5 L616.9 219.5 L618.8 219.5 L620.7 219.5 L622.5 219.5 L624.4 219.6 L626.3 219.6 L628.1 219.6 L630.0 219.6"/>
+<text class="s-muted" x="655" y="240" text-anchor="end" font-size="13">t</text>
+<text class="s-ink" x="300" y="80" font-size="15">Ingichka to'rtburchaklar yuzalarining yig'indisi</text>
+<text class="s-ink" x="300" y="102" font-size="15">= egri chiziq ostidagi yuza = integral</text>
+</svg>
+<figcaption>Integral ∫ — grafik ostidagi yuza. Uni juda ko'p ingichka ustunlar yuzalarining yig'indisi deb tasavvur qiling.</figcaption>
+</figure>
+
+<p><code>∫<sub>a</sub><sup>b</sup> y(t) dt</code> o'qilishi: "y(t) grafigi ostidagi, t = a dan t = b gacha bo'lgan yuza". Bu kursda faqat bir nechta integral kerak bo'ladi, ularni yod oling:</p>
+<div class="tw"><table>
+<tr><th>Integral</th><th>Natija</th><th>Nega</th></tr>
+<tr><td><code>∫<sub>a</sub><sup>b</sup> C dt</code> (C — o'zgarmas son)</td><td><b>C·(b − a)</b></td><td>To'rtburchak yuzasi = balandlik × eni</td></tr>
+<tr><td><code>∫<sub>0</sub><sup>∞</sup> e<sup>−ct</sup> dt</code> (c &gt; 0)</td><td><b>1/c</b></td><td>Kamayuvchi eksponenta ostidagi butun yuza</td></tr>
+<tr><td><code>∫<sub>0</sub><sup>b</sup> e<sup>−ct</sup> dt</code></td><td><b>(1 − e<sup>−cb</sup>)/c</b></td><td>Xuddi shu, faqat b gacha</td></tr>
+<tr><td>cos² ning bitta davr bo'yicha o'rtachasi</td><td><b>1/2</b></td><td>cos²θ = (1 + cos 2θ)/2; cos 2θ ning o'rtachasi 0</td></tr>
+</table></div>
+
+<h2>4. Energiya</h2>
+<p><span class="term">Signal energiyasi</span> — signal modulining kvadrati grafigi ostidagi butun yuza:</p>
+<div class="formula">E(x) = ∫<sub>−∞</sub><sup>+∞</sup> |x(t)|² dt</div>
+<div class="tw"><table>
+<tr><th>Belgi</th><th>Ma'nosi</th></tr>
+<tr><td><code>|x(t)|²</code></td><td>signal modulining kvadrati. Haqiqiy signal uchun oddiy kvadrat x²(t). Kompleks signal uchun |x|² = x·x* (3-dars).</td></tr>
+<tr><td><code>−∞ … +∞</code></td><td>butun vaqt bo'yicha: "boshidan oxirigacha"</td></tr>
+</table></div>
+<div class="box analogy">Elektr choynak: u qancha kuchli ishlasa va qancha uzoq ishlasa, shuncha ko'p energiya sarflaydi. Signalda ham shunday: signal qancha baland (|x|² katta) va qancha uzoq davom etsa, energiyasi shuncha katta.</div>
+<p><b>Nega kvadrat?</b> Ma'ruzada fizik ma'nosi ko'rsatilgan: rezistorda quvvat <code>P = v²/R</code> yoki <code>P = R·i²</code>. Agar R = 1 Ω desak, quvvat aynan signalning kvadrati bo'ladi. Shuning uchun kursda R hisobga olinmaydi va energiya, quvvat <b>o'lchov birliksiz</b> sonlar.</p>
+<p>Natija <b>bitta son</b> (butun signalga bitta energiya). Agar bu son chekli bo'lsa, signal <span class="term">energiya signali</span> (chekli energiyali signal) deyiladi.</p>
+
+<h3>1-misol (2-ma'ruzadagi misol): x(t) = e<sup>−2t</sup>·u(t)</h3>
+
+<figure>
+<svg viewBox="0 0 700 270" role="img" aria-label="e^-2t u(t) va uning energiyasi">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker></defs>
+<path d="M80 210 L80.0 60.0 L81.7 64.9 L83.5 69.7 L85.2 74.3 L86.9 78.7 L88.7 83.0 L90.4 87.2 L92.1 91.2 L93.9 95.1 L95.6 98.9 L97.3 102.5 L99.1 106.0 L100.8 109.5 L102.5 112.7 L104.3 115.9 L106.0 119.0 L107.7 122.0 L109.5 124.9 L111.2 127.7 L112.9 130.4 L114.7 133.0 L116.4 135.5 L118.1 138.0 L119.9 140.3 L121.6 142.6 L123.3 144.8 L125.1 146.9 L126.8 149.0 L128.5 151.0 L130.3 152.9 L132.0 154.8 L133.7 156.6 L135.5 158.4 L137.2 160.1 L138.9 161.7 L140.7 163.3 L142.4 164.8 L144.1 166.3 L145.9 167.7 L147.6 169.1 L149.3 170.5 L151.1 171.8 L152.8 173.0 L154.5 174.2 L156.3 175.4 L158.0 176.5 L159.7 177.6 L161.5 178.7 L163.2 179.7 L164.9 180.7 L166.7 181.7 L168.4 182.6 L170.1 183.5 L171.9 184.4 L173.6 185.2 L175.3 186.0 L177.1 186.8 L178.8 187.6 L180.5 188.3 L182.3 189.0 L184.0 189.7 L185.7 190.4 L187.5 191.0 L189.2 191.6 L190.9 192.2 L192.7 192.8 L194.4 193.4 L196.1 193.9 L197.9 194.5 L199.6 195.0 L201.3 195.5 L203.1 195.9 L204.8 196.4 L206.5 196.8 L208.3 197.3 L210.0 197.7 L211.7 198.1 L213.5 198.5 L215.2 198.9 L216.9 199.2 L218.7 199.6 L220.4 199.9 L222.1 200.2 L223.9 200.6 L225.6 200.9 L227.3 201.2 L229.1 201.5 L230.8 201.7 L232.5 202.0 L234.3 202.3 L236.0 202.5 L237.7 202.8 L239.5 203.0 L241.2 203.2 L242.9 203.5 L244.7 203.7 L246.4 203.9 L248.1 204.1 L249.9 204.3 L251.6 204.5 L253.3 204.6 L255.1 204.8 L256.8 205.0 L258.5 205.2 L260.3 205.3 L262.0 205.5 L263.7 205.6 L265.5 205.8 L267.2 205.9 L268.9 206.0 L270.7 206.2 L272.4 206.3 L274.1 206.4 L275.9 206.5 L277.6 206.6 L279.3 206.8 L281.1 206.9 L282.8 207.0 L284.5 207.1 L286.3 207.2 L288.0 207.3 L289.7 207.3 L291.5 207.4 L293.2 207.5 L294.9 207.6 L296.7 207.7 L298.4 207.8 L300.1 207.8 L301.9 207.9 L303.6 208.0 L305.3 208.0 L307.1 208.1 L308.8 208.2 L310.5 208.2 L312.3 208.3 L314.0 208.3 L315.7 208.4 L317.5 208.4 L319.2 208.5 L320.9 208.5 L322.7 208.6 L324.4 208.6 L326.1 208.7 L327.9 208.7 L329.6 208.8 L331.3 208.8 L333.1 208.8 L334.8 208.9 L336.5 208.9 L338.3 209.0 L340.0 209.0 L341.7 209.0 L343.5 209.1 L345.2 209.1 L346.9 209.1 L348.7 209.1 L350.4 209.2 L352.1 209.2 L353.9 209.2 L355.6 209.3 L357.3 209.3 L359.1 209.3 L360.8 209.3 L362.5 209.3 L364.3 209.4 L366.0 209.4 L367.7 209.4 L369.5 209.4 L371.2 209.4 L372.9 209.5 L374.7 209.5 L376.4 209.5 L378.1 209.5 L379.9 209.5 L381.6 209.5 L383.3 209.6 L385.1 209.6 L386.8 209.6 L388.5 209.6 L390.3 209.6 L392.0 209.6 L393.7 209.6 L395.5 209.7 L397.2 209.7 L398.9 209.7 L400.7 209.7 L402.4 209.7 L404.1 209.7 L405.9 209.7 L407.6 209.7 L409.3 209.7 L411.1 209.7 L412.8 209.8 L414.5 209.8 L416.3 209.8 L418.0 209.8 L419.7 209.8 L421.5 209.8 L423.2 209.8 L424.9 209.8 L426.7 209.8 L428.4 209.8 L430.1 209.8 L431.9 209.8 L433.6 209.8 L435.3 209.8 L437.1 209.8 L438.8 209.8 L440.5 209.9 L442.3 209.9 L444.0 209.9 L445.7 209.9 L447.5 209.9 L449.2 209.9 L450.9 209.9 L452.7 209.9 L454.4 209.9 L456.1 209.9 L457.9 209.9 L459.6 209.9 L461.3 209.9 L463.1 209.9 L464.8 209.9 L466.5 209.9 L468.3 209.9 L470.0 209.9 L471.7 209.9 L473.5 209.9 L475.2 209.9 L476.9 209.9 L478.7 209.9 L480.4 209.9 L482.1 209.9 L483.9 209.9 L485.6 209.9 L487.3 209.9 L489.1 209.9 L490.8 209.9 L492.5 209.9 L494.3 209.9 L496.0 209.9 L497.7 210.0 L499.5 210.0 L501.2 210.0 L502.9 210.0 L504.7 210.0 L506.4 210.0 L508.1 210.0 L509.9 210.0 L511.6 210.0 L513.3 210.0 L515.1 210.0 L516.8 210.0 L518.5 210.0 L520.3 210.0 L522.0 210.0 L523.7 210.0 L525.5 210.0 L527.2 210.0 L528.9 210.0 L530.7 210.0 L532.4 210.0 L534.1 210.0 L535.9 210.0 L537.6 210.0 L539.3 210.0 L541.1 210.0 L542.8 210.0 L544.5 210.0 L546.3 210.0 L548.0 210.0 L549.7 210.0 L551.5 210.0 L553.2 210.0 L554.9 210.0 L556.7 210.0 L558.4 210.0 L560.1 210.0 L561.9 210.0 L563.6 210.0 L565.3 210.0 L567.1 210.0 L568.8 210.0 L570.5 210.0 L572.3 210.0 L574.0 210.0 L575.7 210.0 L577.5 210.0 L579.2 210.0 L580.9 210.0 L582.7 210.0 L584.4 210.0 L586.1 210.0 L587.9 210.0 L589.6 210.0 L591.3 210.0 L593.1 210.0 L594.8 210.0 L596.5 210.0 L598.3 210.0 L600.0 210.0 L600 210 Z" class="f-accsoft"/>
+<line x1="20" y1="210" x2="640" y2="210" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/>
+<line x1="80" y1="230" x2="80" y2="35" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/>
+<path class="s-axis" fill="none" stroke-width="3" stroke-dasharray="8 6" d="M20 210 L80 210 L80.0 60.0 L81.7 62.5 L83.5 64.9 L85.2 67.3 L86.9 69.7 L88.7 72.0 L90.4 74.3 L92.1 76.5 L93.9 78.7 L95.6 80.9 L97.3 83.0 L99.1 85.1 L100.8 87.2 L102.5 89.2 L104.3 91.2 L106.0 93.2 L107.7 95.1 L109.5 97.0 L111.2 98.9 L112.9 100.7 L114.7 102.5 L116.4 104.3 L118.1 106.0 L119.9 107.8 L121.6 109.5 L123.3 111.1 L125.1 112.7 L126.8 114.4 L128.5 115.9 L130.3 117.5 L132.0 119.0 L133.7 120.5 L135.5 122.0 L137.2 123.5 L138.9 124.9 L140.7 126.3 L142.4 127.7 L144.1 129.0 L145.9 130.4 L147.6 131.7 L149.3 133.0 L151.1 134.3 L152.8 135.5 L154.5 136.7 L156.3 138.0 L158.0 139.1 L159.7 140.3 L161.5 141.5 L163.2 142.6 L164.9 143.7 L166.7 144.8 L168.4 145.9 L170.1 146.9 L171.9 148.0 L173.6 149.0 L175.3 150.0 L177.1 151.0 L178.8 152.0 L180.5 152.9 L182.3 153.9 L184.0 154.8 L185.7 155.7 L187.5 156.6 L189.2 157.5 L190.9 158.4 L192.7 159.2 L194.4 160.1 L196.1 160.9 L197.9 161.7 L199.6 162.5 L201.3 163.3 L203.1 164.1 L204.8 164.8 L206.5 165.6 L208.3 166.3 L210.0 167.0 L211.7 167.7 L213.5 168.4 L215.2 169.1 L216.9 169.8 L218.7 170.5 L220.4 171.1 L222.1 171.8 L223.9 172.4 L225.6 173.0 L227.3 173.6 L229.1 174.2 L230.8 174.8 L232.5 175.4 L234.3 176.0 L236.0 176.5 L237.7 177.1 L239.5 177.6 L241.2 178.2 L242.9 178.7 L244.7 179.2 L246.4 179.7 L248.1 180.2 L249.9 180.7 L251.6 181.2 L253.3 181.7 L255.1 182.1 L256.8 182.6 L258.5 183.1 L260.3 183.5 L262.0 183.9 L263.7 184.4 L265.5 184.8 L267.2 185.2 L268.9 185.6 L270.7 186.0 L272.4 186.4 L274.1 186.8 L275.9 187.2 L277.6 187.6 L279.3 187.9 L281.1 188.3 L282.8 188.7 L284.5 189.0 L286.3 189.4 L288.0 189.7 L289.7 190.0 L291.5 190.4 L293.2 190.7 L294.9 191.0 L296.7 191.3 L298.4 191.6 L300.1 191.9 L301.9 192.2 L303.6 192.5 L305.3 192.8 L307.1 193.1 L308.8 193.4 L310.5 193.7 L312.3 193.9 L314.0 194.2 L315.7 194.5 L317.5 194.7 L319.2 195.0 L320.9 195.2 L322.7 195.5 L324.4 195.7 L326.1 195.9 L327.9 196.2 L329.6 196.4 L331.3 196.6 L333.1 196.8 L334.8 197.1 L336.5 197.3 L338.3 197.5 L340.0 197.7 L341.7 197.9 L343.5 198.1 L345.2 198.3 L346.9 198.5 L348.7 198.7 L350.4 198.9 L352.1 199.0 L353.9 199.2 L355.6 199.4 L357.3 199.6 L359.1 199.7 L360.8 199.9 L362.5 200.1 L364.3 200.2 L366.0 200.4 L367.7 200.6 L369.5 200.7 L371.2 200.9 L372.9 201.0 L374.7 201.2 L376.4 201.3 L378.1 201.5 L379.9 201.6 L381.6 201.7 L383.3 201.9 L385.1 202.0 L386.8 202.1 L388.5 202.3 L390.3 202.4 L392.0 202.5 L393.7 202.7 L395.5 202.8 L397.2 202.9 L398.9 203.0 L400.7 203.1 L402.4 203.2 L404.1 203.4 L405.9 203.5 L407.6 203.6 L409.3 203.7 L411.1 203.8 L412.8 203.9 L414.5 204.0 L416.3 204.1 L418.0 204.2 L419.7 204.3 L421.5 204.4 L423.2 204.5 L424.9 204.6 L426.7 204.6 L428.4 204.7 L430.1 204.8 L431.9 204.9 L433.6 205.0 L435.3 205.1 L437.1 205.2 L438.8 205.2 L440.5 205.3 L442.3 205.4 L444.0 205.5 L445.7 205.5 L447.5 205.6 L449.2 205.7 L450.9 205.8 L452.7 205.8 L454.4 205.9 L456.1 206.0 L457.9 206.0 L459.6 206.1 L461.3 206.2 L463.1 206.2 L464.8 206.3 L466.5 206.4 L468.3 206.4 L470.0 206.5 L471.7 206.5 L473.5 206.6 L475.2 206.6 L476.9 206.7 L478.7 206.8 L480.4 206.8 L482.1 206.9 L483.9 206.9 L485.6 207.0 L487.3 207.0 L489.1 207.1 L490.8 207.1 L492.5 207.2 L494.3 207.2 L496.0 207.3 L497.7 207.3 L499.5 207.3 L501.2 207.4 L502.9 207.4 L504.7 207.5 L506.4 207.5 L508.1 207.6 L509.9 207.6 L511.6 207.6 L513.3 207.7 L515.1 207.7 L516.8 207.8 L518.5 207.8 L520.3 207.8 L522.0 207.9 L523.7 207.9 L525.5 207.9 L527.2 208.0 L528.9 208.0 L530.7 208.0 L532.4 208.1 L534.1 208.1 L535.9 208.1 L537.6 208.2 L539.3 208.2 L541.1 208.2 L542.8 208.2 L544.5 208.3 L546.3 208.3 L548.0 208.3 L549.7 208.4 L551.5 208.4 L553.2 208.4 L554.9 208.4 L556.7 208.5 L558.4 208.5 L560.1 208.5 L561.9 208.5 L563.6 208.6 L565.3 208.6 L567.1 208.6 L568.8 208.6 L570.5 208.7 L572.3 208.7 L574.0 208.7 L575.7 208.7 L577.5 208.7 L579.2 208.8 L580.9 208.8 L582.7 208.8 L584.4 208.8 L586.1 208.8 L587.9 208.9 L589.6 208.9 L591.3 208.9 L593.1 208.9 L594.8 208.9 L596.5 209.0 L598.3 209.0 L600.0 209.0"/>
+<path class="s-acc" fill="none" stroke-width="3" d="M20 210 L80 210 L80.0 60.0 L81.7 64.9 L83.5 69.7 L85.2 74.3 L86.9 78.7 L88.7 83.0 L90.4 87.2 L92.1 91.2 L93.9 95.1 L95.6 98.9 L97.3 102.5 L99.1 106.0 L100.8 109.5 L102.5 112.7 L104.3 115.9 L106.0 119.0 L107.7 122.0 L109.5 124.9 L111.2 127.7 L112.9 130.4 L114.7 133.0 L116.4 135.5 L118.1 138.0 L119.9 140.3 L121.6 142.6 L123.3 144.8 L125.1 146.9 L126.8 149.0 L128.5 151.0 L130.3 152.9 L132.0 154.8 L133.7 156.6 L135.5 158.4 L137.2 160.1 L138.9 161.7 L140.7 163.3 L142.4 164.8 L144.1 166.3 L145.9 167.7 L147.6 169.1 L149.3 170.5 L151.1 171.8 L152.8 173.0 L154.5 174.2 L156.3 175.4 L158.0 176.5 L159.7 177.6 L161.5 178.7 L163.2 179.7 L164.9 180.7 L166.7 181.7 L168.4 182.6 L170.1 183.5 L171.9 184.4 L173.6 185.2 L175.3 186.0 L177.1 186.8 L178.8 187.6 L180.5 188.3 L182.3 189.0 L184.0 189.7 L185.7 190.4 L187.5 191.0 L189.2 191.6 L190.9 192.2 L192.7 192.8 L194.4 193.4 L196.1 193.9 L197.9 194.5 L199.6 195.0 L201.3 195.5 L203.1 195.9 L204.8 196.4 L206.5 196.8 L208.3 197.3 L210.0 197.7 L211.7 198.1 L213.5 198.5 L215.2 198.9 L216.9 199.2 L218.7 199.6 L220.4 199.9 L222.1 200.2 L223.9 200.6 L225.6 200.9 L227.3 201.2 L229.1 201.5 L230.8 201.7 L232.5 202.0 L234.3 202.3 L236.0 202.5 L237.7 202.8 L239.5 203.0 L241.2 203.2 L242.9 203.5 L244.7 203.7 L246.4 203.9 L248.1 204.1 L249.9 204.3 L251.6 204.5 L253.3 204.6 L255.1 204.8 L256.8 205.0 L258.5 205.2 L260.3 205.3 L262.0 205.5 L263.7 205.6 L265.5 205.8 L267.2 205.9 L268.9 206.0 L270.7 206.2 L272.4 206.3 L274.1 206.4 L275.9 206.5 L277.6 206.6 L279.3 206.8 L281.1 206.9 L282.8 207.0 L284.5 207.1 L286.3 207.2 L288.0 207.3 L289.7 207.3 L291.5 207.4 L293.2 207.5 L294.9 207.6 L296.7 207.7 L298.4 207.8 L300.1 207.8 L301.9 207.9 L303.6 208.0 L305.3 208.0 L307.1 208.1 L308.8 208.2 L310.5 208.2 L312.3 208.3 L314.0 208.3 L315.7 208.4 L317.5 208.4 L319.2 208.5 L320.9 208.5 L322.7 208.6 L324.4 208.6 L326.1 208.7 L327.9 208.7 L329.6 208.8 L331.3 208.8 L333.1 208.8 L334.8 208.9 L336.5 208.9 L338.3 209.0 L340.0 209.0 L341.7 209.0 L343.5 209.1 L345.2 209.1 L346.9 209.1 L348.7 209.1 L350.4 209.2 L352.1 209.2 L353.9 209.2 L355.6 209.3 L357.3 209.3 L359.1 209.3 L360.8 209.3 L362.5 209.3 L364.3 209.4 L366.0 209.4 L367.7 209.4 L369.5 209.4 L371.2 209.4 L372.9 209.5 L374.7 209.5 L376.4 209.5 L378.1 209.5 L379.9 209.5 L381.6 209.5 L383.3 209.6 L385.1 209.6 L386.8 209.6 L388.5 209.6 L390.3 209.6 L392.0 209.6 L393.7 209.6 L395.5 209.7 L397.2 209.7 L398.9 209.7 L400.7 209.7 L402.4 209.7 L404.1 209.7 L405.9 209.7 L407.6 209.7 L409.3 209.7 L411.1 209.7 L412.8 209.8 L414.5 209.8 L416.3 209.8 L418.0 209.8 L419.7 209.8 L421.5 209.8 L423.2 209.8 L424.9 209.8 L426.7 209.8 L428.4 209.8 L430.1 209.8 L431.9 209.8 L433.6 209.8 L435.3 209.8 L437.1 209.8 L438.8 209.8 L440.5 209.9 L442.3 209.9 L444.0 209.9 L445.7 209.9 L447.5 209.9 L449.2 209.9 L450.9 209.9 L452.7 209.9 L454.4 209.9 L456.1 209.9 L457.9 209.9 L459.6 209.9 L461.3 209.9 L463.1 209.9 L464.8 209.9 L466.5 209.9 L468.3 209.9 L470.0 209.9 L471.7 209.9 L473.5 209.9 L475.2 209.9 L476.9 209.9 L478.7 209.9 L480.4 209.9 L482.1 209.9 L483.9 209.9 L485.6 209.9 L487.3 209.9 L489.1 209.9 L490.8 209.9 L492.5 209.9 L494.3 209.9 L496.0 209.9 L497.7 210.0 L499.5 210.0 L501.2 210.0 L502.9 210.0 L504.7 210.0 L506.4 210.0 L508.1 210.0 L509.9 210.0 L511.6 210.0 L513.3 210.0 L515.1 210.0 L516.8 210.0 L518.5 210.0 L520.3 210.0 L522.0 210.0 L523.7 210.0 L525.5 210.0 L527.2 210.0 L528.9 210.0 L530.7 210.0 L532.4 210.0 L534.1 210.0 L535.9 210.0 L537.6 210.0 L539.3 210.0 L541.1 210.0 L542.8 210.0 L544.5 210.0 L546.3 210.0 L548.0 210.0 L549.7 210.0 L551.5 210.0 L553.2 210.0 L554.9 210.0 L556.7 210.0 L558.4 210.0 L560.1 210.0 L561.9 210.0 L563.6 210.0 L565.3 210.0 L567.1 210.0 L568.8 210.0 L570.5 210.0 L572.3 210.0 L574.0 210.0 L575.7 210.0 L577.5 210.0 L579.2 210.0 L580.9 210.0 L582.7 210.0 L584.4 210.0 L586.1 210.0 L587.9 210.0 L589.6 210.0 L591.3 210.0 L593.1 210.0 L594.8 210.0 L596.5 210.0 L598.3 210.0 L600.0 210.0"/>
+<text class="s-muted" x="72" y="65" text-anchor="end" font-size="13">1</text>
+<text class="s-muted" x="288.0" y="230" text-anchor="middle" font-size="13">1</text>
+<text class="s-muted" x="74" y="230" text-anchor="end" font-size="13">0</text>
+<text class="s-muted" x="636" y="230" text-anchor="end" font-size="13">t</text>
+<line class="s-axis" x1="360" y1="70" x2="390" y2="70" stroke-width="3" stroke-dasharray="8 6"/><text class="s-ink" x="398" y="75" font-size="14">x(t) = e<tspan dy="-6" font-size="11">−2t</tspan><tspan dy="6">·u(t)</tspan></text>
+<line class="s-acc" x1="360" y1="96" x2="390" y2="96" stroke-width="3"/><text class="s-ink" x="398" y="101" font-size="14">|x(t)|² = e<tspan dy="-6" font-size="11">−4t</tspan><tspan dy="6"> (t ≥ 0)</tspan></text>
+<rect x="360" y="114" width="30" height="14" class="f-accsoft"/><text class="s-ink" x="398" y="126" font-size="14">yuza = energiya = 1/4</text>
+</svg>
+<figcaption>Energiya — |x(t)|² grafigi ostidagi butun yuza. t &lt; 0 da signal 0, shuning uchun yuza faqat t ≥ 0 da.</figcaption>
+</figure>
+
+<div class="sol">
+<p><b>1-qadam.</b> |x(t)|² ni topamiz. t &lt; 0 da x = 0. t ≥ 0 da |x|² = (e<sup>−2t</sup>)² = e<sup>−4t</sup> (daraja ikki barobar bo'ladi).</p>
+<p><b>2-qadam.</b> Integral faqat t ≥ 0 bo'yicha: <code>E = ∫<sub>0</sub><sup>∞</sup> e<sup>−4t</sup> dt</code>.</p>
+<p><b>3-qadam.</b> Jadvaldagi qoida, c = 4: <code>E = 1/4</code>.</p>
+<p><b>Javob:</b> E = 1/4. Umumiy holda <code>e<sup>−at</sup>·u(t)</code> (a &gt; 0) uchun <b>E = 1/(2a)</b>.</p>
+</div>
+
+<h3>2-misol: to'rtburchak impuls x(t) = A·p<sub>T₀</sub>(t)</h3>
+<div class="sol">
+<p>|x|² = A² oraliq ichida (uzunligi T₀), tashqarida 0. Yuza = balandlik × eni:</p>
+<p><code>E = A²·T₀</code>. Misol: A = 3, T₀ = 2 bo'lsa, E = 9·2 = <b>18</b>.</p>
+<p>E'tibor bering: energiya A emas, <b>A²</b> ga proporsional. Amplitudani 2 barobar oshirsangiz, energiya 4 barobar oshadi.</p>
+</div>
+
+<h3>3-misol (mashg'ulot, Practices Ex1): x(t) = p<sub>4</sub>(t − 2)·e<sup>−2t</sup></h3>
+<p>Mashg'ulot daftarida bu <code>p<sub>1</sub>((t − 2)/4)·e<sup>−2t</sup></code> ko'rinishida yozilgan: bu ham markazi 2 da, uzunligi 4 bo'lgan quti.</p>
+<div class="sol">
+<p><b>1-qadam.</b> Quti t = 0 dan t = 4 gacha 1, demak signal faqat shu oraliqda bor: x = e<sup>−2t</sup>.</p>
+<p><b>2-qadam.</b> |x|² = e<sup>−4t</sup>, 0 ≤ t ≤ 4.</p>
+<p><b>3-qadam.</b> <code>E = ∫<sub>0</sub><sup>4</sup> e<sup>−4t</sup> dt = (1 − e<sup>−16</sup>)/4</code> ≈ 0,25.</p>
+<p><b>Javob:</b> E = (1 − e<sup>−16</sup>)/4. Signal chekli davomiylikda va cheklangan amplitudada (fizik signal), shuning uchun energiyasi chekli.</p>
+</div>
+
+<h2>5. Quvvat</h2>
+<p><span class="term">Oniy quvvat</span> (instantaneous power) — har bir lahzadagi kvadrat: <code>P<sub>ist</sub>(t) = |x(t)|²</code>. Bu vaqtga bog'liq funksiya.</p>
+<p><span class="term">O'rtacha quvvat</span> (average power, ko'pincha shunchaki "quvvat") — oniy quvvatning vaqt bo'yicha o'rtachasi:</p>
+<div class="formula">P(x) = lim<sub>a→∞</sub> (1/2a) · ∫<sub>−a</sub><sup>a</sup> |x(t)|² dt</div>
+<div class="tw"><table>
+<tr><th>Belgi</th><th>Ma'nosi</th></tr>
+<tr><td><code>∫<sub>−a</sub><sup>a</sup> |x|² dt</code></td><td>−a dan a gacha bo'lgan oraliqdagi energiya</td></tr>
+<tr><td><code>1/2a</code></td><td>oraliq uzunligiga (2a) bo'lish: "o'rtacha"</td></tr>
+<tr><td><code>lim<sub>a→∞</sub></code></td><td>oraliqni cheksiz kengaytiramiz: butun vaqt bo'yicha o'rtacha</td></tr>
+</table></div>
+<div class="box analogy">Avtomobilning o'rtacha tezligi = bosib o'tilgan yo'l ÷ vaqt. O'rtacha quvvat ham shunday: oraliqdagi energiya ÷ oraliq uzunligi, faqat oraliqni cheksiz uzun qilib olamiz.</div>
+<p>Agar P chekli va noldan katta bo'lsa, signal <span class="term">quvvat signali</span> (chekli quvvatli signal) deyiladi.</p>
+
+<div class="box ok"><b>Eng muhim qoida (ma'ruzada "IMPORTANT"):</b> signalning energiyasi chekli bo'lsa, uning o'rtacha quvvati <b>0</b> ga teng.<br>
+Nega: chekli energiyani cheksiz uzun vaqtga (2a → ∞) bo'lsak, natija 0.<br>
+Demak, bitta signal bir vaqtning o'zida ham energiya signali, ham quvvat signali bo'la olmaydi.</div>
+<div class="box warn"><b>Ma'ruzadagi ogohlantirish ("WARNING"):</b> ba'zi signallar na energiya, na quvvat signali: energiyasi ham cheksiz, quvvati ham cheksiz (yoki energiyasi cheksiz, quvvati 0). Pastdagi 7-misolga qarang.</div>
+
+<h3>4-misol (mashg'ulot, Ex2 Ex1): quti, chekli oraliqda o'rtacha quvvat</h3>
+<p>x(t) = p<sub>T₀</sub>(t). [−T/2, T/2] oraliqdagi o'rtacha quvvatni toping (T &gt; T₀).</p>
+<div class="sol">
+<p>Oraliqdagi energiya = 1²·T₀ = T₀ (quti butunlay oraliq ichida). Oraliq uzunligi T.</p>
+<p><code>P<sub>[−T/2, T/2]</sub> = T₀/T</code>.</p>
+<p>T → ∞ bo'lsa, T₀/T → <b>0</b>. Bu yuqoridagi qoidani tasdiqlaydi: quti — energiya signali, quvvati 0.</p>
+</div>
+
+<h3>5-misol (mashg'ulot, Ex2 Ex3): x(t) = cos(2πf₀t)</h3>
+<div class="sol">
+<p><b>1-qadam.</b> |x|² = cos²(2πf₀t) = 1/2 + (1/2)·cos(4πf₀t) (trigonometriya jadvalidagi "Half angle" formula).</p>
+<p><b>2-qadam.</b> [−T/2, T/2] oraliqda o'rtacha: birinchi qism doim 1/2. Ikkinchi qism tebranadi, uning o'rtachasi kichik va T kattalashgan sari 0 ga intiladi. Daftardagi aniq natija: <code>P<sub>[−T/2,T/2]</sub> = 1/2 + (1/2)·sinc(2f₀T)</code>, bu yerda <code>sinc(x) = sin(πx)/(πx)</code>.</p>
+<p><b>3-qadam.</b> T → ∞ da sinc → 0, demak <code>P = 1/2</code>.</p>
+<p><b>Umumiy qoida:</b> <code>A·cos(2πf₀t + φ)</code> sinusoidaning quvvati <b>P = A²/2</b> (chastota va fazaga bog'liq emas). Energiyasi esa ∞.</p>
+</div>
+
+<h3>6-misol (mashg'ulot, Practices): x(t) = A₀·cos(2πf₀t) + K, A₀ = 2, K = 4</h3>
+<div class="sol">
+<p><b>1-qadam.</b> Kvadratini ochamiz: <code>|x|² = K² + 2KA₀·cos(2πf₀t) + A₀²·cos²(2πf₀t)</code>.</p>
+<p><b>2-qadam.</b> Har birining o'rtachasi: K² → K²; cos ning o'rtachasi 0, shuning uchun o'rta qo'shiluvchi → 0; A₀²·cos² → A₀²/2.</p>
+<p><b>3-qadam.</b> <code>P = K² + A₀²/2 = 16 + 4/2 = 18</code>. Energiya ∞.</p>
+<p><b>Xulosa:</b> o'zgarmas qism va sinusoida quvvatlari shunchaki qo'shiladi: P = K² + A₀²/2.</p>
+</div>
+
+<h3>7-misol (mashg'ulot, Practices): y(t) = |t|<sup>−1/4</sup> — "na u, na bu"</h3>
+<div class="sol">
+<p>|y|² = |t|<sup>−1/2</sup> = 1/√|t|. −a dan a gacha yuza = 4√a (yod olish shart emas).</p>
+<p>Energiya: a → ∞ da 4√a → ∞. <b>E = ∞</b>.</p>
+<p>Quvvat: <code>(1/2a)·4√a = 2/√a → 0</code>. <b>P = 0</b>.</p>
+<p><b>Xulosa:</b> energiyasi cheksiz, quvvati 0: bu signal na energiya, na quvvat signali.</p>
+</div>
+
+<h3>8-misol: birlik pog'ona u(t)</h3>
+<div class="sol">
+<p>−a dan a gacha: t &lt; 0 qismida 0, 0 dan a gacha 1. Yuza = a.</p>
+<p>Energiya: a → ∞ da ∞. Quvvat: <code>a/(2a) = 1/2</code>. <b>P = 1/2</b>.</p>
+<p>Diqqat: u(t) ning qiymati 1, lekin quvvati 1 emas, <b>1/2</b>, chunki vaqtning yarmida (t &lt; 0) u nolga teng.</p>
+</div>
+
+<h2>6. Davriy signallarning energiyasi va quvvati (2-ma'ruza)</h2>
+
+<figure>
+<svg viewBox="0 0 700 220" role="img" aria-label="Davriy signal quvvati">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker></defs>
+<rect x="220" y="60" width="160" height="90" class="f-accsoft"/>
+<line x1="40" y1="150" x2="680" y2="150" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/>
+<path class="s-acc" fill="none" stroke-width="3" d="M60.0 70.0 L61.5 70.3 L63.0 71.1 L64.5 72.5 L66.0 74.4 L67.5 76.7 L69.0 79.6 L70.5 82.8 L72.0 86.5 L73.5 90.5 L75.0 94.7 L76.5 99.1 L78.0 103.7 L79.5 108.4 L81.0 113.1 L82.5 117.8 L84.0 122.4 L85.5 126.7 L87.0 130.9 L88.5 134.8 L90.0 138.3 L91.5 141.4 L93.0 144.1 L94.5 146.3 L96.0 148.0 L97.5 149.2 L99.0 149.9 L100.5 150.0 L102.0 149.5 L103.5 148.5 L105.0 147.0 L106.5 144.9 L108.0 142.4 L109.5 139.4 L111.0 136.0 L112.5 132.2 L114.0 128.2 L115.5 123.8 L117.0 119.3 L118.5 114.7 L120.0 110.0 L121.5 105.3 L123.0 100.7 L124.5 96.2 L126.0 91.8 L127.5 87.8 L129.0 84.0 L130.5 80.6 L132.0 77.6 L133.5 75.1 L135.0 73.0 L136.5 71.5 L138.0 70.5 L139.5 70.0 L141.0 70.1 L142.5 70.8 L144.0 72.0 L145.5 73.7 L147.0 75.9 L148.5 78.6 L150.0 81.7 L151.5 85.2 L153.0 89.1 L154.5 93.3 L156.0 97.6 L157.5 102.2 L159.0 106.9 L160.5 111.6 L162.0 116.3 L163.5 120.9 L165.0 125.3 L166.5 129.5 L168.0 133.5 L169.5 137.2 L171.0 140.4 L172.5 143.3 L174.0 145.6 L175.5 147.5 L177.0 148.9 L178.5 149.7 L180.0 150.0 L181.5 149.7 L183.0 148.9 L184.5 147.5 L186.0 145.6 L187.5 143.3 L189.0 140.4 L190.5 137.2 L192.0 133.5 L193.5 129.5 L195.0 125.3 L196.5 120.9 L198.0 116.3 L199.5 111.6 L201.0 106.9 L202.5 102.2 L204.0 97.6 L205.5 93.3 L207.0 89.1 L208.5 85.2 L210.0 81.7 L211.5 78.6 L213.0 75.9 L214.5 73.7 L216.0 72.0 L217.5 70.8 L219.0 70.1 L220.5 70.0 L222.0 70.5 L223.5 71.5 L225.0 73.0 L226.5 75.1 L228.0 77.6 L229.5 80.6 L231.0 84.0 L232.5 87.8 L234.0 91.8 L235.5 96.2 L237.0 100.7 L238.5 105.3 L240.0 110.0 L241.5 114.7 L243.0 119.3 L244.5 123.8 L246.0 128.2 L247.5 132.2 L249.0 136.0 L250.5 139.4 L252.0 142.4 L253.5 144.9 L255.0 147.0 L256.5 148.5 L258.0 149.5 L259.5 150.0 L261.0 149.9 L262.5 149.2 L264.0 148.0 L265.5 146.3 L267.0 144.1 L268.5 141.4 L270.0 138.3 L271.5 134.8 L273.0 130.9 L274.5 126.7 L276.0 122.4 L277.5 117.8 L279.0 113.1 L280.5 108.4 L282.0 103.7 L283.5 99.1 L285.0 94.7 L286.5 90.5 L288.0 86.5 L289.5 82.8 L291.0 79.6 L292.5 76.7 L294.0 74.4 L295.5 72.5 L297.0 71.1 L298.5 70.3 L300.0 70.0 L301.5 70.3 L303.0 71.1 L304.5 72.5 L306.0 74.4 L307.5 76.7 L309.0 79.6 L310.5 82.8 L312.0 86.5 L313.5 90.5 L315.0 94.7 L316.5 99.1 L318.0 103.7 L319.5 108.4 L321.0 113.1 L322.5 117.8 L324.0 122.4 L325.5 126.7 L327.0 130.9 L328.5 134.8 L330.0 138.3 L331.5 141.4 L333.0 144.1 L334.5 146.3 L336.0 148.0 L337.5 149.2 L339.0 149.9 L340.5 150.0 L342.0 149.5 L343.5 148.5 L345.0 147.0 L346.5 144.9 L348.0 142.4 L349.5 139.4 L351.0 136.0 L352.5 132.2 L354.0 128.2 L355.5 123.8 L357.0 119.3 L358.5 114.7 L360.0 110.0 L361.5 105.3 L363.0 100.7 L364.5 96.2 L366.0 91.8 L367.5 87.8 L369.0 84.0 L370.5 80.6 L372.0 77.6 L373.5 75.1 L375.0 73.0 L376.5 71.5 L378.0 70.5 L379.5 70.0 L381.0 70.1 L382.5 70.8 L384.0 72.0 L385.5 73.7 L387.0 75.9 L388.5 78.6 L390.0 81.7 L391.5 85.2 L393.0 89.1 L394.5 93.3 L396.0 97.6 L397.5 102.2 L399.0 106.9 L400.5 111.6 L402.0 116.3 L403.5 120.9 L405.0 125.3 L406.5 129.5 L408.0 133.5 L409.5 137.2 L411.0 140.4 L412.5 143.3 L414.0 145.6 L415.5 147.5 L417.0 148.9 L418.5 149.7 L420.0 150.0 L421.5 149.7 L423.0 148.9 L424.5 147.5 L426.0 145.6 L427.5 143.3 L429.0 140.4 L430.5 137.2 L432.0 133.5 L433.5 129.5 L435.0 125.3 L436.5 120.9 L438.0 116.3 L439.5 111.6 L441.0 106.9 L442.5 102.2 L444.0 97.6 L445.5 93.3 L447.0 89.1 L448.5 85.2 L450.0 81.7 L451.5 78.6 L453.0 75.9 L454.5 73.7 L456.0 72.0 L457.5 70.8 L459.0 70.1 L460.5 70.0 L462.0 70.5 L463.5 71.5 L465.0 73.0 L466.5 75.1 L468.0 77.6 L469.5 80.6 L471.0 84.0 L472.5 87.8 L474.0 91.8 L475.5 96.2 L477.0 100.7 L478.5 105.3 L480.0 110.0 L481.5 114.7 L483.0 119.3 L484.5 123.8 L486.0 128.2 L487.5 132.2 L489.0 136.0 L490.5 139.4 L492.0 142.4 L493.5 144.9 L495.0 147.0 L496.5 148.5 L498.0 149.5 L499.5 150.0 L501.0 149.9 L502.5 149.2 L504.0 148.0 L505.5 146.3 L507.0 144.1 L508.5 141.4 L510.0 138.3 L511.5 134.8 L513.0 130.9 L514.5 126.7 L516.0 122.4 L517.5 117.8 L519.0 113.1 L520.5 108.4 L522.0 103.7 L523.5 99.1 L525.0 94.7 L526.5 90.5 L528.0 86.5 L529.5 82.8 L531.0 79.6 L532.5 76.7 L534.0 74.4 L535.5 72.5 L537.0 71.1 L538.5 70.3 L540.0 70.0 L541.5 70.3 L543.0 71.1 L544.5 72.5 L546.0 74.4 L547.5 76.7 L549.0 79.6 L550.5 82.8 L552.0 86.5 L553.5 90.5 L555.0 94.7 L556.5 99.1 L558.0 103.7 L559.5 108.4 L561.0 113.1 L562.5 117.8 L564.0 122.4 L565.5 126.7 L567.0 130.9 L568.5 134.8 L570.0 138.3 L571.5 141.4 L573.0 144.1 L574.5 146.3 L576.0 148.0 L577.5 149.2 L579.0 149.9 L580.5 150.0 L582.0 149.5 L583.5 148.5 L585.0 147.0 L586.5 144.9 L588.0 142.4 L589.5 139.4 L591.0 136.0 L592.5 132.2 L594.0 128.2 L595.5 123.8 L597.0 119.3 L598.5 114.7 L600.0 110.0 L601.5 105.3 L603.0 100.7 L604.5 96.2 L606.0 91.8 L607.5 87.8 L609.0 84.0 L610.5 80.6 L612.0 77.6 L613.5 75.1 L615.0 73.0 L616.5 71.5 L618.0 70.5 L619.5 70.0 L621.0 70.1 L622.5 70.8 L624.0 72.0 L625.5 73.7 L627.0 75.9 L628.5 78.6 L630.0 81.7 L631.5 85.2 L633.0 89.1 L634.5 93.3 L636.0 97.6 L637.5 102.2 L639.0 106.9 L640.5 111.6 L642.0 116.3 L643.5 120.9 L645.0 125.3 L646.5 129.5 L648.0 133.5 L649.5 137.2 L651.0 140.4 L652.5 143.3 L654.0 145.6 L655.5 147.5 L657.0 148.9 L658.5 149.7 L660.0 150.0"/>
+<text class="s-ink" x="300.0" y="174" text-anchor="middle" font-size="14" font-weight="700">bitta davr: E(x<tspan dy="4" font-size="11">T</tspan><tspan dy="-4">)</tspan></text>
+<text class="s-muted" x="140.0" y="174" text-anchor="middle" font-size="14">E(x<tspan dy="4" font-size="11">T</tspan><tspan dy="-4">)</tspan></text>
+<text class="s-muted" x="460.0" y="174" text-anchor="middle" font-size="14">E(x<tspan dy="4" font-size="11">T</tspan><tspan dy="-4">)</tspan></text>
+<text class="s-muted" x="620.0" y="174" text-anchor="middle" font-size="14">…</text>
+<text class="s-ink" x="60" y="200" font-size="14">Har bir davrda bir xil energiya. Davrlar cheksiz ko'p → umumiy energiya ∞.</text>
+<text class="s-ink" x="60" y="30" font-size="14">|x(t)|²</text>
+</svg>
+<figcaption>Davriy signalning quvvati = bitta davrdagi energiya ÷ davr: P = E(x<sub>T</sub>)/T.</figcaption>
+</figure>
+
+<p>2-darsda davriy signalni bitta bo'lak x<sub>T</sub>(t) ning takrorlanishi deb yozgan edik. Ma'ruzada shu yozuvdan ikkita xulosa isbotlangan:</p>
+<ol>
+<li><b>Davriy signalning energiyasi doim cheksiz</b> (agar signal butunlay nol bo'lmasa): har bir davrda bir xil energiya E(x<sub>T</sub>), davrlar esa cheksiz ko'p.</li>
+<li><b>Davriy signalning quvvati odatda chekli</b> va bitta davr bo'yicha hisoblanadi:
+<div class="formula">P(x) = E(x<sub>T</sub>) / T = (1/T)·∫<sub>bir davr</sub> |x(t)|² dt</div>
+Ya'ni cheksiz limit kerak emas: bitta davrdagi energiyani davrga bo'lish yetarli.</li>
+<li>Agar bitta davrning o'zida energiya cheksiz bo'lsa (masalan, har davrda cheksiz cho'qqi), davriy signalning quvvati ham cheksiz.</li>
+</ol>
+<p>Ma'ruzadagi yana bir izoh: davriy bo'lmagan signal ham chekli quvvatli bo'lishi mumkin (masalan, u(t), 8-misol). Odatda bular cheksiz davom etadigan signallar.</p>
+
+<h3>9-misol: to'rtburchak to'lqin (protsessor takti)</h3>
+<p>Davri T, har bir davrda τ vaqt davomida A ga teng, qolgan vaqtda 0.</p>
+<div class="sol">
+<p>Bitta davrdagi energiya: A²·τ. Quvvat: <code>P = A²·τ/T</code>.</p>
+<p>Misol: A = 2, τ = T/2 (yarim vaqt yoqiq): P = 4·(1/2) = <b>2</b>.</p>
+</div>
+
+<h3>10-misol: sinusoida bitta davr orqali</h3>
+<div class="sol">
+<p>x(t) = A·cos(2πf₀t), T = 1/f₀. Bitta davrdagi energiya: A² × (cos² ning o'rtachasi 1/2) × T = A²T/2.</p>
+<p><code>P = (A²T/2)/T = A²/2</code>. 5-misoldagi natija bilan bir xil, lekin ancha tezroq.</p>
+</div>
+
+<h3>11-misol: aylanuvchi strelka x(t) = A·e<sup>j2πf₀t</sup></h3>
+<div class="sol">
+<p>3-darsdan: |e<sup>jθ</sup>| = 1, demak |x(t)|² = A² har doim. O'rtachasi ham A². <b>P = A²</b>, E = ∞.</p>
+<p>Solishtiring: A·cos(2πf₀t) ning quvvati A²/2, chunki kosinus ikkita yarim balandlikdagi strelkadan iborat.</p>
+</div>
+
+<h2>7. Signallar klassifikatsiyasi (2-ma'ruza)</h2>
+
+<figure>
+<svg viewBox="0 0 700 400" role="img" aria-label="Signallar klassifikatsiyasi">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker></defs>
+<rect class="f-card s-line" x="20" y="20" width="150" height="50" rx="8" stroke-width="1.5"/><text class="s-ink" x="95.0" y="41.5" text-anchor="middle" font-size="14" font-weight="500">Davomiyligi</text><text class="s-ink" x="95.0" y="58.5" text-anchor="middle" font-size="14" font-weight="500">cheklanganmi?</text>
+<line x1="95" y1="70" x2="95" y2="115" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="101.0" y="92.5" font-size="12" font-weight="700">HA</text>
+<line x1="170" y1="45" x2="268" y2="45" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="199.0" y="39.0" font-size="12" font-weight="700">YO'Q</text>
+<rect class="f-card s-line" x="270" y="20" width="150" height="50" rx="8" stroke-width="1.5"/><text class="s-ink" x="345.0" y="50.0" text-anchor="middle" font-size="14" font-weight="500">Nazariy signal</text>
+<line x1="345" y1="70" x2="345" y2="115" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/>
+<rect class="f-card s-line" x="20" y="117" width="150" height="50" rx="8" stroke-width="1.5"/><text class="s-ink" x="95.0" y="138.5" text-anchor="middle" font-size="14" font-weight="500">Amplitudasi</text><text class="s-ink" x="95.0" y="155.5" text-anchor="middle" font-size="14" font-weight="500">cheklanganmi?</text>
+<line x1="95" y1="167" x2="95" y2="215" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="101.0" y="191.0" font-size="12" font-weight="700">HA</text>
+<rect class="f-accsoft s-acc" x="20" y="217" width="150" height="50" rx="8" stroke-width="1.5"/><text class="s-ink" x="95.0" y="247.0" text-anchor="middle" font-size="14" font-weight="700">Fizik signal</text>
+<line x1="95" y1="267" x2="95" y2="330" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/>
+<rect class="f-accsoft s-acc" x="20" y="332" width="150" height="50" rx="8" stroke-width="1.5"/><text class="s-ink" x="95.0" y="362.0" text-anchor="middle" font-size="14" font-weight="700">Chekli energiya</text>
+<line x1="170" y1="155" x2="268" y2="232" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="227.0" y="181.5" font-size="12" font-weight="700">YO'Q</text>
+<rect class="f-card s-line" x="270" y="117" width="150" height="50" rx="8" stroke-width="1.5"/><text class="s-ink" x="345.0" y="147.0" text-anchor="middle" font-size="14" font-weight="500">Davriymi?</text>
+<line x1="420" y1="142" x2="518" y2="142" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="459.0" y="136.0" font-size="12" font-weight="700">HA</text>
+<rect class="f-accsoft s-acc" x="520" y="117" width="150" height="50" rx="8" stroke-width="1.5"/><text class="s-ink" x="595.0" y="147.0" text-anchor="middle" font-size="14" font-weight="700">Davriy signal</text>
+<path d="M670 142 H688 V357 H674" fill="none" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/>
+<line x1="345" y1="167" x2="345" y2="215" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="351.0" y="191.0" font-size="12" font-weight="700">YO'Q</text>
+<rect class="f-card s-line" x="270" y="217" width="150" height="50" rx="8" stroke-width="1.5"/><text class="s-ink" x="345.0" y="238.5" text-anchor="middle" font-size="14" font-weight="500">Energiyasi</text><text class="s-ink" x="345.0" y="255.5" text-anchor="middle" font-size="14" font-weight="500">chekli mi?</text>
+<line x1="270" y1="252" x2="172" y2="345" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="185.0" y="292.5" font-size="12" font-weight="700">HA</text>
+<line x1="420" y1="242" x2="518" y2="242" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="455.0" y="236.0" font-size="12" font-weight="700">YO'Q</text>
+<rect class="f-card s-line" x="520" y="217" width="150" height="50" rx="8" stroke-width="1.5"/><text class="s-ink" x="595.0" y="238.5" text-anchor="middle" font-size="14" font-weight="500">Quvvati</text><text class="s-ink" x="595.0" y="255.5" text-anchor="middle" font-size="14" font-weight="500">chekli mi?</text>
+<line x1="595" y1="267" x2="595" y2="330" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="601.0" y="298.5" font-size="12" font-weight="700">HA</text>
+<rect class="f-accsoft s-acc" x="520" y="332" width="150" height="50" rx="8" stroke-width="1.5"/><text class="s-ink" x="595.0" y="362.0" text-anchor="middle" font-size="14" font-weight="700">Chekli quvvat</text>
+</svg>
+<figcaption>2-ma'ruzadagi klassifikatsiya sxemasi (soddalashtirilgan). Asosiy xulosa: <b>davomiyligi va amplitudasi cheklangan (fizik) signal doim chekli energiyali</b>, davriy signal esa odatda chekli quvvatli.</figcaption>
+</figure>
+
+<div class="tw"><table>
+<tr><th>Signal</th><th>Energiya E</th><th>Quvvat P</th><th>Turi</th></tr>
+<tr><td>A·p<sub>T₀</sub>(t)</td><td>A²T₀</td><td>0</td><td>energiya signali</td></tr>
+<tr><td>e<sup>−at</sup>u(t), a &gt; 0</td><td>1/(2a)</td><td>0</td><td>energiya signali</td></tr>
+<tr><td>A·cos(2πf₀t + φ)</td><td>∞</td><td>A²/2</td><td>quvvat signali (davriy)</td></tr>
+<tr><td>A·e<sup>j2πf₀t</sup></td><td>∞</td><td>A²</td><td>quvvat signali (davriy)</td></tr>
+<tr><td>K (o'zgarmas)</td><td>∞</td><td>K²</td><td>quvvat signali</td></tr>
+<tr><td>u(t)</td><td>∞</td><td>1/2</td><td>quvvat signali (davriy emas)</td></tr>
+<tr><td>K + A₀·cos(2πf₀t)</td><td>∞</td><td>K² + A₀²/2</td><td>quvvat signali</td></tr>
+<tr><td>|t|<sup>−1/4</sup></td><td>∞</td><td>0</td><td>hech biri</td></tr>
+</table></div>
+
+<h2>O'zingizni tekshiring</h2>
+<p>Avval o'zingiz javob bering, keyin "Javob"ni bosing. 1–5-savollar imtihondagi test shaklida.</p>
+<div class="box check">1. x(t) = 3·p<sub>2</sub>(t) signalining energiyasi:<br>a) 6 &nbsp; b) 9 &nbsp; c) 18 &nbsp; d) ∞
+<details><summary>Javob</summary><b>c)</b> E = A²·T₀ = 9·2 = 18. a) — A² o'rniga A olingan xato.</details></div>
+<div class="box check">2. x(t) = 4·cos(2π·100·t) ning o'rtacha quvvati:<br>a) 4 &nbsp; b) 8 &nbsp; c) 16 &nbsp; d) 0
+<details><summary>Javob</summary><b>b)</b> P = A²/2 = 16/2 = 8. Chastota (100 Hz) javobga ta'sir qilmaydi.</details></div>
+<div class="box check">3. Quyidagilardan qaysi biri energiya signali?<br>a) cos(t) &nbsp; b) u(t) &nbsp; c) e<sup>−t</sup>·u(t) &nbsp; d) 5
+<details><summary>Javob</summary><b>c)</b> E = 1/2, chekli. Qolganlarining energiyasi ∞.</details></div>
+<div class="box check">4. x(t) = 2 + 3·cos(2π·50·t) ning quvvati:<br>a) 5 &nbsp; b) 8,5 &nbsp; c) 13 &nbsp; d) 6,5
+<details><summary>Javob</summary><b>b)</b> P = K² + A²/2 = 4 + 9/2 = 8,5. c) — kvadratlar shunchaki qo'shilgan, cos uchun 1/2 unutilgan.</details></div>
+<div class="box check">5. Energiyasi E = 7 bo'lgan signalning o'rtacha quvvati:<br>a) 7 &nbsp; b) 7/2 &nbsp; c) 0 &nbsp; d) ∞
+<details><summary>Javob</summary><b>c)</b> Chekli energiyali signalning quvvati doim 0.</details></div>
+<div class="box check">6. x(t) = e<sup>−3t</sup>·u(t) ning energiyasi qancha? <details><summary>Javob</summary>|x|² = e<sup>−6t</sup>, E = 1/6 (formula: 1/(2a), a = 3).</details></div>
+<div class="box check">7. Davri T = 4 bo'lgan to'rtburchak to'lqin: har davrda 1 sekund davomida 3 ga teng, qolganida 0. Quvvati? <details><summary>Javob</summary>P = A²τ/T = 9·1/4 = 2,25.</details></div>
+<div class="box check">8. Davriy signalning energiyasi nechaga teng (signal nol bo'lmasa)? <details><summary>Javob</summary>∞. Har bir davr bir xil energiya qo'shadi, davrlar cheksiz ko'p.</details></div>
+
+<h2>Yangi atamalar</h2>
+<div class="tw"><table><tr><th>Atama</th><th>Ma'nosi</th></tr>
+<tr><td>u(t), birlik pog'ona</td><td>t &lt; 0 da 0, t ≥ 0 da 1</td></tr>
+<tr><td>p<sub>T</sub>(t), to'rtburchak impuls (rect, Π)</td><td>|t| &lt; T/2 da 1, boshqa joyda 0</td></tr>
+<tr><td>Tayanch (support)</td><td>Signal noldan farq qiladigan vaqt oralig'i</td></tr>
+<tr><td>Fizik signal</td><td>Davomiyligi va amplitudasi cheklangan signal</td></tr>
+<tr><td>Impulsli signal</td><td>Cheksiz qisqa vaqtda cheksiz katta qiymat (δ); strelka bilan chiziladi</td></tr>
+<tr><td>Integral ∫</td><td>Grafik ostidagi yuza</td></tr>
+<tr><td>Energiya, E</td><td>∫|x(t)|²dt — butun vaqt bo'yicha</td></tr>
+<tr><td>Oniy quvvat</td><td>|x(t)|²</td></tr>
+<tr><td>O'rtacha quvvat, P</td><td>|x(t)|² ning vaqt bo'yicha o'rtachasi</td></tr>
+<tr><td>Energiya signali</td><td>E chekli (shunda P = 0)</td></tr>
+<tr><td>Quvvat signali</td><td>P chekli va noldan katta (shunda E = ∞)</td></tr>
+</table></div>
+
+<h2>📝 Konspekt</h2>
+<div class="box note"><p><strong>Shularni bilsangiz, bu mavzuni bilasiz</strong> (2-ma'ruza):</p>
+<ol>
+<li><code>u(t)</code>: t ≥ 0 da 1, t &lt; 0 da 0. <code>p<sub>T</sub>(t)</code>: |t| &lt; T/2 da 1. <code>p<sub>T</sub>(t − t₀)</code>: markazi t₀ da.</li>
+<li>Tayanch (support) — signal noldan farq qiladigan oraliq. Fizik signal = chekli tayanch + cheklangan amplituda → <b>chekli energiya</b>. Impulsli signal (δ) — fizik emas, strelka bilan chiziladi.</li>
+<li><b>Energiya:</b> <code>E = ∫<sub>−∞</sub><sup>+∞</sup> |x(t)|² dt</code>, <code>|x|² = x·x*</code>. Natija — bitta son.</li>
+<li><b>Oniy quvvat:</b> <code>|x(t)|²</code>. <b>O'rtacha quvvat:</b> <code>P = lim<sub>a→∞</sub> (1/2a)∫<sub>−a</sub><sup>a</sup> |x(t)|² dt</code>.</li>
+<li>Rezistor (R = 1): P = v²/R = R·i² → kursda energiya va quvvat birliksiz.</li>
+<li><b>E chekli ⇒ P = 0.</b> Signal ham energiya, ham quvvat signali bo'la olmaydi. Ba'zilari hech biri emas (masalan, |t|<sup>−1/4</sup>: E = ∞, P = 0).</li>
+<li><b>Davriy signal:</b> E = ∞; <code>P = E(x<sub>T</sub>)/T</code> (bitta davr energiyasi ÷ davr). Bitta davr energiyasi cheksiz bo'lsa, P = ∞.</li>
+<li>Davriy bo'lmagan signal ham chekli quvvatli bo'lishi mumkin (u(t): P = 1/2).</li>
+<li>Yod oling: <code>∫<sub>0</sub><sup>∞</sup> e<sup>−ct</sup>dt = 1/c</code>; cos² ning o'rtachasi 1/2.</li>
+<li>Tayyor natijalar: <code>A·p<sub>T₀</sub></code> → E = A²T₀; <code>e<sup>−at</sup>u(t)</code> → E = 1/(2a); <code>A·cos(2πf₀t+φ)</code> → P = A²/2; <code>A·e<sup>j2πf₀t</sup></code> → P = A²; K → P = K²; <code>K + A·cos</code> → P = K² + A²/2; to'rtburchak to'lqin → P = A²τ/T.</li>
+</ol></div>
+
+<div class="box ok">O'qib bo'ldingizmi? Chatga <strong>"tushundim"</strong> deb yozing. <strong>"Tushunmadim"</strong> bo'lsa, qaysi joy qiyin bo'lganini ayting, darsni soddaroq qilib qayta yozaman.</div>
+<footer class="pager"><a href="03-kompleks-sonlar.html">← 3. Kompleks sonlar</a><a href="./">Darslar ro'yxati</a></footer>
+</main></body></html>
