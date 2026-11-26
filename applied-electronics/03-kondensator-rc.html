@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3. Kondensator va RC: zaryadlanish vaqti</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>3. Kondensator va RC: zaryadlanish vaqti</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> kondensator nima, u nega darhol zaryadlanmaydi va bu qancha vaqt olishini qanday hisoblash. Bu fandagi deyarli hamma <strong>kechikish</strong> va <strong>vaqt</strong> hisoblari shu bitta g'oyaga asoslanadi: mantiqiy elementlar kechikishi, generator chastotasi, xotira va ripple. O'qish vaqti: 15 daqiqa.</div>
+
+<p>Oldingi darslardan eslatma: <strong>V = I × R</strong>, <strong>P = V × I</strong>, kuchlanish bo'lgich.</p>
+
+<h2>1. Kondensator nima</h2>
+<p><span class="term">Kondensator</span> elektr zaryadini <strong>yig'ib saqlaydigan</strong> detal. Ichida bir-biriga tegmaydigan ikkita metall plastinka bor. Tok kelganda plastinkalarda zaryad to'planadi va ular orasida kuchlanish paydo bo'ladi.</p>
+<ul>
+<li>Inglizchasi: <strong>capacitor</strong>. Xususiyati: <strong>capacitance</strong> (sig'im)</li>
+<li>Harfi: <strong>C</strong></li>
+<li>Birligi: <strong>farad (F)</strong>. 1 F juda katta, shuning uchun amalda: μF (mikro, 10⁻⁶), nF (nano, 10⁻⁹), pF (piko, 10⁻¹²), fF (femto, 10⁻¹⁵)</li>
+</ul>
+<div class="box analogy">Kondensator suv idishiga o'xshaydi. Sig'im C idishning kengligi: keng idish ko'p suv sig'diradi va sekin to'ladi. Kuchlanish esa idishdagi suv sathi.</div>
+
+<span class="formula">Zaryad = Sig'im × Kuchlanish &nbsp;&nbsp; ya'ni &nbsp;&nbsp; Q = C × V</span>
+
+<h2>2. Eng muhim xususiyat: kuchlanish birdaniga o'zgarmaydi</h2>
+<p>Idishni bir zumda to'ldirib bo'lmaydi, suv quvurdan asta-sekin oqib keladi. Kondensator ham shunday: unga ulangan kuchlanish birdaniga o'zgarsa ham, kondensatordagi kuchlanish <strong>asta-sekin</strong> o'sadi.</p>
+<p>Nega sekin? Chunki zaryad rezistor orqali keladi, rezistor esa tokni cheklaydi (1-dars). Rezistor qanchalik katta bo'lsa, idish shunchalik sekin to'ladi.</p>
+
+<figure>
+<svg viewBox="0 0 520 170" role="img" aria-label="RC zanjiri: Vin manbai, R rezistor va C kondensator ketma-ket" font-family="system-ui,sans-serif">
+  <path d="M80 70V30H200M260 30H360V70M360 90V140H80V100" stroke="#888" stroke-width="2.5" fill="none"/>
+  <rect x="200" y="20" width="60" height="20" rx="3" fill="#fff" stroke="#555" stroke-width="2"/>
+  <line x1="60" y1="70" x2="100" y2="70" stroke="#d9622b" stroke-width="3"/>
+  <line x1="70" y1="100" x2="90" y2="100" stroke="#d9622b" stroke-width="3"/>
+  <line x1="335" y1="70" x2="385" y2="70" stroke="#2563eb" stroke-width="3.5"/>
+  <line x1="335" y1="90" x2="385" y2="90" stroke="#2563eb" stroke-width="3.5"/>
+  <text x="48" y="90" text-anchor="end" font-size="15" font-weight="700" fill="#d9622b">Vin</text>
+  <text x="230" y="60" text-anchor="middle" font-size="15" fill="currentColor">R</text>
+  <text x="396" y="86" font-size="15" font-weight="700" fill="#2563eb">C</text>
+  <text x="430" y="86" font-size="14" fill="currentColor">VC = ?</text>
+  <text x="220" y="162" text-anchor="middle" font-size="13" fill="currentColor">RC zanjiri: zaryad R orqali C ga oqib keladi</text>
+</svg>
+<figcaption>Eng oddiy RC zanjiri. Kursdagi ko'p sxemalar ichida aynan shu zanjir yashiringan.</figcaption>
+</figure>
+
+<h2>3. Vaqt doimiysi τ = R × C</h2>
+<p>Kondensator qancha tez to'lishini bitta son aytadi: <span class="term">vaqt doimiysi</span>.</p>
+<span class="formula">τ = R × C &nbsp;&nbsp; (o'qilishi: "tau")</span>
+<ul>
+<li>Inglizchasi: <strong>time constant</strong></li>
+<li>Birligi: <strong>soniya</strong>. Ω × F = s. Masalan 1 kΩ × 1 μF = 1000 × 0.000001 = 0.001 s = <strong>1 ms</strong>.</li>
+<li>R yoki C ikki marta katta bo'lsa, τ ham ikki marta katta bo'ladi va kondensator ikki marta sekin to'ladi.</li>
+</ul>
+
+<figure>
+<svg viewBox="0 0 700 290" role="img" aria-label="Kondensator kuchlanishining eksponensial o'sishi: tau da 63 foiz, 0.69 tau da 50 foiz, 5 tau da deyarli to'liq" font-family="system-ui,sans-serif">
+  <path d="M60 40V230H680" stroke="#888" stroke-width="1.5" fill="none"/>
+  <line x1="60" y1="50" x2="670" y2="50" stroke="#d9622b" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="54" y="54" text-anchor="end" font-size="13" fill="#d9622b">Vin</text>
+  <text x="54" y="234" text-anchor="end" font-size="13" fill="currentColor">0</text>
+  <polyline points="60,230.0 70,212.9 80,197.4 90,183.3 100,170.7 110,159.2 120,148.8 130,139.4 140,130.9 150,123.2 160,116.2 170,109.9 180,104.2 190,99.1 200,94.4 210,90.2 220,86.3 230,82.9 240,79.8 250,76.9 260,74.4 270,72.0 280,69.9 290,68.0 300,66.3 310,64.8 320,63.4 330,62.1 340,60.9 350,59.9 360,59.0 370,58.1 380,57.3 390,56.6 400,56.0 410,55.4 420,54.9 430,54.5 440,54.0 450,53.6 460,53.3 470,53.0 480,52.7 490,52.4 500,52.2 510,52.0 520,51.8 530,51.6 540,51.5 550,51.3 560,51.2 570,51.1 580,51.0 590,50.9 600,50.8 610,50.7 620,50.7 630,50.6 640,50.5 650,50.5 660,50.4" fill="none" stroke="#2563eb" stroke-width="3"/>
+  <line x1="129" y1="140" x2="129" y2="230" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <line x1="60" y1="140" x2="129" y2="140" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <circle cx="129" cy="140" r="5" fill="#16a34a"/>
+  <text x="137" y="166" font-size="13" fill="#16a34a">50% · 0.69τ</text>
+  <line x1="160" y1="116" x2="160" y2="230" stroke="#9aa0a6" stroke-width="1" stroke-dasharray="4 3"/>
+  <circle cx="160" cy="116" r="5" fill="#2563eb"/>
+  <text x="172" y="132" font-size="13" fill="#2563eb">63% · τ</text>
+  <circle cx="360" cy="59" r="4" fill="#2563eb"/>
+  <text x="360" y="80" text-anchor="middle" font-size="13" fill="#2563eb">95% · 3τ</text>
+  <circle cx="560" cy="51" r="4" fill="#2563eb"/>
+  <text x="560" y="72" text-anchor="middle" font-size="13" fill="#2563eb">99% · 5τ</text>
+  <text x="160" y="250" text-anchor="middle" font-size="13" fill="currentColor">τ</text>
+  <text x="260" y="250" text-anchor="middle" font-size="13" fill="currentColor">2τ</text>
+  <text x="360" y="250" text-anchor="middle" font-size="13" fill="currentColor">3τ</text>
+  <text x="460" y="250" text-anchor="middle" font-size="13" fill="currentColor">4τ</text>
+  <text x="560" y="250" text-anchor="middle" font-size="13" fill="currentColor">5τ</text>
+  <text x="675" y="250" text-anchor="end" font-size="13" fill="currentColor">vaqt →</text>
+  <text x="370" y="280" text-anchor="middle" font-size="13" fill="currentColor">Bu egri chiziq shakli <tspan font-weight="700">eksponensial</tspan> deyiladi: avval tez, keyin tobora sekin o'sadi</text>
+</svg>
+<figcaption>Kondensatordagi kuchlanish VC vaqt o'tishi bilan qanday o'sadi.</figcaption>
+</figure>
+
+<p>Grafikdan yodlash kerak bo'lgan nuqtalar:</p>
+<table>
+<tr><th>Vaqt</th><th>Kondensator necha foiz to'ladi</th><th>Qayerda kerak</th></tr>
+<tr><td><strong>0.69 τ</strong></td><td><strong>50%</strong> (yarmi)</td><td>Mantiqiy element kechikishi: chiqish yarim yo'lga yetguncha</td></tr>
+<tr><td>τ</td><td>63%</td><td>τ ning ta'rifi</td></tr>
+<tr><td>3τ</td><td>95%</td><td>"Deyarli to'ldi"</td></tr>
+<tr><td>5τ</td><td>99%</td><td>"To'liq to'ldi" deb hisoblanadi</td></tr>
+</table>
+<p>Kondensator <strong>razryadlanganda</strong> (bo'shaganda) ham xuddi shu qoida, faqat teskari: kuchlanish eksponensial kamayadi va 0.69τ da yarmiga tushadi.</p>
+
+<h3>Misol</h3>
+<p>R = 10 kΩ, C = 100 nF. Kondensator yarmigacha qancha vaqtda zaryadlanadi?</p>
+<ol>
+<li>τ = R × C = 10 000 × 0.000 000 1 = 0.001 s = 1 ms.</li>
+<li>Yarmigacha: t = 0.69 × τ = 0.69 × 1 ms = <strong>0.69 ms</strong>.</li>
+</ol>
+
+<h2>4. Bu kursning qayerida chiqadi</h2>
+<ul>
+<li><strong>Mantiqiy element kechikishi (B1, 6-dars):</strong> element chiqishi keyingi elementning kirish sig'imini rezistor orqali zaryadlaydi. Kechikish tp = 0.69 × R × C.</li>
+<li><strong>Generator (B4, 13-dars):</strong> kondensator navbat bilan zaryadlanib-razryadlanadi va takt signali hosil bo'ladi.</li>
+<li><strong>Xotira dekoderi va DRAM (B7, 21–22-darslar):</strong> DRAM bitni kichik kondensatorda saqlaydi.</li>
+<li><strong>Ripple (E2, 31-dars):</strong> to'g'rilagichdan keyingi kondensator kuchlanishni tekislaydi.</li>
+<li><strong>Uzatish liniyalari (C1, 24-dars):</strong> qisqa sim ham RC zanjir sifatida qaraladi.</li>
+</ul>
+
+<h2>5. Imtihonda bu qanday chiqadi</h2>
+<p>Exercises papkasidagi <strong>040-savol</strong>, asl matni:</p>
+<div class="box"><em>A CMOS logic gate drives a load of capacity C. By doubling the capacity (2 C), the propagation delay changes as:</em><br>a) 2 &nbsp; b) 1/2 &nbsp; c) 1/4 &nbsp; d) 4</div>
+<p>Tarjimasi: mantiqiy element C sig'imli yukni boshqaradi. Sig'im ikki marta oshirilsa (2C), kechikish necha marta o'zgaradi?</p>
+<p>Yechim: kechikish tp = 0.69 × R × C. U C ga to'g'ri proporsional. C ikki marta oshsa, kechikish ham <strong>2 marta</strong> oshadi. Javob <strong>a) 2</strong>.</p>
+<p>"CMOS logic gate" so'zi sizni qo'rqitmasin. Bu 6-darsda o'rganadigan mantiqiy element. Savolga javob berish uchun faqat RC qoidasi yetarli.</p>
+
+<p>Exercises papkasidagi <strong>008-savol</strong>, asl matni:</p>
+<div class="box"><em>In the square wave generator (oscillator) made with a Schmitt trigger inverter, the voltage waveform across the capacitor is</em><br>a) exponential &nbsp; b) square wave &nbsp; c) linear &nbsp; d) pulsed</div>
+<p>Tarjimasi: Schmitt trigger asosidagi to'rtburchak signal generatorida kondensatordagi kuchlanish qanday shaklda bo'ladi?</p>
+<p>Yechim: generatorda kondensator rezistor orqali zaryadlanadi va razryadlanadi. RC zaryadlanish egri chizig'i esa doim <strong>eksponensial</strong>. Javob <strong>a)</strong>. Generatorning o'zi chiqishda to'rtburchak signal beradi, lekin savol <em>kondensator</em> haqida. Bu imtihondagi tipik tuzoq.</p>
+
+<h2>O'zingizni tekshiring</h2>
+<p>Avval o'zingiz yeching, keyin "Javob" ni bosing.</p>
+<div class="box check">R = 2 kΩ, C = 1 μF. τ qancha? <details><summary>Javob</summary>τ = 2000 × 0.000001 = 0.002 s = <strong>2 ms</strong>.</details></div>
+<div class="box check">τ = 1 ms bo'lsa, kondensator qancha vaqtda deyarli to'liq (99%) zaryadlanadi? <details><summary>Javob</summary>5τ = <strong>5 ms</strong>.</details></div>
+<div class="box check">Rezistorni yarmiga kamaytirsak, zaryadlanish tezlashadimi yoki sekinlashadimi? Necha marta? <details><summary>Javob</summary>τ = R × C yarmiga kamayadi, demak <strong>2 marta tezlashadi</strong>.</details></div>
+<div class="box check">Mantiqiy element kechikishi 1 ns. Yuk sig'imi 3 marta oshsa, kechikish qancha bo'ladi? <details><summary>Javob</summary>Kechikish C ga proporsional: <strong>3 ns</strong>.</details></div>
+<div class="box check">R = 100 Ω, C = 10 pF. Kechikish (0.69 RC) qancha? <details><summary>Javob</summary>0.69 × 100 × 10·10⁻¹² = 0.69 × 10⁻⁹ s = <strong>0.69 ns</strong>.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Kondensator</td><td>capacitor</td><td>Zaryad saqlaydigan detal, "suv idishi"</td></tr>
+<tr><td>Sig'im (C, farad)</td><td>capacitance</td><td>Kondensator qancha zaryad sig'dirishi</td></tr>
+<tr><td>Zaryadlanish / razryadlanish</td><td>charge / discharge</td><td>To'lish / bo'shash</td></tr>
+<tr><td>Vaqt doimiysi (τ)</td><td>time constant</td><td>τ = R × C, to'lish tezligini bildiradi</td></tr>
+<tr><td>Eksponensial</td><td>exponential</td><td>Avval tez, keyin sekinlashib o'zgaradigan egri chiziq</td></tr>
+<tr><td>Kechikish</td><td>propagation delay</td><td>Kirish o'zgargandan chiqish o'zgarguncha vaqt</td></tr>
+<tr><td>Yuk sig'imi</td><td>load capacitance</td><td>Chiqishga ulangan narsalarning umumiy sig'imi</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<p><strong>Ta'riflar</strong></p>
+<ul>
+<li><strong>Kondensator (capacitor), C, farad:</strong> zaryad saqlaydi. Q = C × V.</li>
+<li>Kondensatordagi kuchlanish <strong>birdaniga o'zgarmaydi</strong>, R orqali asta-sekin zaryadlanadi.</li>
+</ul>
+<p><strong>Formulalar</strong></p>
+<span class="formula">τ = R × C &nbsp;&nbsp;&nbsp; t(50%) = 0.69 × R × C</span>
+<p><strong>Yodlash kerak bo'lgan nuqtalar</strong></p>
+<ul>
+<li>0.69τ → 50%, &nbsp; τ → 63%, &nbsp; 3τ → 95%, &nbsp; 5τ → 99% (to'liq)</li>
+<li>Shakli: <strong>eksponensial</strong> (zaryadlanishda ham, razryadlanishda ham).</li>
+</ul>
+<p><strong>Birliklar</strong></p>
+<ul>
+<li>μ = 10⁻⁶, n = 10⁻⁹, p = 10⁻¹², f = 10⁻¹⁵</li>
+<li>kΩ × μF = ms; &nbsp; Ω × pF = ps; &nbsp; kΩ × pF = ns</li>
+</ul>
+<p><strong>Imtihon qoidalari</strong></p>
+<ul>
+<li>Kechikish C ga va R ga <strong>to'g'ri proporsional</strong>: C × 2 → kechikish × 2 (040-savol).</li>
+<li>Generatorda kondensator kuchlanishi <strong>eksponensial</strong>, chiqish esa to'rtburchak (008-savol).</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> bo'lsa 4-darsga o'tamiz. <strong>"Tushunmadim"</strong> bo'lsa, qaysi joyi qiyinligini ayting, soddaroq qilib qayta yozaman.</div>
+
+<footer class="pager"><a href="02-quvvat-ketma-ket-parallel.html">← 2-dars</a><a href="./">Darslar ro'yxati →</a></footer>
+</main></body></html>
