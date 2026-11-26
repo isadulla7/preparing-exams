@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>23. Diskret energiya, quvvat, korrelyatsiya</title><link rel="stylesheet" href="../assets/style.css">
+<style>
+svg text{font-family:inherit}
+.s-ink{fill:var(--fg)} .s-muted{fill:var(--muted)}
+.s-line{stroke:var(--border)} .s-axis{stroke:var(--muted)} .s-acc{stroke:var(--accent)} .s-mut{stroke:var(--muted)}
+.f-acc{fill:var(--accent)} .f-accsoft{fill:var(--accent);fill-opacity:.12} .f-card{fill:var(--card)}
+main{overflow-wrap:break-word} .tw{overflow-x:auto} @media (max-width:480px){th,td{padding:4px 6px;font-size:.92em}}
+.sol{border-left:4px solid var(--accent);padding-left:12px;margin:.6em 0}
+td.c,th.c{text-align:center}
+</style></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Signal analysis darslari</a></nav>
+<h1>23. Diskret energiya, quvvat, korrelyatsiya</h1>
+<p>O'qish vaqti: 45 daqiqa. Manba: 27-ma'ruza ("Energy and Average Power. Correlation Function"), mashg'ulot: "Exercises 1" (3-masala, a–e).</p>
+<div class="box warn"><b>Bu A mavzu.</b> Imtihonda: "aⁿu(n) ning energiyasi?", "u(n) ning o'rtacha quvvati?", "energiya signalimi yoki quvvat signalimi?", "R<sub>x</sub>(0) nimaga teng?", "{1, 0, 2, 3} ning avtokorrelyatsiyasi?". 4-darsdagi analog formulalar bilan bir xil g'oya — integral o'rniga yig'indi.</div>
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> diskret energiya va o'rtacha quvvat; davriy ketma-ketlik quvvati; diskretlangan analog signal uchun T<sub>c</sub> ko'paytuvchisi; o'zaro korrelyatsiya va avtokorrelyatsiya, ularni hisoblash; mashg'ulotdagi 5 ta masala; DTFT/DFT ga kirish so'zi.</div>
+
+<h2>1. Energiya</h2>
+<div class="formula">E<sub>x</sub> = Σ<sub>n=−∞</sub><sup>+∞</sup> |x(n)|²</div>
+<p>Ya'ni har bir namuna modulining kvadratini olib, hammasini qo'shamiz. Analogdagi E = ∫|x(t)|²dt ning diskret varianti (4-dars). E<sub>x</sub> &lt; ∞ bo'lsa, ketma-ketlik <span class="term">chekli energiyali</span> (21-darsdagi "kvadratik yig'iluvchi").</p>
+<p>Chekli energiyali ketma-ketliklar xossalari (ma'ruza):</p>
+<ul>
+<li>energiya — <b>haqiqiy, chekli, qat'iy musbat</b> son (nol signaldan tashqari);</li>
+<li>energiya <b>vaqtda surishga bog'liq emas</b>: Σ|x(n)|² = Σ|x(n − N)|² istalgan butun N uchun (bir xil sonlar qo'shilyapti, faqat boshqa joyda).</li>
+</ul>
+<h3>Ma'ruza misoli: x(n) = αⁿu(n), 0 &lt; α &lt; 1</h3>
+<div class="sol"><p>E<sub>x</sub> = Σ<sub>n=0</sub><sup>∞</sup> (αⁿ)² = Σ (α²)ⁿ = <b>1/(1 − α²)</b> (geometrik qator Σqⁿ = 1/(1 − q), bu yerda q = α² &lt; 1).</p>
+<p>Masalan, α = 0,5: E = 1/(1 − 0,25) = 4/3.</p></div>
+<div class="box note"><b>Geometrik qator — bu bo'limning asosiy quroli:</b> <code>Σ<sub>n=0</sub><sup>∞</sup> qⁿ = 1/(1 − q)</code> (|q| &lt; 1), &nbsp; <code>Σ<sub>n=0</sub><sup>N−1</sup> qⁿ = (1 − q<sup>N</sup>)/(1 − q)</code>. Imtihondagi deyarli barcha energiya masalalari shunga keltiriladi.</div>
+
+<h2>2. O'rtacha quvvat</h2>
+<p>Energiyasi cheksiz ketma-ketliklar uchun o'rtacha quvvat aniqlanadi — "bitta namunaga to'g'ri keladigan o'rtacha energiya":</p>
+<div class="formula">P<sub>x</sub> = lim<sub>N→∞</sub> 1/(2N + 1) · Σ<sub>n=−N</sub><sup>+N</sup> |x(n)|²</div>
+<p>[−N, N] oynada 2N + 1 ta namuna bor — shuning uchun 2N + 1 ga bo'lamiz.</p>
+<div class="box ok"><b>Ikki toifa (ma'ruza):</b> chekli energiyali ketma-ketlikning quvvati <b>nol</b>; quvvati noldan farqli (chekli) ketma-ketlikning energiyasi <b>cheksiz</b>. Shuning uchun signal yoki <b>energiya signali</b> (0 &lt; E &lt; ∞, P = 0), yoki <b>quvvat signali</b> (E = ∞, 0 &lt; P &lt; ∞), yoki hech biri (masalan, n·u(n): E = ∞, P = ∞).</div>
+<h3>Ma'ruza misoli: x(n) = u(n)</h3>
+<div class="sol"><p>Oyna [−N, N] da u(n) = 1 faqat n = 0 … N da: N + 1 ta bir. P<sub>x</sub> = lim (N + 1)/(2N + 1) = <b>½</b>. Mantiq: oynaning yarmi bo'sh, yarmi to'la.</p></div>
+
+<figure>
+<svg viewBox="0 0 720 165" role="img" aria-label="u(n) ning o'rtacha quvvati">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<rect x="161.1" y="54.5" width="397.9" height="85.5" rx="6" style="fill:var(--accent);fill-opacity:.10;stroke:var(--accent);stroke-opacity:.5" stroke-dasharray="5 4"/><line x1="24.0" y1="140.0" x2="700.0" y2="140.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="700.0" y="158.0" text-anchor="end" font-size="13">n</text><line x1="360.0" y1="146.0" x2="360.0" y2="35.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><circle class="f-acc" cx="51.6" cy="140.0" r="2.3"/><circle class="f-acc" cx="82.4" cy="140.0" r="2.3"/><circle class="f-acc" cx="113.3" cy="140.0" r="2.3"/><circle class="f-acc" cx="144.1" cy="140.0" r="2.3"/><circle class="f-acc" cx="175.0" cy="140.0" r="2.3"/><circle class="f-acc" cx="205.8" cy="140.0" r="2.3"/><circle class="f-acc" cx="236.6" cy="140.0" r="2.3"/><circle class="f-acc" cx="267.5" cy="140.0" r="2.3"/><circle class="f-acc" cx="298.3" cy="140.0" r="2.3"/><circle class="f-acc" cx="329.2" cy="140.0" r="2.3"/><line class="s-acc" x1="360.0" y1="140.0" x2="360.0" y2="76.7" stroke-width="2.4"/><circle class="f-acc" cx="360.0" cy="76.7" r="3.5"/><line class="s-acc" x1="390.8" y1="140.0" x2="390.8" y2="76.7" stroke-width="2.4"/><circle class="f-acc" cx="390.8" cy="76.7" r="3.5"/><line class="s-acc" x1="421.7" y1="140.0" x2="421.7" y2="76.7" stroke-width="2.4"/><circle class="f-acc" cx="421.7" cy="76.7" r="3.5"/><line class="s-acc" x1="452.5" y1="140.0" x2="452.5" y2="76.7" stroke-width="2.4"/><circle class="f-acc" cx="452.5" cy="76.7" r="3.5"/><line class="s-acc" x1="483.4" y1="140.0" x2="483.4" y2="76.7" stroke-width="2.4"/><circle class="f-acc" cx="483.4" cy="76.7" r="3.5"/><line class="s-acc" x1="514.2" y1="140.0" x2="514.2" y2="76.7" stroke-width="2.4"/><circle class="f-acc" cx="514.2" cy="76.7" r="3.5"/><line class="s-acc" x1="545.0" y1="140.0" x2="545.0" y2="76.7" stroke-width="2.4"/><circle class="f-acc" cx="545.0" cy="76.7" r="3.5"/><line class="s-acc" x1="575.9" y1="140.0" x2="575.9" y2="76.7" stroke-width="2.4"/><circle class="f-acc" cx="575.9" cy="76.7" r="3.5"/><line class="s-acc" x1="606.7" y1="140.0" x2="606.7" y2="76.7" stroke-width="2.4"/><circle class="f-acc" cx="606.7" cy="76.7" r="3.5"/><line class="s-acc" x1="637.6" y1="140.0" x2="637.6" y2="76.7" stroke-width="2.4"/><circle class="f-acc" cx="637.6" cy="76.7" r="3.5"/><line class="s-acc" x1="668.4" y1="140.0" x2="668.4" y2="76.7" stroke-width="2.4"/><circle class="f-acc" cx="668.4" cy="76.7" r="3.5"/><line x1="175.0" y1="137.0" x2="175.0" y2="143.0" style="stroke:var(--muted)"/><text class="s-muted" x="175.0" y="158.0" text-anchor="middle" font-size="12">−N</text><line x1="360.0" y1="137.0" x2="360.0" y2="143.0" style="stroke:var(--muted)"/><text class="s-muted" x="360.0" y="158.0" text-anchor="middle" font-size="12">0</text><line x1="545.0" y1="137.0" x2="545.0" y2="143.0" style="stroke:var(--muted)"/><text class="s-muted" x="545.0" y="158.0" text-anchor="middle" font-size="12">N</text><text class="s-ink" x="165.7" y="48.5" text-anchor="start" font-size="12">oyna: 2N + 1 ta namuna</text><text class="s-ink" x="452.5" y="48.5" text-anchor="middle" font-size="12" font-weight="700">N + 1 ta "1"</text><text class="s-muted" x="261.3" y="111.5" text-anchor="middle" font-size="12">bo'sh (N ta)</text>
+</svg>
+<figcaption>u(n) ning quvvati: [−N, N] oynada 2N + 1 ta joydan N + 1 tasi 1 ga teng. Nisbat (N + 1)/(2N + 1) → ½, ya'ni P = ½.</figcaption>
+</figure>
+
+<h3>Davriy ketma-ketlik quvvati</h3>
+<p>Davri N bo'lgan ketma-ketlik uchun bitta davr bo'yicha o'rtacha olish kifoya:</p>
+<div class="formula">P<sub>x</sub> = (1/N) · Σ<sub>n=0</sub><sup>N−1</sup> |x(n)|²</div>
+<p><b>Ma'ruza misoli (N = 6):</b> bir davrdagi qiymatlar: 3; ikki marta 1,5; ikki marta −1; bitta 0.</p>
+<div class="sol"><p>P<sub>x</sub> = (1/6)·[3² + 2·(1,5)² + 2·(−1)² + 0²] = (1/6)·[9 + 4,5 + 2] = 15,5/6 = <b>31/12 ≈ 2,58</b>.</p></div>
+
+<figure>
+<svg viewBox="0 0 720 210" role="img" aria-label="Davriy ketma-ketlik va uning bitta davri">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<rect x="254.2" y="44.2" width="211.6" height="135.2" rx="6" style="fill:var(--accent);fill-opacity:.10;stroke:var(--accent);stroke-opacity:.5" stroke-dasharray="5 4"/><line x1="24.0" y1="140.4" x2="700.0" y2="140.4" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="700.0" y="158.4" text-anchor="end" font-size="13">n</text><line x1="270.3" y1="191.0" x2="270.3" y2="30.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><line class="s-acc" x1="55.1" y1="140.4" x2="55.1" y2="56.7" stroke-width="2.4"/><circle class="f-acc" cx="55.1" cy="56.7" r="3.5"/><line class="s-acc" x1="91.0" y1="140.4" x2="91.0" y2="98.6" stroke-width="2.4"/><circle class="f-acc" cx="91.0" cy="98.6" r="3.5"/><line class="s-acc" x1="126.8" y1="140.4" x2="126.8" y2="168.3" stroke-width="2.4"/><circle class="f-acc" cx="126.8" cy="168.3" r="3.5"/><circle class="f-acc" cx="162.7" cy="140.4" r="2.3"/><line class="s-acc" x1="198.6" y1="140.4" x2="198.6" y2="168.3" stroke-width="2.4"/><circle class="f-acc" cx="198.6" cy="168.3" r="3.5"/><line class="s-acc" x1="234.5" y1="140.4" x2="234.5" y2="98.6" stroke-width="2.4"/><circle class="f-acc" cx="234.5" cy="98.6" r="3.5"/><line class="s-acc" x1="270.3" y1="140.4" x2="270.3" y2="56.7" stroke-width="2.4"/><circle class="f-acc" cx="270.3" cy="56.7" r="3.5"/><line class="s-acc" x1="306.2" y1="140.4" x2="306.2" y2="98.6" stroke-width="2.4"/><circle class="f-acc" cx="306.2" cy="98.6" r="3.5"/><line class="s-acc" x1="342.1" y1="140.4" x2="342.1" y2="168.3" stroke-width="2.4"/><circle class="f-acc" cx="342.1" cy="168.3" r="3.5"/><circle class="f-acc" cx="377.9" cy="140.4" r="2.3"/><line class="s-acc" x1="413.8" y1="140.4" x2="413.8" y2="168.3" stroke-width="2.4"/><circle class="f-acc" cx="413.8" cy="168.3" r="3.5"/><line class="s-acc" x1="449.7" y1="140.4" x2="449.7" y2="98.6" stroke-width="2.4"/><circle class="f-acc" cx="449.7" cy="98.6" r="3.5"/><line class="s-acc" x1="485.5" y1="140.4" x2="485.5" y2="56.7" stroke-width="2.4"/><circle class="f-acc" cx="485.5" cy="56.7" r="3.5"/><line class="s-acc" x1="521.4" y1="140.4" x2="521.4" y2="98.6" stroke-width="2.4"/><circle class="f-acc" cx="521.4" cy="98.6" r="3.5"/><line class="s-acc" x1="557.3" y1="140.4" x2="557.3" y2="168.3" stroke-width="2.4"/><circle class="f-acc" cx="557.3" cy="168.3" r="3.5"/><circle class="f-acc" cx="593.2" cy="140.4" r="2.3"/><line class="s-acc" x1="629.0" y1="140.4" x2="629.0" y2="168.3" stroke-width="2.4"/><circle class="f-acc" cx="629.0" cy="168.3" r="3.5"/><line class="s-acc" x1="664.9" y1="140.4" x2="664.9" y2="98.6" stroke-width="2.4"/><circle class="f-acc" cx="664.9" cy="98.6" r="3.5"/><line x1="55.1" y1="137.4" x2="55.1" y2="143.4" style="stroke:var(--muted)"/><text class="s-muted" x="55.1" y="158.4" text-anchor="middle" font-size="11">−6</text><line x1="270.3" y1="137.4" x2="270.3" y2="143.4" style="stroke:var(--muted)"/><text class="s-muted" x="270.3" y="158.4" text-anchor="middle" font-size="11">0</text><line x1="449.7" y1="137.4" x2="449.7" y2="143.4" style="stroke:var(--muted)"/><text class="s-muted" x="449.7" y="158.4" text-anchor="middle" font-size="11">5</text><line x1="485.5" y1="137.4" x2="485.5" y2="143.4" style="stroke:var(--muted)"/><text class="s-muted" x="485.5" y="158.4" text-anchor="middle" font-size="11">6</text><line x1="664.9" y1="137.4" x2="664.9" y2="143.4" style="stroke:var(--muted)"/><text class="s-muted" x="664.9" y="158.4" text-anchor="middle" font-size="11">11</text><text class="s-ink" x="360.0" y="38.2" text-anchor="middle" font-size="12" font-weight="700">bitta davr (N = 6)</text>
+</svg>
+<figcaption>Ma'ruzadagi davriy ketma-ketlik (N = 6). Quvvat uchun faqat bitta davr (ramkada) yetarli: P = (9 + 2,25 + 1 + 0 + 1 + 2,25)/6 = 31/12.</figcaption>
+</figure>
+
+<h2>3. Diskretlangan analog signallar: T<sub>c</sub> ni unutmang</h2>
+<p>Agar ketma-ketlik analog signalni T<sub>c</sub> qadam bilan diskretlab olingan bo'lsa va <b>analog</b> signalning energiyasi/quvvati kerak bo'lsa, integralni yig'indi bilan taqriban almashtiramiz (vaqt o'qi T<sub>c</sub> kenglikdagi bo'laklarga bo'linadi, har bo'lak "to'rtburchak"):</p>
+<div class="formula">E<sub>x</sub> = ∫|x(t)|²dt ≈ <b>T<sub>c</sub></b> · Σ |x(nT<sub>c</sub>)|²</div>
+<ul>
+<li><b>Davriy</b> (davri T = NT<sub>c</sub>): P<sub>x</sub> = (1/T)∫<sub>0</sub><sup>T</sup>|x(t)|²dt ≈ (1/(NT<sub>c</sub>))·Σ|x(nT<sub>c</sub>)|²·T<sub>c</sub> = <b>(1/N)·Σ<sub>n=0</sub><sup>N−1</sup>|x(nT<sub>c</sub>)|²</b> — T<sub>c</sub> qisqaradi.</li>
+<li><b>Davriy bo'lmagan</b>: P<sub>x</sub> ≈ lim 1/((2N + 1)T<sub>c</sub>)·Σ|x(nT<sub>c</sub>)|²·T<sub>c</sub> = <b>lim 1/(2N + 1)·Σ|x(nT<sub>c</sub>)|²</b> — yana T<sub>c</sub> qisqaradi.</li>
+</ul>
+<div class="box note"><b>Xulosa:</b> <b>energiyada T<sub>c</sub> ko'paytuvchisi qoladi</b>, quvvatda esa qisqarib ketadi (quvvat — "vaqt birligiga energiya", ikkalasida ham T<sub>c</sub> bor).</div>
+
+<h2>4. Korrelyatsiya funksiyalari</h2>
+<p><span class="term">O'zaro korrelyatsiya</span> (mutual / cross-correlation) — ikki chekli energiyali ketma-ketlikning bir-biriga <b>qanchalik o'xshashligini</b> o'lchaydi, ulardan biri n namunaga surilganda:</p>
+<div class="formula">R<sub>x,y</sub>(n) = Σ<sub>k</sub> x*(k + n)·y(k) = Σ<sub>k</sub> x*(k)·y(k − n)</div>
+<p>(Ikkinchi ko'rinish k → k − n almashtirishdan chiqadi.) x va y o'rnini almashtirsak: R<sub>y,x</sub>(n) = Σ y*(k + n)x(k) = Σ y*(k)x(k − n). <b>Haqiqiy</b> ketma-ketliklar uchun:</p>
+<div class="formula">R<sub>x,y</sub>(n) = R<sub>y,x</sub>(−n)</div>
+<div class="box analogy"><b>O'xshatish.</b> Ikki shaffof plyonkaga chizilgan naqshlarni ustma-ust qo'yib, birini sekin siljitamiz. Har bir siljishda "mos tushgan joylar"ni o'lchaymiz. Eng katta qiymat — naqshlar eng yaxshi mos kelgan siljish. Radar shu tarzda aks-sado qaytish vaqtini topadi.</div>
+<h3>Avtokorrelyatsiya</h3>
+<p>y(n) = x(n) bo'lsa — <span class="term">avtokorrelyatsiya</span>:</p>
+<div class="formula">R<sub>x</sub>(n) = Σ<sub>k</sub> x*(k + n)·x(k) = Σ<sub>k</sub> x*(k)·x(k − n), &nbsp;&nbsp; <b>R<sub>x</sub>(0) = Σ|x(k)|² = E<sub>x</sub></b></div>
+<p>Nolinchi siljishda signal o'zi bilan to'liq mos keladi — natija energiya. Haqiqiy signal uchun R<sub>x</sub>(n) = R<sub>x</sub>(−n) — <b>juft</b> funksiya, maksimumi n = 0 da.</p>
+<h3>Quvvat signallari uchun</h3>
+<p>Chekli o'rtacha quvvatli ketma-ketliklar uchun yig'indi oynaning uzunligiga bo'linadi:</p>
+<div class="formula">Φ<sub>x,y</sub>(n) = lim<sub>N→∞</sub> 1/(2N + 1)·Σ<sub>k=−N</sub><sup>N</sup> x*(k + n)y(k), &nbsp;&nbsp; Φ<sub>x</sub>(n) — xuddi shunday y = x bilan</div>
+<p>Davri N bo'lsa: <code>Φ<sub>x,y</sub>(n) = (1/N)·Σ<sub>k=0</sub><sup>N−1</sup> x*(k + n)y(k)</code>, <code>Φ<sub>x</sub>(n) = (1/N)·Σ<sub>k=0</sub><sup>N−1</sup> x*(k + n)x(k)</code>. Bu yerda Φ<sub>x</sub>(0) = P<sub>x</sub>.</p>
+
+<h3>Ma'ruza misoli: x(n) = {1, 0, 2, 3}, y(n) = {1, 2, 2}</h3>
+<p>Ikkalasi n = 0 dan boshlanadi. Haqiqiy, shuning uchun R<sub>x,y</sub>(n) = Σ x(k)·y(k − n): <b>y ni n ga suramiz</b> (n &gt; 0 — o'ngga) va x bilan ustma-ust tushgan juftlarni ko'paytirib qo'shamiz. Teskari aylantirish <b>yo'q</b> — o'ramdan asosiy farqi shu!</p>
+<div class="tw"><table>
+<tr><th>n</th><th>y(k − n) joylashuvi</th><th>juftlar</th><th class="c">R<sub>x,y</sub>(n)</th></tr>
+<tr><td>−2</td><td>k = −2 … 0</td><td>x(0)·y(2) = 1·2</td><td class="c"><b>2</b></td></tr>
+<tr><td>−1</td><td>k = −1 … 1</td><td>1·2 + 0·2</td><td class="c"><b>2</b></td></tr>
+<tr><td>0</td><td>k = 0 … 2</td><td>1·1 + 0·2 + 2·2</td><td class="c"><b>5</b></td></tr>
+<tr><td>1</td><td>k = 1 … 3</td><td>0·1 + 2·2 + 3·2</td><td class="c"><b>10</b></td></tr>
+<tr><td>2</td><td>k = 2 … 4</td><td>2·1 + 3·2</td><td class="c"><b>8</b></td></tr>
+<tr><td>3</td><td>k = 3 … 5</td><td>3·1</td><td class="c"><b>3</b></td></tr>
+</table></div>
+<p>Natija: <b>R<sub>x,y</sub>(n) = {2, 2, 5, 10, 8, 3}</b>, n = −2 … 3 (ma'ruza bilan bir xil). O'rnini almashtirsak: <b>R<sub>y,x</sub>(n) = {3, 8, 10, 5, 2, 2}</b>, n = −3 … 2 — xuddi o'sha sonlar teskari tartibda, chunki R<sub>y,x</sub>(n) = R<sub>x,y</sub>(−n).</p>
+
+<figure>
+<svg viewBox="0 0 720 335" role="img" aria-label="O'zaro korrelyatsiyani hisoblash">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<line x1="24.0" y1="135.0" x2="700.0" y2="135.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="700.0" y="153.0" text-anchor="end" font-size="13">k</text><line x1="289.8" y1="141.0" x2="289.8" y2="35.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><line class="s-acc" x1="281.4" y1="135.0" x2="281.4" y2="110.0" stroke-width="3"/><circle class="f-acc" cx="281.4" cy="110.0" r="3.5"/><line x1="368.4" y1="135.0" x2="368.4" y2="110.0" stroke-width="3" style="stroke:var(--muted)"/><circle cx="368.4" cy="110.0" r="4" style="fill:var(--muted)"/><line class="s-acc" x1="421.8" y1="135.0" x2="421.8" y2="85.0" stroke-width="3"/><circle class="f-acc" cx="421.8" cy="85.0" r="3.5"/><line x1="438.6" y1="135.0" x2="438.6" y2="85.0" stroke-width="3" style="stroke:var(--muted)"/><circle cx="438.6" cy="85.0" r="4" style="fill:var(--muted)"/><line class="s-acc" x1="492.0" y1="135.0" x2="492.0" y2="60.0" stroke-width="3"/><circle class="f-acc" cx="492.0" cy="60.0" r="3.5"/><line x1="508.9" y1="135.0" x2="508.9" y2="85.0" stroke-width="3" style="stroke:var(--muted)"/><circle cx="508.9" cy="85.0" r="4" style="fill:var(--muted)"/><line x1="79.1" y1="132.0" x2="79.1" y2="138.0" style="stroke:var(--muted)"/><text class="s-muted" x="79.1" y="153.0" text-anchor="middle" font-size="11">−3</text><line x1="149.4" y1="132.0" x2="149.4" y2="138.0" style="stroke:var(--muted)"/><text class="s-muted" x="149.4" y="153.0" text-anchor="middle" font-size="11">−2</text><line x1="219.6" y1="132.0" x2="219.6" y2="138.0" style="stroke:var(--muted)"/><text class="s-muted" x="219.6" y="153.0" text-anchor="middle" font-size="11">−1</text><line x1="289.8" y1="132.0" x2="289.8" y2="138.0" style="stroke:var(--muted)"/><text class="s-muted" x="289.8" y="153.0" text-anchor="middle" font-size="11">0</text><line x1="360.0" y1="132.0" x2="360.0" y2="138.0" style="stroke:var(--muted)"/><text class="s-muted" x="360.0" y="153.0" text-anchor="middle" font-size="11">1</text><line x1="430.2" y1="132.0" x2="430.2" y2="138.0" style="stroke:var(--muted)"/><text class="s-muted" x="430.2" y="153.0" text-anchor="middle" font-size="11">2</text><line x1="500.4" y1="132.0" x2="500.4" y2="138.0" style="stroke:var(--muted)"/><text class="s-muted" x="500.4" y="153.0" text-anchor="middle" font-size="11">3</text><line x1="570.6" y1="132.0" x2="570.6" y2="138.0" style="stroke:var(--muted)"/><text class="s-muted" x="570.6" y="153.0" text-anchor="middle" font-size="11">4</text><line x1="640.9" y1="132.0" x2="640.9" y2="138.0" style="stroke:var(--muted)"/><text class="s-muted" x="640.9" y="153.0" text-anchor="middle" font-size="11">5</text><text class="s-ink" x="30.0" y="26.0" text-anchor="start" font-size="13" font-weight="700">n = 1: ko'k x(k) = {1, 0, 2, 3}, kulrang y(k − 1) = {1, 2, 2} k = 1 … 3 da → 0·1 + 2·2 + 3·2 = 10</text><line x1="24.0" y1="310.0" x2="700.0" y2="310.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="700.0" y="328.0" text-anchor="end" font-size="13">n</text><line x1="289.8" y1="316.0" x2="289.8" y2="190.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><circle class="f-acc" cx="79.1" cy="310.0" r="2.3"/><line class="s-acc" x1="149.4" y1="310.0" x2="149.4" y2="290.9" stroke-width="3"/><circle class="f-acc" cx="149.4" cy="290.9" r="3.5"/><text class="s-ink" x="156.4" y="294.9" text-anchor="start" font-size="12">2</text><line class="s-acc" x1="219.6" y1="310.0" x2="219.6" y2="290.9" stroke-width="3"/><circle class="f-acc" cx="219.6" cy="290.9" r="3.5"/><text class="s-ink" x="226.6" y="294.9" text-anchor="start" font-size="12">2</text><line class="s-acc" x1="289.8" y1="310.0" x2="289.8" y2="262.2" stroke-width="3"/><circle class="f-acc" cx="289.8" cy="262.2" r="3.5"/><text class="s-ink" x="296.8" y="266.2" text-anchor="start" font-size="12">5</text><line class="s-acc" x1="360.0" y1="310.0" x2="360.0" y2="214.3" stroke-width="3"/><circle class="f-acc" cx="360.0" cy="214.3" r="3.5"/><text class="s-ink" x="367.0" y="218.3" text-anchor="start" font-size="12">10</text><line class="s-acc" x1="430.2" y1="310.0" x2="430.2" y2="233.5" stroke-width="3"/><circle class="f-acc" cx="430.2" cy="233.5" r="3.5"/><text class="s-ink" x="437.2" y="237.5" text-anchor="start" font-size="12">8</text><line class="s-acc" x1="500.4" y1="310.0" x2="500.4" y2="281.3" stroke-width="3"/><circle class="f-acc" cx="500.4" cy="281.3" r="3.5"/><text class="s-ink" x="507.4" y="285.3" text-anchor="start" font-size="12">3</text><circle class="f-acc" cx="570.6" cy="310.0" r="2.3"/><circle class="f-acc" cx="640.9" cy="310.0" r="2.3"/><line x1="79.1" y1="307.0" x2="79.1" y2="313.0" style="stroke:var(--muted)"/><text class="s-muted" x="79.1" y="328.0" text-anchor="middle" font-size="11">−3</text><line x1="149.4" y1="307.0" x2="149.4" y2="313.0" style="stroke:var(--muted)"/><text class="s-muted" x="149.4" y="328.0" text-anchor="middle" font-size="11">−2</text><line x1="219.6" y1="307.0" x2="219.6" y2="313.0" style="stroke:var(--muted)"/><text class="s-muted" x="219.6" y="328.0" text-anchor="middle" font-size="11">−1</text><line x1="289.8" y1="307.0" x2="289.8" y2="313.0" style="stroke:var(--muted)"/><text class="s-muted" x="289.8" y="328.0" text-anchor="middle" font-size="11">0</text><line x1="360.0" y1="307.0" x2="360.0" y2="313.0" style="stroke:var(--muted)"/><text class="s-muted" x="360.0" y="328.0" text-anchor="middle" font-size="11">1</text><line x1="430.2" y1="307.0" x2="430.2" y2="313.0" style="stroke:var(--muted)"/><text class="s-muted" x="430.2" y="328.0" text-anchor="middle" font-size="11">2</text><line x1="500.4" y1="307.0" x2="500.4" y2="313.0" style="stroke:var(--muted)"/><text class="s-muted" x="500.4" y="328.0" text-anchor="middle" font-size="11">3</text><line x1="570.6" y1="307.0" x2="570.6" y2="313.0" style="stroke:var(--muted)"/><text class="s-muted" x="570.6" y="328.0" text-anchor="middle" font-size="11">4</text><line x1="640.9" y1="307.0" x2="640.9" y2="313.0" style="stroke:var(--muted)"/><text class="s-muted" x="640.9" y="328.0" text-anchor="middle" font-size="11">5</text><text class="s-ink" x="30.0" y="190.0" text-anchor="start" font-size="13" font-weight="700">R<tspan font-size="10" dy="3">x,y</tspan><tspan dy="-3">(n) = {2, 2, 5, 10, 8, 3}, n = −2 … 3</tspan></text>
+</svg>
+<figcaption>O'zaro korrelyatsiya: y teskari aylantirilmaydi, faqat n ga suriladi (n = 1 da o'ngga 1 ga). Maksimum n = 1 da: y ni bitta o'ngga sursak, u x ga eng yaxshi "mos tushadi".</figcaption>
+</figure>
+
+<div class="box ok"><b>Tez usul:</b> haqiqiy signallar uchun <b>R<sub>x,y</sub>(n) = x(n) * y(−n)</b> — y ni teskari yozib, oddiy o'ram qilamiz (22-darsdagi jadval usuli). Tekshiring: {1, 0, 2, 3} * {2, 2, 1} = {2, 2, 5, 10, 8, 3} ✓, boshlanish 0 + (−2) = −2. Yig'indi tekshiruvi ham ishlaydi: 30 = 6·5.</div>
+
+<h3>Ma'ruza misoli: x(n) = {1, 0, 2, 3} ning avtokorrelyatsiyasi</h3>
+<div class="sol">
+<p>R<sub>x</sub>(0) = 1² + 0² + 2² + 3² = <b>14</b> = E<sub>x</sub>.</p>
+<p>R<sub>x</sub>(1) = Σx(k)x(k − 1) = x(1)x(0) + x(2)x(1) + x(3)x(2) = 0 + 0 + 6 = <b>6</b>.</p>
+<p>R<sub>x</sub>(2) = x(2)x(0) + x(3)x(1) = 2 + 0 = <b>2</b>. &nbsp; R<sub>x</sub>(3) = x(3)x(0) = <b>3</b>.</p>
+<p>Juftlik bo'yicha R<sub>x</sub>(−n) = R<sub>x</sub>(n): <b>R<sub>x</sub>(n) = {3, 2, 6, 14, 6, 2, 3}</b>, n = −3 … 3. Uzunlik 2·4 − 1 = 7.</p>
+</div>
+
+<figure>
+<svg viewBox="0 0 720 200" role="img" aria-label="Avtokorrelyatsiya">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<line x1="24.0" y1="175.0" x2="700.0" y2="175.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="700.0" y="193.0" text-anchor="end" font-size="13">n</text><line x1="360.0" y1="181.0" x2="360.0" y2="25.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><circle class="f-acc" cx="79.1" cy="175.0" r="2.3"/><line class="s-acc" x1="149.4" y1="175.0" x2="149.4" y2="148.8" stroke-width="3"/><circle class="f-acc" cx="149.4" cy="148.8" r="3.5"/><text class="s-ink" x="156.4" y="152.8" text-anchor="start" font-size="12">3</text><line class="s-acc" x1="219.6" y1="175.0" x2="219.6" y2="157.5" stroke-width="3"/><circle class="f-acc" cx="219.6" cy="157.5" r="3.5"/><text class="s-ink" x="226.6" y="161.5" text-anchor="start" font-size="12">2</text><line class="s-acc" x1="289.8" y1="175.0" x2="289.8" y2="122.5" stroke-width="3"/><circle class="f-acc" cx="289.8" cy="122.5" r="3.5"/><text class="s-ink" x="296.8" y="126.5" text-anchor="start" font-size="12">6</text><line class="s-acc" x1="360.0" y1="175.0" x2="360.0" y2="52.5" stroke-width="3"/><circle class="f-acc" cx="360.0" cy="52.5" r="3.5"/><text class="s-ink" x="367.0" y="56.5" text-anchor="start" font-size="12">14</text><line class="s-acc" x1="430.2" y1="175.0" x2="430.2" y2="122.5" stroke-width="3"/><circle class="f-acc" cx="430.2" cy="122.5" r="3.5"/><text class="s-ink" x="437.2" y="126.5" text-anchor="start" font-size="12">6</text><line class="s-acc" x1="500.4" y1="175.0" x2="500.4" y2="157.5" stroke-width="3"/><circle class="f-acc" cx="500.4" cy="157.5" r="3.5"/><text class="s-ink" x="507.4" y="161.5" text-anchor="start" font-size="12">2</text><line class="s-acc" x1="570.6" y1="175.0" x2="570.6" y2="148.8" stroke-width="3"/><circle class="f-acc" cx="570.6" cy="148.8" r="3.5"/><text class="s-ink" x="577.6" y="152.8" text-anchor="start" font-size="12">3</text><circle class="f-acc" cx="640.9" cy="175.0" r="2.3"/><line x1="79.1" y1="172.0" x2="79.1" y2="178.0" style="stroke:var(--muted)"/><text class="s-muted" x="79.1" y="193.0" text-anchor="middle" font-size="11">−4</text><line x1="149.4" y1="172.0" x2="149.4" y2="178.0" style="stroke:var(--muted)"/><text class="s-muted" x="149.4" y="193.0" text-anchor="middle" font-size="11">−3</text><line x1="219.6" y1="172.0" x2="219.6" y2="178.0" style="stroke:var(--muted)"/><text class="s-muted" x="219.6" y="193.0" text-anchor="middle" font-size="11">−2</text><line x1="289.8" y1="172.0" x2="289.8" y2="178.0" style="stroke:var(--muted)"/><text class="s-muted" x="289.8" y="193.0" text-anchor="middle" font-size="11">−1</text><line x1="360.0" y1="172.0" x2="360.0" y2="178.0" style="stroke:var(--muted)"/><text class="s-muted" x="360.0" y="193.0" text-anchor="middle" font-size="11">0</text><line x1="430.2" y1="172.0" x2="430.2" y2="178.0" style="stroke:var(--muted)"/><text class="s-muted" x="430.2" y="193.0" text-anchor="middle" font-size="11">1</text><line x1="500.4" y1="172.0" x2="500.4" y2="178.0" style="stroke:var(--muted)"/><text class="s-muted" x="500.4" y="193.0" text-anchor="middle" font-size="11">2</text><line x1="570.6" y1="172.0" x2="570.6" y2="178.0" style="stroke:var(--muted)"/><text class="s-muted" x="570.6" y="193.0" text-anchor="middle" font-size="11">3</text><line x1="640.9" y1="172.0" x2="640.9" y2="178.0" style="stroke:var(--muted)"/><text class="s-muted" x="640.9" y="193.0" text-anchor="middle" font-size="11">4</text><text class="s-ink" x="390.0" y="56.5" text-anchor="start" font-size="13" font-weight="700">← R(0) = E = 14</text>
+</svg>
+<figcaption>x(n) = {1, 0, 2, 3} ning avtokorrelyatsiyasi {3, 2, 6, 14, 6, 2, 3}: juft (n = 0 ga nisbatan simmetrik), eng katta qiymati n = 0 da va u energiyaga teng.</figcaption>
+</figure>
+
+<h2>5. Yechilgan misollar (Exercises 1, 3-masala)</h2>
+<p>Quyidagi ketma-ketliklarning energiyasi va quvvatini toping. Mashg'ulotdagi ta'riflar: E<sub>x</sub> = Σ|x(n)|²; P<sub>x</sub> = lim 1/(2N+1)·Σ<sub>−N</sub><sup>N</sup>|x(n)|²; davriy: P<sub>x</sub> = (1/N<sub>0</sub>)·Σ<sub>n=1</sub><sup>N<sub>0</sub></sup>|x(n)|².</p>
+
+<h3>3a: x[n] = e<sup>−n</sup> (n ≥ 0), 0 (n &lt; 0)</h3>
+<div class="sol"><p>E<sub>x</sub> = Σ<sub>n=0</sub><sup>∞</sup> e<sup>−2n</sup> = Σ (e<sup>−2</sup>)ⁿ = <b>1/(1 − e<sup>−2</sup>) ≈ 1,157</b> (q = e<sup>−2</sup> ≈ 0,135). Chekli energiya → <b>P<sub>x</sub> = 0</b>. (Bu αⁿu(n) misoli, α = e<sup>−1</sup>.)</p></div>
+
+<h3>3b: x[n] = A (o'zgarmas)</h3>
+<div class="sol"><p>Energiya, albatta, <b>cheksiz</b> (cheksiz ko'p A² qo'shiladi). P<sub>x</sub> = lim (2N + 1)A²/(2N + 1) = <b>A²</b>.</p></div>
+
+<h3>3c: x[n] = A·e<sup>−j2πn/N</sup></h3>
+<div class="sol"><p>Kompleks eksponenta: |x(n)|² = A²·|e<sup>−j2πn/N</sup>|² = <b>A²</b> (moduli har doim 1, 3-dars). Demak hammasi 3b bilan bir xil: E = ∞, <b>P<sub>x</sub> = A²</b>. (Davriy formula bilan ham: (1/N)·N·A² = A².)</p></div>
+
+<h3>3d: x[n] = A (n ≥ 0), 0 (n &lt; 0) — ya'ni A·u(n)</h3>
+<div class="sol"><p>Oyna [−N, N] da N + 1 ta A²: P<sub>x</sub> = lim (N + 1)A²/(2N + 1) = <b>A²/2</b>. E = ∞. (Ma'ruzadagi u(n) misoli, A marta katta.)</p></div>
+
+<h3>3e: x[n] = A (|n − n<sub>0</sub>| ≤ N), 0 (aks holda)</h3>
+<div class="sol"><p>Bu n<sub>0</sub> markazli, uzunligi 2N + 1 bo'lgan "quti" (rasmda N = 2: 5 ta namuna). E<sub>x</sub> = <b>A²(2N + 1)</b> — n<sub>0</sub> ga bog'liq emas (surishga invariantlik!). Chekli energiya → P = 0.</p></div>
+
+<h3>6-misol: diskret sinusoida quvvati</h3>
+<p>x(n) = cos(πn/2) ning quvvati?</p>
+<div class="sol"><p>f<sub>0</sub> = 1/4 → davr 4: qiymatlar 1, 0, −1, 0. P = (1/4)(1 + 0 + 1 + 0) = <b>½</b> — analog sinusoidadagi A²/2 bilan bir xil. Lekin ehtiyot bo'ling: cos(πn) = (−1)ⁿ uchun P = 1 (har namunada |x|² = 1), A²/2 emas.</p></div>
+
+<h3>7-misol: diskretlangan analog signal energiyasi</h3>
+<p>x(t) = e<sup>−t</sup>u(t) ni T<sub>c</sub> = 0,1 s bilan diskretladik. Namunalar bo'yicha analog energiyani baholang.</p>
+<div class="sol"><p>x(nT<sub>c</sub>) = e<sup>−0,1n</sup>, Σ e<sup>−0,2n</sup> = 1/(1 − e<sup>−0,2</sup>) ≈ 5,52. E ≈ T<sub>c</sub>·5,52 = <b>0,552</b>. Aniq qiymat ∫e<sup>−2t</sup>dt = 0,5 — yaqin (T<sub>c</sub> kichraygan sari aniqroq). T<sub>c</sub> ni unutsak, 5,52 — 11 marta xato!</p></div>
+
+<h3>8-misol: energiya signalimi yoki quvvat?</h3>
+<div class="sol">
+<p>a) (0,9)ⁿu(n) — energiya signali: E = 1/(1 − 0,81) ≈ 5,26, P = 0.</p>
+<p>b) 2cos(2π·0,1n) — davriy, quvvat signali: P = 4/2 = 2, E = ∞.</p>
+<p>c) n·u(n) — hech biri: |x|² o'sib boradi, E = ∞ va P = ∞.</p>
+<p>d) δ(n − 5) — energiya signali: E = 1.</p>
+</div>
+
+<h2>6. Keyingi qadam: chastota sohasi (ma'ruza oxiri)</h2>
+<p>Ma'ruza oxirida keyingi mavzuga ko'prik: ketma-ketlikni deltalar yig'indisi x(n) = Σx(k)δ(n − k) sifatida yozish mumkin edi (21-dars). Muqobil ko'rinishlar:</p>
+<ul>
+<li>kompleks eksponentalar e<sup>−j2πfn</sup> orqali — <b>DTFT</b> (diskret vaqtli Furye almashtirishi): istalgan ketma-ketlikni <b>uzluksiz</b> f funksiyasiga aylantiradi (24-dars);</li>
+<li><b>DFT</b> (diskret Furye almashtirishi): uzunligi N bo'lgan ketma-ketlikni N ta teng oraliqdagi chastota namunasiga aylantiradi — kompyuterda hisoblanadigani shu (25–27-darslar);</li>
+<li>z<sup>−n</sup> ketma-ketliklar orqali — <b>Z-almashtirish</b> (Laplas almashtirishining diskret o'xshashi, 28-dars).</li>
+</ul>
+
+<h2>O'zingizni tekshiring</h2>
+<p>1–6-savollar imtihondagi test shaklida.</p>
+<div class="box check">1. x(n) = (0,5)ⁿu(n) ning energiyasi:<br>a) 2 &nbsp; b) 4/3 &nbsp; c) 1 &nbsp; d) ∞
+<details><summary>Javob</summary><b>b)</b> 1/(1 − 0,25).</details></div>
+<div class="box check">2. x(n) = 3u(n) ning o'rtacha quvvati:<br>a) 9 &nbsp; b) 3/2 &nbsp; c) 9/2 &nbsp; d) 0
+<details><summary>Javob</summary><b>c)</b> A²/2.</details></div>
+<div class="box check">3. Chekli energiyali signalning o'rtacha quvvati:<br>a) energiyaga teng &nbsp; b) 0 &nbsp; c) cheksiz &nbsp; d) E/2
+<details><summary>Javob</summary><b>b)</b></details></div>
+<div class="box check">4. R<sub>x</sub>(0) nimaga teng?<br>a) 0 &nbsp; b) x(0)² &nbsp; c) signal energiyasi &nbsp; d) o'rtacha qiymat
+<details><summary>Javob</summary><b>c)</b> Σ|x(k)|².</details></div>
+<div class="box check">5. Haqiqiy x, y uchun R<sub>x,y</sub>(n) = ?<br>a) R<sub>y,x</sub>(n) &nbsp; b) R<sub>y,x</sub>(−n) &nbsp; c) −R<sub>y,x</sub>(n) &nbsp; d) R<sub>x</sub>(n)
+<details><summary>Javob</summary><b>b)</b></details></div>
+<div class="box check">6. x(n) = {2, 1} (n = 0, 1) ning avtokorrelyatsiyasi:<br>a) {1, 4, 1} &nbsp; b) {2, 5, 2} &nbsp; c) {2, 1, 2} &nbsp; d) {4, 1}
+<details><summary>Javob</summary><b>b)</b> R(0) = 4 + 1 = 5, R(±1) = 2·1 = 2.</details></div>
+<div class="box check">7. Davri 4 bo'lgan {2, 0, −2, 0, …} ning quvvati? <details><summary>Javob</summary>(4 + 0 + 4 + 0)/4 = 2.</details></div>
+<div class="box check">8. A·e<sup>j2πn/8</sup> ning energiyasi va quvvati? <details><summary>Javob</summary>|x|² = A² har doim → E = ∞, P = A².</details></div>
+
+<h2>📝 Konspekt</h2>
+<div class="box note"><p><strong>Shularni bilsangiz, bu mavzuni bilasiz</strong> (27-ma'ruza):</p>
+<ol>
+<li>Energiya: <code>E<sub>x</sub> = Σ|x(n)|²</code>; haqiqiy, musbat, surishga bog'liq emas.</li>
+<li>Geometrik qator: <code>Σ<sub>n≥0</sub> qⁿ = 1/(1 − q)</code>. αⁿu(n): <code>E = 1/(1 − α²)</code>; e<sup>−n</sup>u(n): E = 1/(1 − e<sup>−2</sup>).</li>
+<li>Quvvat: <code>P<sub>x</sub> = lim 1/(2N+1)·Σ<sub>−N</sub><sup>N</sup>|x(n)|²</code>. Davriy: <code>P = (1/N)Σ<sub>bir davr</sub>|x(n)|²</code>.</li>
+<li>Chekli energiya → P = 0; P &gt; 0 → E = ∞.</li>
+<li>Natijalar: A → P = A²; A·u(n) → P = A²/2; Ae<sup>jθn</sup> → P = A²; quti 2N + 1 → E = A²(2N + 1); N = 6 misoli → P = 31/12.</li>
+<li>Diskretlangan analog: <code>E ≈ T<sub>c</sub>Σ|x(nT<sub>c</sub>)|²</code> (T<sub>c</sub> qoladi), quvvatda T<sub>c</sub> qisqaradi.</li>
+<li>O'zaro korrelyatsiya: <code>R<sub>x,y</sub>(n) = Σx*(k + n)y(k) = Σx*(k)y(k − n)</code> — teskari aylantirishsiz siljitish. Haqiqiy: <code>R<sub>x,y</sub>(n) = R<sub>y,x</sub>(−n)</code>; tez usul: R<sub>x,y</sub> = x(n) * y(−n).</li>
+<li>Avtokorrelyatsiya: <code>R<sub>x</sub>(0) = E<sub>x</sub></code>, juft, maksimum 0 da. Quvvat signali: Φ<sub>x</sub> (1/(2N+1) yoki 1/N bilan), Φ<sub>x</sub>(0) = P<sub>x</sub>.</li>
+<li>Ma'ruza misollari: R<sub>x,y</sub> = {2, 2, 5, 10, 8, 3} (n = −2 … 3); R<sub>y,x</sub> = {3, 8, 10, 5, 2, 2}; R<sub>x</sub> = {3, 2, 6, 14, 6, 2, 3}.</li>
+</ol></div>
+
+<div class="box ok">O'qib bo'ldingizmi? Chatga <strong>"tushundim"</strong> deb yozing. <strong>"Tushunmadim"</strong> bo'lsa, qaysi joy qiyin bo'lganini ayting, darsni soddaroq qilib qayta yozaman.</div>
+<footer class="pager"><a href="22-diskret-oram.html">← 22. Diskret amallar va o'ram</a><a href="./">Darslar ro'yxati</a></footer>
+</main></body></html>
