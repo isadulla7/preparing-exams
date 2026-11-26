@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>17. DAC va o'zgartirgich xatolari</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>17. DAC: sonni kuchlanishga aylantirish va xatolar</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> DAC qanday ishlashini (bir xil va vaznli elementlar, R-2R zanjiri) va DAC hamda ADC xatolarini: offset, gain, nochiziqlilik (DNL, INL), monotonlik buzilishi, tushib qolgan kod, glitch. Bazadagi 010 va 097-savollar shu yerda. Manba: D2 slaydlari (ADC xatolari D3 da xuddi shunday). O'qish vaqti: 30 daqiqa.</div>
+
+<h2>1. DAC nima qiladi</h2>
+<p><span class="term">DAC</span> (D/A o'zgartirgich) ADC ning teskarisi: N bitli son D ni kuchlanish yoki tokka aylantiradi.</p>
+<span class="formula">A = D · LSB &nbsp;&nbsp;&nbsp; LSB = S / 2<sup>N</sup></span>
+<p>Masalan, 4 bitli DAC, S = 8 V → LSB = 0.5 V. D = 0101 (5) → A = 2.5 V.</p>
+<p>D faqat butun qiymatlar olgani uchun DAC xarakteristikasi to'g'ri chiziq emas, <strong>nuqtalar ketma-ketligi</strong>. ADC xarakteristikasi esa zinapoya (16b-dars). Ikkalasida xatolar bir xil nomlanadi.</p>
+
+<h2>2. Statik xatolar</h2>
+<p>Haqiqiy xarakteristikani ideal bilan ikki qadamda solishtiramiz (slayd): avval haqiqiy nuqtalarga eng yaqin to'g'ri chiziq o'tkaziladi.</p>
+<ol>
+<li><strong>Chiziqli xatolar</strong>: shu to'g'ri chiziq ideal chiziqdan qanday farq qiladi.</li>
+<li><strong>Nochiziqli xatolar</strong>: haqiqiy nuqtalar shu to'g'ri chiziqdan qanchalik chetga chiqadi.</li>
+</ol>
+<figure>
+<svg viewBox="0 0 720 230" role="img" aria-label="Uch xil xato: offset (chiziq yuqoriga surilgan), gain (qiyalik o'zgargan), nochiziqlilik (nuqtalar to'g'ri chiziqdan chetga chiqqan)" font-family="system-ui,sans-serif">
+<path d="M40 35V190H230" fill="none" stroke="currentColor" stroke-width="1.3"/>
+<text x="135.0" y="16" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">Offset xatosi</text>
+<text x="230" y="204" text-anchor="end" font-size="11" fill="currentColor">D</text><text x="34" y="42" text-anchor="end" font-size="11" fill="currentColor">A</text>
+<line x1="40" y1="190" x2="215.0" y2="58.75" stroke="#9aa0a6" stroke-dasharray="4 4"/>
+<circle cx="40.0" cy="173.1" r="4" fill="#d9622b"/>
+<circle cx="40.0" cy="190.0" r="2.5" fill="#9aa0a6"/>
+<circle cx="65.0" cy="154.4" r="4" fill="#d9622b"/>
+<circle cx="65.0" cy="171.2" r="2.5" fill="#9aa0a6"/>
+<circle cx="90.0" cy="135.6" r="4" fill="#d9622b"/>
+<circle cx="90.0" cy="152.5" r="2.5" fill="#9aa0a6"/>
+<circle cx="115.0" cy="116.9" r="4" fill="#d9622b"/>
+<circle cx="115.0" cy="133.8" r="2.5" fill="#9aa0a6"/>
+<circle cx="140.0" cy="98.1" r="4" fill="#d9622b"/>
+<circle cx="140.0" cy="115.0" r="2.5" fill="#9aa0a6"/>
+<circle cx="165.0" cy="79.4" r="4" fill="#d9622b"/>
+<circle cx="165.0" cy="96.2" r="2.5" fill="#9aa0a6"/>
+<circle cx="190.0" cy="60.6" r="4" fill="#d9622b"/>
+<circle cx="190.0" cy="77.5" r="2.5" fill="#9aa0a6"/>
+<circle cx="215.0" cy="41.9" r="4" fill="#d9622b"/>
+<circle cx="215.0" cy="58.8" r="2.5" fill="#9aa0a6"/>
+<path d="M275 35V190H465" fill="none" stroke="currentColor" stroke-width="1.3"/>
+<text x="370.0" y="16" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">Gain xatosi</text>
+<text x="465" y="204" text-anchor="end" font-size="11" fill="currentColor">D</text><text x="269" y="42" text-anchor="end" font-size="11" fill="currentColor">A</text>
+<line x1="275" y1="190" x2="450.0" y2="58.75" stroke="#9aa0a6" stroke-dasharray="4 4"/>
+<circle cx="275.0" cy="190.0" r="4" fill="#d9622b"/>
+<circle cx="275.0" cy="190.0" r="2.5" fill="#9aa0a6"/>
+<circle cx="300.0" cy="168.4" r="4" fill="#d9622b"/>
+<circle cx="300.0" cy="171.2" r="2.5" fill="#9aa0a6"/>
+<circle cx="325.0" cy="146.9" r="4" fill="#d9622b"/>
+<circle cx="325.0" cy="152.5" r="2.5" fill="#9aa0a6"/>
+<circle cx="350.0" cy="125.3" r="4" fill="#d9622b"/>
+<circle cx="350.0" cy="133.8" r="2.5" fill="#9aa0a6"/>
+<circle cx="375.0" cy="103.8" r="4" fill="#d9622b"/>
+<circle cx="375.0" cy="115.0" r="2.5" fill="#9aa0a6"/>
+<circle cx="400.0" cy="82.2" r="4" fill="#d9622b"/>
+<circle cx="400.0" cy="96.2" r="2.5" fill="#9aa0a6"/>
+<circle cx="425.0" cy="60.6" r="4" fill="#d9622b"/>
+<circle cx="425.0" cy="77.5" r="2.5" fill="#9aa0a6"/>
+<circle cx="450.0" cy="39.1" r="4" fill="#d9622b"/>
+<circle cx="450.0" cy="58.8" r="2.5" fill="#9aa0a6"/>
+<path d="M510 35V190H700" fill="none" stroke="currentColor" stroke-width="1.3"/>
+<text x="605.0" y="16" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">Nochiziqlilik</text>
+<text x="700" y="204" text-anchor="end" font-size="11" fill="currentColor">D</text><text x="504" y="42" text-anchor="end" font-size="11" fill="currentColor">A</text>
+<line x1="510" y1="190" x2="685.0" y2="58.75" stroke="#9aa0a6" stroke-dasharray="4 4"/>
+<circle cx="510.0" cy="190.0" r="4" fill="#d9622b"/>
+<circle cx="510.0" cy="190.0" r="2.5" fill="#9aa0a6"/>
+<circle cx="535.0" cy="164.7" r="4" fill="#d9622b"/>
+<circle cx="535.0" cy="171.2" r="2.5" fill="#9aa0a6"/>
+<circle cx="560.0" cy="150.6" r="4" fill="#d9622b"/>
+<circle cx="560.0" cy="152.5" r="2.5" fill="#9aa0a6"/>
+<circle cx="585.0" cy="139.4" r="4" fill="#d9622b"/>
+<circle cx="585.0" cy="133.8" r="2.5" fill="#9aa0a6"/>
+<circle cx="610.0" cy="107.5" r="4" fill="#d9622b"/>
+<circle cx="610.0" cy="115.0" r="2.5" fill="#9aa0a6"/>
+<circle cx="635.0" cy="92.5" r="4" fill="#d9622b"/>
+<circle cx="635.0" cy="96.2" r="2.5" fill="#9aa0a6"/>
+<circle cx="660.0" cy="82.2" r="4" fill="#d9622b"/>
+<circle cx="660.0" cy="77.5" r="2.5" fill="#9aa0a6"/>
+<circle cx="685.0" cy="58.8" r="4" fill="#d9622b"/>
+<circle cx="685.0" cy="58.8" r="2.5" fill="#9aa0a6"/>
+<text x="360" y="225" text-anchor="middle" font-size="12" fill="currentColor">kulrang: ideal · to'q sariq: haqiqiy</text>
+</svg>
+<figcaption>Chapda: hamma nuqta bir xil miqdorga surilgan. O'rtada: qiyalik o'zgargan. O'ngda: nuqtalar tartibsiz chetga chiqqan.</figcaption>
+</figure>
+<table>
+<tr><th>Xato</th><th>Ma'nosi</th><th>Tuzatsa bo'ladimi?</th></tr>
+<tr><td><span class="term">Offset</span> (εo)</td><td>D = 0 da chiqish 0 emas: butun chiziq yuqoriga/pastga surilgan</td><td><strong>Ha</strong>: doimiy qiymat qo'shib/ayirib</td></tr>
+<tr><td><span class="term">Gain xatosi</span> (εg)</td><td>Qiyalik noto'g'ri: εg = ΔK / K. Chiziq "buriladi"</td><td><strong>Ha</strong>: kuchaytirishni to'g'rilab</td></tr>
+<tr><td><span class="term">DNL</span> (differensial nochiziqlilik)</td><td>Qo'shni ikki nuqta orasidagi qadam 1 LSB emas: εdnl = Ad − A'd</td><td><strong>Yo'q</strong>: har nuqtada har xil</td></tr>
+<tr><td><span class="term">INL</span> (integral nochiziqlilik)</td><td>Haqiqiy nuqtalarning to'g'ri chiziqdan eng katta chetlanishi</td><td><strong>Yo'q</strong></td></tr>
+</table>
+<div class="box analogy">Tarozi: bo'sh turganda 200 g ko'rsatsa, bu offset (har safar 200 g ayirasiz). Hamma narsani 5% og'ir ko'rsatsa, bu gain (5% ga bo'lasiz). Ba'zi og'irliklarda to'g'ri, ba'zilarida noto'g'ri ko'rsatsa, bu nochiziqlilik: oddiy tuzatish yordam bermaydi.</div>
+<ul>
+<li><span class="term">Monotonlik buzilishi</span> (non-monotonicity, DAC da): DNL &gt; 1 LSB bo'lsa, D oshganda A <em>kamayib</em> ketishi mumkin.</li>
+<li><span class="term">Tushib qolgan kod</span> (missing code, ADC da): DNL &gt; 1 LSB bo'lsa, bitta oraliq shunchalik keng bo'ladiki, qo'shni kod hech qachon chiqmaydi.</li>
+</ul>
+
+<h2>3. Dinamik xatolar</h2>
+<ul>
+<li><span class="term">O'rnashish vaqti</span> (settling time, tS): D o'zgargandan keyin chiqish yangi qiymatga (ma'lum aniqlik bilan) yetguncha ketadigan vaqt.</li>
+<li><span class="term">Glitch</span>: o'tish paytidagi qisqa, katta xato sakrash. Sababi: bitlar bir vaqtda almashmaydi. Masalan 0111 → 1000 da hamma 4 bit almashadi. Agar MSB kechroq almashsa, bir lahza 0000 bo'ladi; ertaroq almashsa 1111. Chiqish bir lahza 0 V ga yoki to'liq shkalaga sakraydi, holbuki haqiqiy o'zgarish atigi 1 LSB.</li>
+<li>Yechim: <strong>Gray kodi</strong>, unda qo'shni sonlar faqat bitta bit bilan farq qiladi.</li>
+</ul>
+
+<h2>4. DAC qanday quriladi</h2>
+<p>Asosiy g'oya: D ga qarab bir nechta elementar kattaliklarni (tok yoki kuchlanish) qo'shish.</p>
+<h3>4a. Bir xil (uniform) elementlar</h3>
+<p>Hamma elementlar bir xil (1 LSB). D = 13 bo'lsa, 13 ta bir xil tok qo'shiladi. Masalan, bir xil rezistorlar zanjiri (potensiometrik DAC): D kerakli tugunni tanlaydi.</p>
+<ul>
+<li>2<sup>N</sup> ta element kerak (ko'p).</li>
+<li>Har doim <strong>monoton</strong> (faqat qo'shiladi, ayrilmaydi).</li>
+<li>Har bir elementning xatosi chiqishga bir xil ta'sir qiladi, lekin hammasi yig'iladi → asosiy muammo <strong>INL</strong>.</li>
+</ul>
+<h3>4b. Vaznli (weighted) elementlar</h3>
+<p>Elementlar 2 ning darajalari: 1, 2, 4, 8, ... Har bit o'z elementini yoqadi. 9 = 1001 → 8 + 1. Faqat N ta element kerak.</p>
+<p><strong>Vaznli rezistorli DAC</strong>: rezistorlar R, 2R, 4R, ..., 2<sup>N−1</sup>R. MSB eng kichik rezistorda (eng katta tok).</p>
+<ul>
+<li>Kamchiligi: rezistorlar qiymati juda keng oraliqda (2<sup>N−1</sup> baravar). Bir xil aniqlikda yasash qiyin.</li>
+<li>MSB shoxobchasi xatosi chiqishga eng ko'p ta'sir qiladi: MSB shoxobchasida 10% xato → chiqishda 5% xato; MSB−1 da 10% → 2.5%; MSB−2 da 10% → 1.25%. Shuning uchun MSB rezistorlari eng aniq bo'lishi kerak.</li>
+<li>Asosiy muammo <strong>DNL</strong> (MSB xatosi o'rtada sakrash, hatto monotonlik buzilishi beradi).</li>
+</ul>
+<h3>4c. R-2R zanjiri (ladder network)</h3>
+<figure>
+<svg viewBox="0 0 720 270" role="img" aria-label="4 bitli R-2R zanjiri: har tugunda tok ikkiga bo'linadi, shoxobchalarda I, I/2, I/4, I/8 toklar oqadi va bitlarga qarab chiqishga yo'naltiriladi" font-family="system-ui,sans-serif">
+<text x="40" y="65" font-size="14" font-weight="700" fill="#d9622b">VR</text><path d="M70 60H90" stroke="currentColor" stroke-width="1.6"/>
+<path d="M90 60H150" stroke="currentColor" stroke-width="1.6"/>
+<path d="M150 60H195.0M245.0 60H290" stroke="currentColor" stroke-width="1.6"/><rect x="195.0" y="52" width="50" height="16" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="220.0" y="47" text-anchor="middle" font-size="12" fill="currentColor">R</text>
+<path d="M290 60H335.0M385.0 60H430" stroke="currentColor" stroke-width="1.6"/><rect x="335.0" y="52" width="50" height="16" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="360.0" y="47" text-anchor="middle" font-size="12" fill="currentColor">R</text>
+<path d="M430 60H475.0M525.0 60H570" stroke="currentColor" stroke-width="1.6"/><rect x="475.0" y="52" width="50" height="16" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="500.0" y="47" text-anchor="middle" font-size="12" fill="currentColor">R</text>
+<circle cx="150" cy="60" r="3" fill="currentColor"/>
+<path d="M150 60V95.0M150 135.0V170" stroke="currentColor" stroke-width="1.6"/><rect x="142" y="95.0" width="16" height="40" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="162" y="119.0" font-size="12" fill="currentColor">2R</text>
+<text x="136" y="90" text-anchor="end" font-size="12" font-weight="700" fill="#2563eb">I ↓</text>
+<path d="M150 170L168 190" stroke="#16a34a" stroke-width="2"/><circle cx="150" cy="170" r="2.5" fill="#16a34a"/><text x="172" y="186" font-size="11" fill="#16a34a">b3</text>
+<circle cx="290" cy="60" r="3" fill="currentColor"/>
+<path d="M290 60V95.0M290 135.0V170" stroke="currentColor" stroke-width="1.6"/><rect x="282" y="95.0" width="16" height="40" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="302" y="119.0" font-size="12" fill="currentColor">2R</text>
+<text x="276" y="90" text-anchor="end" font-size="12" font-weight="700" fill="#2563eb">I/2 ↓</text>
+<path d="M290 170L308 190" stroke="#16a34a" stroke-width="2"/><circle cx="290" cy="170" r="2.5" fill="#16a34a"/><text x="312" y="186" font-size="11" fill="#16a34a">b2</text>
+<circle cx="430" cy="60" r="3" fill="currentColor"/>
+<path d="M430 60V95.0M430 135.0V170" stroke="currentColor" stroke-width="1.6"/><rect x="422" y="95.0" width="16" height="40" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="442" y="119.0" font-size="12" fill="currentColor">2R</text>
+<text x="416" y="90" text-anchor="end" font-size="12" font-weight="700" fill="#2563eb">I/4 ↓</text>
+<path d="M430 170L448 190" stroke="#16a34a" stroke-width="2"/><circle cx="430" cy="170" r="2.5" fill="#16a34a"/><text x="452" y="186" font-size="11" fill="#16a34a">b1</text>
+<circle cx="570" cy="60" r="3" fill="currentColor"/>
+<path d="M570 60V95.0M570 135.0V170" stroke="currentColor" stroke-width="1.6"/><rect x="562" y="95.0" width="16" height="40" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="582" y="119.0" font-size="12" fill="currentColor">2R</text>
+<text x="556" y="90" text-anchor="end" font-size="12" font-weight="700" fill="#2563eb">I/8 ↓</text>
+<path d="M570 170L588 190" stroke="#16a34a" stroke-width="2"/><circle cx="570" cy="170" r="2.5" fill="#16a34a"/><text x="592" y="186" font-size="11" fill="#16a34a">b0</text>
+<path d="M670 60V95.0M670 135.0V170" stroke="currentColor" stroke-width="1.6"/><rect x="662" y="95.0" width="16" height="40" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="682" y="119.0" font-size="12" fill="currentColor">2R</text>
+<path d="M570 60H670" stroke="currentColor" stroke-width="1.6"/>
+<path d="M658 170H682M663 175H677M667 180H673" stroke="currentColor" stroke-width="1.6"/>
+<path d="M120 205H560" stroke="#2563eb" stroke-width="2"/><text x="570" y="209" font-size="13" font-weight="700" fill="#2563eb">→ Iout (bit = 1)</text>
+<path d="M120 235H560" stroke="#9aa0a6" stroke-width="2"/><text x="570" y="239" font-size="13" fill="#6b7280">→ yer (bit = 0)</text><text x="150" y="258" font-size="12" fill="currentColor">b3 = MSB ... b0 = LSB</text>
+<text x="360" y="22" text-anchor="middle" font-size="13" fill="currentColor">Har tugundan qaraganda o'ng tomon 2R ga teng, shuning uchun tok har safar teng ikkiga bo'linadi</text>
+</svg>
+<figcaption>Faqat ikki xil rezistor: R va 2R. Har tugunda tok teng ikkiga bo'linadi.</figcaption>
+</figure>
+<ul>
+<li>Shoxobcha toklari: I, I/2, I/4, I/8, ... (Ii = I / 2<sup>i</sup>). Bitlar toklarni chiqishga yoki yerga yo'naltiradi.</li>
+<li>Afzalliklari (slayd): modulli (istalgan bit soni), faqat R va 2R, bir xil texnologiya va harorat xulqi, tok nisbatlari aniq.</li>
+</ul>
+<h4>Slayddagi misol</h4>
+<p>VR = 4 V, R = 10 kΩ → I = VR / 2R = 4 / 20 kΩ = <strong>0.2 mA</strong> (MSB toki). Keyingilari 0.1, 0.05, 0.025 mA.</p>
+<ul>
+<li>D = 0101 → 0.1 + 0.025 = <strong>0.125 mA</strong>.</li>
+<li>D = 0111 → 0.1 + 0.05 + 0.025 = <strong>0.175 mA</strong>.</li>
+</ul>
+
+<h2>5. Xatolar qayerdan keladi va qaysi turga kiradi</h2>
+<table>
+<tr><th>Sabab</th><th>Xato turi</th></tr>
+<tr><td>VR (tayanch kuchlanish) o'zgarishi</td><td>Gain</td></tr>
+<tr><td>Hamma rezistorlarda <strong>bir xil foiz</strong> xato (tizimli)</td><td>Gain</td></tr>
+<tr><td>Kalitning qochqin toki (D = 0 da ham tok), operatsion kuchaytirgich offseti</td><td>Offset</td></tr>
+<tr><td>Vaznli zanjirda tasodifiy, har xil xatolar</td><td>DNL</td></tr>
+<tr><td>Bir xil elementli zanjirda tizimli xato</td><td>INL</td></tr>
+</table>
+
+<h3>010-savol</h3>
+<div class="box"><em>In a D/A converter with weighed resistances, the values of all weighed resistances have a –2% error. The effect on the D/A characteristic is:</em><br>a) a monotonicity error &nbsp; b) a gain error &nbsp; c) a non-linearity error &nbsp; d) an offset error</div>
+<p>Hamma rezistor bir xil foizga (−2%) kichik → hamma toklar bir xil foizga katta → har nuqta bir xil nisbatda oshadi → qiyalik o'zgaradi. Javob <strong>b) gain error</strong>.</p>
+
+<h3>097-savol</h3>
+<div class="box"><em>If all the resistances of a D/A converter made with R-2R ladder network are 5% lower than their nominal values, the conversion characteristic has</em><br>a) an offset error &nbsp; b) a gain error &nbsp; c) a differential nonlinearity &nbsp; d) an integral nonlinearity</div>
+<p>R va 2R ikkalasi ham 5% kichik → nisbatlar o'zgarmaydi (tok baribir teng ikkiga bo'linadi), lekin I = VR/2R kattalashadi → butun shkala o'zgaradi. Javob <strong>b) gain error</strong>.</p>
+<div class="box warn">Qoida: "<strong>all</strong> resistances ... same %" → har doim <strong>gain</strong>. Faqat bitta shoxobcha xato bo'lsa → nochiziqlilik (DNL). D = 0 da ham chiqish bor → offset.</div>
+
+<h3>Slayddagi Exercise 1: 6 bitli vaznli rezistorli DAC</h3>
+<div class="box"><em>Draw the schematic of a 6-bit D/A converter with weighted resistances and voltage output. Define the R values for Vr = 5 V and full scale −10 V (assume feedback resistor of the amplifier RF = 10 kΩ). Determine the two max absolute output errors (in V) for 5% tolerance resistors in the MSB and in LSB branches.</em></div>
+<p>Sxema: VR → bit kalitlari → rezistorlar R, 2R, 4R, 8R, 16R, 32R → operatsion kuchaytirgichning inverslovchi kirishi, teskari aloqada RF. Chiqish VO = −VR · RF / Req (yoqilgan shoxobchalar parallel qarshiligi).</p>
+<ol>
+<li>Hamma bit 1: Req = R ∥ 2R ∥ ... ∥ 32R = R · 32/63. VO = −10 V → Req = RF · VR / 10 = 5 kΩ → <strong>R = 5 · 63/32 = 9.84 kΩ</strong>.</li>
+<li>Faqat MSB: VO = −5 · 10 / 9.84 = <strong>−5.08 V</strong>. R ±5% bilan: −4.84 V dan −5.35 V gacha (xato ≈ ±0.25 V).</li>
+<li>Faqat LSB (32R): VO = −5 · 10 / (32 · 9.84) = <strong>−0.159 V</strong>. ±5% bilan: −0.151 V dan −0.167 V gacha (xato ≈ ±0.008 V).</li>
+</ol>
+<p>Bir xil 5% tolerantlik MSB da 30 baravar katta xato beradi. Shuning uchun slaydda jami xato ½ LSB dan oshmasligi uchun MSB rezistori 0.26%, MSB−1 0.52% aniqlikda bo'lishi kerakligi hisoblangan.</p>
+
+<h2>O'zingizni tekshiring</h2>
+<div class="box check">DAC da D = 0000 bo'lganda chiqish 12 mV. Bu qanday xato va tuzatsa bo'ladimi? <details><summary>Javob</summary><strong>Offset</strong>. Ha, 12 mV ayirib tuzatiladi.</details></div>
+<div class="box check">DAC da D oshganda bir joyda chiqish kamaydi. Nima deyiladi? <details><summary>Javob</summary><strong>Monotonlik buzilishi</strong> (DNL &gt; 1 LSB).</details></div>
+<div class="box check">ADC 8 bitli, lekin 01101011 kodi hech qachon chiqmaydi. Nima deyiladi? <details><summary>Javob</summary><strong>Missing code</strong> (tushib qolgan kod), DNL &gt; 1 LSB.</details></div>
+<div class="box check">R-2R da VR = 8 V, R = 20 kΩ. 3 bit, D = 110 da tok? <details><summary>Javob</summary>I = 8/40 kΩ = 0.2 mA (MSB), keyingisi 0.1 mA. 110 → 0.2 + 0.1 = <strong>0.3 mA</strong>.</details></div>
+<div class="box check">Gray kodi nega glitchni yo'qotadi? <details><summary>Javob</summary>Qo'shni sonlar orasida <strong>faqat bitta bit</strong> almashadi, oraliq noto'g'ri holat bo'lmaydi.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Offset xatosi</td><td>offset error</td><td>Butun xarakteristika surilgan</td></tr>
+<tr><td>Gain xatosi</td><td>gain error</td><td>Qiyalik noto'g'ri</td></tr>
+<tr><td>DNL</td><td>differential nonlinearity</td><td>Qadam 1 LSB dan farq qiladi</td></tr>
+<tr><td>INL</td><td>integral nonlinearity</td><td>To'g'ri chiziqdan eng katta chetlanish</td></tr>
+<tr><td>Monotonlik buzilishi</td><td>non-monotonicity</td><td>D oshganda A kamayishi</td></tr>
+<tr><td>Tushib qolgan kod</td><td>missing code</td><td>ADC hech qachon chiqarmaydigan kod</td></tr>
+<tr><td>O'rnashish vaqti</td><td>settling time</td><td>Chiqish yangi qiymatga yetish vaqti</td></tr>
+<tr><td>Glitch</td><td>glitch</td><td>O'tishdagi qisqa xato sakrash</td></tr>
+<tr><td>Bir xil / vaznli elementlar</td><td>uniform / weighted elements</td><td>1,1,1,... / 1,2,4,8,...</td></tr>
+<tr><td>R-2R zanjiri</td><td>R-2R ladder network</td><td>Faqat R va 2R li bo'lgich</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<span class="formula">A = D · LSB &nbsp;·&nbsp; LSB = S/2<sup>N</sup> &nbsp;·&nbsp; R-2R: Ii = I/2<sup>i</sup>, I = VR/2R</span>
+<ul>
+<li><strong>Chiziqli (tuzatiladi):</strong> offset (surilish), gain (qiyalik).</li>
+<li><strong>Nochiziqli (tuzatilmaydi):</strong> DNL (qadam), INL (eng katta chetlanish). DNL &gt; 1 LSB → DAC da monotonlik buzilishi, ADC da missing code.</li>
+<li><strong>Dinamik:</strong> settling time; glitch (0111→1000), yechim Gray kodi.</li>
+<li><strong>Bir xil elementlar:</strong> 2<sup>N</sup> element, doim monoton, muammo INL.</li>
+<li><strong>Vaznli:</strong> N element, rezistorlar 2<sup>N−1</sup> oraliqda, MSB eng aniq bo'lishi kerak, muammo DNL.</li>
+<li><strong>R-2R:</strong> faqat R va 2R, modulli, aniq nisbat.</li>
+<li>Hamma rezistor bir xil % → <strong>gain</strong> (010, 097). Qochqin tok, op-amp offseti → offset.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="18-adc-turlari.html">← 18-dars</a><a href="./">Darslar ro'yxati →</a></footer>
+</main></body></html>
