@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>06. CMOS darvoza: sathlar, quvvat, kechikish</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>06. CMOS mantiqiy darvoza: sathlar, shovqin zaxirasi, quvvat va kechikish</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> mantiqiy darvoza (5-darsdagi NOT, NAND …) ichida aslida nima borligini: ikkita tranzistor-kalit. Undan keyin darvozaning to'rtta "pasport" xususiyati: kuchlanish sathlari (VOH, VIH …), shovqin zaxirasi, quvvat sarfi PD = f·C·V² va kechikish tP ∝ R·C. Bu <strong>B mavzu</strong>: imtihonlarda har safar 1–2 ta test (040, 041, 074, 107, 081, 090; 2021-06 va 2021-07 testlari) va 2021-06 dagi 7 ballik masala shu yerdan. Manba: B1 slaydlari. O'qish vaqti: 35 daqiqa.</div>
+
+<h2>1. CMOS invertor: ikki kalit, biri yuqorida, biri pastda</h2>
+<p>4-darsda tranzistor = elektr bilan boshqariladigan kalit ekanini ko'rdik. <span class="term">CMOS</span> (complementary MOS) texnologiyasida har bir darvoza ikki xil tranzistordan yasaladi:</p>
+<ul>
+<li><span class="term">pMOS</span>: chiqishni ta'minot <strong>VDD</strong> ga (ya'ni "1" ga) ulaydi. Kirish 0 bo'lganda yopiladi (tok o'tkazadi).</li>
+<li><span class="term">nMOS</span>: chiqishni yer <strong>GND</strong> ga (ya'ni "0" ga) ulaydi. Kirish 1 bo'lganda yopiladi.</li>
+</ul>
+<figure><svg viewBox="0 0 720 280" role="img" aria-label="CMOS invertor ikki holatda. Chapda kirish 0: yuqoridagi pMOS kalit yopiq, pastdagi nMOS ochiq, chiqish VDD ga ulangan (1). O'ngda kirish 1: nMOS yopiq, pMOS ochiq, chiqish yerga ulangan (0). Har doim faqat bitta kalit yopiq, shuning uchun VDD dan GND ga to'g'ridan-to'g'ri tok yo'q" font-family="system-ui,sans-serif">
+<text x="150.0" y="22.0" text-anchor="middle" font-size="14" fill="#2563eb" font-weight="700">Kirish = 0</text>
+<path d="M100 44H200" stroke="#dc2626" stroke-width="2"/><text x="206.0" y="48.0" text-anchor="start" font-size="12" fill="#dc2626" font-weight="700">VDD</text>
+<path d="M150 44V60" stroke="currentColor" stroke-width="1.6"/>
+<path d="M150 60v3.75l-6 1.9l6 1.9l6 1.9l-6 1.9l-6 1.9l6 1.9l6 1.9l-6 1.9l-6 1.9l6 1.9l6 1.9l-6 1.9v3.75" fill="none" stroke="#d9622b" stroke-width="1.6"/><text x="136.0" y="80.0" text-anchor="end" font-size="11" fill="#d9622b" font-weight="700">ROH</text>
+<circle cx="150" cy="92" r="2.5" fill="#d9622b"/><circle cx="150" cy="128" r="2.5" fill="#d9622b"/><path d="M150 92L150 128" stroke="#d9622b" stroke-width="1.8"/><text x="136.0" y="114.0" text-anchor="end" font-size="11" fill="#d9622b" font-weight="700">pMOS</text>
+<text x="172.0" y="104.0" text-anchor="start" font-size="11" fill="#d9622b" font-weight="700">yopiq (ON)</text>
+<path d="M150 130V140H240" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="150" cy="140" r="3" fill="currentColor"/>
+<path d="M240 140v14M228 154h24M228 160h24M240 160v14" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M240 174V250" stroke="currentColor" stroke-width="1.6"/><text x="256.0" y="180.0" text-anchor="start" font-size="11" fill="currentColor">C (yuk)</text>
+<text x="174.0" y="128.0" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">Chiqish = 1</text>
+<circle cx="150" cy="142" r="2.5" fill="#9aa0a6"/><circle cx="150" cy="178" r="2.5" fill="#9aa0a6"/><path d="M150 142L164 174" stroke="#9aa0a6" stroke-width="1.8"/><text x="136.0" y="164.0" text-anchor="end" font-size="11" fill="#2563eb" font-weight="700">nMOS</text>
+<text x="172.0" y="176.0" text-anchor="start" font-size="11" fill="#9aa0a6" font-weight="700">ochiq (OFF)</text>
+<path d="M150 180v3.75l-6 1.9l6 1.9l6 1.9l-6 1.9l-6 1.9l6 1.9l6 1.9l-6 1.9l-6 1.9l6 1.9l6 1.9l-6 1.9v3.75" fill="none" stroke="#2563eb" stroke-width="1.6"/><text x="136.0" y="200.0" text-anchor="end" font-size="11" fill="#2563eb" font-weight="700">ROL</text>
+<path d="M150 210V250" stroke="currentColor" stroke-width="1.6"/><path d="M100 250H270" stroke="currentColor" stroke-width="1.6"/><path d="M140 250H160M144 254H156M148 258H152" stroke="currentColor" stroke-width="1.5"/><text x="94.0" y="254.0" text-anchor="end" font-size="12" fill="currentColor">GND</text><text x="510.0" y="22.0" text-anchor="middle" font-size="14" fill="#2563eb" font-weight="700">Kirish = 1</text>
+<path d="M460 44H560" stroke="#dc2626" stroke-width="2"/><text x="566.0" y="48.0" text-anchor="start" font-size="12" fill="#dc2626" font-weight="700">VDD</text>
+<path d="M510 44V60" stroke="currentColor" stroke-width="1.6"/>
+<path d="M510 60v3.75l-6 1.9l6 1.9l6 1.9l-6 1.9l-6 1.9l6 1.9l6 1.9l-6 1.9l-6 1.9l6 1.9l6 1.9l-6 1.9v3.75" fill="none" stroke="#d9622b" stroke-width="1.6"/><text x="496.0" y="80.0" text-anchor="end" font-size="11" fill="#d9622b" font-weight="700">ROH</text>
+<circle cx="510" cy="92" r="2.5" fill="#9aa0a6"/><circle cx="510" cy="128" r="2.5" fill="#9aa0a6"/><path d="M510 92L524 124" stroke="#9aa0a6" stroke-width="1.8"/><text x="496.0" y="114.0" text-anchor="end" font-size="11" fill="#d9622b" font-weight="700">pMOS</text>
+<text x="532.0" y="104.0" text-anchor="start" font-size="11" fill="#9aa0a6" font-weight="700">ochiq (OFF)</text>
+<path d="M510 130V140H600" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="510" cy="140" r="3" fill="currentColor"/>
+<path d="M600 140v14M588 154h24M588 160h24M600 160v14" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M600 174V250" stroke="currentColor" stroke-width="1.6"/><text x="616.0" y="180.0" text-anchor="start" font-size="11" fill="currentColor">C (yuk)</text>
+<text x="534.0" y="128.0" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">Chiqish = 0</text>
+<circle cx="510" cy="142" r="2.5" fill="#2563eb"/><circle cx="510" cy="178" r="2.5" fill="#2563eb"/><path d="M510 142L510 178" stroke="#2563eb" stroke-width="1.8"/><text x="496.0" y="164.0" text-anchor="end" font-size="11" fill="#2563eb" font-weight="700">nMOS</text>
+<text x="532.0" y="176.0" text-anchor="start" font-size="11" fill="#2563eb" font-weight="700">yopiq (ON)</text>
+<path d="M510 180v3.75l-6 1.9l6 1.9l6 1.9l-6 1.9l-6 1.9l6 1.9l6 1.9l-6 1.9l-6 1.9l6 1.9l6 1.9l-6 1.9v3.75" fill="none" stroke="#2563eb" stroke-width="1.6"/><text x="496.0" y="200.0" text-anchor="end" font-size="11" fill="#2563eb" font-weight="700">ROL</text>
+<path d="M510 210V250" stroke="currentColor" stroke-width="1.6"/><path d="M460 250H630" stroke="currentColor" stroke-width="1.6"/><path d="M500 250H520M504 254H516M508 258H512" stroke="currentColor" stroke-width="1.5"/><text x="454.0" y="254.0" text-anchor="end" font-size="12" fill="currentColor">GND</text>
+<path d="M360 10V270" stroke="#9aa0a6" stroke-dasharray="4 4"/>
+</svg><figcaption>Invertor (NOT): kirish 0 → yuqori kalit ulanadi → chiqish 1; kirish 1 → pastki kalit ulanadi → chiqish 0.</figcaption></figure>
+<div class="box analogy"><strong>Hayotiy o'xshatish:</strong> xonadagi suv baki ikki jo'mrakka ulangan: biri yuqoridagi to'la idishdan (VDD) suv quyadi, ikkinchisi pastga (GND) to'kadi. Tutqich shunday yasalganki, bir vaqtda faqat bittasi ochiq. Shuning uchun suv hech qachon yuqoridan pastga "teshib" oqib ketmaydi: idish tinch turganda suv (energiya) isrof bo'lmaydi.</div>
+<p>Natija: tinch holatda VDD dan GND ga tok yo'q, ya'ni CMOS darvoza <strong>tinch turganda deyarli quvvat sarflamaydi</strong>. Energiya faqat <strong>almashishda</strong> (0 → 1 yoki 1 → 0) sarflanadi. Bu 5-bo'limdagi formulaning asosi.</p>
+<p>Ulangan kalit ideal sim emas: uning kichik qarshiligi bor. Slaydda yuqori kalit qarshiligi <span class="term">ROH</span>, pastkisi <span class="term">ROL</span> (chiqish qarshiligi). Kalit sifatida ishlaganda MOS tranzistor <strong>triod</strong> (chiziqli) sohada bo'ladi: u yerda u oddiy kichik rezistordek ishlaydi.</p>
+<div class="box"><p><strong>081.</strong> <em>A metal-oxide-semiconductor transistor works as a switch: a) in the triode region &nbsp; b) in the saturation region &nbsp; c) with forward-biased gate-source junction &nbsp; d) with reverse-biased gate-source junction</em></p>
+<details><summary>Javob</summary><p><strong>a) in the triode region</strong>. Yopiq kalit = kichik qarshilik RON, bu triod soha. (MOS da gate izolyatsiyalangan, "junction" yo'q, shuning uchun c va d ma'nosiz.)</p></details></div>
+
+<h2>2. Kuchlanish sathlari: VOH, VOL, VIH, VIL</h2>
+<p>Haqiqiy darvoza chiqishi aniq 3.3 V yoki aniq 0 V bermaydi: tok olinsa, ROH/ROL da kuchlanish tushadi. Shuning uchun ishlab chiqaruvchi (datasheet) <strong>kafolat</strong> beradi (24-darsda VIL va VIH ni ko'rgandik):</p>
+<table>
+<tr><th>Belgi</th><th>Kimniki</th><th>Ma'nosi</th></tr>
+<tr><td>VOH</td><td>chiqish</td><td>"1" berganda chiqish <strong>kamida</strong> shuncha</td></tr>
+<tr><td>VOL</td><td>chiqish</td><td>"0" berganda chiqish <strong>ko'pi bilan</strong> shuncha</td></tr>
+<tr><td>VIH</td><td>kirish</td><td>kirish shundan <strong>yuqori</strong> bo'lsa, "1" deb o'qiladi</td></tr>
+<tr><td>VIL</td><td>kirish</td><td>kirish shundan <strong>past</strong> bo'lsa, "0" deb o'qiladi</td></tr>
+<tr><td>IOH, IOL</td><td>chiqish</td><td>VOH/VOL kafolatlangan eng katta chiqish toki</td></tr>
+</table>
+<p>VIL va VIH orasidagi kirish kuchlanishi <strong>noaniq</strong>: darvoza uni 0 deb ham, 1 deb ham o'qishi mumkin.</p>
+
+<h3>Shovqin zaxirasi (noise margin)</h3>
+<figure><svg viewBox="0 0 720 300" role="img" aria-label="Shovqin zaxirasi. Chapda driver chiqishi: 1 holatda VOH = 2.9 V dan yuqori, 0 holatda VOL = 0.4 V dan past. O'ngda qabul qilgich kirishi: VIH = 2 V dan yuqori 1, VIL = 0.8 V dan past 0, o'rtasi noaniq. NMH = VOH − VIH = 0.9 V, NML = VIL − VOL = 0.4 V" font-family="system-ui,sans-serif">
+<text x="235.0" y="24.0" text-anchor="middle" font-size="13" fill="#2563eb" font-weight="700">Driver chiqishi (kafolat)</text><text x="525.0" y="24.0" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">Qabul qilgich kirishi (talab)</text>
+<rect x="180" y="40.0" width="110" height="25.5" fill="#16a34a" fill-opacity=".2" stroke="#16a34a"/><text x="235.0" y="56.7" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">"1"</text><rect x="180" y="224.5" width="110" height="25.5" fill="#16a34a" fill-opacity=".2" stroke="#16a34a"/><text x="235.0" y="241.3" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">"0"</text><rect x="180" y="65.5" width="110" height="159.1" fill="#9aa0a6" fill-opacity=".08" stroke="#9aa0a6"/><text x="235.0" y="149.0" text-anchor="middle" font-size="12" fill="#9aa0a6" font-weight="700">taqiqlangan</text>
+<rect x="470" y="40.0" width="110" height="82.7" fill="#16a34a" fill-opacity=".2" stroke="#16a34a"/><text x="525.0" y="85.4" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">"1"</text><rect x="470" y="199.1" width="110" height="50.9" fill="#16a34a" fill-opacity=".2" stroke="#16a34a"/><text x="525.0" y="228.5" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">"0"</text><rect x="470" y="122.7" width="110" height="76.4" fill="#dc2626" fill-opacity=".1" stroke="#dc2626"/><text x="525.0" y="164.9" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="700">noaniq</text>
+<text x="174.0" y="69.5" text-anchor="end" font-size="12" fill="currentColor" font-weight="700">VOH 2.9</text>
+<text x="174.0" y="228.5" text-anchor="end" font-size="12" fill="currentColor" font-weight="700">VOL 0.4</text>
+<text x="586.0" y="126.7" text-anchor="start" font-size="12" fill="currentColor" font-weight="700">VIH 2.0</text>
+<text x="586.0" y="203.1" text-anchor="start" font-size="12" fill="currentColor" font-weight="700">VIL 0.8</text>
+<text x="174.0" y="44.0" text-anchor="end" font-size="12" fill="currentColor" font-weight="700">VDD 3.3</text>
+<text x="174.0" y="254.0" text-anchor="end" font-size="12" fill="currentColor" font-weight="700">0 V</text>
+<path d="M290 65.5H470M290 122.7H470" stroke="#9333ea" stroke-dasharray="4 3"/>
+<rect x="310" y="65.5" width="140" height="57.3" fill="#9333ea" fill-opacity=".15"/><text x="380.0" y="98.1" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">NMH = 0.9 V</text>
+<path d="M290 199.1H470M290 224.5H470" stroke="#9333ea" stroke-dasharray="4 3"/>
+<rect x="310" y="199.1" width="140" height="25.5" fill="#9333ea" fill-opacity=".15"/><text x="380.0" y="215.8" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">NML = 0.4 V</text>
+<text x="360.0" y="288.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">Shovqin zaxira ichida bo'lsa, qabul qilgich baribir to'g'ri o'qiydi</text>
+</svg><figcaption>Misol raqamlari: VOH = 2.9 V, VIH = 2.0 V, VIL = 0.8 V, VOL = 0.4 V.</figcaption></figure>
+<span class="formula">NMH = VOH − VIH &nbsp;&nbsp;·&nbsp;&nbsp; NML = VIL − VOL</span>
+<p><span class="term">Shovqin zaxirasi</span> = signal yo'lda qancha "buzilsa" ham qabul qilgich hali to'g'ri o'qiydi. Misolda driver "1" uchun kamida 2.9 V beradi, qabul qilgichga esa 2.0 V yetarli: yo'lda 0.9 V gacha shovqin (pasayish) zarar qilmaydi.</p>
+<div class="box analogy"><strong>O'xshatish:</strong> o'qituvchi "60 balldan yuqori = o'tdi" deydi (VIH). Siz doim kamida 75 ball olasiz (VOH). Oradagi 15 ball sizning zaxirangiz: biror savolda adashsangiz ham o'tasiz.</div>
+
+<h3>Ikki darvozani ulash mumkinmi? (static compatibility check)</h3>
+<p>Slayddagi 4 qadam:</p>
+<ol>
+<li>0 va 1 holatini alohida tekshiring.</li>
+<li>Kuchlanish: <strong>VOL &lt; VIL</strong> va <strong>VOH &gt; VIH</strong> (ya'ni ikkala shovqin zaxirasi musbat).</li>
+<li>Chiqish tokini hisoblang: ulangan kirishlar toklari (CMOS da deyarli 0) + yuklama toklari (LED, rezistor).</li>
+<li>Tok: |IO| &lt; |IOL| (0 holatda), |IO| &lt; |IOH| (1 holatda). Tok ko'p bo'lsa, VOH/VOL kafolati yo'qoladi.</li>
+</ol>
+<div class="box"><p><strong>090.</strong> <em>Which of the following conditions implies an incorrect connection between logic gates? a) VI &lt; VIL &nbsp; b) VI &gt; VIH &nbsp; c) IO &lt; |IOL| &nbsp; d) IO &gt; |IOH|</em></p>
+<details><summary>Javob</summary><p><strong>d) IO &gt; |IOH|</strong>. Chiqish ruxsat etilganidan ko'p tok beryapti → VOH kafolati buziladi. a va b oddiy to'g'ri holatlar (aniq 0 va aniq 1), c esa ruxsat etilgan tok.</p></details></div>
+
+<h2>3. Chiqish turlari: totem-pole, three-state, open-drain</h2>
+<table>
+<tr><th>Tur</th><th>Ichida</th><th>Holatlar</th><th>Qayerda</th></tr>
+<tr><td><span class="term">Totem-pole</span></td><td>ikkala kalit (VDD ga va GND ga)</td><td>H, L</td><td>oddiy darvoza (1-bo'limdagi rasm)</td></tr>
+<tr><td><span class="term">Three-state</span> (3-S)</td><td>ikkala kalit + ENABLE</td><td>H, L, <strong>Z</strong></td><td>umumiy shina: bir vaqtda faqat bittasi yoqiladi (xotira, multipleksor)</td></tr>
+<tr><td><span class="term">Open-drain</span> (open-collector)</td><td>faqat GND ga kalit + tashqi <strong>pull-up</strong> rezistor RPU</td><td>L yoki "ochiq"</td><td>"wired OR" (masalan uzilish (interrupt) liniyasi)</td></tr>
+</table>
+<p><strong>Z</strong> (yuqori impedans) = ikkala kalit ham ochiq, chiqish go'yo uzib qo'yilgan. Bu holatda faqat juda kichik sizish toki IOZ oqadi.</p>
+<figure><svg viewBox="0 0 720 250" role="img" aria-label="Open-drain chiqish: har bir darvozada faqat yerga ulovchi bitta kalit (nMOS) bor. Ikki darvoza chiqishi bitta L tuguniga ulangan, tugun tashqi pull-up rezistor RPU orqali VDD ga tortilgan. Bitta kalit yopilsa ham L = 0; hammasi ochiq bo'lsa L = 1" font-family="system-ui,sans-serif">
+<path d="M200 30H520" stroke="#dc2626" stroke-width="2"/><text x="526.0" y="34.0" text-anchor="start" font-size="12" fill="#dc2626" font-weight="700">VDD</text>
+<path d="M360 30V46" stroke="currentColor" stroke-width="1.6"/><path d="M360 46v5.5l-6 2.8l6 2.8l6 2.8l-6 2.8l-6 2.8l6 2.8l6 2.8l-6 2.8l-6 2.8l6 2.8l6 2.8l-6 2.8v5.5" fill="none" stroke="#d9622b" stroke-width="1.6"/><text x="374.0" y="72.0" text-anchor="start" font-size="12" fill="#d9622b" font-weight="700">RPU (tashqi pull-up)</text>
+<path d="M360 90V110M260 110H460M600 110H460" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="360" cy="110" r="3.5" fill="currentColor"/><text x="606.0" y="114.0" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">L (umumiy liniya)</text>
+<path d="M260 110V140" stroke="currentColor" stroke-width="1.6"/><circle cx="260" cy="142" r="2.5" fill="#2563eb"/><circle cx="260" cy="178" r="2.5" fill="#2563eb"/><path d="M260 142L274 174" stroke="#2563eb" stroke-width="1.8"/><path d="M260 180V200" stroke="currentColor" stroke-width="1.6"/><path d="M250 200H270M254 204H266M258 208H262" stroke="currentColor" stroke-width="1.5"/>
+<text x="244.0" y="166.0" text-anchor="end" font-size="11" fill="#2563eb" font-weight="700">nMOS</text><text x="260.0" y="232.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">A darvoza: ochiq</text>
+<path d="M460 110V140" stroke="currentColor" stroke-width="1.6"/><circle cx="460" cy="142" r="2.5" fill="#2563eb"/><circle cx="460" cy="178" r="2.5" fill="#2563eb"/><path d="M460 142L460 178" stroke="#2563eb" stroke-width="1.8"/><path d="M460 180V200" stroke="currentColor" stroke-width="1.6"/><path d="M450 200H470M454 204H466M458 208H462" stroke="currentColor" stroke-width="1.5"/>
+<text x="444.0" y="166.0" text-anchor="end" font-size="11" fill="#2563eb" font-weight="700">nMOS</text><text x="460.0" y="232.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">B darvoza: yopiq</text>
+<text x="130.0" y="90.0" text-anchor="middle" font-size="11" fill="currentColor">Darvozada VDD ga</text><text x="130.0" y="106.0" text-anchor="middle" font-size="11" fill="currentColor" font-weight="700">kalit yo'q!</text>
+<text x="600.0" y="150.0" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">B yopiq → L = 0 V</text><text x="600.0" y="170.0" text-anchor="start" font-size="11" fill="#16a34a">(bittasi yetarli)</text>
+</svg><figcaption>Open-drain: chiqishni faqat pastga tortish mumkin. Yuqoriga tashqi RPU tortadi. Ikki chiqishni bir simga ulash xavfsiz: "to'qnashuv" yo'q.</figcaption></figure>
+<p>Totem-pole chiqishlarni bir-biriga ulash mumkin emas: biri 1, biri 0 bersa, VDD → pMOS → nMOS → GND yo'li ochiladi (katta tok, "conflict"). Open-drain da bunday yo'l yo'q, chunki yuqori kalitning o'zi yo'q.</p>
+
+<div class="box"><p><strong>2021-06 (test).</strong> <em>The three-state outputs of two logic gates are connected together. If by mistake the outputs of both gates are enabled at the same time and both gates output a low level (logic 0), then the resulting output voltage VOUT will stabilize to: (a) Depends on the pull-down resistor. (b) VOUT cannot exceed VOL (c) Depends on the pull-up resistor. (d) Depends on the total capacitive load connected to the outputs.</em></p>
+<details><summary>Javob</summary><p><strong>(b)</strong>. Ikkala nMOS parallel ulanadi: ROL ‖ ROL har biridan kichik. Bitta darvoza ham VOL dan oshirmas edi, ikkita parallel bo'lsa undan ham past bo'ladi. (Ikkalasi bir xil sath berganda "to'qnashuv" yo'q.)</p></details></div>
+<div class="box"><p><strong>2021-07 (test).</strong> <em>The outputs of two identical open-drain logic gates are connected together. When both gates output a zero logic level (0 V), the voltage of the output node, VOUT will stablize to: (a) Dependent on the capacitive load connected to ground (GND). (b) 0 V ≤ VOUT ≤ VOL. (c) Dependent on the capacitive load connected to supply (VDD). (d) VOL ≤ VOUT ≤ VOH.</em></p>
+<details><summary>Javob</summary><p><strong>(b)</strong>. Xuddi yuqoridagi sabab: ikki ROL parallel → chiqish VOL dan oshmaydi.</p></details></div>
+<div class="box"><p><strong>2021-06 (test).</strong> <em>The static power consumption of an open-drain CMOS inverter with the output at the low level: (a) Depends on the total capacitive load connected to the output. (b) Depends on the output pull-down resistance. (c) Depends on any resistive load connected to the output. (d) Does not depend on the external resistance between the output and ground (GND).</em></p>
+<details><summary>Javob</summary><p><strong>(d)</strong>. Chiqish 0 V bo'lganda chiqishdan GND ga ulangan rezistorda kuchlanish 0, demak tok ham 0. Tok faqat VDD ga ulangan rezistordan (pull-up) keladi. Open-drain da pull-down rezistor yo'q (b noto'g'ri), sig'im faqat almashish paytida ta'sir qiladi (a noto'g'ri), har qanday rezistiv yuklama emas, faqat VDD ga ulangani (c noto'g'ri).</p></details></div>
+
+<h2>4. Quvvat sarfi: statik va dinamik</h2>
+<p><span class="term">Statik quvvat</span> PS: hech narsa almashmaganda ham sarflanadigan quvvat (kichik sizish toki Idc): PS = VDD · Idc. CMOS da u juda kichik, ko'p masalalarda "negligible" deyiladi.</p>
+<p><span class="term">Dinamik quvvat</span> PD: chiqish 0 ↔ 1 almashganda yuklama sig'imi C ni zaryadlash va bo'shatish uchun sarflanadi. Yuklama sig'imi = keyingi darvozalar kirishlari (gate) + simlar sig'imi.</p>
+<figure><svg viewBox="0 0 720 230" role="img" aria-label="Dinamik quvvat: L dan H ga o'tishda VDD dan C ga CV² energiya olinadi, yarmi (½CV²) pMOS qarshiligida issiqlikka aylanadi, yarmi C da saqlanadi. H dan L ga o'tishda C dagi ½CV² nMOS qarshiligida issiqlikka aylanadi. Bir davrda jami CV² energiya, sekundiga f marta: PD = f·C·V²" font-family="system-ui,sans-serif">
+<defs><marker id="en" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<rect x="20" y="20" width="330" height="140" rx="10" fill="#d9622b" fill-opacity=".07" stroke="#d9622b"/><text x="185.0" y="44.0" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">L → H (zaryadlash)</text>
+<text x="185.0" y="76.0" text-anchor="middle" font-size="13" fill="currentColor">manbadan: C·V²</text>
+<text x="185.0" y="102.0" text-anchor="middle" font-size="13" fill="currentColor" font-weight="700">ROH da issiqlik: ½C·V²</text>
+<text x="185.0" y="128.0" text-anchor="middle" font-size="13" fill="currentColor">C da saqlanadi: ½C·V²</text>
+<rect x="370" y="20" width="330" height="140" rx="10" fill="#2563eb" fill-opacity=".07" stroke="#2563eb"/><text x="535.0" y="44.0" text-anchor="middle" font-size="13" fill="#2563eb" font-weight="700">H → L (razryadlash)</text>
+<text x="535.0" y="76.0" text-anchor="middle" font-size="13" fill="currentColor">manbadan: 0</text>
+<text x="535.0" y="102.0" text-anchor="middle" font-size="13" fill="currentColor" font-weight="700">ROL da issiqlik: ½C·V²</text>
+<text x="535.0" y="128.0" text-anchor="middle" font-size="13" fill="currentColor">C bo'shaydi</text>
+<text x="360.0" y="190.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">Bir davr (0 → 1 → 0): issiqlik ½CV² + ½CV² = C·V²</text>
+<text x="360.0" y="216.0" text-anchor="middle" font-size="14" fill="#9333ea" font-weight="700">Sekundiga f marta: PD = f·C·V²   (N ta element: PD = N·f·C·V²)</text>
+</svg><figcaption>Slayddagi hisob: C dagi energiya ½CV²; har bir o'tishda shuncha energiya kalit qarshiligida issiqlikka aylanadi.</figcaption></figure>
+<span class="formula">PD = f · C · V²</span>
+<p>Bu yerda f = almashish chastotasi (takt), C = yuklama sig'imi, V = ta'minot kuchlanishi VDD. Xulosa (testlar shu!):</p>
+<table>
+<tr><th>Nima o'zgardi</th><th>PD qanday o'zgaradi</th><th>Sabab</th></tr>
+<tr><td>f × 2</td><td>× 2</td><td>f ga to'g'ri proporsional</td></tr>
+<tr><td>C × ½</td><td>× ½</td><td>C ga to'g'ri proporsional</td></tr>
+<tr><td>V × 2</td><td><strong>× 4</strong></td><td>V <strong>kvadrat</strong>da</td></tr>
+<tr><td>V × ½ (3.3 V → 1.65 V)</td><td>× ¼</td><td>shuning uchun zamonaviy mikrosxemalar past kuchlanishda (LV/LVC 3.3 V, 1.8 V …)</td></tr>
+</table>
+<div class="box"><p><strong>041.</strong> <em>By halving the load capacity of a CMOS logic gate, the dynamic power changes by a factor: a) 2 &nbsp; b) ½ &nbsp; c) ¼ &nbsp; d) 4</em></p><details><summary>Javob</summary><p><strong>b) ½</strong>.</p></details></div>
+<div class="box"><p><strong>074.</strong> <em>By doubling the frequency of a CMOS logic gate, the dynamic power changes by: a) 2 &nbsp; b) 1/2 &nbsp; c) 1/4 &nbsp; d) 4</em></p><details><summary>Javob</summary><p><strong>a) 2</strong>.</p></details></div>
+<div class="box"><p><strong>107.</strong> <em>By doubling the supply voltage of a CMOS logic gate the dynamic power changes as: a) 2 &nbsp; b) 1/2 &nbsp; c) 1/4 &nbsp; d) 4</em></p><details><summary>Javob</summary><p><strong>d) 4</strong>. 2² = 4.</p></details></div>
+
+<h2>5. Kechikish (propagation delay): RC model</h2>
+<p>Chiqish sig'imi C kalit qarshiligi RO orqali zaryadlanadi (3-darsdagi RC zanjir). Kuchlanish birdaniga emas, asta o'sadi. <span class="term">Kechikish</span> tP = kirish o'zgargan paytdan chiqish o'zgarishning 50% iga yetgan paytgacha vaqt (slayd: "at the 50 % of the whole range").</p>
+<span class="formula">tP = 0.69 · RO · CL &nbsp;&nbsp; (0.69 = ln 2: RC zanjir 50% ga yetish vaqti)</span>
+<ul>
+<li>tP ∝ CL: yuklama sig'imi 2 marta → kechikish 2 marta.</li>
+<li>Bitta chiqishga ko'p kirish ulansa, sig'imlar qo'shiladi: CT = Σ CIi → sekinlashadi.</li>
+<li><span class="term">Fanout</span> = bitta chiqish nechta kirishni boshqara oladi. CMOS da kirish toki deyarli yo'q, shuning uchun fanout <strong>sig'im (tezlik)</strong> bilan cheklanadi, tok bilan emas.</li>
+<li>Rise time / fall time (tr, tf) = signal 10% dan 90% gacha o'tish vaqti.</li>
+</ul>
+<div class="box"><p><strong>040.</strong> <em>A CMOS logic gate drives a load of capacity C. By doubling the capacity (2 C), the propagation delay changes as: a) 2 &nbsp; b) 1/2 &nbsp; c) 1/4 &nbsp; d) 4</em></p><details><summary>Javob</summary><p><strong>a) 2</strong>. tP = 0.69·RO·C, C ga to'g'ri proporsional. (Diqqat: quvvat ham C ga proporsional, lekin V ga emas, V² ga.)</p></details></div>
+<div class="box"><p><strong>2021-07 (test).</strong> <em>The propagation time from input to output for a CMOS NAND gate with 2 inputs when it drives a load capacitance CL = 0.2 fF is tP = 200 ps. Which is the propagation time tP of the gate if it drives 2 inputs of 2 other CMOS NAND gates, which have a total gate capacitance CG = 0.8 fF? (a) 5 times higher. (b) depends on the pull-up resistor. (c) 800 ps. (d) 1.6 ns.</em></p>
+<details><summary>Javob</summary><p><strong>(c) 800 ps</strong>. Yangi yuklama 0.8 fF = eski 0.2 fF × 4 → tP × 4 = 800 ps (rasmiy yechim: "the propagation time increases four times when the load capacitance increases four times").</p></details></div>
+
+<h2>6. Imtihon masalasi: 2021-06 (7 ball)</h2>
+<div class="box"><p><em>A CMOS data processing circuit is made of 100 million MOS transistors. Each MOS transistor has a gate capacitance CG = 0.3 fF, drives on average the gates of 2 other MOS transistors, and is supplied at VDD = 1.8 V. The circuit can operate in two modes: idle mode, in which 1 % of all the transistors are active; active mode, in which 80 % of all the transistors are active. We assume that the active transistors in each operating mode are driven by signals with the frequency of the clock, Fclock = 100 MHz. Calculate the dynamic power dissipated by the processing circuit in the idle mode, Pidle (2 points), and in the active mode, Pactive (1 point).</em></p>
+<p><em>Assuming that: the ambient temperature is 23 °C; the static power is negligible; the thermal resistance junction-case is ΘJC = 1.1 °C/W; the thermal resistance case-ambient is ΘCA = 43 °C/W; calculate the junction temperature for the circuit operating in the idle mode, TJidle (2 points).</em></p>
+<p><em>If the supply voltage doubles, becoming VDD = 3.6 V, the dynamic power becomes (1 point): is unchanged / decreases to a half / decreases to a quarter / increases 2 times / increases 4 times. If the clock frequency doubles, becoming Fclock = 200 MHz, the dynamic power becomes (1 point): is unchanged / decreases to a half / increases 2 times / decreases to a quarter / increases 4 times.</em></p></div>
+<details><summary>Yechim (qadam-baqadam)</summary>
+<ol>
+<li><strong>Bitta tranzistor yuklamasi:</strong> u 2 ta gate ni boshqaradi → CL = 2 · CG = 2 · 0.3 fF = <strong>0.6 fF</strong> = 0.6·10<sup>−15</sup> F.</li>
+<li><strong>Bittasining quvvati:</strong> f·CL·V² = 10<sup>8</sup> · 0.6·10<sup>−15</sup> · 1.8² = 10<sup>8</sup> · 0.6·10<sup>−15</sup> · 3.24 = 1.944·10<sup>−7</sup> W.</li>
+<li><strong>Idle:</strong> N = 1% · 10<sup>8</sup> = 10<sup>6</sup> ta → Pidle = 10<sup>6</sup> · 1.944·10<sup>−7</sup> = <strong>0.194 W</strong>.</li>
+<li><strong>Active:</strong> N = 80% · 10<sup>8</sup> = 8·10<sup>7</sup> ta → Pactive = 8·10<sup>7</sup> · 1.944·10<sup>−7</sup> = <strong>15.6 W</strong>.</li>
+<li><strong>Harorat:</strong> issiqlik qarshiliklari ketma-ket qo'shiladi: ΘJA = 1.1 + 43 = 44.1 °C/W. TJ = TA + ΘJA · P = 23 + 44.1 · 0.194 = <strong>31.6 °C</strong>.</li>
+<li>VDD × 2 → <strong>increases 4 times</strong>. Fclock × 2 → <strong>increases 2 times</strong>.</li>
+</ol>
+<p>Rasmiy formula: PD = N · Fclock · CL · V². "Issiqlik qarshiligi" haqida batafsil 30-darsda: TJ = TA + P·Θ, ya'ni harorat farqi = quvvat × issiqlik qarshiligi (Om qonuniga o'xshash: kuchlanish = tok × qarshilik).</p>
+</details>
+
+<h2>O'zingizni tekshiring</h2>
+<div class="box check">Darvoza: VOH = 4.4 V, VOL = 0.1 V, VIH = 3.5 V, VIL = 1.5 V. NMH va NML? <details><summary>Javob</summary>NMH = 4.4 − 3.5 = <strong>0.9 V</strong>; NML = 1.5 − 0.1 = <strong>1.4 V</strong>.</details></div>
+<div class="box check">A darvozasi (VOH = 3.0 V, VOL = 0.5 V) B darvozasiga (VIH = 2.0 V, VIL = 0.4 V) ulanadi. Kuchlanish bo'yicha mos keladimi? <details><summary>Javob</summary>1 holat: 3.0 &gt; 2.0 ✓. 0 holat: VOL = 0.5 &gt; VIL = 0.4 ✗. <strong>Mos emas</strong>: "0" noaniq sohaga tushishi mumkin (NML = −0.1 V).</details></div>
+<div class="box check">Mikrosxema 3.3 V da 2 W dinamik quvvat sarflaydi. 1.2 V ga o'tkazilsa (f va C o'zgarmaydi)? <details><summary>Javob</summary>(1.2/3.3)² = 0.132 → 2 · 0.132 ≈ <strong>0.26 W</strong>.</details></div>
+<div class="box check">Darvoza 1 fF yuklamada tP = 50 ps. Unga har biri 1.5 fF bo'lgan 3 ta kirish ulandi. tP? <details><summary>Javob</summary>CL = 4.5 fF = 4.5 × 1 fF → tP = <strong>225 ps</strong>.</details></div>
+<div class="box check">10<sup>9</sup> ta tranzistor, har biriga CL = 0.2 fF, VDD = 1 V, f = 1 GHz, 10% faol. PD? <details><summary>Javob</summary>N = 10<sup>8</sup>; PD = 10<sup>8</sup> · 10<sup>9</sup> · 0.2·10<sup>−15</sup> · 1² = <strong>20 W</strong>.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>CMOS</td><td>complementary MOS</td><td>pMOS (VDD ga) + nMOS (GND ga) juft kalitlar texnologiyasi</td></tr>
+<tr><td>Chiqish qarshiligi</td><td>ROH, ROL (RON)</td><td>Yopiq kalitning qarshiligi</td></tr>
+<tr><td>Triod soha</td><td>triode region</td><td>MOS kalit sifatida ishlaydigan soha (kichik rezistor)</td></tr>
+<tr><td>Kafolatlangan chiqish sathlari</td><td>VOH, VOL</td><td>1 uchun kamida VOH, 0 uchun ko'pi bilan VOL</td></tr>
+<tr><td>Kirish chegaralari</td><td>VIH, VIL</td><td>VIH dan yuqori = 1, VIL dan past = 0</td></tr>
+<tr><td>Shovqin zaxirasi</td><td>noise margin NMH, NML</td><td>VOH − VIH va VIL − VOL</td></tr>
+<tr><td>Uch holatli chiqish</td><td>three-state (H, L, Z)</td><td>ENABLE = 0 da chiqish "uzilgan" (Z)</td></tr>
+<tr><td>Ochiq stok</td><td>open-drain / open-collector</td><td>Faqat GND ga kalit, yuqoriga tashqi pull-up rezistor</td></tr>
+<tr><td>Statik quvvat</td><td>static power PS</td><td>Almashmaganda sarflanadigan (CMOS da juda kichik)</td></tr>
+<tr><td>Dinamik quvvat</td><td>dynamic power PD</td><td>f·C·V², almashishda C ni zaryadlash</td></tr>
+<tr><td>Kechikish</td><td>propagation delay tP</td><td>Kirishdan chiqishgacha 50% da o'lchangan vaqt, 0.69·R·C</td></tr>
+<tr><td>Fanout</td><td>fanout</td><td>Bitta chiqish boshqara oladigan kirishlar soni (CMOS da sig'im cheklaydi)</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<span class="formula">NMH = VOH − VIH &nbsp;·&nbsp; NML = VIL − VOL &nbsp;·&nbsp; moslik: VOL &lt; VIL, VOH &gt; VIH, |IO| &lt; |IOL|, |IOH|</span>
+<span class="formula">PD = N · f · C · V² &nbsp;·&nbsp; PS = VDD · Idc &nbsp;·&nbsp; tP = 0.69 · RO · CL</span>
+<ul>
+<li>CMOS: pMOS → VDD, nMOS → GND, bir vaqtda bittasi ON → tinch holatda tok yo'q. MOS kalit = <strong>triod</strong> soha.</li>
+<li>f × 2 → PD × 2; C × ½ → PD × ½; <strong>V × 2 → PD × 4</strong>; C × 2 → tP × 2.</li>
+<li>Yuklama sig'imi = boshqariladigan gate lar yig'indisi (2021-06: CL = 2·CG).</li>
+<li>Ikki chiqish (3-S yoki open-drain) ikkalasi 0 berib parallel → ROL ‖ ROL → VOUT ≤ VOL.</li>
+<li>Open-drain, chiqish 0: GND ga ulangan rezistor tok olmaydi; tok faqat VDD ga ulangan rezistordan (pull-up).</li>
+<li>IO &gt; |IOH| (yoki |IOL|) = noto'g'ri ulanish. Fanout CMOS da sig'im bilan cheklanadi.</li>
+<li>Issiqlik: ΘJA = ΘJC + ΘCA, TJ = TA + ΘJA · P.</li>
+<li>Javoblar: 081 a; 090 d; 041 b; 074 a; 107 d; 040 a; 2021-07 (b), (c) 800 ps; 2021-06 (b), (d); masala 0.194 W, 15.6 W, 31.6 °C, ×4, ×2.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="05-raqamli-0-1.html">← 05-dars</a><a href="07-latch-flip-flop.html">07-dars →</a></footer>
+</main></body></html>
