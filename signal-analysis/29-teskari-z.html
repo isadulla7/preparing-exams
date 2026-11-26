@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>29. Z xossalari va teskari Z-almashtirish</title><link rel="stylesheet" href="../assets/style.css">
+<style>
+svg text{font-family:inherit}
+.s-ink{fill:var(--fg)} .s-muted{fill:var(--muted)}
+.s-line{stroke:var(--border)} .s-axis{stroke:var(--muted)} .s-acc{stroke:var(--accent)} .s-mut{stroke:var(--muted)}
+.f-acc{fill:var(--accent)} .f-accsoft{fill:var(--accent);fill-opacity:.12} .f-card{fill:var(--card)}
+main{overflow-wrap:break-word} .tw{overflow-x:auto} @media (max-width:480px){th,td{padding:4px 6px;font-size:.92em}}
+.sol{border-left:4px solid var(--accent);padding-left:12px;margin:.6em 0}
+</style></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Signal analysis darslari</a></nav>
+<h1>29. Z xossalari va teskari Z-almashtirish</h1>
+<p>O'qish vaqti: 60 daqiqa. Manba: 33-ma'ruza ("Properties of the z-Transform. Inverse of the Z-Transform"), mashg'ulot: "Exercises 2 — Z-Transform" (3, 4, 5-masalalar) va qo'lyozma qo'shimcha misollar ("Additional Ex. with solutions").</p>
+<div class="box warn"><b>Bu A mavzu.</b> Imtihonda: "X(z) = … , ROC |z| &gt; …; x(n) = ?" (oddiy kasrlarga ajratish), "x(n − 5) ning Z-almashtirishi?", "x(0) = ?" (boshlang'ich qiymat teoremasi), "kauzal va antikauzal ketma-ketliklarni toping". Bu darsdagi usul 30–32-darslarda tizimlar uchun ham ishlatiladi.</div>
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> Z-almashtirishning barcha xossalari (chiziqlilik, surish, teskari aylantirish, masshtab, n ga ko'paytirish, o'ram, modulyatsiya); boshlang'ich qiymat teoremasi; teskari Z-almashtirish: integral formula, bevosita usul, oddiy kasrlarga ajratish (qoldiqlar); ROC bo'yicha kauzal/antikauzal javobni tanlash; 14 ta yechilgan misol.</div>
+
+<h2>1. Xossalar jadvali (ma'ruza)</h2>
+<p>x(n) ↔ X(z), ROC R<sub>x</sub>; y(n) ↔ Y(z), ROC R<sub>y</sub>.</p>
+<div class="tw"><table>
+<tr><th>Xossa</th><th>Ketma-ketlik</th><th>Z-almashtirish</th><th>ROC</th></tr>
+<tr><td>Chiziqlilik</td><td>α<sub>1</sub>x(n) + α<sub>2</sub>y(n)</td><td>α<sub>1</sub>X(z) + α<sub>2</sub>Y(z)</td><td>R<sub>x</sub> ∩ R<sub>y</sub> ni o'z ichiga oladi</td></tr>
+<tr><td>Vaqtda surish</td><td>x(n − N)</td><td><b>z<sup>−N</sup>X(z)</b></td><td>R<sub>x</sub>; N &gt; 0 da z = 0 siz, N &lt; 0 da z = ∞ siz</td></tr>
+<tr><td>Teskari aylantirish</td><td>x(−n)</td><td>X(z<sup>−1</sup>)</td><td>1/R<sub>x</sub></td></tr>
+<tr><td>Qo'shma</td><td>x*(n)</td><td>X*(z*)</td><td>R<sub>x</sub></td></tr>
+<tr><td>Qo'shma + teskari</td><td>x*(−n)</td><td>X*(1/z*)</td><td>1/R<sub>x</sub></td></tr>
+<tr><td>Haqiqiy qism</td><td>Re{x(n)}</td><td>½[X(z) + X*(z*)]</td><td>R<sub>x</sub> ni o'z ichiga oladi</td></tr>
+<tr><td>Mavhum qism</td><td>Im{x(n)}</td><td>(1/2j)[X(z) − X*(z*)]</td><td>R<sub>x</sub> ni o'z ichiga oladi</td></tr>
+<tr><td>Antikauzal qism (x kauzal)</td><td>x(−n)u(−n − 1)</td><td>X(z<sup>−1</sup>) − x(0)</td><td>—</td></tr>
+<tr><td>Masshtab (z da)</td><td>αⁿx(n)</td><td><b>X(z/α)</b></td><td>|α|·R<sub>x</sub></td></tr>
+<tr><td>n ga ko'paytirish</td><td>n·x(n)</td><td><b>−z·dX(z)/dz</b></td><td>R<sub>x</sub> (0 yoki ∞ bundan mustasno)</td></tr>
+<tr><td>n ga ko'paytirish + teskari</td><td>n·x(−n)</td><td>−z·dX(z<sup>−1</sup>)/dz</td><td>1/R<sub>x</sub> ni o'z ichiga oladi</td></tr>
+<tr><td>Masshtab + n ga ko'paytirish</td><td>n·αⁿx(n)</td><td>−z·dX(z/α)/dz</td><td>|α|·R<sub>x</sub></td></tr>
+<tr><td>Modulyatsiya</td><td>cos(2πf<sub>0</sub>n)·x(n)</td><td>½[X(ze<sup>j2πf<sub>0</sub></sup>) + X(ze<sup>−j2πf<sub>0</sub></sup>)]</td><td>R<sub>x</sub></td></tr>
+<tr><td>Modulyatsiya</td><td>sin(2πf<sub>0</sub>n)·x(n)</td><td>(j/2)[X(ze<sup>j2πf<sub>0</sub></sup>) − X(ze<sup>−j2πf<sub>0</sub></sup>)]</td><td>R<sub>x</sub></td></tr>
+<tr><td><b>O'ram</b></td><td>x(n) * y(n)</td><td><b>X(z)·Y(z)</b></td><td>R<sub>x</sub> ∩ R<sub>y</sub> ni o'z ichiga oladi</td></tr>
+</table></div>
+<p>Eng ko'p ishlatiladiganlari qalin harf bilan. Imtihonda jadval beriladi, lekin xossani <b>qaysi masalada qo'llashni</b> tanib olish sizdan.</p>
+
+<h3>Nega ROC "o'z ichiga oladi", "teng" emas?</h3>
+<p>Qo'shganda qutblar qisqarib ketishi mumkin. Ma'ruza misoli: X<sub>1</sub>(z) = 1/(1 − ½z<sup>−1</sup>), X<sub>2</sub>(z) = −1/(1 − ½z<sup>−1</sup>), ikkalasi |z| &gt; ½. Yig'indi Y(z) = 0 — <b>butun tekislikda</b> yaqinlashadi, R<sub>1</sub> ∩ R<sub>2</sub> dan ancha keng.</p>
+
+<h3>Asosiy xossalarning isboti (qisqa)</h3>
+<div class="sol">
+<p><b>Surish:</b> Z[x(n − k)] = Σx(n − k)z<sup>−n</sup>; m = n − k almashtirish: Σx(m)z<sup>−m−k</sup> = <b>z<sup>−k</sup>X(z)</b>. Ya'ni "k namuna kechikish = z<sup>−k</sup> ga ko'paytirish" — raqamli filtrlardagi "z<sup>−1</sup> bloki" (31-dars) shu.</p>
+<p><b>Teskari aylantirish:</b> Σx(−n)z<sup>−n</sup>; m = −n: Σx(m)z<sup>m</sup> = Σx(m)(z<sup>−1</sup>)<sup>−m</sup> = <b>X(z<sup>−1</sup>)</b>. ROC chegaralari teskari bo'ladi: R<sub>1</sub> &lt; |z| &lt; R<sub>2</sub> → 1/R<sub>2</sub> &lt; |z| &lt; 1/R<sub>1</sub>.</p>
+<p><b>Masshtab:</b> X(z/α) = Σx(n)(z/α)<sup>−n</sup> = Σ[αⁿx(n)]z<sup>−n</sup> → <b>αⁿx(n)</b>. ROC |α| marta kengayadi: |α|R<sub>1</sub> &lt; |z| &lt; |α|R<sub>2</sub>.</p>
+<p><b>n ga ko'paytirish:</b> dX/dz = Σx(n)(−n)z<sup>−n−1</sup>, −z ga ko'paytirsak: Σn·x(n)z<sup>−n</sup> = Z[n·x(n)]. ROC o'zgarmaydi.</p>
+<p><b>O'ram:</b> W(z) = ΣΣx(k)y(n − k)z<sup>−n</sup>; m = n − k: Σx(k)z<sup>−k</sup>·Σy(m)z<sup>−m</sup> = <b>X(z)·Y(z)</b>. 22-darsdagi "o'ram = ko'phadlar ko'paytmasi" ning isboti.</p>
+</div>
+
+<h2>2. Boshlang'ich qiymat teoremasi</h2>
+<p>x(n) <b>kauzal</b> bo'lsa:</p>
+<div class="formula">x(0) = lim<sub>z→∞</sub> X(z)</div>
+<p>Sababi: X(z) = x(0) + x(1)z<sup>−1</sup> + x(2)z<sup>−2</sup> + …, z → ∞ da barcha z<sup>−k</sup> hadlar nolga intiladi, faqat x(0) qoladi. Ma'ruza misollari:</p>
+<div class="sol">
+<p>x(n) = αⁿu(n), X(z) = z/(z − α): lim<sub>z→∞</sub> z/(z − α) = <b>1</b> = α<sup>0</sup> ✓.</p>
+<p>x(n) = nαⁿu(n), X(z) = αz/(z − α)²: surat darajasi 1, maxraj 2 → lim = <b>0</b> = 0·α<sup>0</sup> ✓.</p>
+</div>
+<div class="box ok"><b>Tezkor tekshiruv:</b> teskari almashtirishni topgach, x(0) ni lim X(z) bilan solishtiring — xato bo'lsa darhol ko'rinadi.</div>
+
+<h2>3. Teskari Z-almashtirish</h2>
+<h3>Integral formula (nazariya)</h3>
+<p>Koshi teoremasiga asoslanib (ma'ruza): (1/2πj)∮<sub>γ</sub> z<sup>n−1</sup>dz = δ(n), γ — koordinata boshini o'rab, soat strelkasiga teskari aylanadigan yopiq chiziq. X(z) ni z<sup>n−1</sup> ga ko'paytirib integrallasak:</p>
+<div class="formula">x(n) = Z<sup>−1</sup>[X(z)] = (1/2πj)·∮<sub>γ</sub> X(z)·z<sup>n−1</sup> dz = Σ<sub>γ ichidagi qutblar</sub> Res[X(z)z<sup>n−1</sup>]</div>
+<p>γ <b>ROC ichida</b> yotadi. Integral qoldiqlar teoremasi bo'yicha γ ichidagi qutblardagi qoldiqlar yig'indisiga teng. Amalda bu formula bilan kamdan-kam hisoblanadi — quyidagi ikki usul ancha oson.</p>
+
+<h3>1-usul: bevosita (ko'zdan kechirish)</h3>
+<p>Agar X(z) ko'phad bo'lsa yoki jadvaldagi elementar juftliklar chiziqli kombinatsiyasiga ajratilsa, javob darhol yoziladi.</p>
+<div class="sol"><p><b>Ma'ruza 1-misoli:</b> X(z) = z<sup>4</sup> + 3z<sup>−1</sup> + 4z<sup>−10</sup>. Chiziqlilik va Z[δ(n − N)] = z<sup>−N</sup> bo'yicha: <b>x(n) = δ(n + 4) + 3δ(n − 1) + 4δ(n − 10)</b>.</p></div>
+<div class="sol"><p><b>Ma'ruza 2-misoli:</b> X(z) = z²/(z − α)², |z| &gt; |α|. Ajratamiz: z²/(z − α)² = αz/(z − α)² + z/(z − α) (tekshiring: suratlar yig'indisi αz + z(z − α) = z²). Juftliklar: z/(z − α) ↔ αⁿu(n), αz/(z − α)² ↔ nαⁿu(n). <b>x(n) = (n + 1)αⁿu(n)</b>.</p></div>
+
+<h3>2-usul: oddiy kasrlarga ajratish (asosiy usul)</h3>
+<p>X(z) — z<sup>−1</sup> bo'yicha ratsional, (1) maxraj darajasi suratnikidan katta, (2) qutblar oddiy (takrorlanmaydi). Shunda:</p>
+<div class="formula">X(z) = Σ<sub>i</sub> R<sub>i</sub>/(1 − d<sub>i</sub>z<sup>−1</sup>), &nbsp;&nbsp; R<sub>i</sub> = X(z)·(1 − d<sub>i</sub>z<sup>−1</sup>)|<sub>z=d<sub>i</sub></sub></div>
+<p>d<sub>i</sub> — qutblar, R<sub>i</sub> — <span class="term">qoldiqlar</span> (residuals): X(z) ni shu qutb ko'paytuvchisiga ko'paytirib (ya'ni uni "o'chirib"), qolganini z = d<sub>i</sub> da hisoblaymiz. Keyin har bir kasrni ROC bo'yicha teskari almashtiramiz:</p>
+<div class="tw"><table>
+<tr><th>Qutb d<sub>i</sub> ROC ga nisbatan</th><th>R<sub>i</sub>/(1 − d<sub>i</sub>z<sup>−1</sup>) ning teskarisi</th></tr>
+<tr><td>ROC |z| &gt; |d<sub>i</sub>| (qutb ROC ning <b>ichki</b> tomonida)</td><td><b>R<sub>i</sub>·d<sub>i</sub>ⁿ·u(n)</b> — kauzal</td></tr>
+<tr><td>ROC |z| &lt; |d<sub>i</sub>| (qutb ROC ning <b>tashqi</b> tomonida)</td><td><b>−R<sub>i</sub>·d<sub>i</sub>ⁿ·u(−n − 1)</b> — antikauzal</td></tr>
+</table></div>
+<div class="box note"><b>Ma'ruza eslatmalari.</b> (1) Butun ROC |z| &lt; ρ bo'lsa, javob to'liq antikauzal: x(n) = −u(−n − 1)ΣR<sub>i</sub>d<sub>i</sub>ⁿ. (2) Surat darajasi maxrajnikidan <b>kichik bo'lmasa</b>, avval ko'phadlarni bo'lamiz: X(z) = P(z) + N'(z)/D(z), P(z) = Σc<sub>n</sub>z<sup>−n</sup> — ko'phad qismi (deltalar beradi), qolgani — to'g'ri kasr.</div>
+
+<figure>
+<svg viewBox="0 0 700 290" role="img" aria-label="ROC bo'yicha kauzal va antikauzal hadni tanlash">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<path fill-rule="evenodd" d="M65.0 150.0 a105.0 105.0 0 1 0 210.0 0 a105.0 105.0 0 1 0 -210.0 0 Z M132.5 150.0 a37.5 37.5 0 1 0 75.0 0 a37.5 37.5 0 1 0 -75.0 0 Z" style="fill:var(--accent);fill-opacity:.16"/><line x1="50.0" y1="150.0" x2="290.0" y2="150.0" stroke-width="1.3" style="stroke:var(--muted)" marker-end="url(#ah)"/><line x1="170.0" y1="270.0" x2="170.0" y2="30.0" stroke-width="1.3" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="288.0" y="166.0" text-anchor="end" font-size="11">Re</text><text class="s-muted" x="176.0" y="40.0" text-anchor="start" font-size="11">Im</text><circle cx="170.0" cy="150.0" r="37.5" fill="none" stroke-width="1.6" style="stroke:var(--accent)" stroke-dasharray="5 4"/><circle cx="170.0" cy="150.0" r="105.0" fill="none" stroke-width="1.6" style="stroke:var(--accent)" stroke-dasharray="5 4"/><line x1="201.5" y1="144.0" x2="213.5" y2="156.0" stroke-width="2.4" style="stroke:var(--fg)"/><line x1="201.5" y1="156.0" x2="213.5" y2="144.0" stroke-width="2.4" style="stroke:var(--fg)"/><line x1="59.0" y1="144.0" x2="71.0" y2="156.0" stroke-width="2.4" style="stroke:var(--fg)"/><line x1="59.0" y1="156.0" x2="71.0" y2="144.0" stroke-width="2.4" style="stroke:var(--fg)"/><text class="s-ink" x="211.5" y="138.0" text-anchor="start" font-size="13" font-weight="700">d₁</text><text class="s-ink" x="71.0" y="138.0" text-anchor="start" font-size="13" font-weight="700">d₂</text><text class="s-ink" x="210.0" y="228.0" text-anchor="start" font-size="13" font-weight="700">ROC</text><text class="s-ink" x="330.0" y="60.0" text-anchor="start" font-size="13" font-weight="700">d₁ — ROC ning ichki chegarasida</text><text class="s-ink" x="330.0" y="82.0" text-anchor="start" font-size="13">(|z| &gt; |d₁|):  R₁·d₁ⁿ·u(n)  — kauzal</text><text class="s-ink" x="330.0" y="140.0" text-anchor="start" font-size="13" font-weight="700">d₂ — ROC ning tashqi chegarasida</text><text class="s-ink" x="330.0" y="162.0" text-anchor="start" font-size="13">(|z| &lt; |d₂|):  −R₂·d₂ⁿ·u(−n−1)  — antikauzal</text><text class="s-muted" x="330.0" y="220.0" text-anchor="start" font-size="12">Qoida: qutbdan o'tgan aylana ROC ning</text><text class="s-muted" x="330.0" y="238.0" text-anchor="start" font-size="12">qaysi tomonida? Ichkarida → u(n),</text><text class="s-muted" x="330.0" y="256.0" text-anchor="start" font-size="12">tashqarida → −u(−n−1).</text>
+</svg>
+<figcaption>Teskari almashtirishda har bir qutb uchun ROC ga qarab hadni tanlaymiz. Bu rasmda ROC — halqa |d<sub>1</sub>| &lt; |z| &lt; |d<sub>2</sub>|, shuning uchun d<sub>1</sub> kauzal had, d<sub>2</sub> antikauzal had beradi (natija — ikki tomonlama ketma-ketlik).</figcaption>
+</figure>
+
+<h3>Ma'ruza misoli (oson — surat 1, oddiy qutblar)</h3>
+<p>X(z) = 1/[(1 − ½z<sup>−1</sup>)(1 − ⅓z<sup>−1</sup>)]. Kauzal va antikauzal ketma-ketliklarni toping.</p>
+<div class="sol">
+<p>Qutblar: d<sub>1</sub> = ½, d<sub>2</sub> = ⅓.</p>
+<p>R<sub>1</sub> = 1/(1 − ⅓z<sup>−1</sup>)|<sub>z=½</sub> = 1/(1 − ⅓·2) = 1/(⅓) = <b>3</b>. &nbsp; R<sub>2</sub> = 1/(1 − ½z<sup>−1</sup>)|<sub>z=⅓</sub> = 1/(1 − ½·3) = <b>−2</b>.</p>
+<p>X(z) = 3/(1 − ½z<sup>−1</sup>) − 2/(1 − ⅓z<sup>−1</sup>).</p>
+<p><b>Kauzal</b> (ROC |z| &gt; ½): <b>x(n) = [3(½)ⁿ − 2(⅓)ⁿ]u(n)</b>. Tekshiruv: x(0) = 3 − 2 = 1 = lim X(z) ✓.</p>
+<p><b>Antikauzal</b> (ROC |z| &lt; ⅓): <b>x(n) = −[3(½)ⁿ − 2(⅓)ⁿ]u(−n − 1)</b>.</p>
+<p>(Uchinchi variant — ⅓ &lt; |z| &lt; ½ halqa: ⅓ qutb kauzal, ½ qutb antikauzal: x(n) = −3(½)ⁿu(−n − 1) − 2(⅓)ⁿu(n).)</p>
+</div>
+
+<figure>
+<svg viewBox="0 0 720 200" role="img" aria-label="Bitta X(z) dan kauzal va antikauzal ketma-ketlik">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<line x1="24.0" y1="152.2" x2="340.0" y2="152.2" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="340.0" y="170.2" text-anchor="end" font-size="13">n</text><line x1="180.0" y1="176.0" x2="180.0" y2="40.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><circle class="f-acc" cx="42.1" cy="152.2" r="2.3"/><circle class="f-acc" cx="59.3" cy="152.2" r="2.3"/><circle class="f-acc" cx="76.6" cy="152.2" r="2.3"/><circle class="f-acc" cx="93.8" cy="152.2" r="2.3"/><circle class="f-acc" cx="111.0" cy="152.2" r="2.3"/><circle class="f-acc" cx="128.3" cy="152.2" r="2.3"/><circle class="f-acc" cx="145.5" cy="152.2" r="2.3"/><circle class="f-acc" cx="162.8" cy="152.2" r="2.3"/><line class="s-acc" x1="180.0" y1="152.2" x2="180.0" y2="63.3" stroke-width="2"/><circle class="f-acc" cx="180.0" cy="63.3" r="3.5"/><line class="s-acc" x1="197.2" y1="152.2" x2="197.2" y2="78.1" stroke-width="2"/><circle class="f-acc" cx="197.2" cy="78.1" r="3.5"/><line class="s-acc" x1="214.5" y1="152.2" x2="214.5" y2="105.3" stroke-width="2"/><circle class="f-acc" cx="214.5" cy="105.3" r="3.5"/><line class="s-acc" x1="231.7" y1="152.2" x2="231.7" y2="125.5" stroke-width="2"/><circle class="f-acc" cx="231.7" cy="125.5" r="3.5"/><line class="s-acc" x1="249.0" y1="152.2" x2="249.0" y2="137.8" stroke-width="2"/><circle class="f-acc" cx="249.0" cy="137.8" r="3.5"/><line class="s-acc" x1="266.2" y1="152.2" x2="266.2" y2="144.6" stroke-width="2"/><circle class="f-acc" cx="266.2" cy="144.6" r="3.5"/><line class="s-acc" x1="283.4" y1="152.2" x2="283.4" y2="148.3" stroke-width="2"/><circle class="f-acc" cx="283.4" cy="148.3" r="3.5"/><line class="s-acc" x1="300.7" y1="152.2" x2="300.7" y2="150.2" stroke-width="2"/><circle class="f-acc" cx="300.7" cy="150.2" r="3.5"/><line class="s-acc" x1="317.9" y1="152.2" x2="317.9" y2="151.2" stroke-width="2"/><circle class="f-acc" cx="317.9" cy="151.2" r="3.5"/><line x1="93.8" y1="149.2" x2="93.8" y2="155.2" style="stroke:var(--muted)"/><text class="s-muted" x="93.8" y="170.2" text-anchor="middle" font-size="11">−5</text><line x1="180.0" y1="149.2" x2="180.0" y2="155.2" style="stroke:var(--muted)"/><text class="s-muted" x="180.0" y="170.2" text-anchor="middle" font-size="11">0</text><line x1="266.2" y1="149.2" x2="266.2" y2="155.2" style="stroke:var(--muted)"/><text class="s-muted" x="266.2" y="170.2" text-anchor="middle" font-size="11">5</text><text class="s-ink" x="30.0" y="28.0" text-anchor="start" font-size="13" font-weight="700">Kauzal, |z| &gt; ½: [3(½)ⁿ − 2(⅓)ⁿ]u(n)</text><line x1="384.0" y1="110.0" x2="700.0" y2="110.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="700.0" y="128.0" text-anchor="end" font-size="13">n</text><line x1="540.0" y1="176.0" x2="540.0" y2="40.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><line class="s-acc" x1="402.1" y1="110.0" x2="402.1" y2="53.0" stroke-width="2"/><circle class="f-acc" cx="402.1" cy="53.0" r="3.5"/><line class="s-acc" x1="419.3" y1="110.0" x2="419.3" y2="91.6" stroke-width="2"/><circle class="f-acc" cx="419.3" cy="91.6" r="3.5"/><line class="s-acc" x1="436.6" y1="110.0" x2="436.6" y2="104.2" stroke-width="2"/><circle class="f-acc" cx="436.6" cy="104.2" r="3.5"/><line class="s-acc" x1="453.8" y1="110.0" x2="453.8" y2="108.2" stroke-width="2"/><circle class="f-acc" cx="453.8" cy="108.2" r="3.5"/><line class="s-acc" x1="471.0" y1="110.0" x2="471.0" y2="109.5" stroke-width="2"/><circle class="f-acc" cx="471.0" cy="109.5" r="3.5"/><line class="s-acc" x1="488.3" y1="110.0" x2="488.3" y2="109.9" stroke-width="2"/><circle class="f-acc" cx="488.3" cy="109.9" r="3.5"/><line class="s-acc" x1="505.5" y1="110.0" x2="505.5" y2="110.0" stroke-width="2"/><circle class="f-acc" cx="505.5" cy="110.0" r="3.5"/><circle class="f-acc" cx="522.8" cy="110.0" r="2.3"/><circle class="f-acc" cx="540.0" cy="110.0" r="2.3"/><circle class="f-acc" cx="557.2" cy="110.0" r="2.3"/><circle class="f-acc" cx="574.5" cy="110.0" r="2.3"/><circle class="f-acc" cx="591.7" cy="110.0" r="2.3"/><circle class="f-acc" cx="609.0" cy="110.0" r="2.3"/><circle class="f-acc" cx="626.2" cy="110.0" r="2.3"/><circle class="f-acc" cx="643.4" cy="110.0" r="2.3"/><circle class="f-acc" cx="660.7" cy="110.0" r="2.3"/><circle class="f-acc" cx="677.9" cy="110.0" r="2.3"/><line x1="540.0" y1="107.0" x2="540.0" y2="113.0" style="stroke:var(--muted)"/><text class="s-muted" x="540.0" y="128.0" text-anchor="middle" font-size="11">0</text><line x1="626.2" y1="107.0" x2="626.2" y2="113.0" style="stroke:var(--muted)"/><text class="s-muted" x="626.2" y="128.0" text-anchor="middle" font-size="11">5</text><text class="s-ink" x="390.0" y="28.0" text-anchor="start" font-size="13" font-weight="700">Antikauzal, |z| &lt; ⅓: −[…]u(−n − 1)</text>
+</svg>
+<figcaption>Bitta X(z) = 1/[(1 − ½z<sup>−1</sup>)(1 − ⅓z<sup>−1</sup>)], ikki xil ROC — ikki xil signal. Chapda kauzal (n ≥ 0, so'nadi), o'ngda antikauzal (n ≤ −1; o'ng grafik normallangan — n → −∞ da qiymatlar 3ⁿ kabi juda tez o'sadi).</figcaption>
+</figure>
+
+<h3>Ma'ruza misoli (o'rta — z ning musbat darajalarida)</h3>
+<p>X(z) = 2z/[(z − 1)(z − 2)], ROC |z| &gt; 2 (kauzal).</p>
+<div class="sol">
+<p>Ko'rinishni X(z) = Az/(z − 1) + Bz/(z − 2) deb izlaymiz (z/(z − a) ↔ aⁿu(n) juftligi uchun qulay). Maxrajga ko'paytirib, z ga bo'lamiz: 2 = A(z − 2) + B(z − 1) = (A + B)z − (2A + B).</p>
+<p>Koeffitsiyentlar: A + B = 0, −2A − B = 2 → B = −A, −A = 2 → <b>A = −2, B = 2</b>.</p>
+<p>X(z) = −2z/(z − 1) + 2z/(z − 2) → <b>x(n) = −2u(n) + 2·2ⁿu(n) = 2(2ⁿ − 1)u(n)</b>. Tekshiruv: x(0) = 0 = lim 2z/z² ✓.</p>
+<p>(Xuddi shu natija qoldiqlar bilan: X = 2z<sup>−1</sup>/[(1 − z<sup>−1</sup>)(1 − 2z<sup>−1</sup>)], R(1) = 2·1/(1 − 2) = −2, R(2) = 2·½/(1 − ½) = 2.)</p>
+</div>
+
+<figure>
+<svg viewBox="0 0 720 190" role="img" aria-label="Teskari Z-almashtirish qadamlari">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<rect class="f-accsoft s-acc" x="15" y="15" width="215" height="62" rx="8" stroke-width="1.6"/><text class="s-ink" x="25.0" y="39.0" text-anchor="start" font-size="13" font-weight="700">1. X(z) ni z⁻¹ da yozing</text><text class="s-muted" x="25.0" y="61.0" text-anchor="start" font-size="11.5">surat va maxrajni zᵏ ga bo'ling</text><line x1="230" y1="46.0" x2="248" y2="46.0" stroke-width="1.6" style="stroke:var(--muted)" marker-end="url(#ah)"/><rect class="f-accsoft s-acc" x="250" y="15" width="215" height="62" rx="8" stroke-width="1.6"/><text class="s-ink" x="260.0" y="39.0" text-anchor="start" font-size="13" font-weight="700">2. Daraja tekshiruvi</text><text class="s-muted" x="260.0" y="61.0" text-anchor="start" font-size="11.5">surat ≥ maxraj bo'lsa — bo'lish</text><line x1="465" y1="46.0" x2="483" y2="46.0" stroke-width="1.6" style="stroke:var(--muted)" marker-end="url(#ah)"/><rect class="f-accsoft s-acc" x="485" y="15" width="215" height="62" rx="8" stroke-width="1.6"/><text class="s-ink" x="495.0" y="39.0" text-anchor="start" font-size="13" font-weight="700">3. Qutblar dᵢ</text><text class="s-muted" x="495.0" y="61.0" text-anchor="start" font-size="11.5">maxraj ildizlari</text><rect class="f-accsoft s-acc" x="15" y="110" width="215" height="62" rx="8" stroke-width="1.6"/><text class="s-ink" x="25.0" y="134.0" text-anchor="start" font-size="13" font-weight="700">4. Qoldiqlar Rᵢ</text><text class="s-muted" x="25.0" y="156.0" text-anchor="start" font-size="11.5">Rᵢ = X(1 − dᵢz⁻¹)|z=dᵢ</text><line x1="230" y1="141.0" x2="248" y2="141.0" stroke-width="1.6" style="stroke:var(--muted)" marker-end="url(#ah)"/><rect class="f-accsoft s-acc" x="250" y="110" width="215" height="62" rx="8" stroke-width="1.6"/><text class="s-ink" x="260.0" y="134.0" text-anchor="start" font-size="13" font-weight="700">5. ROC bo'yicha</text><text class="s-muted" x="260.0" y="156.0" text-anchor="start" font-size="11.5">Rᵢdᵢⁿu(n) yoki −Rᵢdᵢⁿu(−n−1)</text><line x1="465" y1="141.0" x2="483" y2="141.0" stroke-width="1.6" style="stroke:var(--muted)" marker-end="url(#ah)"/><rect class="f-accsoft s-acc" x="485" y="110" width="215" height="62" rx="8" stroke-width="1.6"/><text class="s-ink" x="495.0" y="134.0" text-anchor="start" font-size="13" font-weight="700">6. Tekshiring</text><text class="s-muted" x="495.0" y="156.0" text-anchor="start" font-size="11.5">x(0) = lim X(z), z → ∞</text><path d="M592.5 77 V94 H122.5 V108" fill="none" stroke-width="1.6" style="stroke:var(--muted)" marker-end="url(#ah)"/>
+</svg>
+<figcaption>Teskari Z-almashtirish retsepti (oddiy kasrlar usuli). Imtihonda deyarli har bir "x(n) = ?" savoli shu 6 qadam bilan yechiladi.</figcaption>
+</figure>
+
+<h2>4. Yechilgan misollar (Exercises 2 va qo'lyozmalar)</h2>
+<h3>3.1-masala: x(n) = [(½)ⁿ + (¾)ⁿ]u(n − 10)</h3>
+<div class="sol">
+<p>u(n − 10) bor — surish xossasidan foydalanish uchun signalni x(n) = y(n − 10) ko'rinishiga keltiramiz: (½)ⁿ = (½)<sup>10</sup>(½)<sup>n−10</sup>, (¾)ⁿ = (¾)<sup>10</sup>(¾)<sup>n−10</sup>. Demak y(n) = (½)<sup>10</sup>(½)ⁿu(n) + (¾)<sup>10</sup>(¾)ⁿu(n).</p>
+<p>Chiziqlilik: Y(z) = (½)<sup>10</sup>·z/(z − ½) + (¾)<sup>10</sup>·z/(z − ¾), |z| &gt; ¾.</p>
+<p>Surish (×z<sup>−10</sup>): <b>X(z) = (½)<sup>10</sup>·z<sup>−9</sup>/(z − ½) + (¾)<sup>10</sup>·z<sup>−9</sup>/(z − ¾)</b>, <b>ROC |z| &gt; ¾</b>.</p>
+</div>
+<h3>3.2-masala: x(n) = 1, −10 ≤ n ≤ 10</h3>
+<div class="sol"><p>x(n) = y(n + 10), y — 0 ≤ n ≤ 20 dagi quti (21 namuna). 28-darsdagi 2.2 bo'yicha Y(z) = (1 − z<sup>−21</sup>)/(1 − z<sup>−1</sup>). Oldinga surish (×z<sup>10</sup>): <b>X(z) = z<sup>10</sup>(1 − z<sup>−21</sup>)/(1 − z<sup>−1</sup>)</b>, <b>ROC 0 &lt; |z| &lt; ∞</b> (endi n &lt; 0 namunalar ham bor → ∞ chiqariladi).</p></div>
+<h3>Qo'lyozma: y(n) = (½)<sup>n−5</sup>u(n − 5)</h3>
+<div class="sol"><p>Bu aynan (½)ⁿu(n) ning 5 ga kechikkani: Y(z) = z<sup>−5</sup>·z/(z − ½) = <b>z<sup>−4</sup>/(z − ½)</b>, |z| &gt; ½. (3.1 dan farqi: bu yerda daraja ham n − 5, shuning uchun (½)<sup>5</sup> ko'paytuvchi kerak emas.)</p></div>
+<h3>Qo'lyozma: o'ram xossasi</h3>
+<p>x(n) = x<sub>1</sub>(n) * x<sub>2</sub>(n), x<sub>1</sub> = 3δ(n) + 2δ(n − 1), x<sub>2</sub> = 2δ(n) − δ(n − 1).</p>
+<div class="sol"><p>X<sub>1</sub> = 3 + 2z<sup>−1</sup>, X<sub>2</sub> = 2 − z<sup>−1</sup>. X = X<sub>1</sub>X<sub>2</sub> = 6 − 3z<sup>−1</sup> + 4z<sup>−1</sup> − 2z<sup>−2</sup> = <b>6 + z<sup>−1</sup> − 2z<sup>−2</sup></b> → x(n) = {6, 1, −2}. (22-darsdagi jadval usuli bilan ham: {3, 2} * {2, −1} = {6, 1, −2} ✓.)</p></div>
+
+<h3>4.1-masala: X<sub>a</sub>(z) = 1/(1 − ½z<sup>−1</sup>) — kauzal va antikauzal</h3>
+<div class="sol"><p>X<sub>a</sub> = z/(z − ½), qutb ½. <b>Kauzal</b> (|z| &gt; ½): x<sub>a</sub>[n] = (½)ⁿu[n]. <b>Antikauzal</b> (|z| &lt; ½): x<sub>a</sub>[n] = −(½)ⁿu[−n − 1].</p></div>
+<h3>4.2-masala: X<sub>b</sub>(z) = 1/[(1 − ½z<sup>−1</sup>)(1 − z<sup>−1</sup>)]</h3>
+<div class="sol">
+<p>Qutblar d<sub>1</sub> = ½, d<sub>2</sub> = 1. R<sub>1</sub> = 1/(1 − z<sup>−1</sup>)|<sub>z=½</sub> = 1/(1 − 2) = <b>−1</b>; R<sub>2</sub> = 1/(1 − ½z<sup>−1</sup>)|<sub>z=1</sub> = 1/(½) = <b>2</b>.</p>
+<p>X<sub>b</sub> = 2/(1 − z<sup>−1</sup>) − 1/(1 − ½z<sup>−1</sup>).</p>
+<p><b>Kauzal</b> (|z| &gt; 1): <b>x[n] = 2u[n] − (½)ⁿu[n] = [2 − (½)ⁿ]u[n]</b>. <b>Antikauzal</b> (|z| &lt; ½): <b>x[n] = −[2 − (½)ⁿ]u[−n − 1]</b>.</p>
+</div>
+<h3>4.3-masala: X<sub>c</sub>(z) = (1 − ½z<sup>−1</sup>)/(1 + ½z<sup>−1</sup>)</h3>
+<div class="sol">
+<p>Surat va maxraj darajasi teng — to'g'ridan qoldiq usuli ishlamaydi. Mashg'ulot usuli: X = Y − ½z<sup>−1</sup>Y, Y = 1/(1 + ½z<sup>−1</sup>) → x(n) = y(n) − ½y(n − 1) (surish xossasi).</p>
+<p><b>Kauzal</b>: y(n) = (−½)ⁿu(n). x(n) = (−½)ⁿu(n) − ½(−½)<sup>n−1</sup>u(n − 1) = (−½)ⁿu(n) + (−½)ⁿu(n − 1) = (−½)ⁿ[u(n) + u(n − 1)]. u(n − 1) = u(n) − δ(n) va (−½)ⁿδ(n) = δ(n) bo'lgani uchun: <b>x(n) = 2(−½)ⁿu(n) − δ(n)</b>.</p>
+<p><b>Antikauzal</b>: y(n) = −(−½)ⁿu(−n − 1); xuddi shunday hisob: <b>x(n) = −2(−½)ⁿu(−n − 1) − δ(n)</b>.</p>
+<p>Muqobil (ma'ruza 2-eslatmasi — bo'lish): (1 − ½z<sup>−1</sup>)/(1 + ½z<sup>−1</sup>) = −1 + 2/(1 + ½z<sup>−1</sup>) → kauzal: −δ(n) + 2(−½)ⁿu(n) ✓ — bir xil. Tekshiruv: x(0) = 2 − 1 = 1 = lim X(z) ✓.</p>
+</div>
+
+<h3>5.1-masala: X(z) = (1 + 2z)(1 + 3z<sup>−1</sup>)(1 − z<sup>−1</sup>)</h3>
+<div class="sol"><p>Ko'phad — qavslarni ochamiz: (1 + 3z<sup>−1</sup> + 2z + 6)(1 − z<sup>−1</sup>) = 1 + 3z<sup>−1</sup> + 2z + 6 − z<sup>−1</sup> − 3z<sup>−2</sup> − 2 − 6z<sup>−1</sup> = 2z + 5 − 4z<sup>−1</sup> − 3z<sup>−2</sup>. Bevosita usul: <b>x(n) = 2δ(n + 1) + 5δ(n) − 4δ(n − 1) − 3δ(n − 2)</b>.</p></div>
+<h3>5.2-masala: X(z) = 3z/[(z − ½)(z + ¼)], |z| &gt; ½</h3>
+<div class="sol">
+<p>Surat va maxrajni z<sup>−2</sup> ga ko'paytirib, z<sup>−1</sup> ko'rinishiga o'tamiz: X = 3z<sup>−1</sup>/[(1 − ½z<sup>−1</sup>)(1 + ¼z<sup>−1</sup>)]. Qutblar ½ va −¼.</p>
+<p>R<sub>1</sub> = 3z<sup>−1</sup>/(1 + ¼z<sup>−1</sup>)|<sub>z=½</sub> = 6/(1 + ½) = <b>4</b>; R<sub>2</sub> = 3z<sup>−1</sup>/(1 − ½z<sup>−1</sup>)|<sub>z=−¼</sub> = −12/(1 + 2) = <b>−4</b>.</p>
+<p>X = 4/(1 − ½z<sup>−1</sup>) − 4/(1 + ¼z<sup>−1</sup>), ROC |z| &gt; ½ — ikkala qutb ichkarida → kauzal: <b>x(n) = 4[(½)ⁿ − (−¼)ⁿ]u(n)</b>. Tekshiruv: x(0) = 0 = lim 3z/z² ✓.</p>
+</div>
+<h3>5.3-masala: X(z) = (2z³ + z²)/[(z + 3)(z − 1)], |z| &gt; 3</h3>
+<div class="sol">
+<p>Surat darajasi (3) maxrajnikidan (2) katta. Mashg'ulot hiylasi: surat va maxrajni z<sup>−3</sup> ga ko'paytiramiz: X = (2 + z<sup>−1</sup>)/[z<sup>−1</sup>(1 + 3z<sup>−1</sup>)(1 − z<sup>−1</sup>)] = <b>z·Y(z)</b>, Y = (2 + z<sup>−1</sup>)/[(1 + 3z<sup>−1</sup>)(1 − z<sup>−1</sup>)]. Demak <b>x(n) = y(n + 1)</b>.</p>
+<p>Y ning qutblari −3 va 1. R<sub>1</sub> = (2 + z<sup>−1</sup>)/(1 − z<sup>−1</sup>)|<sub>z=−3</sub> = (2 − ⅓)/(1 + ⅓) = (5/3)/(4/3) = <b>5/4</b>; R<sub>2</sub> = (2 + z<sup>−1</sup>)/(1 + 3z<sup>−1</sup>)|<sub>z=1</sub> = 3/4.</p>
+<p>|z| &gt; 3 → kauzal: y(n) = [¾ + (5/4)(−3)ⁿ]u(n). <b>x(n) = y(n + 1) = ¼[3 + 5(−3)<sup>n+1</sup>]u(n + 1)</b>.</p>
+<p>(x(−1) = ¼(3 + 5) = 2 — ha, X(z) da z<sup>1</sup> hadi bor: z → ∞ da X ≈ 2z, shuning uchun x(−1) = 2 ✓.)</p>
+</div>
+<h3>Qo'lyozma: ayirmali tenglama</h3>
+<p>x(n + 2) − 3x(n + 1) + 2x(n) = δ(n), boshlang'ich shartlar nol. x(n) = ?</p>
+<div class="sol">
+<p>Ikki tomonni Z ga o'tkazamiz (oldinga surish: x(n + k) → z<sup>k</sup>X(z), boshlang'ich shartlar nol bo'lgani uchun qo'shimcha had yo'q): z²X − 3zX + 2X = 1 → <b>X(z) = 1/(z² − 3z + 2) = 1/[(z − 2)(z − 1)]</b>.</p>
+<p>Oddiy kasrlar: 1/[(z − 2)(z − 1)] = 1/(z − 2) − 1/(z − 1). Har birini z<sup>−1</sup>·z/(z − a) ko'rinishida yozamiz: z<sup>−1</sup>·z/(z − 2) ↔ 2<sup>n−1</sup>u(n − 1).</p>
+<p><b>x(n) = (2<sup>n−1</sup> − 1)u(n − 1)</b>. Tekshiruv: x(0) = 0, x(1) = 0, x(2) = 1; tenglama n = 0 da: x(2) − 3x(1) + 2x(0) = 1 = δ(0) ✓.</p>
+</div>
+
+<h2>O'zingizni tekshiring</h2>
+<p>1–6-savollar imtihondagi test shaklida.</p>
+<div class="box check">1. x(n − 3) ning Z-almashtirishi:<br>a) z<sup>3</sup>X(z) &nbsp; b) z<sup>−3</sup>X(z) &nbsp; c) X(z − 3) &nbsp; d) X(z)/3
+<details><summary>Javob</summary><b>b)</b></details></div>
+<div class="box check">2. X(z) = 1/(1 − 0,5z<sup>−1</sup>) + 1/(1 − 3z<sup>−1</sup>), ROC 0,5 &lt; |z| &lt; 3. x(n):<br>a) [(0,5)ⁿ + 3ⁿ]u(n) &nbsp; b) (0,5)ⁿu(n) − 3ⁿu(−n − 1) &nbsp; c) −(0,5)ⁿu(−n − 1) + 3ⁿu(n) &nbsp; d) −[(0,5)ⁿ + 3ⁿ]u(−n − 1)
+<details><summary>Javob</summary><b>b)</b> 0,5 ichkarida → kauzal; 3 tashqarida → antikauzal.</details></div>
+<div class="box check">3. Kauzal x(n) uchun X(z) = (2z² + z)/(z² − 0,25). x(0) = ?<br>a) 0 &nbsp; b) 1 &nbsp; c) 2 &nbsp; d) −4
+<details><summary>Javob</summary><b>c)</b> lim<sub>z→∞</sub> = 2.</details></div>
+<div class="box check">4. nαⁿu(n) ning Z-almashtirishi:<br>a) z/(z − α) &nbsp; b) αz/(z − α)² &nbsp; c) z²/(z − α)² &nbsp; d) α/(z − α)
+<details><summary>Javob</summary><b>b)</b> −z·d/dz[z/(z − α)].</details></div>
+<div class="box check">5. X(z) = 1/[(1 − ½z<sup>−1</sup>)(1 − ¼z<sup>−1</sup>)] da ½ qutbning qoldig'i:<br>a) 1 &nbsp; b) 2 &nbsp; c) −1 &nbsp; d) ½
+<details><summary>Javob</summary><b>b)</b> 1/(1 − ¼·2) = 2.</details></div>
+<div class="box check">6. x(−n) ning ROC i, agar x(n) ning ROC i |z| &gt; 0,5 bo'lsa:<br>a) |z| &gt; 2 &nbsp; b) |z| &lt; 2 &nbsp; c) |z| &lt; 0,5 &nbsp; d) |z| &gt; 0,5
+<details><summary>Javob</summary><b>b)</b> 1/R<sub>x</sub>.</details></div>
+<div class="box check">7. X(z) = 1 + 2z<sup>−3</sup> ning teskarisi? <details><summary>Javob</summary>δ(n) + 2δ(n − 3).</details></div>
+<div class="box check">8. (0,9)ⁿx(n) ning X ini x ning X(z) i orqali yozing. <details><summary>Javob</summary>X(z/0,9), ROC 0,9 marta.</details></div>
+
+<h2>📝 Konspekt</h2>
+<div class="box note"><p><strong>Shularni bilsangiz, bu mavzuni bilasiz</strong> (33-ma'ruza):</p>
+<ol>
+<li>Chiziqlilik: αX + βY, ROC ⊇ R<sub>x</sub> ∩ R<sub>y</sub> (qutblar qisqarsa kengayadi).</li>
+<li>Surish: <code>x(n − N) ↔ z<sup>−N</sup>X(z)</code>. Teskari: <code>x(−n) ↔ X(z<sup>−1</sup>)</code>, ROC 1/R. Masshtab: <code>αⁿx(n) ↔ X(z/α)</code>, ROC |α|R. <code>n·x(n) ↔ −z·dX/dz</code>. O'ram: <code>x * y ↔ X·Y</code>.</li>
+<li>Boshlang'ich qiymat (kauzal): <code>x(0) = lim<sub>z→∞</sub>X(z)</code>.</li>
+<li>Teskari Z: <code>x(n) = (1/2πj)∮X(z)z<sup>n−1</sup>dz</code> = γ ichidagi qoldiqlar yig'indisi (γ ROC da).</li>
+<li>Bevosita usul: ko'phad → deltalar (z<sup>−N</sup> ↔ δ(n − N)); jadval juftliklari. z²/(z − α)² ↔ (n + 1)αⁿu(n).</li>
+<li>Oddiy kasrlar: <code>X = ΣR<sub>i</sub>/(1 − d<sub>i</sub>z<sup>−1</sup>)</code>, <code>R<sub>i</sub> = X(z)(1 − d<sub>i</sub>z<sup>−1</sup>)|<sub>z=d<sub>i</sub></sub></code>.</li>
+<li>ROC bo'yicha: qutb ROC ichki chegarasida yoki undan ichkarida (|z| &gt; |d<sub>i</sub>|) → <code>R<sub>i</sub>d<sub>i</sub>ⁿu(n)</code>; tashqarida (|z| &lt; |d<sub>i</sub>|) → <code>−R<sub>i</sub>d<sub>i</sub>ⁿu(−n − 1)</code>.</li>
+<li>Surat darajasi ≥ maxraj: avval bo'lish (ko'phad qismi → deltalar) yoki z<sup>k</sup> ko'paytuvchini ajratib surish xossasini qo'llash.</li>
+<li>Ma'ruza: 1/[(1 − ½z<sup>−1</sup>)(1 − ⅓z<sup>−1</sup>)] → R = 3, −2 → [3(½)ⁿ − 2(⅓)ⁿ]u(n); 2z/[(z − 1)(z − 2)] → 2(2ⁿ − 1)u(n).</li>
+</ol></div>
+
+<div class="box ok">O'qib bo'ldingizmi? Chatga <strong>"tushundim"</strong> deb yozing. <strong>"Tushunmadim"</strong> bo'lsa, qaysi joy qiyin bo'lganini ayting, darsni soddaroq qilib qayta yozaman.</div>
+<footer class="pager"><a href="28-z-almashtirish.html">← 28. Z-almashtirish</a><a href="./">Darslar ro'yxati</a></footer>
+</main></body></html>
