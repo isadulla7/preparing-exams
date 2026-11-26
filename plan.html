@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ustuvorlik rejasi</title><link rel="stylesheet" href="assets/style.css">
+<style>
+.tag{display:inline-block;font-weight:700;border-radius:6px;padding:0 .45em;font-size:.9rem;color:#fff}
+.tA{background:#c0392b}.tB{background:#d68910}.tC{background:#7f8c8d}
+.bar{display:flex;align-items:center;gap:8px;margin:.25em 0;font-size:.95rem}
+.bar span.l{flex:0 0 46%}
+.bar span.b{height:14px;border-radius:4px;background:var(--accent)}
+.bar span.n{color:var(--muted);font-size:.85rem;flex:1 1 0;min-width:0}
+.bar span.b{flex:0 0 auto}
+td,th{vertical-align:top;font-size:.95rem}
+.wrap{overflow-x:auto}
+.small{font-size:.88rem;color:var(--muted)}
+</style></head>
+<body><main>
+<nav class="top"><a href="./">Bosh sahifa</a> › Ustuvorlik rejasi</nav>
+<h1>Ustuvorlik rejasi: ikkala imtihondan kamida 18 ball</h1>
+
+<div class="box note"><strong>Qisqacha:</strong> har bir fanda mavzular uch guruhga bo'lingan.
+<span class="tag tA">A</span> = albatta o'rganing, 18 ball shu yerdan keladi.
+<span class="tag tB">B</span> = zaxira ball uchun.
+<span class="tag tC">C</span> = faqat vaqt qolsa.
+Avval ikkala fanning A mavzularini tugatamiz, keyin B ga o'tamiz. Darslar shu tartibda yoziladi.</div>
+
+<p class="small">Reja faqat sizning materiallaringizga asoslangan: Applied electronics bo'yicha 11 ta yechilgan imtihon (2018–2021) va 117 ta mashq savoli, Signal analysis bo'yicha ma'ruzalar, mashg'ulot papkasi va imtihonda beriladigan formulalar jadvali. Tuzilgan sana: 2026-yil 26-noyabr.</p>
+
+<h2>1. Applied electronics and measurements</h2>
+
+<h3>Ball qanday yig'iladi (kirish slaydidan)</h3>
+<table>
+<tr><th>Qism</th><th>Ball</th><th>Nima bo'ladi</th></tr>
+<tr><td>7 ta test</td><td>7</td><td>Bitta to'g'ri javob, to'g'ri = 1 ball, noto'g'ri = 0 (jarima yo'q)</td></tr>
+<tr><td>2 ta masala</td><td>14</td><td>Har biri 7 ballgacha, qismlarga bo'lingan (1–3 balldan)</td></tr>
+<tr><td>Measurements (Carullo)</td><td>9</td><td>Yozma masala/savollar</td></tr>
+<tr><td>Laboratoriya</td><td>+3</td><td>Faqat 18 ga yetish uchun yordam beradi</td></tr>
+</table>
+<p>O'tish: 30 dan <strong>18</strong>. Vaqt: 90 daqiqa. Testlarda jarima yo'q, demak <strong>hech bir testni bo'sh qoldirmang</strong>.</p>
+
+<h3>Eski imtihonlarda masalalar qaysi mavzudan tushgan</h3>
+<p>11 ta imtihonning nechtasida shu mavzu bo'yicha masala bor:</p>
+<div class="bar"><span class="l">Uzatish liniyalari (aks etish, lattice diagramma)</span><span class="b" style="width:36%"></span><span class="n">9 / 11</span></div>
+<div class="bar"><span class="l">ADC: SAR qadamlari, SNR, namuna olish chastotasi</span><span class="b" style="width:28%"></span><span class="n">7 / 11</span></div>
+<div class="bar"><span class="l">Impulsli stabilizatorlar: buck, boost, buck-boost</span><span class="b" style="width:28%"></span><span class="n">7 / 11</span></div>
+<div class="bar"><span class="l">Flip-flop sxemalari: to'lqin shakli, hisoblagich, chastota</span><span class="b" style="width:20%"></span><span class="n">5 / 11 (2020–2021 da har safar)</span></div>
+<div class="bar"><span class="l">Measurements: o'lchash noaniqligi (sensor bilan)</span><span class="b" style="width:12%"></span><span class="n">3 / 3 (Measurements qismi bor imtihonlarda)</span></div>
+<div class="bar"><span class="l">To'g'rilagich, ripple, zener</span><span class="b" style="width:8%"></span><span class="n">2 / 11</span></div>
+<div class="bar"><span class="l">Issiqlik (radiator), quvvat tranzistori</span><span class="b" style="width:8%"></span><span class="n">2 / 11</span></div>
+<div class="bar"><span class="l">Xotiralar (DRAM, ROM, DDR)</span><span class="b" style="width:8%"></span><span class="n">2 / 11</span></div>
+<div class="bar"><span class="l">CMOS quvvat va kechikish, FPGA/NRE narxi</span><span class="b" style="width:8%"></span><span class="n">2 / 11 har biri</span></div>
+
+<p>117 ta mashq savoli ham shunga mos: uzatish liniyalari 18 ta, ADC tizimlari 18 ta (+2 DAC), stabilizatorlar 18 ta, flip-flop 16 ta, xotira 11 ta, to'g'rilagich/zener 10 ta, oscillator 7 ta, issiqlik/tranzistor 7 ta, CMOS 5 ta, FPGA/NRE 4 ta, bus 1 ta.</p>
+
+<div class="box ok"><strong>Yangi topilma:</strong> 2019-yilgi uchta imtihonda (iyun A, iyun B, iyul) Measurements bo'yicha masala bor: sensor (fotodiod yoki rezistiv termometr Pt100 turi) orqali o'lchangan qiymat va uning <em>noaniqligini</em> hisoblash (6 ball). Demak Carullo qismida asosiy masala turi aniq: <strong>noaniqlikni hisoblash</strong>.</div>
+
+<h3>A / B / C mavzular</h3>
+<div class="wrap"><table>
+<tr><th></th><th>Mavzu</th><th>Nima bilish kerak</th><th>Darslar</th></tr>
+<tr><td><span class="tag tA">A</span></td><td>Uzatish liniyalari</td><td>Γ = (R − Z∞)/(R + Z∞), birinchi qadam V = Vg·Z∞/(Rg+Z∞), lattice diagramma (2tp, 4tp, 6tp dagi kuchlanish), barqaror holat, IWS/RWS, tarqalish vaqti tp = L/v, ekvipotensial liniya (RC zaryad)</td><td>24, 25, 26 + 29</td></tr>
+<tr><td><span class="tag tA">A</span></td><td>ADC (A/D o'zgartirish)</td><td>SAR qadamlari jadvali, bitlar soni, SNR = 6.02N + 1.76 dB (sinus), 6N (uchburchak), ENOB, Nyquist (fs ≥ 2fmax), SAR/flash/tracking vaqti, ko'p kanalli tizim + S/H</td><td>16, 18 (+17) + 20</td></tr>
+<tr><td><span class="tag tA">A</span></td><td>Flip-flop sxemalari</td><td>D, JK, T flip-flop qoidalari, to'lqin shaklini chizish, hisoblagich chastotasi (har FF 2 ga bo'ladi), Fmax = 1/(tCKQ + tlogika + tSU)</td><td>7, 8, 9 + 11</td></tr>
+<tr><td><span class="tag tA">A</span></td><td>Impulsli stabilizatorlar</td><td>Buck Vout = D·Vin, boost Vout = Vin/(1−D), buck-boost −D/(1−D), sxemani tanish, flyback izolyatsiyasi, shovqin qayerga ketadi</td><td>33 + 34</td></tr>
+<tr><td><span class="tag tA">A</span></td><td>Measurements: noaniqlik</td><td>O'lchash modeli, xususiy hosilalar bilan noaniqlik yig'indisi, nisbiy/mutlaq noaniqlik, natijani yozish (734 ± 25) lux</td><td>35, 39 + 40</td></tr>
+<tr><td><span class="tag tB">B</span></td><td>To'g'rilagich va chiziqli stabilizator</td><td>Ripple Vr = I/(f·C) (ikki yarim davrli: 2f), zener, chiziqli stabilizator FIK ≈ Vout/Vin</td><td>31, 32</td></tr>
+<tr><td><span class="tag tB">B</span></td><td>Issiqlik va quvvat</td><td>TJ = TA + P·θJA; issiqlik modeli: quvvat = tok manbai, harorat = kuchlanish, θ = qarshilik</td><td>30</td></tr>
+<tr><td><span class="tag tB">B</span></td><td>CMOS</td><td>P = C·V²·f, kechikish ∝ R·C, VIH/VIL, shovqin zaxirasi</td><td>6</td></tr>
+<tr><td><span class="tag tB">B</span></td><td>Xotiralar</td><td>SRAM = 6 tranzistor, DRAM = 1 tranzistor + kondensator, Flash = suzuvchi zatvor, NAND/NOR farqi, adres dekoderi, DDR tezligi</td><td>21, 22 + 23</td></tr>
+<tr><td><span class="tag tB">B</span></td><td>Oscillator, FPGA/NRE, DAC xatolari</td><td>Schmitt generator (C yoki R 2 marta → chastota 2 marta kam), NRE break-even, LUT soni, R-2R xatolari</td><td>10, 13, 17</td></tr>
+<tr><td><span class="tag tB">B</span></td><td>Measurements: qolganlari</td><td>Chastota/davr o'lchash (±1 xato), dual-slope ADC, qarshilik o'lchash (4 simli)</td><td>36, 37, 38</td></tr>
+<tr><td><span class="tag tC">C</span></td><td>Qolganlari</td><td>Bus protokollari, ketma-ket aloqa, crosstalk tafsilotlari, filtrlar (B5), signalni tayyorlash (D5), PAL/PLA, sensorlar 2–3 tafsilotlari</td><td>14, 19, 27, 28</td></tr>
+</table></div>
+<p class="small">Darslar 1–5 (asoslar) A dan oldin kerak: ularsiz A mavzular tushunilmaydi.</p>
+
+<h3>18 ball qanday yig'iladi (minimal yo'l)</h3>
+<table>
+<tr><th>Qism</th><th>Minimal</th><th>Xavfsiz (zaxira bilan)</th></tr>
+<tr><td>7 ta test</td><td>4</td><td>5</td></tr>
+<tr><td>1-masala (A mavzu)</td><td>6</td><td>6</td></tr>
+<tr><td>2-masala (qisman)</td><td>3</td><td>4</td></tr>
+<tr><td>Measurements</td><td>5</td><td>6</td></tr>
+<tr><th>Jami</th><th>18</th><th>21</th></tr>
+</table>
+<p>Masalalar bir necha kichik qismdan iborat (1, 2, 3 ball). Birinchi 1–2 qismi deyarli doim oson (masalan, aks etish koeffitsiyentini yoki chastotani hisoblash). <strong>Hamma qismlarni boshlang</strong>, oxirigacha bilmasangiz ham.</p>
+
+<h3>Imtihon strategiyasi</h3>
+<ol>
+<li>Avval 7 ta testni tez belgilang (10–15 daqiqa). Bilmasangiz ham taxmin qiling: noto'g'ri javob uchun jarima yo'q.</li>
+<li>Keyin Measurements noaniqlik masalasini yeching: bu masala har doim bir xil qolipda.</li>
+<li>So'ng ikkita masaladan o'zingizga tanishini tanlang va boshlang. Har bir qism alohida ball beradi.</li>
+<li>Formulalarni imtihondan oldin yod oling: ma'lumotnoma berilishi haqida slaydlarda gap yo'q.</li>
+<li>Laboratoriya ballari (+3) bormi, aniqlang: 2021-yilgi ballaringiz hali hisoblanadimi, kafedradan so'rang.</li>
+</ol>
+
+<h2>2. Signal analysis and processing</h2>
+
+<h3>Ball qanday yig'iladi (1-ma'ruzadan)</h3>
+<ul>
+<li>Onlayn test, 60 daqiqa, 8–10 ta savol, javob variantlari bilan.</li>
+<li>Shkala 1–32 (32 = 30 cum laude). O'tish: <strong>18</strong>.</li>
+<li>Noto'g'ri javob: savol balining <strong>−20%</strong>. Javobsiz: 0.</li>
+<li>Konspekt mumkin emas, lekin Furye va Z almashtirish jadvallari beriladi.</li>
+</ul>
+
+<h3>Necha savol kerak</h3>
+<table>
+<tr><th>Savollar soni</th><th>1 savol</th><th>Minimal</th><th>Xavfsiz</th></tr>
+<tr><td>10 ta</td><td>3.2 ball</td><td>6 to'g'ri, 0 xato = 19.2</td><td>7 to'g'ri, 1 xato = 21.8</td></tr>
+<tr><td>8 ta</td><td>4 ball</td><td>5 to'g'ri, 1 xato = 19.2</td><td>6 to'g'ri, 1 xato = 23.2</td></tr>
+</table>
+<p>Demak 10 ta savoldan kamida <strong>6–7 tasini aniq</strong> bilish kerak.</p>
+
+<h3>Mavzular og'irligi</h3>
+<p>Eski imtihon savollari yo'q, shuning uchun og'irlik quyidagilarga qarab baholandi: (1) 1-ma'ruzadagi kurs dasturining 10 ta bo'limi (imtihon "hamma mavzulardan"), (2) mashg'ulot papkasidagi masala to'plamlari (energiya/quvvat, Z-almashtirish, diskret tizimlar, Furye, korrelyatsiya, LTI, Nyquist), (3) imtihonda beriladigan jadval (Furye va Z). Ko'p mashq qilingan va jadvali beriladigan mavzu ko'proq tushadi deb hisoblandi. Bu baho, kafolat emas.</p>
+
+<div class="wrap"><table>
+<tr><th></th><th>Mavzu</th><th>Nima bilish kerak</th><th>Ma'ruza</th><th>Darslar</th></tr>
+<tr><td><span class="tag tA">A</span></td><td>Energiya va quvvat (uzluksiz va diskret)</td><td>E = ∫|x|²dt, P = o'rtacha |x|², energiya va quvvat signali, sinus quvvati A²/2</td><td>02, 27</td><td>4, 23</td></tr>
+<tr><td><span class="tag tA">A</span></td><td>Furye almashtirishi va xossalari</td><td>Jadvaldan foydalanish: rect ↔ sinc, kechikish, modulyatsiya, masshtab, o'ram ↔ ko'paytma, Parseval</td><td>05, 06–07</td><td>3, 7, 8, 9, 10</td></tr>
+<tr><td><span class="tag tA">A</span></td><td>LTI tizimlar</td><td>Chiziqlilik, vaqtga invariantlik, kauzallik, BIBO turg'unlikni tekshirish; o'ram; y = h∗x, Y = H·X</td><td>08, 09</td><td>11, 12, 13</td></tr>
+<tr><td><span class="tag tA">A</span></td><td>Diskretlash teoremasi</td><td>fs ≥ 2B (Nyquist), aliasing, sinusning aliasi qayerga tushadi, anti-aliasing filtr</td><td>23, 24</td><td>19, 20</td></tr>
+<tr><td><span class="tag tA">A</span></td><td>Diskret signallar va diskret o'ram</td><td>δ(n), u(n), aⁿ; surish, teskari aylantirish; chiziqli o'ramni qo'lda hisoblash, natija uzunligi N+M−1</td><td>25, 26</td><td>21, 22</td></tr>
+<tr><td><span class="tag tA">A</span></td><td>Z-almashtirish, ROC, diskret tizim turg'unligi</td><td>Jadvaldan Z, ROC (kauzal/antikauzal), qutblar, teskari Z, turg'unlik: qutblar birlik aylana ichida; ayirmali tenglama → H(z)</td><td>32, 33, 34, 36</td><td>28, 29, 30, 32</td></tr>
+<tr><td><span class="tag tB">B</span></td><td>Furye qatori, davriy signal spektri</td><td>Koeffitsiyentlar, to'rtburchak to'lqin, delta qatori</td><td>05, 12, 13</td><td>7, 16</td></tr>
+<tr><td><span class="tag tB">B</span></td><td>Korrelyatsiya, energiya va quvvat spektri</td><td>Avtokorrelyatsiya R(0) = E, Sx = |X|², kesilgan signal</td><td>14, 15</td><td>17, 18</td></tr>
+<tr><td><span class="tag tB">B</span></td><td>DTFT, DFT, aylanma o'ram</td><td>DTFT davri 1, DFT ta'rifi, zero-padding, chiziqli va aylanma o'ram farqi</td><td>28–31</td><td>24, 25, 26, 27</td></tr>
+<tr><td><span class="tag tB">B</span></td><td>Chastota javobi, filtrlar, polosa</td><td>H(e^{j2πf}), FIR/IIR, −3 dB polosa, buzilishsiz tizim</td><td>11, 35</td><td>15, 31</td></tr>
+<tr><td><span class="tag tC">C</span></td><td>Qolganlari</td><td>Signallar vektor sifatida, ortogonallik (03–04), blok sxemalar (10), tasodifiy jarayonlar (37), MATLAB buyruqlari</td><td>03, 04, 10, 37</td><td>5, 6, 14, 33–36</td></tr>
+</table></div>
+
+<h3>Imtihon strategiyasi (−20% jarima bilan)</h3>
+<ol>
+<li><strong>Bilgan savolingizga javob bering.</strong> 60 daqiqada 10 savol = har biriga 6 daqiqa. Qiyin savolda 6 daqiqadan ko'p turmang, keyinga qoldiring.</li>
+<li><strong>Bitta noto'g'ri variantni chiqarib tashlay olsangiz, javob bering.</strong> 4 ta variantdan 1 tasini chiqarib tashlasangiz, taxmin o'rtacha foyda beradi (+0.2 savol bali).</li>
+<li><strong>Umuman tasavvur bo'lmasa, bo'sh qoldiring.</strong> 4 variantli savolda ko'r-ko'rona taxmin o'rtacha juda kam foyda beradi (+0.1 savol bali), lekin xavfi bor. Agar bir savolda bir nechta javob belgilanadigan bo'lsa, bilmagan variantni belgilamang.</li>
+<li><strong>Jadvaldan foydalaning.</strong> Furye va Z jadvallari beriladi: rect, sinc, aⁿu(n) juftliklarini va xossalar qatorini jadvaldan topishni oldindan mashq qiling.</li>
+<li>Oxirida 5 daqiqa: belgilanmagan savollarni qayta ko'ring.</li>
+</ol>
+
+<h2>3. Haftalik jadval</h2>
+<p>Haftasiga taxminan 6 kun: 3 kun Applied electronics, 3 kun Signal analysis, 1 kun takrorlash (konspektlarni o'qish). Har kuni bitta dars (1.5–2 soat). Avval A, keyin B. Imtihon fevralga tushsa, 10–11-haftalarda C mavzular va qo'shimcha mashq.</p>
+<div class="wrap"><table>
+<tr><th>Hafta</th><th>Applied electronics</th><th>Signal analysis</th></tr>
+<tr><td>1<br><span class="small">30 noy – 6 dek</span></td><td>Asoslar: 2–5-darslar (quvvat, RC, diod/tranzistor, 0 va 1)</td><td>3 (kompleks sonlar), 4 (energiya va quvvat) <span class="tag tA">A</span></td></tr>
+<tr><td>2<br><span class="small">7–13 dek</span></td><td><span class="tag tA">A</span> Flip-flop: 7, 8, 9 + eski imtihon masalalari (2020–2021)</td><td><span class="tag tA">A</span> Furye: 7 (qisqa), 8, 9</td></tr>
+<tr><td>3<br><span class="small">14–20 dek</span></td><td><span class="tag tA">A</span> Uzatish liniyalari: 24, 25, 26</td><td><span class="tag tA">A</span> 10 (Furye xossalari, jadval), 11, 12 (tizim, o'ram)</td></tr>
+<tr><td>4<br><span class="small">21–27 dek</span></td><td><span class="tag tA">A</span> 29 (TL mashq) + ADC: 16, 18</td><td><span class="tag tA">A</span> 13 (H(f), turg'unlik), 19, 20 (diskretlash)</td></tr>
+<tr><td>5<br><span class="small">28 dek – 3 yan</span></td><td><span class="tag tA">A</span> 20 (ADC mashq), 33 (stabilizatorlar), 34</td><td><span class="tag tA">A</span> 21, 22 (diskret signal, o'ram), 23</td></tr>
+<tr><td>6<br><span class="small">4–10 yan</span></td><td><span class="tag tA">A</span> Measurements: 35 (noaniqlik), 39 (sensorlar), 40 (2019 masalalari)</td><td><span class="tag tA">A</span> 28, 29 (Z, ROC), 30, 32 (diskret tizim, turg'unlik)</td></tr>
+<tr><td>7<br><span class="small">11–17 yan</span></td><td><span class="tag tB">B</span> 30, 31, 32 (issiqlik, ripple, zener), 6 (CMOS), 21–22 (xotiralar)</td><td><span class="tag tB">B</span> 17, 18 (korrelyatsiya, spektr), 24–25 (DTFT)</td></tr>
+<tr><td>8<br><span class="small">18–24 yan</span></td><td><span class="tag tB">B</span> 10, 13, 17, 36–38 + 117 ta savoldan test mashqi</td><td><span class="tag tB">B</span> 26–27 (DFT), 15, 31 + 1-sinov testi</td></tr>
+<tr><td>9<br><span class="small">25–31 yan</span></td><td>11 ta eski imtihon, vaqt bilan (90 daqiqa)</td><td>Sinov testlari (37-dars), xatolar tahlili, konspektlar</td></tr>
+</table></div>
+<p class="small">Bitta dars tushunilmasa ("tushunmadim"), u soddaroq qayta yoziladi va jadval biroz suriladi. Shuning uchun B mavzular 7–8-haftaga qo'yilgan: kechiksangiz ham A mavzular imtihongacha tugaydi.</p>
+
+<h2>4. Yetishmayotgan ma'lumotlar</h2>
+<ul>
+<li><strong>Imtihon sanalari</strong> ikkala fan uchun aniq emas (Signal analysis: yanvar yoki fevral). Sanani bilsangiz, jadvalni moslashtiraman.</li>
+<li><strong>Measurements</strong>: faqat 3 ta eski masala bor (2019, noaniqlik). 9 ballning qolgan qismi uchun boshqa savol namunalari topilsa, juda foydali bo'ladi.</li>
+<li><strong>Laboratoriya ballari (+3)</strong>: 2021-yilgi ballar hali hisoblanadimi, noma'lum.</li>
+<li><strong>Slayd D4</strong> Applied electronics slaydlarida yo'q (D1, D2, D3, D5 bor).</li>
+<li><strong>Signal analysis</strong>: eski imtihon savollari yo'q. Siz savollar ma'ruzalardan olinishini aytgansiz, shuning uchun reja ma'ruzalarga tayanadi.</li>
+</ul>
+
+<footer class="pager"><a href="applied-electronics/reja.html">Applied electronics: to'liq reja</a><a href="signal-analysis/reja.html">Signal analysis: to'liq reja</a></footer>
+</main></body></html>
