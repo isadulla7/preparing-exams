@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>34. Boost, buck-boost, flyback</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>34. Boost, buck-boost va flyback: sxemani tanish va formulalar</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> qolgan uch xil impulsli stabilizatorni: <span class="term">boost</span> (ko'taruvchi), <span class="term">buck-boost</span> (qutbni teskari qiluvchi), <span class="term">flyback</span> (transformatorli). Imtihonda sxema rasmini ko'rsatib "bu nima?" deb so'raladi, shuning uchun har birini qanday tanishni o'rganamiz. Bazadagi 15 ta savol shu yerda. Manba: E3 slaydlari. Oldin 33-darsni o'qing. O'qish vaqti: 30 daqiqa.</div>
+
+<h2>1. Uch asosiy topologiya bir rasmda</h2>
+<p>Hammasida bir xil qismlar bor: kalit SW, induktivlik L, diod D, kondensator C, yuklama. Farqi faqat ularning <strong>joylashuvida</strong>.</p>
+<figure>
+<svg viewBox="0 0 720 600" role="img" aria-label="Uch topologiya yonma-yon. Buck: kalit ketma-ket, keyin L, diod yerga. Boost: L ketma-ket, kalit yerga, diod chiqishga. Buck-boost: kalit ketma-ket, L yerga, diod teskari, chiqish manfiy" font-family="system-ui,sans-serif">
+<rect x="10" y="10" width="700" height="185" rx="10" fill="#16a34a" fill-opacity=".05" stroke="#16a34a" stroke-width="1.4"/>
+<text x="24.0" y="32.0" text-anchor="start" font-size="14" fill="#16a34a" font-weight="700">Buck (pasaytiruvchi)</text><text x="696.0" y="32.0" text-anchor="end" font-size="14" fill="#16a34a" font-weight="700">VO = D·VI</text>
+<circle cx="60" cy="125" r="16" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M52 131h7v-12h7" fill="none" stroke="#d9622b" stroke-width="1.8"/><text x="36.0" y="129.0" text-anchor="end" font-size="12" fill="#d9622b" font-weight="700">VI</text><path d="M60 109V80H110" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="112" cy="80" r="2.5" fill="currentColor"/><circle cx="148" cy="80" r="2.5" fill="currentColor"/><path d="M112 80L144 66" stroke="currentColor" stroke-width="1.8"/><text x="130.0" y="64.0" text-anchor="middle" font-size="11" fill="currentColor" font-weight="700">SW</text>
+<path d="M148 80H260" stroke="currentColor" stroke-width="1.6"/><path d="M260 80a7.5 7.5 0 0 1 15.0 0a7.5 7.5 0 0 1 15.0 0a7.5 7.5 0 0 1 15.0 0a7.5 7.5 0 0 1 15.0 0" fill="none" stroke="#2563eb" stroke-width="1.8"/><text x="290.0" y="64.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">L</text><path d="M320 80H470V100" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<path d="M200 80V105" stroke="currentColor" stroke-width="1.6"/><path d="M200 105v6M191 111h18M191 127L209 127L200 111Z M200 127v8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M200 135V175" stroke="currentColor" stroke-width="1.6"/><text x="186.0" y="128.0" text-anchor="end" font-size="11" fill="currentColor" font-weight="700">D</text>
+<path d="M400 80V100" stroke="currentColor" stroke-width="1.6"/><path d="M400 100v14M388 114h24M388 120h24M400 120v14" fill="none" stroke="#9333ea" stroke-width="1.8"/><path d="M400 134V175" stroke="currentColor" stroke-width="1.6"/><path d="M470 100v6.25l-6 3.1l6 3.1l6 3.1l-6 3.1l-6 3.1l6 3.1l6 3.1l-6 3.1l-6 3.1l6 3.1l6 3.1l-6 3.1v6.25" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M470 150V175" stroke="currentColor" stroke-width="1.6"/>
+<path d="M60 141V175H470" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="500.0" y="130.0" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">VO < VI</text><text x="500.0" y="148.0" text-anchor="start" font-size="11" fill="currentColor">shovqin: kirishga</text>
+<rect x="10" y="205" width="700" height="185" rx="10" fill="#d9622b" fill-opacity=".05" stroke="#d9622b" stroke-width="1.4"/>
+<text x="24.0" y="227.0" text-anchor="start" font-size="14" fill="#d9622b" font-weight="700">Boost (ko'taruvchi)</text><text x="696.0" y="227.0" text-anchor="end" font-size="14" fill="#d9622b" font-weight="700">VO = VI/(1 − D)</text>
+<circle cx="60" cy="320" r="16" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M52 326h7v-12h7" fill="none" stroke="#d9622b" stroke-width="1.8"/><text x="36.0" y="324.0" text-anchor="end" font-size="12" fill="#d9622b" font-weight="700">VI</text><path d="M60 304V275H120" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M120 275a7.5 7.5 0 0 1 15.0 0a7.5 7.5 0 0 1 15.0 0a7.5 7.5 0 0 1 15.0 0a7.5 7.5 0 0 1 15.0 0" fill="none" stroke="#2563eb" stroke-width="1.8"/><text x="150.0" y="259.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">L</text>
+<path d="M180 275H260" stroke="currentColor" stroke-width="1.6"/><path d="M260 275h6M266 266v18L282 275Z M282 266v18M282 275h8" fill="none" stroke="currentColor" stroke-width="1.8"/><text x="275.0" y="261.0" text-anchor="middle" font-size="11" fill="currentColor" font-weight="700">D</text><path d="M290 275H470V295" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<path d="M220 275V305" stroke="currentColor" stroke-width="1.6"/><circle cx="220" cy="307" r="2.5" fill="currentColor"/><circle cx="220" cy="343" r="2.5" fill="currentColor"/><path d="M220 307L234 339" stroke="currentColor" stroke-width="1.8"/><path d="M220 345V370" stroke="currentColor" stroke-width="1.6"/><text x="240.0" y="331.0" text-anchor="start" font-size="11" fill="currentColor" font-weight="700">SW</text>
+<path d="M400 275V295" stroke="currentColor" stroke-width="1.6"/><path d="M400 295v14M388 309h24M388 315h24M400 315v14" fill="none" stroke="#9333ea" stroke-width="1.8"/><path d="M400 329V370" stroke="currentColor" stroke-width="1.6"/><path d="M470 295v6.25l-6 3.1l6 3.1l6 3.1l-6 3.1l-6 3.1l6 3.1l6 3.1l-6 3.1l-6 3.1l6 3.1l6 3.1l-6 3.1v6.25" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M470 345V370" stroke="currentColor" stroke-width="1.6"/>
+<path d="M60 336V370H470" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="500.0" y="325.0" text-anchor="start" font-size="12" fill="#d9622b" font-weight="700">VO > VI</text><text x="500.0" y="343.0" text-anchor="start" font-size="11" fill="currentColor">shovqin: chiqishga</text>
+<rect x="10" y="400" width="700" height="185" rx="10" fill="#9333ea" fill-opacity=".05" stroke="#9333ea" stroke-width="1.4"/>
+<text x="24.0" y="422.0" text-anchor="start" font-size="14" fill="#9333ea" font-weight="700">Buck-boost (teskari qutbli)</text><text x="696.0" y="422.0" text-anchor="end" font-size="14" fill="#9333ea" font-weight="700">VO = −VI·D/(1 − D)</text>
+<circle cx="60" cy="515" r="16" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M52 521h7v-12h7" fill="none" stroke="#d9622b" stroke-width="1.8"/><text x="36.0" y="519.0" text-anchor="end" font-size="12" fill="#d9622b" font-weight="700">VI</text><path d="M60 499V470H110" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="112" cy="470" r="2.5" fill="currentColor"/><circle cx="148" cy="470" r="2.5" fill="currentColor"/><path d="M112 470L144 456" stroke="currentColor" stroke-width="1.8"/><text x="130.0" y="454.0" text-anchor="middle" font-size="11" fill="currentColor" font-weight="700">SW</text>
+<path d="M148 470H260" stroke="currentColor" stroke-width="1.6"/><path d="M260 470h8M268 461v18M284 461v18L268 470Z M284 470h6" fill="none" stroke="currentColor" stroke-width="1.8"/><text x="275.0" y="456.0" text-anchor="middle" font-size="11" fill="currentColor" font-weight="700">D</text><path d="M290 470H470V490" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<path d="M200 470V492" stroke="currentColor" stroke-width="1.6"/><path d="M200 492a7.0 7.0 0 0 1 0 14.0a7.0 7.0 0 0 1 0 14.0a7.0 7.0 0 0 1 0 14.0a7.0 7.0 0 0 1 0 14.0" fill="none" stroke="#2563eb" stroke-width="1.8"/><path d="M200 548V565" stroke="currentColor" stroke-width="1.6"/><text x="214.0" y="524.0" text-anchor="start" font-size="12" fill="#2563eb" font-weight="700">L</text>
+<path d="M400 470V490" stroke="currentColor" stroke-width="1.6"/><path d="M400 490v14M388 504h24M388 510h24M400 510v14" fill="none" stroke="#9333ea" stroke-width="1.8"/><path d="M400 524V565" stroke="currentColor" stroke-width="1.6"/><path d="M470 490v6.25l-6 3.1l6 3.1l6 3.1l-6 3.1l-6 3.1l6 3.1l6 3.1l-6 3.1l-6 3.1l6 3.1l6 3.1l-6 3.1v6.25" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M470 540V565" stroke="currentColor" stroke-width="1.6"/>
+<path d="M60 531V565H470" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="500.0" y="520.0" text-anchor="start" font-size="12" fill="#9333ea" font-weight="700">VO < 0 (teskari)</text><text x="500.0" y="538.0" text-anchor="start" font-size="11" fill="currentColor">|VO| < yoki > VI</text><text x="500.0" y="556.0" text-anchor="start" font-size="11" fill="currentColor">shovqin: ikkalasiga</text>
+</svg>
+<figcaption>Buck, boost, buck-boost. Qaysi element kirishdan ketma-ket turganiga va qaysi biri yerga ulanganiga qarang.</figcaption>
+</figure>
+<table>
+<tr><th>Turi</th><th>Kirishdan ketma-ket</th><th>Yerga ulangan</th><th>Formula</th><th>VO</th></tr>
+<tr><td><strong>Buck</strong></td><td>kalit, keyin L</td><td>diod</td><td>VO = D·VI</td><td>≤ VI</td></tr>
+<tr><td><strong>Boost</strong></td><td>L, keyin diod</td><td>kalit</td><td>VO = VI/(1 − D)</td><td>≥ VI</td></tr>
+<tr><td><strong>Buck-boost</strong></td><td>kalit, keyin diod (teskari)</td><td>L</td><td>VO = −VI·D/(1 − D)</td><td>teskari qutb, |VO| kichik yoki katta</td></tr>
+<tr><td><strong>Flyback</strong></td><td>kalit + transformator</td><td>—</td><td>D va o'ramlar nisbatiga bog'liq</td><td>galvanik ajratilgan</td></tr>
+</table>
+<div class="box note"><strong>Eslab qolish usuli:</strong> "<strong>L qayerda?</strong>" Buck: L chiqish tomonida ketma-ket. Boost: L kirish tomonida ketma-ket. Buck-boost: L yerga (o'rtada). Transformator bor bo'lsa: flyback.</div>
+
+<h2>2. Boost (ko'taruvchi, VO ≥ VI)</h2>
+<ul>
+<li><strong>ON</strong> (D·T): kalit yopiq, L to'g'ridan-to'g'ri VI ga ulangan. VL = VI → tok o'sadi: ΔI = VI·TON/L. Diod yopiq, yuklamani C boqadi. L energiya yig'adi.</li>
+<li><strong>OFF</strong> ((1 − D)·T): kalit ochiq. L tokni davom ettiradi, tok diod orqali chiqishga o'tadi. VL = −(VO − VI) → tok kamayadi.</li>
+</ul>
+<p>Muvozanat: VI·TON = (VO − VI)·TOFF. Ikkala tomonni T ga bo'lamiz: VI·D = (VO − VI)(1 − D) → VI = VO(1 − D):</p>
+<span class="formula">VO / VI = 1 / (1 − D)</span>
+<p>D = 0 → VO = VI; D = 0.5 → VO = 2VI; D = 0.75 → VO = 4VI. D → 1 bo'lsa nazariy cheksiz.</p>
+<div class="box analogy"><strong>O'xshatish:</strong> L ni "prujina" deb tasavvur qiling. ON vaqtida uni siqasiz (energiya yig'iladi), OFF vaqtida qo'yib yuborasiz va u kirish kuchlanishiga o'z kuchini qo'shib, chiqishni yuqoriroq "otadi".</div>
+
+<h2>3. Buck-boost (teskari qutbli)</h2>
+<ul>
+<li><strong>ON</strong>: kalit yopiq, L VI ga ulangan: VL = VI, tok o'sadi. Diod yopiq.</li>
+<li><strong>OFF</strong>: kalit ochiq, L toki diod orqali chiqish kondensatoriga oqadi, lekin teskari yo'nalishda zaryadlaydi: VL = VO (manfiy).</li>
+</ul>
+<p>Muvozanat: VI·TON = −VO·TOFF:</p>
+<span class="formula">VO / VI = −D / (1 − D)</span>
+<p>Chiqish doim <strong>teskari qutbli</strong> (VI &gt; 0 → VO &lt; 0). Moduli D &lt; 0.5 da VI dan kichik, D &gt; 0.5 da katta, D = 0.5 da teng.</p>
+<figure>
+<svg viewBox="0 0 720 300" role="img" aria-label="Kuchlanish uzatish koeffitsienti D ga qarab: buck D (0 dan 1 gacha), boost 1/(1−D) (1 dan cheksizgacha), buck-boost moduli D/(1−D), D=0.5 da 1" font-family="system-ui,sans-serif">
+<defs><marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<path d="M70 18V260H700" fill="none" stroke="currentColor" stroke-width="1.4"/>
+<text x="702.0" y="264.0" text-anchor="start" font-size="12" fill="currentColor">D</text>
+<text x="64.0" y="14.0" text-anchor="end" font-size="12" fill="currentColor">VO/VI</text>
+<path d="M70 222.9H690" stroke="#9aa0a6" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="64.0" y="226.9" text-anchor="end" font-size="11" fill="#9aa0a6" font-weight="700">1</text>
+<path d="M70.0 260v5" stroke="currentColor"/>
+<text x="70.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">0</text>
+<path d="M225.0 260v5" stroke="currentColor"/>
+<text x="225.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">0.25</text>
+<path d="M380.0 260v5" stroke="currentColor"/>
+<text x="380.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">0.5</text>
+<path d="M535.0 260v5" stroke="currentColor"/>
+<text x="535.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">0.75</text>
+<path d="M690.0 260v5" stroke="currentColor"/>
+<text x="690.0" y="278.0" text-anchor="middle" font-size="11" fill="currentColor">1</text>
+<text x="64.0" y="189.8" text-anchor="end" font-size="11" fill="currentColor">2</text>
+<text x="64.0" y="115.6" text-anchor="end" font-size="11" fill="currentColor">4</text>
+<text x="64.0" y="41.4" text-anchor="end" font-size="11" fill="currentColor">6</text>
+<path d="M70.0 260.0 L690.0 222.9" fill="none" stroke="#16a34a" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="M70.0 222.9 L73.1 222.7 L76.2 222.5 L79.3 222.3 L82.4 222.1 L85.5 222.0 L88.6 221.8 L91.7 221.6 L94.8 221.4 L97.9 221.2 L101.0 221.0 L104.1 220.7 L107.2 220.5 L110.3 220.3 L113.4 220.1 L116.5 219.9 L119.6 219.7 L122.7 219.5 L125.8 219.2 L128.9 219.0 L132.0 218.8 L135.1 218.6 L138.2 218.3 L141.3 218.1 L144.4 217.8 L147.5 217.6 L150.6 217.4 L153.7 217.1 L156.8 216.9 L159.9 216.6 L163.0 216.4 L166.1 216.1 L169.2 215.8 L172.3 215.6 L175.4 215.3 L178.5 215.0 L181.6 214.8 L184.7 214.5 L187.8 214.2 L190.9 213.9 L194.0 213.6 L197.1 213.3 L200.2 213.0 L203.3 212.7 L206.4 212.4 L209.5 212.1 L212.6 211.8 L215.7 211.5 L218.8 211.2 L221.9 210.9 L225.0 210.5 L228.1 210.2 L231.2 209.9 L234.3 209.5 L237.4 209.2 L240.5 208.8 L243.6 208.5 L246.7 208.1 L249.8 207.8 L252.9 207.4 L256.0 207.0 L259.1 206.6 L262.2 206.2 L265.3 205.8 L268.4 205.4 L271.5 205.0 L274.6 204.6 L277.7 204.2 L280.8 203.8 L283.9 203.4 L287.0 202.9 L290.1 202.5 L293.2 202.0 L296.3 201.6 L299.4 201.1 L302.5 200.6 L305.6 200.2 L308.7 199.7 L311.8 199.2 L314.9 198.7 L318.0 198.2 L321.1 197.7 L324.2 197.1 L327.3 196.6 L330.4 196.0 L333.5 195.5 L336.6 194.9 L339.7 194.3 L342.8 193.8 L345.9 193.2 L349.0 192.6 L352.1 191.9 L355.2 191.3 L358.3 190.7 L361.4 190.0 L364.5 189.3 L367.6 188.7 L370.7 188.0 L373.8 187.3 L376.9 186.5 L380.0 185.8 L383.1 185.1 L386.2 184.3 L389.3 183.5 L392.4 182.7 L395.5 181.9 L398.6 181.1 L401.7 180.2 L404.8 179.4 L407.9 178.5 L411.0 177.6 L414.1 176.6 L417.2 175.7 L420.3 174.7 L423.4 173.7 L426.5 172.7 L429.6 171.7 L432.7 170.6 L435.8 169.5 L438.9 168.4 L442.0 167.3 L445.1 166.1 L448.2 164.9 L451.3 163.6 L454.4 162.4 L457.5 161.1 L460.6 159.7 L463.7 158.4 L466.8 157.0 L469.9 155.5 L473.0 154.0 L476.1 152.5 L479.2 150.9 L482.3 149.3 L485.4 147.6 L488.5 145.9 L491.6 144.1 L494.7 142.2 L497.8 140.3 L500.9 138.4 L504.0 136.3 L507.1 134.2 L510.2 132.1 L513.3 129.8 L516.4 127.5 L519.5 125.1 L522.6 122.6 L525.7 120.0 L528.8 117.3 L531.9 114.5 L535.0 111.6 L538.1 108.6 L541.2 105.4 L544.3 102.1 L547.4 98.7 L550.5 95.1 L553.6 91.4 L556.7 87.5 L559.8 83.3 L562.9 79.0 L566.0 74.5 L569.1 69.8 L572.2 64.8 L575.3 59.5 L578.4 53.9 L581.5 48.0 L584.6 41.8 L587.7 35.2" fill="none" stroke="#d9622b" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="M70.0 260.0 L73.1 259.8 L76.2 259.6 L79.3 259.4 L82.4 259.2 L85.5 259.0 L88.6 258.9 L91.7 258.7 L94.8 258.5 L97.9 258.3 L101.0 258.0 L104.1 257.8 L107.2 257.6 L110.3 257.4 L113.4 257.2 L116.5 257.0 L119.6 256.8 L122.7 256.6 L125.8 256.3 L128.9 256.1 L132.0 255.9 L135.1 255.6 L138.2 255.4 L141.3 255.2 L144.4 254.9 L147.5 254.7 L150.6 254.5 L153.7 254.2 L156.8 254.0 L159.9 253.7 L163.0 253.5 L166.1 253.2 L169.2 252.9 L172.3 252.7 L175.4 252.4 L178.5 252.1 L181.6 251.9 L184.7 251.6 L187.8 251.3 L190.9 251.0 L194.0 250.7 L197.1 250.4 L200.2 250.1 L203.3 249.8 L206.4 249.5 L209.5 249.2 L212.6 248.9 L215.7 248.6 L218.8 248.3 L221.9 248.0 L225.0 247.6 L228.1 247.3 L231.2 247.0 L234.3 246.6 L237.4 246.3 L240.5 245.9 L243.6 245.6 L246.7 245.2 L249.8 244.8 L252.9 244.5 L256.0 244.1 L259.1 243.7 L262.2 243.3 L265.3 242.9 L268.4 242.5 L271.5 242.1 L274.6 241.7 L277.7 241.3 L280.8 240.9 L283.9 240.5 L287.0 240.0 L290.1 239.6 L293.2 239.1 L296.3 238.7 L299.4 238.2 L302.5 237.7 L305.6 237.3 L308.7 236.8 L311.8 236.3 L314.9 235.8 L318.0 235.3 L321.1 234.7 L324.2 234.2 L327.3 233.7 L330.4 233.1 L333.5 232.6 L336.6 232.0 L339.7 231.4 L342.8 230.9 L345.9 230.3 L349.0 229.6 L352.1 229.0 L355.2 228.4 L358.3 227.8 L361.4 227.1 L364.5 226.4 L367.6 225.8 L370.7 225.1 L373.8 224.4 L376.9 223.6 L380.0 222.9 L383.1 222.2 L386.2 221.4 L389.3 220.6 L392.4 219.8 L395.5 219.0 L398.6 218.2 L401.7 217.3 L404.8 216.5 L407.9 215.6 L411.0 214.7 L414.1 213.7 L417.2 212.8 L420.3 211.8 L423.4 210.8 L426.5 209.8 L429.6 208.8 L432.7 207.7 L435.8 206.6 L438.9 205.5 L442.0 204.4 L445.1 203.2 L448.2 202.0 L451.3 200.7 L454.4 199.5 L457.5 198.2 L460.6 196.8 L463.7 195.5 L466.8 194.1 L469.9 192.6 L473.0 191.1 L476.1 189.6 L479.2 188.0 L482.3 186.4 L485.4 184.7 L488.5 183.0 L491.6 181.2 L494.7 179.3 L497.8 177.4 L500.9 175.5 L504.0 173.4 L507.1 171.3 L510.2 169.2 L513.3 166.9 L516.4 164.6 L519.5 162.2 L522.6 159.7 L525.7 157.1 L528.8 154.4 L531.9 151.6 L535.0 148.7 L538.1 145.7 L541.2 142.5 L544.3 139.2 L547.4 135.8 L550.5 132.2 L553.6 128.5 L556.7 124.6 L559.8 120.4 L562.9 116.1 L566.0 111.6 L569.1 106.9 L572.2 101.9 L575.3 96.6 L578.4 91.0 L581.5 85.1 L584.6 78.9 L587.7 72.3 L590.8 65.2 L593.9 57.8 L597.0 49.8 L600.1 41.3 L603.2 32.1" fill="none" stroke="#9333ea" stroke-width="2.4" stroke-dasharray="6 3" stroke-linejoin="round"/>
+<text x="454.4" y="145.0" text-anchor="end" font-size="12" fill="#d9622b" font-weight="700">boost: 1/(1−D)</text>
+<text x="659.0" y="242.8" text-anchor="end" font-size="12" fill="#16a34a" font-weight="700">buck: D</text>
+<text x="582.8" y="59.7" text-anchor="end" font-size="12" fill="#9333ea" font-weight="700">|buck-boost|: D/(1−D)</text>
+<circle cx="535.0" cy="111.6" r="4" fill="#d9622b"/><text x="529.0" y="105.6" text-anchor="end" font-size="11" fill="#d9622b" font-weight="700">D = 0.75 → 4</text>
+<circle cx="380.0" cy="222.9" r="4" fill="#9333ea"/><text x="386.0" y="214.9" text-anchor="start" font-size="11" fill="#9333ea" font-weight="700">D = 0.5 → 1</text>
+</svg>
+<figcaption>Uchala sxemaning uzatish koeffitsienti D ga qarab. Faqat D ga bog'liq: L, C, yuklama, diod emas (ideal, CCM).</figcaption>
+</figure>
+
+<h2>4. Flyback (transformatorli)</h2>
+<p><span class="term">Flyback</span> = buck-boost, faqat L o'rniga <strong>transformator</strong> (ikki o'ramli g'altak). Afzalligi: kirish va chiqish o'rtasida <span class="term">galvanik ajratish</span> (galvanic isolation) bor, ya'ni elektr ulanish yo'q, energiya faqat magnit maydon orqali o'tadi. Bu xavfsizlik uchun muhim (masalan 220 V tarmoqdan quvvat olganda). Teskari aloqa ham ajratilgan bo'lishi kerak: optik juftlik (optocoupler) ishlatiladi.</p>
+<p>Uzatish koeffitsienti D ga va <strong>transformator</strong> xususiyatiga (o'ramlar nisbatiga) bog'liq. Chiqish qutbi transformator o'ramlari qanday ulanganiga (nuqtalar) bog'liq.</p>
+<h3>Tarmoq quvvat manbai (blok sxema)</h3>
+<ol>
+<li>A: EMI filtr (shovqinni tarmoqqa qaytarmaslik).</li>
+<li>B: AC → DC (to'g'rilagich, 220 V, 50 Hz).</li>
+<li>C: impulsli kalit (DC → yuqori chastotali AC, masalan 500 kHz).</li>
+<li>D: kichik yuqori chastotali transformator (AC → AC).</li>
+<li>E: AC → DC (chiqish to'g'rilagichi va filtri).</li>
+<li>Teskari aloqa chiqishdan C ga.</li>
+</ol>
+<p>Yuqori chastota tufayli transformator juda kichik bo'ladi (telefon zaryadlovchisi shunday ishlaydi).</p>
+
+<h2>5. Shovqin qaysi tomonga ketadi</h2>
+<p>Qoida: tok <strong>impulsli</strong> (0 va katta qiymat orasida sakraydigan) bo'lgan tomonga shovqin ko'proq tushadi. L turgan tomonda tok tekis.</p>
+<table>
+<tr><th>Turi</th><th>Kirish toki</th><th>Chiqish toki</th><th>Shovqin</th></tr>
+<tr><td>Buck</td><td>impulsli (kalit ketma-ket)</td><td>tekis (L ketma-ket)</td><td>kirishga ko'proq</td></tr>
+<tr><td>Boost</td><td>tekis (L ketma-ket)</td><td>impulsli (diod orqali)</td><td>chiqishga ko'proq</td></tr>
+<tr><td>Buck-boost</td><td>impulsli</td><td>impulsli</td><td>ikkalasiga teng</td></tr>
+</table>
+
+<h2>6. Imtihon test savollari (asl matn bilan)</h2>
+<p><strong>Sxemani tanish:</strong></p>
+<div class="box"><p><strong>014.</strong> <em>The following schematic represents: a) a flyback power regulator circuit &nbsp; b) a buck power regulator circuit &nbsp; c) a buck-boost power regulator circuit &nbsp; d) a boost power regulator circuit</em></p>
+<p><img src="img/q014.png" alt="014-savol sxemasi: kalit S ketma-ket, L yerga, diod D teskari yo'nalishda chiqishga" style="max-width:100%;background:#fff;border-radius:6px"></p>
+<details><summary>Javob</summary><p><strong>c) buck-boost</strong>. Kalit ketma-ket, L yerga, diod chiqishga teskari yo'nalishda.</p></details></div>
+<div class="box"><p><strong>063.</strong> <em>The following schematic represents: a) a buck power regulator &nbsp; b) a half-wave rectifier with filter &nbsp; c) a flyback power regulator &nbsp; d) a boost power regulator</em></p>
+<p><img src="img/q063.png" alt="063-savol sxemasi: L kirishdan ketma-ket, kalit S yerga, diod D chiqishga" style="max-width:100%;background:#fff;border-radius:6px"></p>
+<details><summary>Javob</summary><p><strong>d) boost</strong>. L kirishda ketma-ket, kalit yerga, diod chiqishga.</p></details></div>
+<div class="box"><p><strong>006.</strong> <em>The following schematic represents: a) a buck power regulator &nbsp; b) a half-wave rectifier with filter &nbsp; c) a flyback power regulator &nbsp; d) a boost power regulator</em></p>
+<p><img src="img/q006.png" alt="006-savol sxemasi: kalit S va transformatorning birlamchi o'rami, ikkilamchi o'ramda diod D, Cu va RL" style="max-width:100%;background:#fff;border-radius:6px"></p>
+<details><summary>Javob</summary><p><strong>c) flyback</strong>. Transformator + kalit birlamchi tomonda + diod va C ikkilamchi tomonda.</p></details></div>
+<div class="box"><p><strong>080.</strong> <em>For the circuit in the schematic below: a) the output voltage cannot be higher than the input voltage &nbsp; b) polarity of the the output voltage is always the same as the input &nbsp; c) polarity of the the output voltage is always inverted to the input &nbsp; d) the output voltage cannot be lower than the input voltage</em></p>
+<p><img src="img/q080.png" alt="080-savol sxemasi: flyback, transformator o'ramlarining nuqtalari qarama-qarshi uchlarda" style="max-width:100%;background:#fff;border-radius:6px"></p>
+<details><summary>Javob</summary><p><strong>b)</strong> (rasmiy javob). Bu flyback: transformator o'ramlari (nuqtalar) shunday ulanganki, chiqish kirish bilan bir xil qutbli. Flyback chiqishi kirishdan katta ham, kichik ham bo'lishi mumkin (a va d noto'g'ri).</p></details></div>
+<p><strong>Formulalar va bog'liqlik:</strong></p>
+<div class="box"><p><strong>105.</strong> <em>The output (regulated) voltage of a boost power regulator can be: a) Lower or equal to the input voltage &nbsp; b) Higher or equal to the input voltage &nbsp; c) Higher than the input voltage &nbsp; d) Lower than the input voltage</em></p>
+<details><summary>Javob</summary><p><strong>b)</strong> VO = VI/(1 − D) ≥ VI (D = 0 da teng).</p></details></div>
+<div class="box"><p><strong>079.</strong> <em>The voltage gain of a boost voltage regulator with duty cycle D = 0.75 is: a) 0.75 &nbsp; b) 0.25 &nbsp; c) 1.33 &nbsp; d) 4</em></p>
+<details><summary>Javob</summary><p><strong>d) 4</strong>: 1/(1 − 0.75) = 1/0.25 = 4.</p></details></div>
+<div class="box"><p><strong>020.</strong> <em>A buck-boost power regulator with an inductance: a) cannot increase the input voltage on the output &nbsp; b) cannot decrease the input voltage on the output &nbsp; c) cannot regulate the output voltage equal to the input &nbsp; d) its output voltage has inverse polarity to the input</em></p>
+<details><summary>Javob</summary><p><strong>d)</strong> VO = −D/(1 − D)·VI.</p></details></div>
+<div class="box"><p><strong>052 / 048.</strong> <em>The transfer function in continuous current mode of an ideal boost (048: buck-boost) power regulator depends on: a) the value of the inductance &nbsp; b) the characteristics of the diode &nbsp; c) the switch duty cycle &nbsp; d) the value of the load</em></p>
+<details><summary>Javob</summary><p>Ikkalasida <strong>c) the switch duty cycle</strong>.</p></details></div>
+<div class="box"><p><strong>018.</strong> <em>The transfer function in continuous current mode of an ideal flyback power regulator depends on: a) the characteristics of the diode &nbsp; b) the switching duty cycle &nbsp; c) the galvanic insulation &nbsp; d) the value of the load</em></p>
+<details><summary>Javob</summary><p><strong>b) the switching duty cycle</strong>.</p></details></div>
+<div class="box"><p><strong>111.</strong> <em>The transfer function in continuous current mode of an ideal flyback power regulator depends on: a) the characteristics of the diode &nbsp; b) the characteristics of the electrical transformer &nbsp; c) the galvanic insulation &nbsp; d) the value of the load</em></p>
+<details><summary>Javob</summary><p><strong>b) the characteristics of the electrical transformer</strong> (o'ramlar nisbati). Diqqat: 018 va 111 deyarli bir xil, lekin variantlar boshqa. Variantlar ichida "duty cycle" bo'lsa uni, bo'lmasa "transformer" ni tanlang.</p></details></div>
+<div class="box"><p><strong>025.</strong> <em>The output circuit is galvanically insulated from the input circuit for: a) buck power regulators &nbsp; b) boost power regulators &nbsp; c) flyback power regulators &nbsp; d) buck-boost power regulators</em></p>
+<details><summary>Javob</summary><p><strong>c) flyback</strong> (faqat unda transformator bor).</p></details></div>
+<p><strong>Shovqin:</strong></p>
+<div class="box"><p><strong>043.</strong> <em>A boost power regulator injects noise: a) more in the output circuit &nbsp; b) more in the input circuit &nbsp; c) equivalent in both input and output circuits &nbsp; d) operates smoothly, not relevant noise</em></p>
+<details><summary>Javob</summary><p><strong>a) more in the output circuit</strong>.</p></details></div>
+<div class="box"><p><strong>047.</strong> <em>A buck-boost power regulator injects noise: (xuddi shu variantlar)</em></p>
+<details><summary>Javob</summary><p><strong>c) equivalent in both input and output circuits</strong>.</p></details></div>
+<div class="box"><p><strong>2021-07 test.</strong> <em>A parasitic series resistance of the inductor of a buck-boost dc-dc converter: (a) Increases the power dissipated by the switches. (b) Increases the active power dissipated by the capacitors. (c) Decreases the switching frequency. (d) Dissipates power in the inductor.</em></p>
+<details><summary>Javob</summary><p><strong>(d)</strong>. L orqali o'tuvchi tok uning qarshiligida quvvat yo'qotadi (I²·RL). Chastotani tashqi sxema beradi; ideal kalit va kondensator aktiv quvvat yo'qotmaydi.</p></details></div>
+
+<div class="box check"><strong>O'zingizni tekshiring:</strong>
+<ol>
+<li>Boost, VI = 5 V, VO = 12 V kerak. D = ?</li>
+<li>Buck-boost, VI = 12 V, D = 0.6. VO = ?</li>
+<li>Qaysi sxemada chiqish toki tekis bo'ladi: buck yoki boost?</li>
+</ol>
+<details><summary>Javoblar</summary>
+<ol>
+<li>1 − D = 5/12 → D = 7/12 ≈ 0.58.</li>
+<li>VO = −12·0.6/0.4 = −18 V.</li>
+<li>Buck (L chiqishga ketma-ket).</li>
+</ol></details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Boost</td><td>boost (step-up)</td><td>Ko'taruvchi: VO = VI/(1 − D)</td></tr>
+<tr><td>Buck-boost</td><td>buck-boost (inverting)</td><td>Teskari qutbli: VO = −VI·D/(1 − D)</td></tr>
+<tr><td>Flyback</td><td>flyback</td><td>Transformatorli buck-boost</td></tr>
+<tr><td>Transformator</td><td>transformer</td><td>Ikki o'ramli g'altak, magnit orqali uzatadi</td></tr>
+<tr><td>Galvanik ajratish</td><td>galvanic isolation (insulation)</td><td>Kirish va chiqish orasida elektr ulanish yo'q</td></tr>
+<tr><td>Optojuftlik</td><td>optical coupling, optocoupler</td><td>Signalni yorug'lik orqali ajratib uzatish</td></tr>
+<tr><td>Uzatish funksiyasi</td><td>transfer function (ratio)</td><td>VO/VI</td></tr>
+<tr><td>Shovqin kiritadi</td><td>injects noise</td><td>Impulsli tok tomonga shovqin tushadi</td></tr>
+<tr><td>Parazit qarshilik</td><td>parasitic series resistance</td><td>L simining qarshiligi, quvvat yo'qotadi</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<span class="formula">Buck: D &nbsp;·&nbsp; Boost: 1/(1 − D) &nbsp;·&nbsp; Buck-boost: −D/(1 − D) &nbsp;·&nbsp; Flyback: D va o'ramlar nisbati</span>
+<span class="formula">Boost: VI·TON = (VO − VI)·TOFF &nbsp;·&nbsp; Buck-boost: VI·TON = −VO·TOFF</span>
+<ul>
+<li>Tanish: buck = kalit ketma-ket + diod yerga + L chiqishda; boost = L kirishda + kalit yerga + diod chiqishga; buck-boost = kalit ketma-ket + L yerga + diod teskari; flyback = transformator.</li>
+<li>CCM da uzatish faqat D ga bog'liq (flyback da yana transformatorga).</li>
+<li>Galvanik ajratish faqat flyback da.</li>
+<li>Shovqin: buck → kirishga, boost → chiqishga, buck-boost → ikkalasiga.</li>
+<li>L ning parazit qarshiligi L da quvvat yo'qotadi.</li>
+<li>Javoblar: 014 → c; 063 → d; 006 → c; 080 → b; 105 → b; 079 → d (4); 020 → d; 052 → c; 048 → c; 018 → b; 111 → b; 025 → c; 043 → a; 047 → c; 2021-07 → d.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="33-buck-regulator.html">← 33-dars</a><a href="./">Darslar ro'yxati →</a></footer>
+</main></body></html>

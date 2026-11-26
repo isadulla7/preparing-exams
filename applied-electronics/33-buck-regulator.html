@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>33. Impulsli stabilizator: buck</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>33. Impulsli (switching) stabilizator: PWM va buck</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> kalit (switch) yordamida kuchlanishni qanday "kesib" pasaytirish mumkinligini; <span class="term">duty cycle</span> D nima ekanini; induktivlik nega kerakligini; <span class="term">buck</span> stabilizatorda VO = D·VI formulasi qayerdan kelishini. 2020-09 imtihonidagi 7 ballik masala (flip-flop + buck) to'liq yechilgan. Manba: E3 slaydlari va Ee5 mashqi. O'qish vaqti: 35 daqiqa.</div>
+
+<h2>1. Muammo: chiziqli stabilizator issiqlik chiqaradi</h2>
+<p><span class="term">Stabilizator</span> (regulator) = kirish kuchlanishi o'zgarsa ham chiqishda doimiy kuchlanish beradigan sxema. Masalan 12 V dan 5 V olish.</p>
+<p><strong>Chiziqli</strong> (linear) stabilizator ortiqcha kuchlanishni tranzistorda "yoqib" yuboradi: kirish toki ≈ chiqish toki, ortiqcha (VI − VO)·I issiqlikka aylanadi. Shuning uchun:</p>
+<span class="formula">Chiziqli: η = PO / PI ≈ VO / VI</span>
+<p>Masalan 12 V → 5 V: η ≈ 5/12 = 42%. Qolgan 58% issiqlik.</p>
+<div class="box analogy"><strong>Hayotiy o'xshatish:</strong> chiziqli stabilizator = mashina tezligini faqat tormoz bosib boshqarish (gaz doim to'liq). Impulsli stabilizator = gazni bir bosib, bir qo'yib yuborish: o'rtacha tezlik kerakli darajada, lekin tormoz qizimaydi.</div>
+<p><strong>Impulsli</strong> (switching) stabilizator kalitdan foydalanadi. Ideal kalit ikki holatda bo'ladi:</p>
+<ul>
+<li>ON (yopiq): ustidagi kuchlanish 0 → quvvat 0·I = 0.</li>
+<li>OFF (ochiq): toki 0 → quvvat V·0 = 0.</li>
+</ul>
+<p>Demak ideal kalit hech qanday quvvat yo'qotmaydi: η = 1. Haqiqiy sxemada η ≈ 0.8…0.9.</p>
+<table>
+<tr><th></th><th>Chiziqli</th><th>Impulsli</th></tr>
+<tr><td>Samaradorlik η</td><td>≈ VO/VI (past)</td><td>≈ 1 (0.8…0.9)</td></tr>
+<tr><td>Chiqish</td><td>toza, ripple kam</td><td>ripple bor</td></tr>
+<tr><td>Shovqin (EMI)</td><td>kam</td><td>ko'p (tez o'tishlar)</td></tr>
+</table>
+
+<h2>2. PWM va duty cycle D</h2>
+<p>Kalit davriy ravishda yoqib-o'chiriladi: T davr ichida TON vaqt yoqiq, TOFF vaqt o'chiq. Bu <span class="term">PWM</span> (Pulse Width Modulation, impuls kengligi modulyatsiyasi).</p>
+<span class="formula">D = TON / (TON + TOFF) = TON / T &nbsp;&nbsp;&nbsp; (0 ≤ D ≤ 1)</span>
+<figure>
+<svg viewBox="0 0 720 220" role="img" aria-label="PWM: kalit TON vaqt yoqiq (VI), TOFF vaqt o'chiq (0). O'rtacha qiymat D·VI, bu yerda D = TON/T = 0.4" font-family="system-ui,sans-serif">
+<path d="M70 170V50H130.0V170H220V50H280.0V170H370V50H430.0V170H520V50H580.0V170H670" fill="none" stroke="#2563eb" stroke-width="2.2"/>
+<path d="M70 122.0H670" stroke="#dc2626" stroke-width="2" stroke-dasharray="6 4"/><text x="666.0" y="116.0" text-anchor="end" font-size="12" fill="#dc2626" font-weight="700">o'rtacha = D·VI</text>
+<text x="62.0" y="54.0" text-anchor="end" font-size="12" fill="#2563eb" font-weight="700">VI</text><text x="62.0" y="174.0" text-anchor="end" font-size="12" fill="currentColor">0</text>
+<path d="M70 186H130.0" stroke="#16a34a" stroke-width="2.5"/><text x="100.0" y="202.0" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">TON</text>
+<path d="M130.0 186H220" stroke="#d9622b" stroke-width="2.5"/><text x="175.0" y="202.0" text-anchor="middle" font-size="12" fill="#d9622b" font-weight="700">TOFF</text>
+<path d="M70 30H220" stroke="currentColor" stroke-width="1.2"/><text x="145.0" y="24.0" text-anchor="middle" font-size="12" fill="currentColor">T = TON + TOFF</text>
+<text x="460.0" y="24.0" text-anchor="middle" font-size="13" fill="currentColor" font-weight="700">D = TON / T = 0.4</text>
+</svg>
+<figcaption>Kalitdan keyingi kuchlanish: VI yoki 0. Uning o'rtacha qiymati D·VI. D ni o'zgartirib, o'rtacha kuchlanishni boshqaramiz.</figcaption>
+</figure>
+<p>Bu to'g'ri burchakli to'lqindan bizga faqat <strong>o'rtacha qiymat</strong> kerak. Qolgan tez o'zgarishlarni <span class="term">past chastota filtri</span> (low-pass filter) olib tashlaydi. Kichik quvvatda RC filtr (arzon, R da yo'qotish), katta quvvatda <strong>LC</strong> filtr (yo'qotish kam).</p>
+
+<h2>3. Induktivlik L: tokni "ushlab turadi"</h2>
+<p><span class="term">Induktivlik</span> (g'altak, inductor, L) = sim o'rami. Uning asosiy xususiyati: <strong>toki sakrab o'zgarmaydi</strong>. Kuchlanish berilsa, tok asta-sekin, chiziqli o'zgaradi:</p>
+<span class="formula">ΔIL = VL · ΔT / L</span>
+<p>VL musbat bo'lsa tok o'sadi, manfiy bo'lsa kamayadi. Kvadrat kuchlanish berilsa, tok <strong>uchburchak</strong> bo'ladi.</p>
+<figure>
+<svg viewBox="0 0 720 220" role="img" aria-label="Induktivlikka kvadrat kuchlanish berilsa, tok uchburchak shaklida bo'ladi: musbat kuchlanishda tok chiziqli o'sadi, manfiyda chiziqli kamayadi" font-family="system-ui,sans-serif">
+<path d="M80 60H680" stroke="#9aa0a6" stroke-dasharray="2 3"/><path d="M80 60V34H155.0V86H230V34H305.0V86H380V34H455.0V86H530V34H605.0V86H680V60" fill="none" stroke="#d9622b" stroke-width="2.2"/>
+<text x="70.0" y="64.0" text-anchor="end" font-size="13" fill="#d9622b" font-weight="700">VL</text>
+<path d="M80.0 170.0 L155.0 130.0 L230.0 170.0 L305.0 130.0 L380.0 170.0 L455.0 130.0 L530.0 170.0 L605.0 130.0 L680.0 170.0" fill="none" stroke="#2563eb" stroke-width="2.2"/>
+<text x="70.0" y="154.0" text-anchor="end" font-size="13" fill="#2563eb" font-weight="700">IL</text>
+<path d="M688 170V130" stroke="#9333ea" stroke-width="2"/><text x="694.0" y="154.0" text-anchor="start" font-size="12" fill="#9333ea" font-weight="700">ΔI</text>
+<text x="360.0" y="212.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">ΔI = VL · ΔT / L  (tok sakramaydi, faqat qiya chiziq bo'lib o'zgaradi)</text>
+</svg>
+<figcaption>Induktivlikka kvadrat kuchlanish → uchburchak tok. Barqaror ishda bir davrda tok qancha o'ssa, shuncha kamayadi.</figcaption>
+</figure>
+<div class="box analogy"><strong>O'xshatish:</strong> L = og'ir g'ildirak (maxovik). Uni darhol to'xtatib ham, darhol aylantirib ham bo'lmaydi. Kuch (kuchlanish) bersangiz asta tezlashadi, kuch teskari bo'lsa asta sekinlashadi.</div>
+
+<h2>4. Buck stabilizator (pasaytiruvchi, VO &lt; VI)</h2>
+<p>Buck da ikkita kalit bor, ular navbat bilan ishlaydi: SW1 (asosiy) D vaqt yoqiq, SW2 (1 − D) vaqt yoqiq. SW2 ko'pincha <strong>diod</strong> bilan almashtiriladi (zamonaviy sxemalarda MOS tranzistor).</p>
+<figure>
+<svg viewBox="0 0 720 230" role="img" aria-label="Buck: chapda ON holat, kalit yopiq, tok VI dan L orqali yuklamaga oqadi. O'ngda OFF holat, kalit ochiq, L tokni saqlashga intiladi va tok diod orqali aylanadi" font-family="system-ui,sans-serif">
+<text x="180.0" y="22.0" text-anchor="middle" font-size="13" fill="#16a34a" font-weight="700">ON (D vaqt): SW yopiq, diod yopiq</text>
+<circle cx="50" cy="110" r="16" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M42 116h7v-12h7" fill="none" stroke="#d9622b" stroke-width="1.8"/><text x="26.0" y="114.0" text-anchor="end" font-size="12" fill="#d9622b" font-weight="700">VI</text>
+<path d="M50 94V60H90" fill="none" stroke="#dc2626" stroke-width="2.6"/>
+<circle cx="92" cy="60" r="2.5" fill="#dc2626"/><circle cx="128" cy="60" r="2.5" fill="#dc2626"/><path d="M92 60L128 60" stroke="#dc2626" stroke-width="1.8"/>
+<text x="110.0" y="42.0" text-anchor="middle" font-size="11" fill="currentColor" font-weight="700">SW</text>
+<path d="M128 60H150" stroke="#dc2626" stroke-width="2.6"/>
+<path d="M150 60a7.5 7.5 0 0 1 15.0 0a7.5 7.5 0 0 1 15.0 0a7.5 7.5 0 0 1 15.0 0a7.5 7.5 0 0 1 15.0 0" fill="none" stroke="#2563eb" stroke-width="1.8"/>
+<text x="180.0" y="42.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">L</text>
+<path d="M210 60H310V90" fill="none" stroke="#dc2626" stroke-width="2.6"/>
+<path d="M140 60V95" stroke="currentColor" stroke-width="1.6"/>
+<path d="M140 95v6M131 101h18M131 117L149 117L140 101Z M140 117v8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+<path d="M140 125V160" stroke="currentColor" stroke-width="1.6"/>
+<text x="126.0" y="120.0" text-anchor="end" font-size="11" fill="currentColor" font-weight="700">D</text>
+<path d="M260 60V95" stroke="currentColor" stroke-width="1.6"/><path d="M260 95v14M248 109h24M248 115h24M260 115v14" fill="none" stroke="#9333ea" stroke-width="1.8"/><path d="M260 129V160" stroke="currentColor" stroke-width="1.6"/>
+<text x="272.0" y="116.0" text-anchor="start" font-size="11" fill="#9333ea" font-weight="700">C</text>
+<path d="M310 90v6.25l-6 3.1l6 3.1l6 3.1l-6 3.1l-6 3.1l6 3.1l6 3.1l-6 3.1l-6 3.1l6 3.1l6 3.1l-6 3.1v6.25" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M310 140V160" stroke="#dc2626" stroke-width="2.6"/>
+<text x="322.0" y="120.0" text-anchor="start" font-size="11" fill="currentColor" font-weight="700">RL</text>
+<path d="M50 126V160H310" fill="none" stroke="#dc2626" stroke-width="2.6"/>
+<text x="310.0" y="50.0" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">VO</text>
+<text x="540.0" y="22.0" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">OFF (1−D vaqt): SW ochiq, diod o'tkazadi</text>
+<circle cx="410" cy="110" r="16" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M402 116h7v-12h7" fill="none" stroke="#d9622b" stroke-width="1.8"/><text x="386.0" y="114.0" text-anchor="end" font-size="12" fill="#d9622b" font-weight="700">VI</text>
+<path d="M410 94V60H450" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<circle cx="452" cy="60" r="2.5" fill="currentColor"/><circle cx="488" cy="60" r="2.5" fill="currentColor"/><path d="M452 60L484 46" stroke="currentColor" stroke-width="1.8"/>
+<text x="470.0" y="42.0" text-anchor="middle" font-size="11" fill="currentColor" font-weight="700">SW</text>
+<path d="M488 60H510" stroke="#dc2626" stroke-width="2.6"/>
+<path d="M510 60a7.5 7.5 0 0 1 15.0 0a7.5 7.5 0 0 1 15.0 0a7.5 7.5 0 0 1 15.0 0a7.5 7.5 0 0 1 15.0 0" fill="none" stroke="#2563eb" stroke-width="1.8"/>
+<text x="540.0" y="42.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">L</text>
+<path d="M570 60H670V90" fill="none" stroke="#dc2626" stroke-width="2.6"/>
+<path d="M500 60V95" stroke="#dc2626" stroke-width="2.6"/>
+<path d="M500 95v6M491 101h18M491 117L509 117L500 101Z M500 117v8" fill="none" stroke="#dc2626" stroke-width="1.8"/>
+<path d="M500 125V160" stroke="#dc2626" stroke-width="2.6"/>
+<text x="486.0" y="120.0" text-anchor="end" font-size="11" fill="currentColor" font-weight="700">D</text>
+<path d="M620 60V95" stroke="currentColor" stroke-width="1.6"/><path d="M620 95v14M608 109h24M608 115h24M620 115v14" fill="none" stroke="#9333ea" stroke-width="1.8"/><path d="M620 129V160" stroke="currentColor" stroke-width="1.6"/>
+<text x="632.0" y="116.0" text-anchor="start" font-size="11" fill="#9333ea" font-weight="700">C</text>
+<path d="M670 90v6.25l-6 3.1l6 3.1l6 3.1l-6 3.1l-6 3.1l6 3.1l6 3.1l-6 3.1l-6 3.1l6 3.1l6 3.1l-6 3.1v6.25" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M670 140V160" stroke="#dc2626" stroke-width="2.6"/>
+<text x="682.0" y="120.0" text-anchor="start" font-size="11" fill="currentColor" font-weight="700">RL</text>
+<path d="M410 126V160H670" fill="none" stroke="#dc2626" stroke-width="2.6"/>
+<text x="670.0" y="50.0" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">VO</text>
+<text x="180.0" y="210.0" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">VL = VI − VO > 0 → IL o'sadi</text>
+<text x="540.0" y="210.0" text-anchor="middle" font-size="12" fill="#d9622b" font-weight="700">VL = −VO < 0 → IL kamayadi</text>
+</svg>
+<figcaption>Qizil: tok yo'li. ON da tok VI dan L orqali yuklamaga. OFF da L tokni saqlashga intiladi, tok diod orqali aylanib davom etadi.</figcaption>
+</figure>
+<ul>
+<li><strong>ON holat</strong> (D·T vaqt): SW yopiq, diod teskari ulangan (tok o'tmaydi). L ga VL = VI − VO &gt; 0 tushadi → tok o'sadi: ΔI = (VI − VO)·TON / L.</li>
+<li><strong>OFF holat</strong> ((1 − D)·T vaqt): SW ochiq. L tokni to'xtatmaydi, tok faqat diod orqali o'ta oladi (diod "o'zi" yoqiladi). L ga VL = −VO &lt; 0 → tok kamayadi: ΔI = −VO·TOFF / L.</li>
+</ul>
+<figure>
+<svg viewBox="0 0 720 250" role="img" aria-label="Buck to'lqin shakllari: VL ON vaqtda VI−VO, OFF vaqtda −VO; IL ON vaqtda IA dan IB gacha o'sadi, OFF vaqtda IB dan IA ga kamayadi" font-family="system-ui,sans-serif">
+<path d="M90 80H650" stroke="#9aa0a6" stroke-dasharray="2 3"/><path d="M90 80V56.0H174.0V116.0H230V56.0H314.0V116.0H370V56.0H454.0V116.0H510V56.0H594.0V116.0H650V80" fill="none" stroke="#d9622b" stroke-width="2.2"/>
+<text x="80.0" y="84.0" text-anchor="end" font-size="13" fill="#d9622b" font-weight="700">VL</text>
+<text x="132.0" y="50.0" text-anchor="middle" font-size="11" fill="#16a34a" font-weight="700">VI − VO</text><text x="202.0" y="132.0" text-anchor="middle" font-size="11" fill="#d9622b" font-weight="700">−VO</text>
+<path d="M90.0 200.0 L174.0 160.0 L230.0 200.0 L314.0 160.0 L370.0 200.0 L454.0 160.0 L510.0 200.0 L594.0 160.0 L650.0 200.0" fill="none" stroke="#2563eb" stroke-width="2.2"/>
+<path d="M90 160H650M90 200H650" stroke="#9aa0a6" stroke-dasharray="2 3"/>
+<text x="80.0" y="164.0" text-anchor="end" font-size="12" fill="#2563eb" font-weight="700">IB</text><text x="80.0" y="204.0" text-anchor="end" font-size="12" fill="#2563eb" font-weight="700">IA</text><text x="50.0" y="184.0" text-anchor="end" font-size="13" fill="#2563eb" font-weight="700">IL</text>
+<path d="M90 216H174.0" stroke="#16a34a" stroke-width="2.5"/><text x="132.0" y="232.0" text-anchor="middle" font-size="11" fill="#16a34a" font-weight="700">D·T (ON)</text>
+<path d="M174.0 216H230" stroke="#d9622b" stroke-width="2.5"/><text x="202.0" y="232.0" text-anchor="middle" font-size="11" fill="#d9622b" font-weight="700">(1−D)·T</text>
+</svg>
+<figcaption>Buck: VL va IL. Tok IA dan IB gacha o'sadi (ON), IB dan IA gacha tushadi (OFF).</figcaption>
+</figure>
+<h3>VO = D·VI formulasi qayerdan</h3>
+<p>Barqaror ishda bir davrda tok qancha o'ssa, shuncha tushadi (aks holda tok cheksiz o'sardi). O'sish + kamayish = 0:</p>
+<span class="formula">(VI − VO)·TON / L + (−VO)·TOFF / L = 0</span>
+<p>L qisqaradi: VI·TON = VO·(TON + TOFF), ya'ni</p>
+<span class="formula">VO / VI = TON / T = D &nbsp;&nbsp;&nbsp; → &nbsp;&nbsp;&nbsp; VO = D · VI</span>
+<p>D ≤ 1 bo'lgani uchun VO ≤ VI. Muhim: ideal holda (uzluksiz tok rejimida, CCM) VO <strong>faqat D ga</strong> bog'liq: L, C, yuklama, chastota, diod xususiyatlari formulada yo'q.</p>
+
+<h2>5. Teskari aloqa bilan stabillash</h2>
+<p>VI o'zgarsa VO ham o'zgaradi (VO = D·VI). Chiqishni doimiy ushlash uchun D avtomatik sozlanadi:</p>
+<figure>
+<svg viewBox="0 0 720 200" role="img" aria-label="Teskari aloqa: chiqish VO R1 va R2 bo'luvchi orqali VF ga aylanadi, VF tayanch VZ bilan solishtiriladi, natija PWM ning D sini boshqaradi" font-family="system-ui,sans-serif">
+<defs><marker id="fb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<rect x="60" y="40" width="160" height="56" rx="8" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.6"/><text x="140.0" y="64.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">kalit + L + C</text><text x="140.0" y="82.0" text-anchor="middle" font-size="11" fill="#2563eb">(buck)</text>
+<path d="M20 68H60" stroke="#555" stroke-width="1.6" marker-end="url(#fb)"/><text x="26.0" y="60.0" text-anchor="start" font-size="12" fill="currentColor" font-weight="700">VI</text>
+<path d="M220 68H560" stroke="#555" stroke-width="1.6" marker-end="url(#fb)"/><text x="566.0" y="72.0" text-anchor="start" font-size="13" fill="#16a34a" font-weight="700">VO</text>
+<path d="M460 68V82"  stroke="currentColor" stroke-width="1.6"/><path d="M460 82v4.5l-6 2.2l6 2.2l6 2.2l-6 2.2l-6 2.2l6 2.2l6 2.2l-6 2.2l-6 2.2l6 2.2l6 2.2l-6 2.2v4.5" fill="none" stroke="#d9622b" stroke-width="1.6"/><text x="474.0" y="104.0" text-anchor="start" font-size="11" fill="#d9622b" font-weight="700">R1</text>
+<circle cx="460" cy="122" r="3" fill="currentColor"/><path d="M460 122v4.5l-6 2.2l6 2.2l6 2.2l-6 2.2l-6 2.2l6 2.2l6 2.2l-6 2.2l-6 2.2l6 2.2l6 2.2l-6 2.2v4.5" fill="none" stroke="#d9622b" stroke-width="1.6"/><path d="M450 158H470M454 162H466M458 166H462" stroke="currentColor" stroke-width="1.5"/><text x="474.0" y="144.0" text-anchor="start" font-size="11" fill="#d9622b" font-weight="700">R2</text>
+<path d="M460 122H360" stroke="#555" stroke-width="1.4" marker-end="url(#fb)"/><text x="410.0" y="116.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">VF</text>
+<path d="M300 104L360 122L300 140Z" fill="none" stroke="#9333ea" stroke-width="1.6" transform="rotate(180 330 122)"/><text x="330.0" y="160.0" text-anchor="middle" font-size="11" fill="#9333ea">solishtirish</text>
+<text x="282.0" y="128.0" text-anchor="middle" font-size="10" fill="currentColor"></text>
+<path d="M300 122H260V96" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#fb)"/><text x="250.0" y="116.0" text-anchor="end" font-size="12" fill="currentColor" font-weight="700">D</text>
+<path d="M330 180V140" stroke="#555" stroke-width="1.4" marker-end="url(#fb)"/><text x="338.0" y="190.0" text-anchor="start" font-size="11" fill="currentColor">VZ (tayanch)</text>
+<text x="620.0" y="130.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">VF = VZ</text><text x="620.0" y="150.0" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">VO = VZ·(R1+R2)/R2</text>
+</svg>
+<figcaption>Chiqish R1, R2 bo'luvchi orqali o'lchanadi va tayanch VZ bilan solishtiriladi. Farq D ni o'zgartiradi.</figcaption>
+</figure>
+<span class="formula">VF = VO · R2/(R1 + R2) = VZ &nbsp;&nbsp;&nbsp; → &nbsp;&nbsp;&nbsp; VO = VZ · (R1 + R2)/R2</span>
+
+<h2>6. Haqiqiy buck: yo'qotishlar</h2>
+<ul>
+<li>Kalit: RON ≠ 0 (yoqiqda), IOFF ≠ 0 (o'chiqda), o'tish paytida MOS chiziqli sohada ishlaydi.</li>
+<li>Diod: VD ≠ 0, teskari tok IS ≠ 0.</li>
+<li>L: ketma-ket qarshilik RL, o'zakdagi yo'qotish.</li>
+<li>C: ekvivalent ketma-ket qarshilik (ESR).</li>
+</ul>
+<p>Natija: η &lt; 1, lekin yaqin (0.8…0.9); yo'qotishlar chastotaga ham bog'liq. Bu hamma impulsli stabilizatorlarga tegishli.</p>
+
+<h2>7. Slayddagi mashq Ee5</h2>
+<div class="box">
+<p><strong>Shart:</strong> VO &lt; VI bo'lgan impulsli stabilizator sxemasini chizing (= buck). VI 8 V dan 15 V gacha o'zgaradi, VO = 5 V kerak. D chegaralarini toping.</p>
+<p><strong>Yechim:</strong> D = VO/VI.</p>
+<ul><li>VI = 15 V: D = 5/15 = <strong>0.33</strong> (eng kichik).</li><li>VI = 8 V: D = 5/8 = <strong>0.625</strong> (eng katta).</li></ul>
+<p>(b) qism: haqiqiy kalitda VCEsat va RON da kuchlanish tushadi, shuning uchun bir xil VO uchun D biroz <strong>kattaroq</strong> bo'lishi kerak.</p>
+</div>
+
+<h2>8. Imtihon masalasi: 2020-09 (7 ball)</h2>
+<p><img src="img/e0902sw.png" alt="2020-09 sxemasi: N ta D flip-flop halqa siljitish registri, oxirgi chiqish QN-1 kirishga va buck stabilizator kalitiga ulangan" style="max-width:100%;background:#fff;border-radius:6px"></p>
+<div class="box">
+<p><em>"The switch of an ideal buck switching regulator is controlled by the output QN-1 of the logic circuit shown in the figure below. The switch of the regulator is "ON" when QN-1 is at the logic level one and "OFF" when QN-1 is at the logic level zero. The input voltage to the switching regulator is Vin = 5.6 V, the frequency of the clock (CLK) signal is fCLK = 420 kHz, and the number of D flip-flops is N = 5. What is the magnitude of the output voltage of the switching regulator, Vout = ? V, [6 points] when the initial states of the outputs Qi, i ∈ {0, …, 4}, of the circuit are: Q2 = 1, Q3 = 1, and logic zero for all other outputs. How does the output voltage, Vout, change if both the clock frequency, fCLK, and the input voltage, Vin, double their values at the same time [1 point]: increases two times / decreases two times / increases four times / decreases four times / unchanged, it is regulated"</em></p>
+<p><strong>Tarjima:</strong> buck kaliti QN-1 = 1 bo'lsa yoqiq. VI = 5.6 V, fCLK = 420 kHz, N = 5 flip-flop. Boshida Q2 = Q3 = 1, qolganlari 0. Vout = ? fCLK va Vin ikkalasi ikki baravar oshsa Vout qanday o'zgaradi?</p>
+</div>
+<details><summary>Javob (yechim)</summary>
+<p><strong>1. Sxema nima:</strong> flip-flop lar ketma-ket (9-darsdagi siljitish registri), oxirgi chiqish QN-1 birinchi kirishga qaytadi. Bu <span class="term">halqa registr</span> (ring): bitlar aylanib yuradi, hech biri yo'qolmaydi.</p>
+<p><strong>2. Davr:</strong> har taktda bitlar bir pog'ona suriladi, N = 5 taktdan keyin holat takrorlanadi. Ichida ikkita "1" bor, demak Q4 5 taktdan 2 tasida "1".</p>
+<p><strong>3. Duty cycle:</strong> D = 2/5 = 0.4.</p>
+<p><strong>4. Buck:</strong> Vout = D · Vin = 0.4 · 5.6 = <strong>2.24 V</strong>.</p>
+<p><strong>5. Ikkinchi savol:</strong> Vout chastotaga bog'liq emas (D o'zgarmaydi, faqat tezroq aylanadi), lekin Vin ga proporsional. Vin ikki baravar → Vout ikki baravar: <strong>"increases two times"</strong>. (Bu yerda teskari aloqa yo'q, shuning uchun "regulated" emas.)</p>
+</details>
+<figure>
+<svg viewBox="0 0 720 290" role="img" aria-label="2020-09: 5 bitli halqa registr. Boshlang'ich holat Q0..Q4 = 0 0 1 1 0. Har taktda bitlar bir pog'ona suriladi. Q4 chiqishi 5 taktdan 2 tasida 1: D = 2/5" font-family="system-ui,sans-serif">
+<text x="100.0" y="30.0" text-anchor="end" font-size="11" fill="currentColor">takt k</text>
+<text x="138.0" y="30.0" text-anchor="middle" font-size="11" fill="currentColor">0</text>
+<text x="194.0" y="30.0" text-anchor="middle" font-size="11" fill="currentColor">1</text>
+<text x="250.0" y="30.0" text-anchor="middle" font-size="11" fill="currentColor">2</text>
+<text x="306.0" y="30.0" text-anchor="middle" font-size="11" fill="currentColor">3</text>
+<text x="362.0" y="30.0" text-anchor="middle" font-size="11" fill="currentColor">4</text>
+<text x="418.0" y="30.0" text-anchor="middle" font-size="11" fill="currentColor">5</text>
+<text x="474.0" y="30.0" text-anchor="middle" font-size="11" fill="currentColor">6</text>
+<text x="530.0" y="30.0" text-anchor="middle" font-size="11" fill="currentColor">7</text>
+<text x="586.0" y="30.0" text-anchor="middle" font-size="11" fill="currentColor">8</text>
+<text x="642.0" y="30.0" text-anchor="middle" font-size="11" fill="currentColor">9</text>
+<text x="100.0" y="65.0" text-anchor="end" font-size="12" fill="currentColor" font-weight="700">Q0</text>
+<rect x="113" y="52" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="138.0" y="69.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="169" y="52" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="194.0" y="69.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="225" y="52" width="50" height="24" rx="4" fill="#2563eb" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="250.0" y="69.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<rect x="281" y="52" width="50" height="24" rx="4" fill="#2563eb" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="306.0" y="69.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<rect x="337" y="52" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="362.0" y="69.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="393" y="52" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="418.0" y="69.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="449" y="52" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="474.0" y="69.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="505" y="52" width="50" height="24" rx="4" fill="#2563eb" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="530.0" y="69.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<rect x="561" y="52" width="50" height="24" rx="4" fill="#2563eb" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="586.0" y="69.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<rect x="617" y="52" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="642.0" y="69.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<text x="100.0" y="95.0" text-anchor="end" font-size="12" fill="currentColor" font-weight="700">Q1</text>
+<rect x="113" y="82" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="138.0" y="99.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="169" y="82" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="194.0" y="99.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="225" y="82" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="250.0" y="99.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="281" y="82" width="50" height="24" rx="4" fill="#2563eb" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="306.0" y="99.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<rect x="337" y="82" width="50" height="24" rx="4" fill="#2563eb" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="362.0" y="99.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<rect x="393" y="82" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="418.0" y="99.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="449" y="82" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="474.0" y="99.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="505" y="82" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="530.0" y="99.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="561" y="82" width="50" height="24" rx="4" fill="#2563eb" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="586.0" y="99.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<rect x="617" y="82" width="50" height="24" rx="4" fill="#2563eb" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="642.0" y="99.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<text x="100.0" y="125.0" text-anchor="end" font-size="12" fill="currentColor" font-weight="700">Q2</text>
+<rect x="113" y="112" width="50" height="24" rx="4" fill="#2563eb" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="138.0" y="129.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<rect x="169" y="112" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="194.0" y="129.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="225" y="112" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="250.0" y="129.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="281" y="112" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="306.0" y="129.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="337" y="112" width="50" height="24" rx="4" fill="#2563eb" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="362.0" y="129.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<rect x="393" y="112" width="50" height="24" rx="4" fill="#2563eb" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="418.0" y="129.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<rect x="449" y="112" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="474.0" y="129.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="505" y="112" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="530.0" y="129.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="561" y="112" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="586.0" y="129.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="617" y="112" width="50" height="24" rx="4" fill="#2563eb" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="642.0" y="129.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<text x="100.0" y="155.0" text-anchor="end" font-size="12" fill="currentColor" font-weight="700">Q3</text>
+<rect x="113" y="142" width="50" height="24" rx="4" fill="#2563eb" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="138.0" y="159.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<rect x="169" y="142" width="50" height="24" rx="4" fill="#2563eb" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="194.0" y="159.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<rect x="225" y="142" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="250.0" y="159.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="281" y="142" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="306.0" y="159.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="337" y="142" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="362.0" y="159.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="393" y="142" width="50" height="24" rx="4" fill="#2563eb" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="418.0" y="159.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<rect x="449" y="142" width="50" height="24" rx="4" fill="#2563eb" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="474.0" y="159.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<rect x="505" y="142" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="530.0" y="159.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="561" y="142" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="586.0" y="159.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="617" y="142" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="642.0" y="159.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<text x="100.0" y="185.0" text-anchor="end" font-size="12" fill="#dc2626" font-weight="700">Q4 (SW)</text>
+<rect x="113" y="172" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="138.0" y="189.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="169" y="172" width="50" height="24" rx="4" fill="#dc2626" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="194.0" y="189.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<rect x="225" y="172" width="50" height="24" rx="4" fill="#dc2626" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="250.0" y="189.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<rect x="281" y="172" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="306.0" y="189.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="337" y="172" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="362.0" y="189.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="393" y="172" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="418.0" y="189.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="449" y="172" width="50" height="24" rx="4" fill="#dc2626" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="474.0" y="189.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<rect x="505" y="172" width="50" height="24" rx="4" fill="#dc2626" fill-opacity="0.25" stroke="#9aa0a6" stroke-width="1"/><text x="530.0" y="189.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">1</text>
+<rect x="561" y="172" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="586.0" y="189.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<rect x="617" y="172" width="50" height="24" rx="4" fill="none" fill-opacity="0" stroke="#9aa0a6" stroke-width="1"/><text x="642.0" y="189.0" text-anchor="middle" font-size="12" fill="currentColor">0</text>
+<path d="M110 240V240H166V218H222V218H278V240H334V240H390V240H446V218H502V218H558V240H614V240H670" fill="none" stroke="#dc2626" stroke-width="2.4"/><text x="100.0" y="234.0" text-anchor="end" font-size="12" fill="#dc2626" font-weight="700">SW</text>
+<path d="M110 254H390" stroke="#9333ea" stroke-width="2.5"/><text x="250.0" y="270.0" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">davr = N = 5 takt, shundan 2 tasida ON → D = 2/5</text>
+</svg>
+<figcaption>2020-09: halqa registr holatlari. Q4 (kalit) 5 taktdan 2 tasida ON: D = 2/5.</figcaption>
+</figure>
+
+<h2>9. Imtihon test savollari (asl matn bilan)</h2>
+<div class="box"><p><strong>003.</strong> <em>For an ideal buck power regulator, the output voltage can be: a) higher than or equal to the input voltage &nbsp; b) higher than the input voltage &nbsp; c) lower than or equal to the input voltage &nbsp; d) lower than the input voltage</em></p>
+<details><summary>Javob</summary><p><strong>c)</strong> VO = D·VI, D ≤ 1 (D = 1 da teng).</p></details></div>
+<div class="box"><p><strong>030.</strong> <em>The voltage gain of a buck regulator with duty cycle D = 0.75 is: a) 0.75 &nbsp; b) 0.25 &nbsp; c) 1.33 &nbsp; d) 4</em></p>
+<details><summary>Javob</summary><p><strong>a) 0.75</strong> (VO/VI = D).</p></details></div>
+<div class="box"><p><strong>091.</strong> <em>The voltage gain of a buck regulator with duty cycle D = 0.25 is: a) 0.75 &nbsp; b) 0.25 &nbsp; c) 1.33 &nbsp; d) 4</em></p>
+<details><summary>Javob</summary><p><strong>b) 0.25</strong>.</p></details></div>
+<div class="box"><p><strong>114.</strong> <em>The transfer function in continuous current mode of an ideal buck power regulator depends on: a) the value of the inductance &nbsp; b) the characteristics of the diode &nbsp; c) the switch duty cycle &nbsp; d) the value of the load</em></p>
+<details><summary>Javob</summary><p><strong>c)</strong> VO/VI = D, faqat duty cycle.</p></details></div>
+<div class="box"><p><strong>101.</strong> <em>The schematic below represents: a) a flyback power regulator circuit &nbsp; b) an on-off load control circuit with a diode &nbsp; c) a buck power regulator circuit &nbsp; d) a voltage regulator with a Zener diode</em></p>
+<p><img src="img/q101.png" alt="101-savol sxemasi: kalit S ketma-ket, keyin diod yerga, L ketma-ket, Cu va RL chiqishda" style="max-width:100%;background:#fff;border-radius:6px"></p>
+<details><summary>Javob</summary><p><strong>c) buck</strong>. Belgisi: kalit kirishdan ketma-ket, keyin diod yerga, keyin L ketma-ket chiqishga.</p></details></div>
+<div class="box"><p><strong>116.</strong> <em>A buck power regulator injects noise: a) more in the output circuit &nbsp; b) more in the input circuit &nbsp; c) equivalent in both input and output circuits &nbsp; d) operates smoothly, not relevant noise</em></p>
+<details><summary>Javob</summary><p><strong>b) more in the input circuit</strong>. Buck da kalit kirishga ketma-ket: kirish toki impulsli (0 yoki IL). Chiqishda L tokni tekis ushlaydi.</p></details></div>
+<div class="box"><p><strong>061.</strong> <em>Compared to a linear regulator, a switching regulator allows to: a) increase the stability of the output voltage &nbsp; b) increase the efficiency of the regulator &nbsp; c) simplify the regulator circuit &nbsp; d) increase the accuracy of the output voltage</em></p>
+<details><summary>Javob</summary><p><strong>b)</strong> samaradorlik yuqori.</p></details></div>
+<div class="box"><p><strong>028.</strong> <em>The efficiency (ratio of output power/input power) of a linear series regulator with VI input and VO output is approximately: a) VI / VO &nbsp; b) VO / VI &nbsp; c) 0.5 &nbsp; d) VO / (VI + VO)</em> &nbsp; <strong>034</strong> (xuddi shu savol): <em>a) Vout / Vin &nbsp; b) 1 &nbsp; c) Vin / Vout &nbsp; d) (Vin / Vout)2</em></p>
+<details><summary>Javob</summary><p>028 → <strong>b) VO/VI</strong>; 034 → <strong>a) Vout/Vin</strong>. Chiziqli stabilizatorda IO ≈ II.</p></details></div>
+
+<div class="box check"><strong>O'zingizni tekshiring:</strong>
+<ol>
+<li>Buck, VI = 24 V, VO = 3.3 V kerak. D = ?</li>
+<li>Halqa registr N = 8, ichida uchta "1". Buck VI = 12 V. VO = ?</li>
+<li>Buck da ON holatda L dagi kuchlanish qancha?</li>
+</ol>
+<details><summary>Javoblar</summary>
+<ol>
+<li>D = 3.3/24 = 0.1375 ≈ 0.14.</li>
+<li>D = 3/8, VO = 12·3/8 = 4.5 V.</li>
+<li>VL = VI − VO (musbat, tok o'sadi).</li>
+</ol></details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Stabilizator</td><td>regulator</td><td>Doimiy chiqish kuchlanishi beruvchi sxema</td></tr>
+<tr><td>Chiziqli stabilizator</td><td>linear regulator</td><td>Ortiqchani tranzistorda yoqadi, η ≈ VO/VI</td></tr>
+<tr><td>Impulsli stabilizator</td><td>switching regulator, dc-dc converter</td><td>Kalit + L + C, η ≈ 1</td></tr>
+<tr><td>Samaradorlik</td><td>efficiency η</td><td>PO / PI</td></tr>
+<tr><td>Duty cycle</td><td>duty cycle D</td><td>TON / T</td></tr>
+<tr><td>PWM</td><td>pulse width modulation</td><td>Impuls kengligi bilan boshqarish</td></tr>
+<tr><td>Induktivlik</td><td>inductor L</td><td>Tokni sakratmaydi: ΔI = VL·ΔT/L</td></tr>
+<tr><td>Buck</td><td>buck (step-down)</td><td>Pasaytiruvchi: VO = D·VI</td></tr>
+<tr><td>Uzluksiz tok rejimi</td><td>continuous current mode (CCM)</td><td>L toki hech qachon 0 ga tushmaydi</td></tr>
+<tr><td>Teskari aloqa</td><td>feedback (reaction)</td><td>Chiqishni o'lchab D ni sozlash</td></tr>
+<tr><td>Ripple</td><td>ripple</td><td>Chiqishdagi kichik tebranish</td></tr>
+<tr><td>Halqa registr</td><td>ring (circular shift) register</td><td>Oxirgi chiqish birinchi kirishga ulangan</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<span class="formula">D = TON / T &nbsp;·&nbsp; Buck: VO = D·VI (VO ≤ VI)</span>
+<span class="formula">ΔIL = VL·ΔT/L &nbsp;·&nbsp; ON: VL = VI − VO &nbsp;·&nbsp; OFF: VL = −VO &nbsp;·&nbsp; (VI − VO)TON = VO·TOFF</span>
+<span class="formula">Chiziqli: η ≈ VO/VI &nbsp;·&nbsp; impulsli: η ≈ 1 (0.8…0.9)</span>
+<span class="formula">Teskari aloqa: VO = VZ·(R1 + R2)/R2</span>
+<ul>
+<li>Ideal kalit quvvat yo'qotmaydi (ON: V = 0, OFF: I = 0).</li>
+<li>CCM da VO/VI faqat D ga bog'liq (L, C, yuklama, chastota, diod emas).</li>
+<li>Buck: shovqin kirishga. Kamchilik: ripple, EMI.</li>
+<li>Yo'qotishlar: RON, IOFF, VD, RL, ESR, o'tishlar.</li>
+<li>Javoblar: 003 → c; 030 → a; 091 → b; 114 → c; 101 → c; 116 → b; 061 → b; 028 → b; 034 → a; Ee5 → D = 0.33…0.625; 2020-09 → D = 2/5, 2.24 V, "increases two times".</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="29-mashq-liniyalar.html">← 29-dars</a><a href="34-boost-buckboost-flyback.html">34-dars →</a></footer>
+</main></body></html>
