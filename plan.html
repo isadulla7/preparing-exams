@@ -110,6 +110,15 @@ Avval ikkala fanning A mavzularini tugatamiz, keyin B ga o'tamiz. Darslar shu ta
 
 <h3>Mavzular og'irligi</h3>
 <p>Eski imtihon savollari yo'q, shuning uchun og'irlik quyidagilarga qarab baholandi: (1) 1-ma'ruzadagi kurs dasturining 10 ta bo'limi (imtihon "hamma mavzulardan"), (2) mashg'ulot papkasidagi masala to'plamlari (energiya/quvvat, Z-almashtirish, diskret tizimlar, Furye, korrelyatsiya, LTI, Nyquist), (3) imtihonda beriladigan jadval (Furye va Z). Ko'p mashq qilingan va jadvali beriladigan mavzu ko'proq tushadi deb hisoblandi. Bu baho, kafolat emas.</p>
+<div class="box ok"><strong>Mashg'ulot papkasi (Exercises) haqida:</strong> u yerdagi masalalar imtihon savollari bilan <strong>mazmunan bir xil</strong> mavzularda, lekin shakli boshqa. Mashqlarda masala ochiq yechiladi (X(f) ni toping, o'ramni hisoblang, Z va ROC ni toping, h[n] ni toping, Nyquist chastotasini toping). Imtihonda esa xuddi shunday hisob, faqat 4 ta javob varianti bilan beriladi va har biriga ~6 daqiqa bor. Shuning uchun har bir A darsdan keyin shu mavzudagi mashqlarni birga yechamiz:
+<ul>
+<li><em>01 Energy and Power</em>: diskret signal amallari, chiziqli o'ram, energiya/quvvat → 4, 21–23-darslar</li>
+<li><em>02 Z-Transform</em> + 21 ta qo'lda yechilgan skan (asosan teskari Z): Z, qutb/nol, ROC → 28–29-darslar. Eng ko'p mashq qilingan mavzu</li>
+<li><em>03 Linear systems</em>: ayirmali tenglama → h[n], FIR filtr chastota javobi → 30–32-darslar</li>
+<li><em>Propedeutic Exercises</em> (yechimlari bilan): Furye va energiya, avtokorrelyatsiya, LTI chiqishi, Nyquist chastotasi → 8–13, 17, 19–20-darslar</li>
+<li>2021-yilgi qo'lda yozilgan konspektlar (SAP03.12–03.24): uzluksiz signallar, Furye, LTI, o'ram, BIBO → 5–13-darslar</li>
+</ul>
+Mashqlar tufayli <strong>31-dars (chastota javobi, FIR)</strong> B dan A ga ko'tarildi.</div>
 
 <div class="wrap"><table>
 <tr><th></th><th>Mavzu</th><th>Nima bilish kerak</th><th>Ma'ruza</th><th>Darslar</th></tr>
@@ -118,11 +127,11 @@ Avval ikkala fanning A mavzularini tugatamiz, keyin B ga o'tamiz. Darslar shu ta
 <tr><td><span class="tag tA">A</span></td><td>LTI tizimlar</td><td>Chiziqlilik, vaqtga invariantlik, kauzallik, BIBO turg'unlikni tekshirish; o'ram; y = h∗x, Y = H·X</td><td>08, 09</td><td>11, 12, 13</td></tr>
 <tr><td><span class="tag tA">A</span></td><td>Diskretlash teoremasi</td><td>fs ≥ 2B (Nyquist), aliasing, sinusning aliasi qayerga tushadi, anti-aliasing filtr</td><td>23, 24</td><td>19, 20</td></tr>
 <tr><td><span class="tag tA">A</span></td><td>Diskret signallar va diskret o'ram</td><td>δ(n), u(n), aⁿ; surish, teskari aylantirish; chiziqli o'ramni qo'lda hisoblash, natija uzunligi N+M−1</td><td>25, 26</td><td>21, 22</td></tr>
-<tr><td><span class="tag tA">A</span></td><td>Z-almashtirish, ROC, diskret tizim turg'unligi</td><td>Jadvaldan Z, ROC (kauzal/antikauzal), qutblar, teskari Z, turg'unlik: qutblar birlik aylana ichida; ayirmali tenglama → H(z)</td><td>32, 33, 34, 36</td><td>28, 29, 30, 32</td></tr>
+<tr><td><span class="tag tA">A</span></td><td>Z-almashtirish, ROC, diskret tizim turg'unligi</td><td>Jadvaldan Z, ROC (kauzal/antikauzal), qutblar, teskari Z, turg'unlik: qutblar birlik aylana ichida; ayirmali tenglama → H(z) → h[n]; FIR filtr chastota javobi |H(e^{jω})|</td><td>32–36</td><td>28, 29, 30, 31, 32</td></tr>
 <tr><td><span class="tag tB">B</span></td><td>Furye qatori, davriy signal spektri</td><td>Koeffitsiyentlar, to'rtburchak to'lqin, delta qatori</td><td>05, 12, 13</td><td>7, 16</td></tr>
 <tr><td><span class="tag tB">B</span></td><td>Korrelyatsiya, energiya va quvvat spektri</td><td>Avtokorrelyatsiya R(0) = E, Sx = |X|², kesilgan signal</td><td>14, 15</td><td>17, 18</td></tr>
 <tr><td><span class="tag tB">B</span></td><td>DTFT, DFT, aylanma o'ram</td><td>DTFT davri 1, DFT ta'rifi, zero-padding, chiziqli va aylanma o'ram farqi</td><td>28–31</td><td>24, 25, 26, 27</td></tr>
-<tr><td><span class="tag tB">B</span></td><td>Chastota javobi, filtrlar, polosa</td><td>H(e^{j2πf}), FIR/IIR, −3 dB polosa, buzilishsiz tizim</td><td>11, 35</td><td>15, 31</td></tr>
+<tr><td><span class="tag tB">B</span></td><td>Polosa, filtrlar, buzilishsiz tizim</td><td>−3 dB polosa, LPF/HPF, buzilishsiz tizim</td><td>11</td><td>15</td></tr>
 <tr><td><span class="tag tC">C</span></td><td>Qolganlari</td><td>Signallar vektor sifatida, ortogonallik (03–04), blok sxemalar (10), tasodifiy jarayonlar (37), MATLAB buyruqlari</td><td>03, 04, 10, 37</td><td>5, 6, 14, 33–36</td></tr>
 </table></div>
 
@@ -144,9 +153,9 @@ Avval ikkala fanning A mavzularini tugatamiz, keyin B ga o'tamiz. Darslar shu ta
 <tr><td>3<br><span class="small">14–20 dek</span></td><td><span class="tag tA">A</span> Uzatish liniyalari: 24, 25, 26</td><td><span class="tag tA">A</span> 10 (Furye xossalari, jadval), 11, 12 (tizim, o'ram)</td></tr>
 <tr><td>4<br><span class="small">21–27 dek</span></td><td><span class="tag tA">A</span> 29 (TL mashq) + ADC: 16, 18</td><td><span class="tag tA">A</span> 13 (H(f), turg'unlik), 19, 20 (diskretlash)</td></tr>
 <tr><td>5<br><span class="small">28 dek – 3 yan</span></td><td><span class="tag tA">A</span> 20 (ADC mashq), 33 (stabilizatorlar), 34</td><td><span class="tag tA">A</span> 21, 22 (diskret signal, o'ram), 23</td></tr>
-<tr><td>6<br><span class="small">4–10 yan</span></td><td><span class="tag tA">A</span> Measurements: 35 (noaniqlik), 39 (sensorlar), 40 (2019 masalalari)</td><td><span class="tag tA">A</span> 28, 29 (Z, ROC), 30, 32 (diskret tizim, turg'unlik)</td></tr>
+<tr><td>6<br><span class="small">4–10 yan</span></td><td><span class="tag tA">A</span> Measurements: 35 (noaniqlik), 39 (sensorlar), 40 (2019 masalalari)</td><td><span class="tag tA">A</span> 28, 29 (Z, ROC), 30, 31, 32 (diskret tizim, chastota javobi, turg'unlik)</td></tr>
 <tr><td>7<br><span class="small">11–17 yan</span></td><td><span class="tag tB">B</span> 30, 31, 32 (issiqlik, ripple, zener), 6 (CMOS), 21–22 (xotiralar)</td><td><span class="tag tB">B</span> 17, 18 (korrelyatsiya, spektr), 24–25 (DTFT)</td></tr>
-<tr><td>8<br><span class="small">18–24 yan</span></td><td><span class="tag tB">B</span> 10, 13, 17, 36–38 + 117 ta savoldan test mashqi</td><td><span class="tag tB">B</span> 26–27 (DFT), 15, 31 + 1-sinov testi</td></tr>
+<tr><td>8<br><span class="small">18–24 yan</span></td><td><span class="tag tB">B</span> 10, 13, 17, 36–38 + 117 ta savoldan test mashqi</td><td><span class="tag tB">B</span> 26–27 (DFT), 15 + 1-sinov testi</td></tr>
 <tr><td>9<br><span class="small">25–31 yan</span></td><td>11 ta eski imtihon, vaqt bilan (90 daqiqa)</td><td>Sinov testlari (37-dars), xatolar tahlili, konspektlar</td></tr>
 </table></div>
 <p class="small">Bitta dars tushunilmasa ("tushunmadim"), u soddaroq qayta yoziladi va jadval biroz suriladi. Shuning uchun B mavzular 7–8-haftaga qo'yilgan: kechiksangiz ham A mavzular imtihongacha tugaydi.</p>
