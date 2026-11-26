@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>18. ADC turlari: flash, SAR, tracking</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>18. ADC turlari: flash, ketma-ket yaqinlashish (SAR), tracking</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> ADC ichida nima bo'lishini va uning uch asosiy turini: flash (parallel), ketma-ket yaqinlashish (SAR) va tracking/zinapoya. Har birining tezligi (o'zgartirish vaqti) va murakkabligi (komparatorlar soni) qanday hisoblanishini. Bu <strong>A mavzu</strong>: 2020-07 imtihon masalasi, 2021-06 va 2021-07 imtihonlarining testlari, bazadagi 013, 035, 108-savollar shu yerda. Manba: D3 slaydlari. O'qish vaqti: 35 daqiqa.</div>
+
+<h2>1. Asosiy g'isht: komparator</h2>
+<p><span class="term">Komparator</span> (comparator, solishtirgich) ikki kuchlanishni solishtiradi va javob beradi: birinchisi katta bo'lsa <strong>1</strong>, kichik bo'lsa <strong>0</strong>. Bu 1 bitli "ADC".</p>
+<div class="box analogy">Tarozi: chap pallasi og'irroqmi yoki o'ngi? Javob faqat "ha" yoki "yo'q". Har qanday ADC shunday tarozilardan yasaladi, faqat ularni qancha va qanday tartibda ishlatishi bilan farq qiladi.</div>
+<p>Har bir ADC ni ikki o'lchov bilan baholaymiz (slayd):</p>
+<ul>
+<li><strong>Murakkablik</strong> (complexity): nechta komparator kerak. Kam bo'lsa arzon va oddiy.</li>
+<li><strong>O'zgartirish vaqti</strong> Tc (conversion time): bitta sonni olish uchun nechta takt (komparator ishlashi) kerak. Kam bo'lsa tez.</li>
+</ul>
+<p>Qoida: tez ADC murakkab, oddiy ADC sekin. Ham tez, ham ko'p bitli ADC qimmat.</p>
+
+<h2>2. Flash (parallel) ADC: hammasini birdaniga</h2>
+<p>Rezistorlar zanjiri VR kuchlanishni teng pog'onalarga bo'ladi (2-darsdagi kuchlanish bo'lgich). Har pog'onaga bitta komparator. Kirish A <strong>hamma chegaralar bilan bir vaqtda</strong> solishtiriladi.</p>
+<figure>
+<svg viewBox="0 0 720 400" role="img" aria-label="3 bitli flash ADC: VR dan yerga qadar rezistorlar zanjiri 7 ta chegara yasaydi, 7 ta komparator kirishni ularning hammasi bilan bir vaqtda solishtiradi, koder 3 bitli son chiqaradi" font-family="system-ui,sans-serif">
+<defs><marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<text x="150" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#d9622b">VR</text>
+<line x1="150" y1="32" x2="150" y2="40" stroke="currentColor" stroke-width="1.6"/>
+<rect x="143" y="48" width="14" height="28" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="150" y1="40" x2="150" y2="48" stroke="currentColor" stroke-width="1.6"/><line x1="150" y1="76" x2="150" y2="84" stroke="currentColor" stroke-width="1.6"/>
+<rect x="143" y="92" width="14" height="28" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="150" y1="84" x2="150" y2="92" stroke="currentColor" stroke-width="1.6"/><line x1="150" y1="120" x2="150" y2="128" stroke="currentColor" stroke-width="1.6"/>
+<rect x="143" y="136" width="14" height="28" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="150" y1="128" x2="150" y2="136" stroke="currentColor" stroke-width="1.6"/><line x1="150" y1="164" x2="150" y2="172" stroke="currentColor" stroke-width="1.6"/>
+<rect x="143" y="180" width="14" height="28" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="150" y1="172" x2="150" y2="180" stroke="currentColor" stroke-width="1.6"/><line x1="150" y1="208" x2="150" y2="216" stroke="currentColor" stroke-width="1.6"/>
+<rect x="143" y="224" width="14" height="28" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="150" y1="216" x2="150" y2="224" stroke="currentColor" stroke-width="1.6"/><line x1="150" y1="252" x2="150" y2="260" stroke="currentColor" stroke-width="1.6"/>
+<rect x="143" y="268" width="14" height="28" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="150" y1="260" x2="150" y2="268" stroke="currentColor" stroke-width="1.6"/><line x1="150" y1="296" x2="150" y2="304" stroke="currentColor" stroke-width="1.6"/>
+<rect x="143" y="312" width="14" height="28" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="150" y1="304" x2="150" y2="312" stroke="currentColor" stroke-width="1.6"/><line x1="150" y1="340" x2="150" y2="348" stroke="currentColor" stroke-width="1.6"/>
+<rect x="143" y="356" width="14" height="28" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="150" y1="348" x2="150" y2="356" stroke="currentColor" stroke-width="1.6"/><line x1="150" y1="384" x2="150" y2="392" stroke="currentColor" stroke-width="1.6"/>
+<path d="M138 392H162M143 397H157M147 402H153" stroke="currentColor" stroke-width="1.6"/>
+<text x="230" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#2563eb">A (kirish)</text><line x1="230" y1="32" x2="230" y2="358" stroke="#2563eb" stroke-width="2"/>
+<circle cx="150" cy="84" r="3" fill="currentColor"/>
+<path d="M150 84H300" stroke="currentColor" stroke-width="1.3"/>
+<text x="136" y="88" text-anchor="end" font-size="11" fill="#d9622b">7/8 VR</text>
+<path d="M300 68L336 80L300 92Z" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+<circle cx="230" cy="74" r="2.5" fill="#2563eb"/><path d="M230 74H300" stroke="#2563eb" stroke-width="1.3"/>
+<path d="M336 80H380" stroke="currentColor" stroke-width="1.3"/><text x="390" y="84" font-size="14" font-weight="700" fill="#9aa0a6">0</text>
+<circle cx="150" cy="128" r="3" fill="currentColor"/>
+<path d="M150 128H300" stroke="currentColor" stroke-width="1.3"/>
+<text x="136" y="132" text-anchor="end" font-size="11" fill="#d9622b">6/8 VR</text>
+<path d="M300 112L336 124L300 136Z" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+<circle cx="230" cy="118" r="2.5" fill="#2563eb"/><path d="M230 118H300" stroke="#2563eb" stroke-width="1.3"/>
+<path d="M336 124H380" stroke="currentColor" stroke-width="1.3"/><text x="390" y="128" font-size="14" font-weight="700" fill="#9aa0a6">0</text>
+<circle cx="150" cy="172" r="3" fill="currentColor"/>
+<path d="M150 172H300" stroke="currentColor" stroke-width="1.3"/>
+<text x="136" y="176" text-anchor="end" font-size="11" fill="#d9622b">5/8 VR</text>
+<path d="M300 156L336 168L300 180Z" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+<circle cx="230" cy="162" r="2.5" fill="#2563eb"/><path d="M230 162H300" stroke="#2563eb" stroke-width="1.3"/>
+<path d="M336 168H380" stroke="currentColor" stroke-width="1.3"/><text x="390" y="172" font-size="14" font-weight="700" fill="#9aa0a6">0</text>
+<circle cx="150" cy="216" r="3" fill="currentColor"/>
+<path d="M150 216H300" stroke="currentColor" stroke-width="1.3"/>
+<text x="136" y="220" text-anchor="end" font-size="11" fill="#d9622b">4/8 VR</text>
+<path d="M300 200L336 212L300 224Z" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+<circle cx="230" cy="206" r="2.5" fill="#2563eb"/><path d="M230 206H300" stroke="#2563eb" stroke-width="1.3"/>
+<path d="M336 212H380" stroke="currentColor" stroke-width="1.3"/><text x="390" y="216" font-size="14" font-weight="700" fill="#dc2626">1</text>
+<circle cx="150" cy="260" r="3" fill="currentColor"/>
+<path d="M150 260H300" stroke="currentColor" stroke-width="1.3"/>
+<text x="136" y="264" text-anchor="end" font-size="11" fill="#d9622b">3/8 VR</text>
+<path d="M300 244L336 256L300 268Z" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+<circle cx="230" cy="250" r="2.5" fill="#2563eb"/><path d="M230 250H300" stroke="#2563eb" stroke-width="1.3"/>
+<path d="M336 256H380" stroke="currentColor" stroke-width="1.3"/><text x="390" y="260" font-size="14" font-weight="700" fill="#dc2626">1</text>
+<circle cx="150" cy="304" r="3" fill="currentColor"/>
+<path d="M150 304H300" stroke="currentColor" stroke-width="1.3"/>
+<text x="136" y="308" text-anchor="end" font-size="11" fill="#d9622b">2/8 VR</text>
+<path d="M300 288L336 300L300 312Z" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+<circle cx="230" cy="294" r="2.5" fill="#2563eb"/><path d="M230 294H300" stroke="#2563eb" stroke-width="1.3"/>
+<path d="M336 300H380" stroke="currentColor" stroke-width="1.3"/><text x="390" y="304" font-size="14" font-weight="700" fill="#dc2626">1</text>
+<circle cx="150" cy="348" r="3" fill="currentColor"/>
+<path d="M150 348H300" stroke="currentColor" stroke-width="1.3"/>
+<text x="136" y="352" text-anchor="end" font-size="11" fill="#d9622b">1/8 VR</text>
+<path d="M300 332L336 344L300 356Z" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+<circle cx="230" cy="338" r="2.5" fill="#2563eb"/><path d="M230 338H300" stroke="#2563eb" stroke-width="1.3"/>
+<path d="M336 344H380" stroke="currentColor" stroke-width="1.3"/><text x="390" y="348" font-size="14" font-weight="700" fill="#dc2626">1</text>
+<rect x="430" y="62" width="90" height="294" rx="6" fill="#9333ea" fill-opacity=".1" stroke="#9333ea" stroke-width="1.8"/>
+<text x="475" y="216.0" text-anchor="middle" font-size="13" font-weight="700" fill="#9333ea">koder</text><text x="475" y="234.0" text-anchor="middle" font-size="11" fill="#9333ea">7 → 3 bit</text>
+<path d="M520 216.0H560" stroke="#555" stroke-width="2" marker-end="url(#fa)"/><text x="570" y="221.0" font-size="16" font-weight="700" fill="currentColor">D = 100</text>
+<text x="570" y="246.0" font-size="12" fill="currentColor">(A = 0.6·VR → 4/8 dan</text><text x="570" y="262.0" font-size="12" fill="currentColor">katta, 5/8 dan kichik)</text>
+<text x="340" y="410" text-anchor="middle" font-size="12" fill="#16a34a">7 ta komparator = 2³ − 1</text>
+</svg>
+<figcaption>A dan past chegaralardagi komparatorlar 1, yuqoridagilar 0 beradi (termometr kodi). Koder qatorda nechta 1 borligini ikkilik songa aylantiradi.</figcaption>
+</figure>
+<ul>
+<li>Komparatorlar soni: <strong>2<sup>N</sup> − 1</strong>. 3 bit → 7, 8 bit → 255, 10 bit → 1023.</li>
+<li>O'zgartirish vaqti: <strong>bitta solishtirish</strong>. N ga ham, kirish qiymatiga ham bog'liq emas.</li>
+<li>Eng tez, lekin eng murakkab. Bit qo'shilsa komparatorlar soni 2 baravar oshadi.</li>
+</ul>
+<div class="box analogy">Imtihon natijasini e'lon qilish: 255 ta o'qituvchi bir vaqtda "sizning ballingiz meniki chegaradan yuqorimi?" deb tekshiradi. Bir zumda javob, lekin 255 ta odam kerak.</div>
+
+<h3>Imtihon testi: 2021-07</h3>
+<div class="box"><em>The conversion time of a flash ADC:</em><br>(a) Is proportional with the number of bits on output, N.<br>(b) Is independent on the input signal level.<br>(c) Depends as 2<sup>N</sup> on the number of the bits in output, N.<br>(d) Depends as log N on the number of the bits in output, N.</div>
+<p>Flash hamma solishtirishni parallel bajaradi, vaqt N ga ham, signal sathiga ham bog'liq emas. Javob <strong>(b)</strong>. (2<sup>N</sup> ga bog'liq narsa komparatorlar soni, vaqt emas.)</p>
+
+<h2>3. DAC orqali qayta aloqa: bitta komparator yetadi</h2>
+<p>Boshqa ADC lar bitta komparator bilan ishlaydi. Mantiq sxemasi taxmin D ni yasaydi, DAC (17-dars) uni kuchlanish A' ga aylantiradi, komparator A va A' ni solishtiradi. Mantiq javobga qarab D ni to'g'rilaydi va A' A ga yetguncha takrorlaydi. D ni qanday o'zgartirishiga qarab ikki usul bor.</p>
+
+<h3>3a. Zinapoya (staircase) va tracking ADC: 1 LSB qadamlar</h3>
+<ul>
+<li><strong>Zinapoya ADC</strong>: hisoblagich 0 dan boshlab har taktda 1 ga oshadi. A' &gt; A bo'lganda to'xtaydi. Har yangi o'zgartirishdan oldin 0 ga qaytariladi.</li>
+<li><strong>Tracking</strong> (kuzatuvchi) ADC: yuqoriga-pastga sanaydigan hisoblagich. A' &lt; A bo'lsa +1, A' &gt; A bo'lsa −1. Qayta 0 ga tushirish kerak emas: signalni doim "kuzatib" yuradi.</li>
+</ul>
+<figure>
+<svg viewBox="0 0 720 270" role="img" aria-label="Tracking ADC: A' har taktda 1 LSB yuqoriga yoki pastga qadam tashlab kirishni kuzatadi; kirish juda tez o'zgarsa ulgurmaydi" font-family="system-ui,sans-serif">
+<path d="M60 20V230H690" fill="none" stroke="currentColor" stroke-width="1.5"/>
+<polyline points="60.0,117.2 61.0,117.2 62.1,117.2 63.1,117.2 64.2,117.2 65.2,117.2 66.3,117.2 67.3,117.2 68.4,117.2 69.5,117.2 70.5,117.2 71.5,117.2 72.6,117.2 73.7,117.2 74.7,117.2 75.8,117.2 76.8,117.2 77.8,117.2 78.9,117.2 80.0,117.2 81.0,117.2 82.0,117.2 83.1,117.2 84.2,117.2 85.2,117.2 86.2,117.2 87.3,117.2 88.3,117.2 89.4,117.2 90.5,117.2 91.5,117.2 92.5,117.2 93.6,117.2 94.7,117.2 95.7,117.2 96.8,117.2 97.8,117.2 98.8,117.2 99.9,117.2 101.0,117.2 102.0,117.2 103.0,117.2 104.1,117.2 105.2,117.2 106.2,117.2 107.2,117.2 108.3,117.2 109.3,117.2 110.4,117.2 111.5,117.2 112.5,117.2 113.5,117.2 114.6,117.2 115.7,117.2 116.7,117.2 117.8,117.2 118.8,117.2 119.8,117.2 120.9,117.2 122.0,117.2 123.0,117.2 124.0,117.2 125.1,117.2 126.2,117.2 127.2,117.2 128.2,117.2 129.3,117.2 130.3,117.2 131.4,117.2 132.4,117.2 133.5,117.2 134.6,117.2 135.6,117.2 136.7,117.2 137.7,117.2 138.8,117.2 139.8,117.2 140.8,117.2 141.9,117.2 142.9,117.2 144.0,117.2 145.1,117.2 146.1,117.2 147.2,117.2 148.2,117.2 149.2,117.2 150.3,117.2 151.3,117.2 152.4,117.2 153.4,117.2 154.5,117.2 155.6,117.2 156.6,117.2 157.7,117.2 158.7,117.2 159.8,117.2 160.8,117.2 161.8,117.2 162.9,117.2 163.9,117.2 165.0,117.2 166.1,117.2 167.1,117.2 168.2,117.2 169.2,117.2 170.2,117.2 171.3,117.2 172.3,117.2 173.4,117.2 174.4,117.2 175.5,117.2 176.6,117.2 177.6,117.2 178.7,117.2 179.7,117.2 180.8,117.2 181.8,117.2 182.8,117.2 183.9,117.2 184.9,117.2 186.0,117.2 187.1,117.2 188.1,117.2 189.2,117.2 190.2,117.2 191.2,117.2 192.3,117.2 193.3,117.2 194.4,117.2 195.4,117.2 196.5,117.2 197.6,117.2 198.6,117.2 199.7,117.2 200.7,117.2 201.8,117.2 202.8,117.2 203.8,117.2 204.9,117.2 205.9,117.2 207.0,117.2 208.1,117.2 209.1,117.2 210.2,117.2 211.2,117.2 212.2,117.2 213.3,117.2 214.3,117.2 215.4,117.2 216.4,117.2 217.5,117.2 218.6,117.2 219.6,117.2 220.7,117.2 221.7,117.2 222.8,117.2 223.8,117.2 224.8,117.2 225.9,117.2 226.9,117.2 228.0,117.2 229.1,117.2 230.1,117.2 231.2,117.2 232.2,117.2 233.2,117.2 234.3,117.2 235.3,117.2 236.4,117.2 237.4,117.2 238.5,117.2 239.6,117.2 240.6,117.2 241.7,117.2 242.7,117.2 243.8,117.2 244.8,117.2 245.8,117.2 246.9,117.2 247.9,117.2 249.0,117.2 250.1,116.9 251.1,116.6 252.2,116.3 253.2,116.0 254.2,115.7 255.3,115.4 256.4,115.1 257.4,114.8 258.4,114.5 259.5,114.2 260.6,113.9 261.6,113.6 262.6,113.3 263.7,113.0 264.8,112.7 265.8,112.4 266.9,112.1 267.9,111.8 268.9,111.5 270.0,111.2 271.1,110.9 272.1,110.6 273.1,110.3 274.2,110.0 275.2,109.7 276.3,109.4 277.4,109.1 278.4,108.8 279.4,108.5 280.5,108.2 281.6,107.9 282.6,107.6 283.6,107.3 284.7,107.0 285.8,106.7 286.8,106.4 287.9,106.1 288.9,105.8 289.9,105.5 291.0,105.2 292.1,104.9 293.1,104.6 294.1,104.3 295.2,104.0 296.2,103.7 297.3,103.4 298.4,103.1 299.4,102.8 300.4,102.5 301.5,102.2 302.6,101.9 303.6,101.6 304.6,101.3 305.7,101.0 306.8,100.7 307.8,100.4 308.9,100.1 309.9,99.8 310.9,99.5 312.0,99.2 313.1,98.9 314.1,98.6 315.1,98.3 316.2,98.0 317.2,97.7 318.3,97.4 319.4,97.1 320.4,96.8 321.4,96.5 322.5,96.2 323.6,95.9 324.6,95.6 325.6,95.3 326.7,95.0 327.8,94.7 328.8,94.4 329.9,94.1 330.9,93.8 331.9,93.5 333.0,93.2 334.1,92.9 335.1,92.6 336.1,92.3 337.2,92.0 338.2,91.7 339.3,91.4 340.4,91.1 341.4,90.8 342.4,90.5 343.5,90.2 344.6,89.9 345.6,89.6 346.6,89.3 347.7,89.0 348.8,88.7 349.8,88.4 350.9,88.1 351.9,87.8 352.9,87.5 354.0,87.2 355.1,86.9 356.1,86.6 357.1,86.3 358.2,86.0 359.2,85.7 360.3,85.4 361.4,85.1 362.4,84.8 363.4,84.5 364.5,84.2 365.6,83.9 366.6,83.6 367.6,83.3 368.7,83.0 369.8,82.7 370.8,82.4 371.9,82.1 372.9,81.8 373.9,81.5 375.0,81.2 376.1,80.9 377.1,80.6 378.1,80.3 379.2,80.0 380.2,79.7 381.3,79.4 382.4,79.1 383.4,78.8 384.4,78.5 385.5,78.2 386.6,77.9 387.6,77.6 388.6,77.3 389.7,77.0 390.8,76.7 391.8,76.4 392.9,76.1 393.9,75.8 394.9,75.5 396.0,75.2 397.1,77.5 398.1,79.8 399.1,82.0 400.2,84.3 401.2,86.6 402.3,88.9 403.4,91.2 404.4,93.4 405.4,95.7 406.5,98.0 407.6,100.3 408.6,102.6 409.6,104.8 410.7,107.1 411.8,109.4 412.8,111.7 413.9,114.0 414.9,116.2 415.9,118.5 417.0,120.8 418.1,123.1 419.1,125.4 420.1,127.6 421.2,129.9 422.2,132.2 423.3,134.5 424.4,136.8 425.4,139.0 426.4,141.3 427.5,143.6 428.6,145.9 429.6,148.2 430.6,150.4 431.7,152.7 432.8,155.0 433.8,157.3 434.9,159.6 435.9,161.8 436.9,164.1 438.0,166.4 439.1,168.7 440.1,171.0 441.1,173.2 442.2,175.5 443.2,177.8 444.3,180.1 445.4,182.4 446.4,184.6 447.4,186.9 448.5,189.2 449.6,191.5 450.6,193.8 451.6,196.0 452.7,198.3 453.8,200.6 454.8,202.9 455.9,205.2 456.9,207.4 457.9,209.7 459.0,212.0 460.1,212.0 461.1,212.0 462.1,212.0 463.2,212.0 464.2,212.0 465.3,212.0 466.4,212.0 467.4,212.0 468.4,212.0 469.5,212.0 470.6,212.0 471.6,212.0 472.6,212.0 473.7,212.0 474.8,212.0 475.8,212.0 476.9,212.0 477.9,212.0 478.9,212.0 480.0,212.0 481.1,212.0 482.1,212.0 483.1,212.0 484.2,212.0 485.2,212.0 486.3,212.0 487.4,212.0 488.4,212.0 489.4,212.0 490.5,212.0 491.6,212.0 492.6,212.0 493.6,212.0 494.7,212.0 495.8,212.0 496.8,212.0 497.9,212.0 498.9,212.0 499.9,212.0 501.0,212.0 502.1,212.0 503.1,212.0 504.1,212.0 505.2,212.0 506.2,212.0 507.3,212.0 508.4,212.0 509.4,212.0 510.4,212.0 511.5,212.0 512.5,212.0 513.6,212.0 514.6,212.0 515.7,212.0 516.8,212.0 517.8,212.0 518.9,212.0 519.9,212.0 521.0,212.0 522.0,212.0 523.0,212.0 524.1,212.0 525.1,212.0 526.2,212.0 527.2,212.0 528.3,212.0 529.4,212.0 530.4,212.0 531.5,212.0 532.5,212.0 533.5,212.0 534.6,212.0 535.6,212.0 536.7,212.0 537.8,212.0 538.8,212.0 539.9,212.0 540.9,212.0 542.0,212.0 543.0,212.0 544.0,212.0 545.1,212.0 546.1,212.0 547.2,212.0 548.2,212.0 549.3,212.0 550.4,212.0 551.4,212.0 552.5,212.0 553.5,212.0 554.5,212.0 555.6,212.0 556.6,212.0 557.7,212.0 558.8,212.0 559.8,212.0 560.9,212.0 561.9,212.0 563.0,212.0 564.0,212.0 565.0,212.0 566.1,212.0 567.1,212.0 568.2,212.0 569.2,212.0 570.3,212.0 571.4,212.0 572.4,212.0 573.5,212.0 574.5,212.0 575.5,212.0 576.6,212.0 577.6,212.0 578.7,212.0 579.8,212.0 580.8,212.0 581.9,212.0 582.9,212.0 584.0,212.0 585.0,212.0 586.0,212.0 587.1,212.0 588.1,212.0 589.2,212.0 590.2,212.0 591.3,212.0 592.4,212.0 593.4,212.0 594.5,212.0 595.5,212.0 596.5,212.0 597.6,212.0 598.6,212.0 599.7,212.0 600.8,212.0 601.8,212.0 602.9,212.0 603.9,212.0 605.0,212.0 606.0,212.0 607.0,212.0 608.1,212.0 609.1,212.0 610.2,212.0 611.2,212.0 612.3,212.0 613.4,212.0 614.4,212.0 615.5,212.0 616.5,212.0 617.5,212.0 618.6,212.0 619.6,212.0 620.7,212.0 621.8,212.0 622.8,212.0 623.9,212.0 624.9,212.0 626.0,212.0 627.0,212.0 628.0,212.0 629.1,212.0 630.1,212.0 631.2,212.0 632.2,212.0 633.3,212.0 634.4,212.0 635.4,212.0 636.5,212.0 637.5,212.0 638.5,212.0 639.6,212.0 640.6,212.0 641.7,212.0 642.8,212.0 643.8,212.0 644.9,212.0 645.9,212.0 647.0,212.0 648.0,212.0 649.0,212.0 650.1,212.0 651.1,212.0 652.2,212.0 653.2,212.0 654.3,212.0 655.4,212.0 656.4,212.0 657.5,212.0 658.5,212.0 659.5,212.0 660.6,212.0 661.6,212.0 662.7,212.0 663.8,212.0 664.8,212.0 665.9,212.0 666.9,212.0 668.0,212.0 669.0,212.0 670.0,212.0 671.1,212.0 672.1,212.0 673.2,212.0 674.2,212.0 675.3,212.0 676.4,212.0 677.4,212.0 678.5,212.0 679.5,212.0 680.5,212.0 681.6,212.0 682.6,212.0 683.7,212.0 684.8,212.0 685.8,212.0 686.9,212.0 687.9,212.0 689.0,212.0 690.0,212.0" fill="none" stroke="#2563eb" stroke-width="2.4"/>
+<path d="M60.0 230.0H70.5V218.0H81.0V206.0H91.5V194.0H102.0V182.0H112.5V170.0H123.0V158.0H133.5V146.0H144.0V134.0H154.5V122.0H165.0V110.0H175.5V122.0H186.0V110.0H196.5V122.0H207.0V110.0H217.5V122.0H228.0V110.0H238.5V122.0H249.0V110.0H259.5V122.0H270.0V110.0H280.5V98.0H291.0V110.0H301.5V98.0H312.0V110.0H322.5V98.0H333.0V86.0H343.5V98.0H354.0V86.0H364.5V74.0H375.0V86.0H385.5V74.0H396.0V86.0H406.5V98.0H417.0V110.0H427.5V122.0H438.0V134.0H448.5V146.0H459.0V158.0H469.5V170.0H480.0V182.0H490.5V194.0H501.0V206.0H511.5V218.0H522.0V206.0H532.5V218.0H543.0V206.0H553.5V218.0H564.0V206.0H574.5V218.0H585.0V206.0H595.5V218.0H606.0V206.0H616.5V218.0H627.0V206.0H637.5V218.0H648.0V206.0H658.5V218.0H669.0V206.0H679.5V218.0H690.0V206.0" fill="none" stroke="#d9622b" stroke-width="2.2"/>
+<text x="91.5" y="74.0" font-size="12" fill="currentColor">1) 0 dan qadamlab chiqish:</text><text x="91.5" y="89.0" font-size="12" fill="currentColor">eng ko'pi 2ᴺ takt</text>
+<text x="259.5" y="42.8" font-size="12" fill="currentColor">2) kuzatish: ±1 LSB tebranadi</text>
+<text x="469.5" y="134.0" font-size="12" fill="#dc2626">3) tez tushish: ulgurmaydi</text><text x="469.5" y="149.0" font-size="12" fill="#dc2626">(overload)</text>
+<text x="690" y="252" text-anchor="end" font-size="12" fill="currentColor">vaqt (har qadam = 1 takt)</text>
+<text x="690" y="18" text-anchor="end" font-size="12" fill="#2563eb">ko'k: kirish A</text><text x="580" y="18" text-anchor="end" font-size="12" fill="#d9622b">to'q sariq: DAC chiqishi A'</text>
+</svg>
+<figcaption>Tracking ADC qadamma-qadam yuradi. Kirish juda tez o'zgarsa (3-bo'lak), A' ortda qoladi: bu overload.</figcaption>
+</figure>
+<span class="formula">Tc,max = 2<sup>N</sup> · Tck = 2<sup>N</sup> / fck &nbsp;&nbsp; (0 dan to'liq shkalagacha yurish)</span>
+<p>Tracking ADC kirish tezligini kuzata olishi uchun signal bir taktda 1 LSB dan ko'p o'zgarmasligi kerak:</p>
+<span class="formula">|dV/dt|max ≤ LSB · fck &nbsp;&nbsp;&nbsp; sinus uchun: 2π·f·A ≤ LSB · fck</span>
+<p>Bu yerda A sinusning amplitudasi (cho'qqidan cho'qqigacha kattalikning yarmi), 2π·f·A esa sinusning eng katta o'zgarish tezligi.</p>
+<ul>
+<li>Bitta komparator: eng oddiy. Lekin eng sekin: 2<sup>N</sup> gacha takt.</li>
+</ul>
+<div class="box analogy">Zinapoyadan yuqoriga bittalab ko'tarilish: 256 qavatli binoda 256 qadam. Lift yo'q, lekin oyoqdan boshqa hech narsa kerak emas.</div>
+
+<h3>3b. Ketma-ket yaqinlashish (SAR) ADC: ikkiga bo'lib qidirish</h3>
+<p><span class="term">SAR</span> (successive approximation register) eng katta bitdan (MSB) boshlab har taktda <strong>bitta bitni</strong> aniqlaydi:</p>
+<ol>
+<li>A ni S/2 bilan solishtiradi. A katta bo'lsa MSB = 1, aks holda 0. Shu bilan oraliqning yarmi tashlab yuboriladi.</li>
+<li>Qolgan yarimning o'rtasi bilan solishtiradi (¾S yoki ¼S) va keyingi bitni oladi.</li>
+<li>Shunday davom etadi. N bit uchun aynan N qadam.</li>
+</ol>
+<figure>
+<svg viewBox="0 0 720 280" role="img" aria-label="Ketma-ket yaqinlashish: A' avval S/2, keyin 3/4 S, 5/8 S, 11/16 S qiymatlarni sinaydi va har qadamda bitta bitni aniqlaydi" font-family="system-ui,sans-serif">
+<path d="M90 20V240H660" fill="none" stroke="currentColor" stroke-width="1.5"/>
+<text x="82" y="34.0" text-anchor="end" font-size="11" fill="currentColor">S</text><line x1="90" y1="30.0" x2="660" y2="30.0" stroke="#9aa0a6" stroke-opacity=".3"/>
+<text x="82" y="139.0" text-anchor="end" font-size="11" fill="currentColor">S/2</text><line x1="90" y1="135.0" x2="660" y2="135.0" stroke="#9aa0a6" stroke-opacity=".3"/>
+<text x="82" y="86.5" text-anchor="end" font-size="11" fill="currentColor">¾ S</text><line x1="90" y1="82.5" x2="660" y2="82.5" stroke="#9aa0a6" stroke-opacity=".3"/>
+<text x="82" y="112.8" text-anchor="end" font-size="11" fill="currentColor">⅝ S</text><line x1="90" y1="108.8" x2="660" y2="108.8" stroke="#9aa0a6" stroke-opacity=".3"/>
+<text x="82" y="99.6" text-anchor="end" font-size="11" fill="currentColor">11/16 S</text><line x1="90" y1="95.6" x2="660" y2="95.6" stroke="#9aa0a6" stroke-opacity=".3"/>
+<line x1="90" y1="101.4" x2="660" y2="101.4" stroke="#2563eb" stroke-width="2.4"/><text x="666" y="105.4" font-size="12" font-weight="700" fill="#2563eb">A</text>
+<text x="161.2" y="258" text-anchor="middle" font-size="12" fill="currentColor">1-takt</text>
+<text x="161.2" y="153.0" text-anchor="middle" font-size="12" font-weight="700" fill="#16a34a">A &gt; A' → bit = 1</text>
+<text x="303.8" y="258" text-anchor="middle" font-size="12" fill="currentColor">2-takt</text>
+<text x="303.8" y="74.5" text-anchor="middle" font-size="12" font-weight="700" fill="#dc2626">A &lt; A' → bit = 0</text>
+<text x="446.2" y="258" text-anchor="middle" font-size="12" fill="currentColor">3-takt</text>
+<text x="446.2" y="126.8" text-anchor="middle" font-size="12" font-weight="700" fill="#16a34a">A &gt; A' → bit = 1</text>
+<text x="588.8" y="258" text-anchor="middle" font-size="12" fill="currentColor">4-takt</text>
+<text x="588.8" y="87.6" text-anchor="middle" font-size="12" font-weight="700" fill="#dc2626">A &lt; A' → bit = 0</text>
+<path d="M90 135.0H232.5V82.5H375.0V108.8H517.5V95.6H660.0" fill="none" stroke="#d9622b" stroke-width="2.4"/>
+<text x="375.0" y="276" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">Natija: D = 1010 (4 bit, 4 takt)</text>
+</svg>
+<figcaption>Slayddagi misol: A ≈ 0.66·S. Natija 1010. Har takt qidirish oralig'ini ikki baravar toraytiradi.</figcaption>
+</figure>
+<div class="box analogy">"1 dan 100 gacha son o'yladim, top" o'yini. Eng yaxshi usul: "50 dan kattami?", "75 dan kattami?" ... Har savol variantlarni yarmiga kamaytiradi, 7 savolda topasiz. Bittalab so'rash (1? 2? 3?) esa 100 tagacha savol oladi: bu tracking.</div>
+<span class="formula">Tc = N · Tck &nbsp;&nbsp; (har doim, kirish qiymatidan qat'i nazar)</span>
+<p>SAR to'g'ri ishlashi uchun kirish butun o'zgartirish vaqti (N takt) davomida 1 LSB dan ko'p o'zgarmasligi kerak (yoki oldida S/H bo'ladi). Sinus uchun:</p>
+<span class="formula">2π·f·A ≤ LSB · fck / N</span>
+
+<h3>Imtihon testi: 2021-06</h3>
+<div class="box"><em>The conversion time of a successive approximation analog-to-digital converter with an N-bit output is proportional to:</em><br>(a) 2<sup>N</sup> − 1. &nbsp; (b) The slew rate of the signal in overload. &nbsp; (c) The value of the signal (faster for lower values). &nbsp; (d) The number of output bits.</div>
+<p>SAR har taktda bitta bit chiqaradi → vaqt bitlar soniga proporsional. Javob <strong>(d)</strong>.</p>
+
+<h2>4. Uchala turni solishtirish</h2>
+<table>
+<tr><th>Tur</th><th>Komparatorlar</th><th>Tc (taktlarda)</th><th>Xususiyati</th></tr>
+<tr><td>Flash (parallel)</td><td>2<sup>N</sup> − 1</td><td>1</td><td>Eng tez, eng murakkab</td></tr>
+<tr><td>SAR</td><td>1</td><td>N</td><td>O'rtacha: tez va oddiy</td></tr>
+<tr><td>Tracking / zinapoya</td><td>1</td><td>2<sup>N</sup> (eng ko'pi)</td><td>Eng oddiy, eng sekin</td></tr>
+</table>
+<p>8 bit, fck = 100 MHz misolida: flash 10 ns, SAR 80 ns, tracking 2.56 μs gacha.</p>
+<p><strong>ADC xatolari</strong> (offset, gain, nochiziqlilik DNL/INL, tushib qolgan kod) DAC xatolari bilan bir xil tasniflanadi. Ularni 17-darsda birga ko'ramiz.</p>
+
+<h2>5. Masalalar</h2>
+
+<h3>Slayddagi Exercise 1: tracking ADC</h3>
+<div class="box"><em>An 8-bit tracking ADC receives in input a sinusoidal signal of 1 V p-p. The ADC clock is 1 MHz. The DAC of the ADC has LSB = 10 mV. Calculate: max frequency of the input sine wave that avoids the ADC overload; max conversion time (for a step signal 0 V → full scale).</em></div>
+<ol>
+<li>1 V p-p (cho'qqidan cho'qqigacha) → amplituda A = 0.5 V.</li>
+<li>2π·f·0.5 ≤ 0.01 · 10<sup>6</sup> → f ≤ 10 000 / (2π · 0.5) ≈ <strong>3.18 kHz</strong>.</li>
+<li>Tc,max = 2<sup>8</sup> / 1 MHz = <strong>256 μs</strong>.</li>
+</ol>
+
+<h3>Slayddagi Exercise 2: SAR ADC</h3>
+<div class="box"><em>A successive approximation 8-bit ADC receives in input a sinusoidal signal of 1 V p-p. The ADC clock is 1 MHz, and the DAC has LSB = 10 mV. Calculate: max conversion time; max input signal frequency that can be converted without errors.</em></div>
+<ol>
+<li>Tc = 8 / 1 MHz = <strong>8 μs</strong>.</li>
+<li>2π·f·0.5 ≤ 0.01 · 10<sup>6</sup> / 8 → f ≤ 1250 / π ≈ <strong>398 Hz</strong>.</li>
+</ol>
+<p>SAR tezroq bo'lsa ham, S/H siz u faqat sekin signallarni xatosiz o'zgartiradi. Shuning uchun amalda oldiga S/H qo'yiladi (16a-dars).</p>
+
+<h3>108-savol: qaysi ADC turi?</h3>
+<div class="box"><em>An A/D conversion system has two input channels ... frequency band 0→8 MHz ... S/H acquisition time 4 ns. The converter must operate on 8 bits. We have comparators with Tcomp = 2 ns. Indicate what ADC type can be used. Draw the (partial) block diagram for that ADC. Evaluate the complexity of the ADC.</em></div>
+<ol>
+<li>16a-darsdagi 076 dan: Tconv ≤ <strong>3.8 ns</strong>.</li>
+<li>Bitta komparator 2 ns ishlaydi. 3.8 ns ga faqat <strong>bitta</strong> solishtirish sig'adi (SAR ga 8 × 2 = 16 ns kerak edi).</li>
+<li>Demak faqat <strong>flash ADC</strong>. Murakkabligi: 2<sup>8</sup> − 1 = <strong>255 komparator</strong>. Blok sxema: yuqoridagi flash rasmi, faqat 255 komparator bilan.</li>
+</ol>
+
+<h3>013-savol: tracking ADC li 4 kanalli tizim</h3>
+<div class="box"><em>A four-channel acquisition system uses an eight-bit tracking A/D converter with 100 MHz clock frequency and a Sample &amp; Hold circuit with 1 μs acquisition time. For each channel, we want to have a sampling frequency Fs equal to three times the maximum frequency Fmax of the signal and an eight-pole anti-aliasing filter. Determine the maximum frequency per channel Fmax.</em></div>
+<ol>
+<li>Tracking, eng yomon holat: Tconv = 2<sup>8</sup> / 100 MHz = <strong>2.56 μs</strong>.</li>
+<li>Bitta namuna: 2.56 + 1 = 3.56 μs → Fconv = 1 / 3.56 μs ≈ <strong>280 kHz</strong>.</li>
+<li>4 kanal: har biriga 280 / 4 = <strong>70 kHz</strong>.</li>
+<li>Fs = 3 · Fmax → Fmax = 70 / 3 ≈ <strong>23.3 kHz</strong>.</li>
+</ol>
+<p>Shu tizimning SNR lari 16b-darsdagi 053-savolda hisoblangan.</p>
+
+<h3>035-savol: tracking ADC uchun maksimal bitlar</h3>
+<div class="box"><em>... The A/D converter is a tracking circuit with input dynamics from 0 V to +10 V. Draw the block schematic of the tracking A/D converter. If the maximum conversion time of the A/D converter is 8.5 μs, specify the maximum number of bits of the converter running using a clock frequency of 125 MHz.</em></div>
+<ol>
+<li>8.5 μs ichida taktlar soni: 125 · 10<sup>6</sup> · 8.5 · 10<sup>−6</sup> = <strong>1062</strong>.</li>
+<li>Tracking ga 2<sup>N</sup> takt kerak: 2<sup>N</sup> ≤ 1062. 2<sup>10</sup> = 1024 ≤ 1062, 2<sup>11</sup> = 2048 juda ko'p → <strong>N = 10</strong>.</li>
+</ol>
+<p>Blok sxema: komparator (A va A' ni solishtiradi) → yuqoriga/pastga hisoblagich (U/D, takt bilan) → DAC → A' komparatorga qaytadi; hisoblagich chiqishi D.</p>
+
+<h3>2020-07 imtihoni, 2-masala (7 ball)</h3>
+<div class="box"><em>An analog to digital converter (ADC) is used to convert a triangular wave analog signal with a frequency of 35 Hz, an amplitude that covers the full scale of the ADC, and a signal to noise ratio (SNR) of 45 dB. The ADC minimum sampling rate must be at least 20 times higher than the signal frequency. Calculate the maximum ADC sampling frequency for the least complex ADC architecture that operates with a clock frequency of 200 kHz and with a signal to quantization noise ratio higher than the SNR.</em></div>
+<ol>
+<li>"Least complex" (eng oddiy) → <strong>tracking ADC</strong>, Tc = 2<sup>N</sup> takt.</li>
+<li>Uchburchak signal: SNRq = 6N &gt; 45 dB → N ≥ 7.5 → <strong>N = 8</strong> (16b-dars).</li>
+<li>2<sup>8</sup> = 256 takt → Fs = 200 kHz / 256 = <strong>781.25 Hz</strong>.</li>
+<li>Tekshiruv: 20 · 35 = 700 Hz &lt; 781.25 Hz. Shart bajarildi.</li>
+</ol>
+<p>Rasmiy javob: <strong>781.25 Hz</strong>.</p>
+
+<h2>O'zingizni tekshiring</h2>
+<div class="box check">6 bitli flash ADC uchun nechta komparator? <details><summary>Javob</summary>2⁶ − 1 = <strong>63</strong>.</details></div>
+<div class="box check">12 bitli SAR, fck = 24 MHz. Tc? <details><summary>Javob</summary>12 / 24 MHz = <strong>0.5 μs</strong>.</details></div>
+<div class="box check">10 bitli tracking ADC, fck = 10 MHz. Eng yomon Tc? <details><summary>Javob</summary>1024 / 10 MHz = <strong>102.4 μs</strong>.</details></div>
+<div class="box check">Qaysi ADC ning o'zgartirish vaqti kirish qiymatiga bog'liq? <details><summary>Javob</summary><strong>Zinapoya</strong> (0 dan sanaydi, katta qiymatga ko'p takt) va tracking (oldingi qiymatdan uzoqlikka bog'liq). Flash va SAR ga bog'liq emas.</details></div>
+<div class="box check">Uchburchak signal, SNR 50 dB dan yaxshi bo'lsin, eng oddiy ADC, fck = 1 MHz. Maksimal Fs? <details><summary>Javob</summary>6N &gt; 50 → N = 9 → 2⁹ = 512 takt → 1 MHz / 512 ≈ <strong>1.95 kHz</strong>.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Komparator</td><td>comparator</td><td>Ikki kuchlanishni solishtirib 1/0 beradi</td></tr>
+<tr><td>O'zgartirish vaqti</td><td>conversion time Tc</td><td>Bitta sonni olish vaqti</td></tr>
+<tr><td>Flash ADC</td><td>parallel (flash) ADC</td><td>2<sup>N</sup> − 1 komparator, 1 taktda</td></tr>
+<tr><td>Termometr kodi</td><td>thermometric code</td><td>Pastdan nechta 1 borligi bilan yozilgan son</td></tr>
+<tr><td>Koder</td><td>encoder</td><td>Termometr kodini ikkilik songa aylantiradi</td></tr>
+<tr><td>Ketma-ket yaqinlashish ADC</td><td>successive approximation (SAR) ADC</td><td>MSB dan boshlab har taktda 1 bit</td></tr>
+<tr><td>Zinapoya ADC</td><td>staircase (ramp) ADC</td><td>0 dan 1 LSB qadamlar bilan sanaydi</td></tr>
+<tr><td>Tracking ADC</td><td>tracking converter</td><td>Yuqoriga/pastga hisoblagich bilan kuzatadi</td></tr>
+<tr><td>To'yinish (ortda qolish)</td><td>overload, slew rate limit</td><td>Signal tracking tezligidan tez o'zgarishi</td></tr>
+<tr><td>MSB</td><td>most significant bit</td><td>Eng katta (chapdagi) bit</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<p><strong>Uchta ADC turi</strong></p>
+<table>
+<tr><th>Tur</th><th>Komparator</th><th>Tc</th></tr>
+<tr><td>Flash</td><td>2<sup>N</sup> − 1</td><td>1 solishtirish (N va signalga bog'liq emas)</td></tr>
+<tr><td>SAR</td><td>1</td><td>N · Tck (N ga proporsional)</td></tr>
+<tr><td>Tracking / zinapoya</td><td>1</td><td>≤ 2<sup>N</sup> · Tck</td></tr>
+</table>
+<p><strong>Formulalar</strong></p>
+<span class="formula">Tracking: 2π·f·A ≤ LSB·fck &nbsp;·&nbsp; SAR: 2π·f·A ≤ LSB·fck/N</span>
+<span class="formula">Fs,max = 1/(Tacq + Tc) &nbsp;·&nbsp; tracking bitlari: 2<sup>N</sup> ≤ fck·Tc,max</span>
+<p><strong>Esda tuting</strong></p>
+<ul>
+<li>"Least complex" → tracking. "Fastest" yoki Tc juda kichik → flash.</li>
+<li>Uchburchak: 6N; sinus: 6N + 1.76 → N ni toping, keyin takt sonini.</li>
+<li>Javoblar: 2021-07 test → (b); 2021-06 test → (d); 108 → flash, 255 komparator; 013 → 23.3 kHz; 035 → 10 bit; 2020-07 → 781.25 Hz; Ex.1 → 3.18 kHz, 256 μs; Ex.2 → 8 μs, 398 Hz.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="16b-kvantlash-snr.html">← 16b-dars</a><a href="./">Darslar ro'yxati →</a></footer>
+</main></body></html>
