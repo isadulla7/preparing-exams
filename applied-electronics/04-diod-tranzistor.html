@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>4. Diod va tranzistor: elektron kalit</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>4. Diod va tranzistor: elektron kalit</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> ikki asosiy yarimo'tkazgich detal, ya'ni <strong>diod</strong> va <strong>tranzistor</strong> qanday ishlashini. Diod quvvat manbalarida, tranzistor esa hamma joyda ishlatiladi: mantiqiy elementlar, xotiralar, stabilizatorlar shundan yasaladi. Bu darsda 3 ta haqiqiy imtihon savolini yechamiz. O'qish vaqti: 20 daqiqa.</div>
+
+<p>Oldingi darslardan eslatma: V = I × R, P = V × I, τ = R × C, kechikish = 0.69 × R × C.</p>
+
+<h2>1. Diod: bir tomonlama klapan</h2>
+<p><span class="term">Diod</span> tokni faqat <strong>bitta yo'nalishda</strong> o'tkazadi. Teskari yo'nalishda tokni to'sadi.</p>
+<div class="box analogy">Velosiped nasosidagi yoki yurakdagi klapan: havo (qon) faqat bir tomonga o'tadi, orqaga qaytolmaydi.</div>
+<ul>
+<li>Inglizchasi: <strong>diode</strong></li>
+<li>Ikki uchi bor: <strong>anod</strong> (+) va <strong>katod</strong> (−). Belgidagi uchburchak tok o'tadigan yo'nalishni ko'rsatadi, chiziq katod tomonda.</li>
+</ul>
+
+<figure>
+<svg viewBox="0 0 660 200" role="img" aria-label="Chapda to'g'ri ulangan diod tok o'tkazadi, o'ngda teskari ulangan diod tokni to'sadi" font-family="system-ui,sans-serif">
+  <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#2563eb"/></marker></defs>
+  <text x="160" y="24" text-anchor="middle" font-size="16" font-weight="700" fill="#16a34a">To'g'ri ulangan: ochiq</text>
+  <text x="500" y="24" text-anchor="middle" font-size="16" font-weight="700" fill="#dc2626">Teskari ulangan: yopiq</text>
+  <line x1="330" y1="10" x2="330" y2="190" stroke="#9aa0a6" stroke-opacity=".4"/>
+  <path d="M40 90H130M190 90H280" stroke="#888" stroke-width="2.5" fill="none"/>
+  <path d="M130 70L130 110L180 90Z" fill="#fff" stroke="#555" stroke-width="2"/>
+  <line x1="182" y1="70" x2="182" y2="110" stroke="#555" stroke-width="3"/>
+  <text x="130" y="130" text-anchor="middle" font-size="13" fill="currentColor">anod (+)</text>
+  <text x="190" y="130" text-anchor="middle" font-size="13" fill="currentColor">katod (−)</text>
+  <path d="M60 60H260" stroke="#2563eb" stroke-width="2.5" marker-end="url(#ar)"/>
+  <text x="160" y="50" text-anchor="middle" font-size="13" fill="#2563eb">tok o'tadi</text>
+  <text x="160" y="165" text-anchor="middle" font-size="14" fill="currentColor">Diodda ~0.7 V tushadi</text>
+  <path d="M380 90H470M530 90H620" stroke="#888" stroke-width="2.5" fill="none"/>
+  <path d="M530 70L530 110L480 90Z" fill="#fff" stroke="#555" stroke-width="2"/>
+  <line x1="478" y1="70" x2="478" y2="110" stroke="#555" stroke-width="3"/>
+  <text x="400" y="60" font-size="22" font-weight="700" fill="#dc2626">✕</text>
+  <text x="500" y="165" text-anchor="middle" font-size="14" fill="currentColor">Tok deyarli 0</text>
+</svg>
+<figcaption>Uchburchak "o'q" kabi tok yo'nalishini ko'rsatadi.</figcaption>
+</figure>
+
+<ul>
+<li><strong>To'g'ri ulanish</strong> (forward bias): anod katoddan musbatroq. Diod ochiq, tok o'tadi. Uning ustida taxminan <strong>0.7 V</strong> kuchlanish tushadi (kremniy diod uchun).</li>
+<li><strong>Teskari ulanish</strong> (reverse bias): diod yopiq, tok o'tmaydi.</li>
+</ul>
+<p><strong>Kursda qayerda:</strong> to'g'rilagich (31-dars) o'zgaruvchan tokni bir tomonli qiladi. Buck stabilizatorida (33-dars) kalit yopilganda tok diod orqali davom etadi.</p>
+
+<h2>2. Zener diod: kuchlanishni ushlab turuvchi</h2>
+<p><span class="term">Zener diod</span> maxsus diod. U <strong>teskari</strong> ulanadi va kuchlanish ma'lum qiymatga (VZ, masalan 5 V) yetganda tok o'tkaza boshlaydi. Shu holatda tok o'zgarsa ham, uning ustidagi kuchlanish deyarli <strong>VZ da doimiy</strong> qoladi. Bu holat <strong>breakdown</strong> (teshilish) sohasi deyiladi. Oddiy diodni bu holat buzadi, Zener esa aynan shu holatda ishlash uchun yasalgan.</p>
+<div class="box analogy">To'g'ondagi toshqin tarnovi: suv sathi belgilangan balandlikka yetsa, ortiqcha suv tarnovdan oqib ketadi va sath ko'tarilmaydi. Zener ham ortiqcha tokni o'zidan o'tkazib, kuchlanishni VZ da ushlab turadi.</div>
+<p><strong>Kursda qayerda:</strong> oddiy stabilizator (32-dars). Imtihonda Zener haqida tez-tez test bo'ladi.</p>
+
+<h3>Imtihon savoli: 068</h3>
+<div class="box"><em>A Zener diode:</em><br>a) cannot operate in breakdown region<br>b) cannot operate in forward bias<br>c) can keep constant the current through the diode<br>d) can keep constant the voltage across the diode</div>
+<p>Tarjimasi: Zener diod... a) breakdown sohasida ishlay olmaydi; b) to'g'ri ulanishda ishlay olmaydi; c) diod orqali o'tuvchi <em>tok</em>ni doimiy ushlaydi; d) diod ustidagi <em>kuchlanish</em>ni doimiy ushlaydi.</p>
+<p>Yechim: Zener breakdown sohasida ishlaydi va <strong>kuchlanishni</strong> doimiy ushlaydi, tokni emas. Javob <strong>d)</strong>. Tuzoq: c) varianti "tok" deydi.</p>
+
+<h2>3. Tranzistor: boshqariladigan kalit</h2>
+<p><span class="term">Tranzistor</span> uch uchli detal. Bitta uchiga berilgan kichik signal qolgan ikki uchi orasidagi katta tokni <strong>yoqadi yoki o'chiradi</strong>.</p>
+<div class="box analogy">Suv jo'mragi: dastani (kichik kuch) burab, quvurdagi katta oqimni ochasiz yoki yopasiz.</div>
+
+<h3>MOSFET (kursda eng ko'p ishlatiladi)</h3>
+<p>Uchlari: <strong>gate</strong> (zatvor, boshqaruvchi "dasta"), <strong>drain</strong> va <strong>source</strong> (tok shu ikkisi orasida oqadi). Kursda qisqacha "MOS" deyiladi.</p>
+<table>
+<tr><th>Turi</th><th>Gate = 1 (yuqori kuchlanish)</th><th>Gate = 0 (past kuchlanish)</th></tr>
+<tr><td><strong>NMOS</strong></td><td>Ochiq (kalit ulangan)</td><td>Yopiq (kalit uzilgan)</td></tr>
+<tr><td><strong>PMOS</strong></td><td>Yopiq</td><td>Ochiq</td></tr>
+</table>
+<p>NMOS va PMOS bir-birining <strong>teskarisi</strong>. Eslab qolish: PMOS belgisidagi gate oldida kichik doiracha bor, doiracha "teskari" degani.</p>
+<p>Ochiq tranzistor ideal sim emas. U kichik qarshilikka ega: <span class="term">RON</span> (ochiq holat qarshiligi). Bu juda muhim, chunki 3-darsdagi kechikish formulasidagi R aynan shu: <strong>kechikish = 0.69 × RON × C</strong>.</p>
+
+<h3>BJT (bipolyar tranzistor)</h3>
+<p>Uchlari: <strong>baza</strong> (boshqaruvchi), <strong>kollektor</strong> va <strong>emitter</strong>. Bazaga kichik tok IB berilsa, kollektordan β marta katta tok o'tadi:</p>
+<span class="formula">IC = β × IB &nbsp;&nbsp; (β odatda 100 atrofida)</span>
+<p>Kursda BJT asosan quvvat qurilmalari (E1 slaydlari, 30-dars) mavzusida uchraydi.</p>
+
+<h2>4. Nega kalit rejimi energiya tejaydi</h2>
+<p>2-darsdan: detalda sarflanadigan quvvat P = V × I. Kalit sifatida ishlayotgan tranzistor faqat ikki holatda bo'ladi:</p>
+<ul>
+<li><strong>Ochiq (ON):</strong> tok bor, lekin ustidagi kuchlanish deyarli 0 → P = V × I ≈ 0.</li>
+<li><strong>Yopiq (OFF):</strong> kuchlanish bor, lekin tok 0 → P ≈ 0.</li>
+</ul>
+<p>Ikkala holatda ham quvvat deyarli yo'q, ya'ni tranzistor deyarli qizimaydi. Aksincha, "yarim ochiq" ishlaydigan tranzistorda kuchlanish ham, tok ham bor, shuning uchun u ko'p issiqlik chiqaradi. Bu <strong>chiziqli stabilizator</strong> (32-dars) va <strong>impulsli stabilizator</strong> (33-dars) orasidagi asosiy farq.</p>
+
+<h3>Imtihon savoli: 061</h3>
+<div class="box"><em>Compared to a linear regulator, a switching regulator allows to:</em><br>a) increase the stability of the output voltage<br>b) increase the efficiency of the regulator<br>c) simplify the regulator circuit<br>d) increase the accuracy of the output voltage</div>
+<p>Tarjimasi: chiziqli stabilizatorga nisbatan impulsli (switching, kalitli) stabilizator nimaga imkon beradi? a) chiqish barqarorligini oshirish; b) <strong>samaradorlik (FIK)</strong>ni oshirish; c) sxemani soddalashtirish; d) aniqlikni oshirish.</p>
+<p>Yechim: kalit rejimida tranzistor deyarli quvvat yo'qotmaydi, shuning uchun foydali ish ko'proq. Javob <strong>b)</strong>. Impulsli stabilizator aslida murakkabroq va shovqinliroq, shuning uchun c) va a) noto'g'ri.</p>
+
+<h2>5. Tranzistorlardan nima yasaladi</h2>
+<figure>
+<svg viewBox="0 0 640 260" role="img" aria-label="Chapda CMOS invertor: PMOS yuqorida VDD ga, NMOS pastda GND ga. O'ngda DRAM yacheykasi: bitta MOS tranzistor va bitta kondensator" font-family="system-ui,sans-serif">
+  <text x="160" y="22" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">CMOS invertor (6-dars)</text>
+  <text x="480" y="22" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">DRAM yacheyka (22-dars)</text>
+  <line x1="320" y1="10" x2="320" y2="250" stroke="#9aa0a6" stroke-opacity=".4"/>
+  <text x="180" y="48" text-anchor="middle" font-size="13" fill="#d9622b">VDD (1)</text>
+  <path d="M150 55H210M180 55V80M180 120V150M180 190V215M150 215H210" stroke="#888" stroke-width="2.5" fill="none"/>
+  <rect x="165" y="80" width="30" height="40" rx="3" fill="#fff" stroke="#d9622b" stroke-width="2"/>
+  <text x="180" y="105" text-anchor="middle" font-size="12" font-weight="700" fill="#d9622b">P</text>
+  <rect x="165" y="150" width="30" height="40" rx="3" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+  <text x="180" y="175" text-anchor="middle" font-size="12" font-weight="700" fill="#2563eb">N</text>
+  <text x="180" y="235" text-anchor="middle" font-size="13" fill="currentColor">GND (0)</text>
+  <path d="M70 135H120M120 100V170M120 100H160M120 170H165" stroke="#888" stroke-width="2.5" fill="none"/>
+  <circle cx="162" cy="100" r="3.5" fill="#fff" stroke="#d9622b" stroke-width="2"/>
+  <text x="62" y="140" text-anchor="end" font-size="14" fill="currentColor">kirish</text>
+  <path d="M180 135H270" stroke="#888" stroke-width="2.5"/>
+  <circle cx="180" cy="135" r="4" fill="#888"/>
+  <text x="275" y="130" font-size="14" fill="currentColor">chiqish</text>
+  <text x="160" y="258" text-anchor="middle" font-size="12" fill="currentColor">kirish 1 → N ochiq → chiqish 0</text>
+  <path d="M380 70H440M440 70V100M440 140V170M415 170H465M415 180H465M440 180V215M420 215H460" stroke="#888" stroke-width="2.5" fill="none"/>
+  <rect x="425" y="100" width="30" height="40" rx="3" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+  <text x="440" y="125" text-anchor="middle" font-size="12" font-weight="700" fill="#2563eb">N</text>
+  <path d="M520 120H455" stroke="#888" stroke-width="2.5"/>
+  <text x="525" y="115" font-size="13" fill="currentColor">wordline</text>
+  <text x="525" y="131" font-size="13" fill="currentColor">(gate)</text>
+  <text x="375" y="62" font-size="13" fill="currentColor">bitline</text>
+  <text x="475" y="180" font-size="13" fill="#2563eb">C (bit shu yerda)</text>
+  <text x="480" y="258" text-anchor="middle" font-size="12" fill="currentColor">1 tranzistor + 1 kondensator</text>
+</svg>
+<figcaption>Chapda: 2 ta tranzistordan eng oddiy mantiqiy element. O'ngda: 1 bitni saqlaydigan xotira yacheykasi.</figcaption>
+</figure>
+<ul>
+<li><strong>CMOS invertor:</strong> yuqorida PMOS (VDD ga), pastda NMOS (GND ga), gate lari birlashtirilgan. Kirish 1 bo'lsa, NMOS ochiq va chiqish 0 ga ulanadi. Kirish 0 bo'lsa, PMOS ochiq va chiqish 1 ga ulanadi. Ya'ni chiqish = kirishning <strong>teskarisi</strong>. Batafsil 6-darsda.</li>
+<li><strong>DRAM yacheyka:</strong> 1 ta MOS tranzistor kalit sifatida kondensatorni bitline ga ulaydi. Bit kondensatordagi zaryad ko'rinishida saqlanadi.</li>
+</ul>
+
+<h3>Imtihon savoli: 106</h3>
+<div class="box"><em>A DRAM memory cell includes:</em><br>a) A floating MOS transistor gate<br>b) A MOS transistor and a capacitance<br>c) 6 MOS transistors<br>d) a NMOS transistor, a PMOS transistor, and two capacitances</div>
+<p>Yechim: DRAM yacheykasi = 1 MOS tranzistor + 1 kondensator. Javob <strong>b)</strong>. Qolgan variantlar boshqa xotiralarniki: a) FLASH (suzuvchi zatvor), c) SRAM (6 tranzistor). Bularni 22-darsda o'rganamiz.</p>
+
+<h2>O'zingizni tekshiring</h2>
+<div class="box check">Diodning anodi +5 V ga, katodi 0 V ga ulangan. Tok o'tadimi? <details><summary>Javob</summary>Ha. Anod katoddan musbat: to'g'ri ulanish, diod <strong>ochiq</strong>, ustida ~0.7 V tushadi.</details></div>
+<div class="box check">NMOS tranzistor gate iga 0 V berildi. Kalit ochiqmi yoki yopiqmi? <details><summary>Javob</summary>NMOS gate = 0 bo'lsa <strong>yopiq</strong> (tok o'tmaydi).</details></div>
+<div class="box check">BJT da IB = 0.1 mA, β = 100. IC qancha? <details><summary>Javob</summary>IC = 100 × 0.1 mA = <strong>10 mA</strong>.</details></div>
+<div class="box check">Ochiq MOSFET RON = 50 Ω, yuk sig'imi C = 20 fF. Kechikish qancha? <details><summary>Javob</summary>0.69 × 50 × 20·10⁻¹⁵ = 0.69 × 10⁻¹² s = <strong>0.69 ps</strong>.</details></div>
+<div class="box check">Nega kalit rejimidagi tranzistor kam qiziydi? <details><summary>Javob</summary>ON holatda V ≈ 0, OFF holatda I ≈ 0, ikkalasida ham <strong>P = V × I ≈ 0</strong>.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Diod</td><td>diode</td><td>Tokni bir tomonga o'tkazadi</td></tr>
+<tr><td>To'g'ri / teskari ulanish</td><td>forward / reverse bias</td><td>Diod ochiq / yopiq holati</td></tr>
+<tr><td>Zener diod (stabilitron)</td><td>Zener diode</td><td>Teskari ulanganda kuchlanishni VZ da ushlab turadi</td></tr>
+<tr><td>Teshilish sohasi</td><td>breakdown region</td><td>Zener ishlaydigan teskari holat</td></tr>
+<tr><td>Tranzistor</td><td>transistor</td><td>Boshqariladigan kalit yoki kuchaytirgich</td></tr>
+<tr><td>Zatvor, stok, istok</td><td>gate, drain, source</td><td>MOSFET uchlari</td></tr>
+<tr><td>Baza, kollektor, emitter</td><td>base, collector, emitter</td><td>BJT uchlari</td></tr>
+<tr><td>Ochiq holat qarshiligi</td><td>RON</td><td>Ochiq tranzistorning kichik qarshiligi</td></tr>
+<tr><td>Chiziqli / impulsli stabilizator</td><td>linear / switching regulator</td><td>Tranzistor yarim ochiq / kalit rejimida ishlaydi</td></tr>
+<tr><td>Samaradorlik (FIK)</td><td>efficiency (η)</td><td>Foydali quvvat / sarflangan quvvat</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<p><strong>Diod</strong></p>
+<ul>
+<li>Tokni faqat anod → katod yo'nalishida o'tkazadi. Ochiq diodda ~0.7 V tushadi.</li>
+<li><strong>Zener:</strong> teskari ulanadi, breakdown sohasida <strong>kuchlanishni</strong> VZ da doimiy ushlaydi (tokni emas!) (068).</li>
+</ul>
+<p><strong>Tranzistor = kalit</strong></p>
+<ul>
+<li>NMOS: gate 1 → ochiq; gate 0 → yopiq. PMOS: teskarisi.</li>
+<li>Ochiq tranzistor = kichik qarshilik RON. Kechikish = 0.69 × RON × C.</li>
+<li>BJT: IC = β × IB.</li>
+</ul>
+<p><strong>Kalit rejimi</strong></p>
+<ul>
+<li>ON: V ≈ 0; OFF: I ≈ 0 → P ≈ 0 → kam issiqlik, yuqori samaradorlik.</li>
+<li>Impulsli (switching) stabilizator chiziqlisidan <strong>samaraliroq</strong> (061).</li>
+</ul>
+<p><strong>Tranzistordan yasalgan narsalar</strong></p>
+<ul>
+<li>CMOS invertor = 1 PMOS (yuqorida) + 1 NMOS (pastda), chiqish = kirishning teskarisi.</li>
+<li>DRAM yacheyka = 1 MOS + 1 kondensator (106). SRAM = 6 tranzistor. FLASH = suzuvchi zatvorli MOS.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="03-kondensator-rc.html">← 3-dars</a><a href="05-raqamli-0-1.html">5-dars →</a></footer>
+</main></body></html>

@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>5. Raqamli dunyo: 0 va 1, ikkilik sanoq, mantiqiy elementlar</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>5. Raqamli dunyo: 0 va 1, ikkilik sanoq, mantiqiy elementlar</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> kompyuter qanday qilib faqat 0 va 1 bilan ishlashini, ikkilik sonlarni, "N bit nechta qiymat beradi" hisobini va 6 ta asosiy mantiqiy elementni. Bu oxirgi asos darsi. Undan keyin flip-flop, ADC va xotira mavzulariga bemalol o'tasiz. 3 ta haqiqiy imtihon savoli yechiladi. O'qish vaqti: 25 daqiqa.</div>
+
+<h2>1. Bit: 0 yoki 1</h2>
+<p><span class="term">Bit</span> eng kichik axborot birligi. U faqat ikki qiymat oladi: <strong>0</strong> yoki <strong>1</strong>. Sxemada bu kuchlanish bilan ifodalanadi:</p>
+<ul>
+<li><strong>0</strong> = past kuchlanish (taxminan 0 V). Inglizcha: <strong>L</strong> (Low).</li>
+<li><strong>1</strong> = yuqori kuchlanish (masalan 3.3 V yoki 5 V). Inglizcha: <strong>H</strong> (High).</li>
+</ul>
+<div class="box analogy">Chiroq kaliti: yoqilgan = 1, o'chirilgan = 0. O'rtacha holat yo'q.</div>
+<p>Slaydlarda <strong>L-H</strong> yoki <strong>0→1</strong> deb yozilsa, bu "signal pastdan yuqoriga o'tdi" degani. <strong>H-L</strong> esa teskarisi. Masalan, "Tp = 5 ns for H-L" = "1 dan 0 ga o'tishda kechikish 5 ns".</p>
+
+<h2>2. Ikkilik sanoq</h2>
+<p>Biz odatda <strong>o'nlik</strong> sanoqda yozamiz: har bir xona 10 marta katta (birlar, o'nlar, yuzlar). <span class="term">Ikkilik</span> sanoqda har bir xona <strong>2 marta</strong> katta:</p>
+<table>
+<tr><th>Xona qiymati</th><td>8</td><td>4</td><td>2</td><td>1</td></tr>
+<tr><th>1011 soni</th><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+</table>
+<p><strong>Ikkilikdan o'nlikka:</strong> 1 turgan xonalarning qiymatini qo'shing. 1011 = 8 + 0 + 2 + 1 = <strong>11</strong>.</p>
+<p><strong>O'nlikdan ikkilikka:</strong> eng katta mos xona qiymatini ayirib boring. Masalan 13: 13 − 8 = 5 (8-xonada 1), 5 − 4 = 1 (4-xonada 1), 2-xonada 0, 1 − 1 = 0 (1-xonada 1). Natija <strong>1101</strong>.</p>
+<p>Eng chapdagi bit eng "og'ir" bo'lib, <strong>MSB</strong> (most significant bit) deyiladi. Eng o'ngdagisi <strong>LSB</strong> (least significant bit). LSB atamasi ADC mavzusida juda ko'p ishlatiladi: u "eng kichik qadam" degani.</p>
+
+<h3>4 bitli sonlar jadvali</h3>
+<table>
+<tr><th>O'nlik</th><th>Ikkilik</th><th>O'nlik</th><th>Ikkilik</th></tr>
+<tr><td>0</td><td>0000</td><td>8</td><td>1000</td></tr>
+<tr><td>1</td><td>0001</td><td>9</td><td>1001</td></tr>
+<tr><td>2</td><td>0010</td><td>10</td><td>1010</td></tr>
+<tr><td>3</td><td>0011</td><td>11</td><td>1011</td></tr>
+<tr><td>4</td><td>0100</td><td>12</td><td>1100</td></tr>
+<tr><td>5</td><td>0101</td><td>13</td><td>1101</td></tr>
+<tr><td>6</td><td>0110</td><td>14</td><td>1110</td></tr>
+<tr><td>7</td><td>0111</td><td>15</td><td>1111</td></tr>
+</table>
+<p>Jadvaldagi qiziq narsa: eng o'ng bit har qatorda almashadi, keyingisi har 2 qatorda, keyingisi har 4 qatorda. Hisoblagich (counter) aynan shunday ishlaydi va <strong>har bir bit oldingisidan 2 marta sekin</strong> o'zgaradi. Bu 9-darsda chastotani hisoblashda kerak bo'ladi.</p>
+
+<h2>3. N bit nechta qiymat beradi: 2<sup>N</sup></h2>
+<p>1 bit 2 xil qiymat beradi (0, 1). Har yangi bit qiymatlar sonini 2 marta oshiradi:</p>
+<table>
+<tr><th>Bitlar soni N</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>10</th><th>12</th><th>16</th></tr>
+<tr><th>2<sup>N</sup></th><td>2</td><td>4</td><td>8</td><td>16</td><td>32</td><td>64</td><td>128</td><td>256</td><td>1024</td><td>4096</td><td>65 536</td></tr>
+</table>
+<p>Bu jadvalni yod oling, imtihonda kalkulyatorsiz kerak bo'ladi. 8 bit = 1 <strong>bayt</strong> (byte).</p>
+<p><strong>Teskari savol: "Kamida necha bit kerak?"</strong> 2<sup>N</sup> kerakli sondan katta yoki teng bo'ladigan eng kichik N ni toping. Masalan 1000 xil qiymat uchun: 2<sup>9</sup> = 512 kam, 2<sup>10</sup> = 1024 yetadi → <strong>10 bit</strong>. Bu amal <strong>log₂</strong> deyiladi: log₂(1024) = 10.</p>
+
+<h3>Imtihon savoli: 016</h3>
+<div class="box"><em>In an A/D conversion system, how many bits are needed to obtain a total error of less than 1.2%, assuming that half of this error is due to quantization?</em><br>a) 8 &nbsp; b) 9 &nbsp; c) 10 &nbsp; d) 7</div>
+<p>Tarjimasi: A/D (analog-raqamli) tizimda umumiy xato 1.2% dan kam bo'lishi uchun necha bit kerak? Xatoning yarmi kvantlashdan (bitlar sonining cheklanganligidan) keladi.</p>
+<ol>
+<li>Kvantlash xatosi = 1.2% ning yarmi = <strong>0.6%</strong> = 0.006.</li>
+<li>N bitli o'zgartirgich diapazonni 2<sup>N</sup> qadamga bo'ladi. Qadam qancha mayda bo'lsa, xato shuncha kichik. Shart: 1/2<sup>N</sup> ≤ 0.006, ya'ni 2<sup>N</sup> ≥ 1/0.006 ≈ 167.</li>
+<li>Jadvaldan: 2<sup>7</sup> = 128 kam, 2<sup>8</sup> = 256 yetadi → <strong>8 bit</strong>. Javob <strong>a)</strong>.</li>
+</ol>
+<p>ADC haqida batafsil 16-darsda o'rganamiz. Hozir asosiysi: "necha bit" savoli doim 2<sup>N</sup> jadvaliga keladi.</p>
+
+<h2>4. Mantiqiy elementlar</h2>
+<p><span class="term">Mantiqiy element</span> (logic gate) kirishdagi 0/1 lardan qoida bo'yicha chiqish hosil qiladi. Qoida <span class="term">haqiqat jadvali</span> (truth table) bilan beriladi: kirishlarning har bir kombinatsiyasi uchun chiqish yoziladi.</p>
+
+<figure>
+<svg viewBox="0 0 680 240" role="img" aria-label="Oltita mantiqiy element belgisi: NOT, AND, OR, NAND, NOR, XOR" font-family="system-ui,sans-serif">
+<path d="M45 60H70" stroke="#888" stroke-width="2"/>
+<path d="M70 40L110 60L70 80Z" fill="#fff" stroke="#555" stroke-width="2"/>
+<circle cx="115" cy="60" r="5" fill="#fff" stroke="#555" stroke-width="2"/>
+<path d="M120 60H145" stroke="#888" stroke-width="2"/>
+<text x="95" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">NOT</text>
+<text x="95" y="102" text-anchor="middle" font-size="13" fill="#2563eb">Y = Ā</text>
+<path d="M265 50H295M265 70H295" stroke="#888" stroke-width="2"/>
+<path d="M290 40H320A20 20 0 0 1 320 80H290Z" fill="#fff" stroke="#555" stroke-width="2"/>
+<path d="M340 60H365" stroke="#888" stroke-width="2"/>
+<text x="315" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">AND</text>
+<text x="315" y="102" text-anchor="middle" font-size="13" fill="#2563eb">Y = A·B</text>
+<path d="M485 50H515M485 70H515" stroke="#888" stroke-width="2"/>
+<path d="M510 40Q530 60 510 80Q550 80 565 60Q550 40 510 40Z" fill="#fff" stroke="#555" stroke-width="2"/>
+<path d="M565 60H590" stroke="#888" stroke-width="2"/>
+<text x="535" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">OR</text>
+<text x="535" y="102" text-anchor="middle" font-size="13" fill="#2563eb">Y = A + B</text>
+<path d="M45 160H75M45 180H75" stroke="#888" stroke-width="2"/>
+<path d="M70 150H100A20 20 0 0 1 100 190H70Z" fill="#fff" stroke="#555" stroke-width="2"/>
+<circle cx="125" cy="170" r="5" fill="#fff" stroke="#555" stroke-width="2"/>
+<path d="M130 170H155" stroke="#888" stroke-width="2"/>
+<text x="95" y="140" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">NAND</text>
+<text x="95" y="212" text-anchor="middle" font-size="13" fill="#2563eb">Y = not(A·B)</text>
+<path d="M265 160H295M265 180H295" stroke="#888" stroke-width="2"/>
+<path d="M290 150Q310 170 290 190Q330 190 345 170Q330 150 290 150Z" fill="#fff" stroke="#555" stroke-width="2"/>
+<circle cx="350" cy="170" r="5" fill="#fff" stroke="#555" stroke-width="2"/>
+<path d="M355 170H380" stroke="#888" stroke-width="2"/>
+<text x="315" y="140" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">NOR</text>
+<text x="315" y="212" text-anchor="middle" font-size="13" fill="#2563eb">Y = not(A+B)</text>
+<path d="M485 160H515M485 180H515" stroke="#888" stroke-width="2"/>
+<path d="M510 150Q530 170 510 190Q550 190 565 170Q550 150 510 150Z" fill="#fff" stroke="#555" stroke-width="2"/>
+<path d="M502 150Q522 170 502 190" fill="none" stroke="#555" stroke-width="2"/>
+<path d="M565 170H590" stroke="#888" stroke-width="2"/>
+<text x="535" y="140" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">XOR</text>
+<text x="535" y="212" text-anchor="middle" font-size="13" fill="#2563eb">Y = A ⊕ B</text>
+</svg>
+<figcaption>Asosiy mantiqiy elementlar belgisi. Chiqishdagi doiracha "teskari" (NOT) degani.</figcaption>
+</figure>
+
+<table>
+<tr><th>A</th><th>B</th><th>NOT A</th><th>AND</th><th>OR</th><th>NAND</th><th>NOR</th><th>XOR</th></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+</table>
+
+<p>So'z bilan eslab qolish:</p>
+<ul>
+<li><strong>NOT</strong> (invertor): teskarisini beradi. 0 → 1, 1 → 0. Belgilanishi: Ā yoki "not A".</li>
+<li><strong>AND</strong> ("va"): <em>hammasi</em> 1 bo'lsagina 1. Yozilishi A·B (ko'paytirish kabi: 1·1 = 1, qolgani 0).</li>
+<li><strong>OR</strong> ("yoki"): <em>hech bo'lmasa bittasi</em> 1 bo'lsa 1. Yozilishi A + B.</li>
+<li><strong>NAND</strong> = AND + NOT: hammasi 1 bo'lsagina 0.</li>
+<li><strong>NOR</strong> = OR + NOT: hammasi 0 bo'lsagina 1.</li>
+<li><strong>XOR</strong> ("faqat bittasi"): kirishlar <em>har xil</em> bo'lsa 1. Belgisi ⊕.</li>
+</ul>
+<div class="box analogy">AND: eshikni ochish uchun ikkala kalit ham kerak. OR: xonaga ikki eshikdan birortasi orqali kirish mumkin.</div>
+<p>CMOS texnologiyasida eng oson yasaladigani <strong>NAND</strong> va <strong>NOR</strong> (4 tranzistor). Shuning uchun slaydlarda va imtihonda NAND juda ko'p uchraydi.</p>
+
+<h3>Ifodani hisoblash</h3>
+<p>Imtihondagi 104-savolda F = not(Q1 · not(Q2)) ifodasi bor. Uni qanday hisoblash kerakligini ko'raylik. Q1 = 1, Q2 = 0 bo'lsin:</p>
+<ol>
+<li>Ichkaridan boshlaymiz: not(Q2) = not(0) = 1.</li>
+<li>Q1 · 1 = 1 · 1 = 1 (AND).</li>
+<li>not(1) = <strong>0</strong>. Demak F = 0.</li>
+</ol>
+<p>Qoida: har doim <strong>ichki qavsdan</strong> boshlang, xuddi oddiy matematikadagidek.</p>
+
+<h2>5. Imtihonda shu bilim bilan yechiladigan savollar</h2>
+<h3>065-savol</h3>
+<div class="box"><em>An address decoder with 4-bit input requires:</em><br>a) 4 NAND gates &nbsp; b) 8 NAND gates &nbsp; c) 4 AND gates &nbsp; d) 16 NAND gates</div>
+<p>Tarjimasi: 4 bitli kirishga ega adres dekoderiga nechta NAND kerak?</p>
+<p>Yechim: <strong>dekoder</strong> N bitli sonni olib, 2<sup>N</sup> ta chiqishdan faqat bittasini yoqadi (masalan, xotirada qaysi qatorni o'qishni tanlaydi). Har bir chiqish uchun bitta NAND kerak. 4 bit → 2<sup>4</sup> = <strong>16</strong> ta chiqish → 16 ta NAND. Javob <strong>d)</strong>.</p>
+
+<h3>067-savol</h3>
+<div class="box"><em>An FPGA uses only 4-input Look-up-Table (LUT) to perform combinatorial logic functions. To achieve O = A B C (D + E + F) are needed:</em><br>a) 5 LUT &nbsp; b) 3 LUT &nbsp; c) 2 LUT &nbsp; d) functions with 6 inputs cannot be implemented</div>
+<p>Tarjimasi: FPGA faqat 4 kirishli LUT lardan foydalanadi. LUT bu istalgan 4 kirishli mantiqiy funksiyani bajara oladigan kichik "quti". O = A·B·C·(D + E + F) funksiyasi uchun nechta LUT kerak?</p>
+<ol>
+<li>Funksiyada 6 ta kirish bor (A…F), bitta LUT esa faqat 4 tasini oladi. Demak bo'lish kerak.</li>
+<li>LUT1: X = D + E + F (3 kirish, sig'adi).</li>
+<li>LUT2: O = A · B · C · X (4 kirish, sig'adi).</li>
+<li>Jami <strong>2 LUT</strong>. Javob <strong>c)</strong>. d) noto'g'ri: kirish ko'p bo'lsa, LUT larni ketma-ket ulash mumkin.</li>
+</ol>
+
+<h2>6. Kombinatsion va ketma-ket sxemalar</h2>
+<p>Yuqoridagi elementlar <strong>kombinatsion</strong> sxemalar: chiqish faqat <em>hozirgi</em> kirishlarga bog'liq, ular hech narsani eslab qolmaydi. Lekin kompyuterga xotira ham kerak: oldingi holatni eslab qoladigan sxemalar <strong>ketma-ket</strong> (sequential) sxemalar deyiladi. Ularning asosiy g'ishti <strong>flip-flop</strong>. Bu keyingi bosqichning asosiy mavzusi va imtihonda deyarli har safar masala bo'lib tushadi.</p>
+
+<h2>O'zingizni tekshiring</h2>
+<div class="box check">0110 ikkilik soni o'nlikda nechaga teng? <details><summary>Javob</summary>4 + 2 = <strong>6</strong>.</details></div>
+<div class="box check">9 sonini 4 bitli ikkilik sonda yozing. <details><summary>Javob</summary>9 = 8 + 1 → <strong>1001</strong>.</details></div>
+<div class="box check">6 bit nechta har xil qiymat beradi? <details><summary>Javob</summary>2<sup>6</sup> = <strong>64</strong>.</details></div>
+<div class="box check">300 ta har xil qiymatni ifodalash uchun kamida necha bit kerak? <details><summary>Javob</summary>2<sup>8</sup> = 256 kam, 2<sup>9</sup> = 512 yetadi → <strong>9 bit</strong>.</details></div>
+<div class="box check">A = 1, B = 1. NAND chiqishi? XOR chiqishi? <details><summary>Javob</summary>NAND: 1·1 = 1, teskarisi <strong>0</strong>. XOR: kirishlar bir xil → <strong>0</strong>.</details></div>
+<div class="box check">3 bitli dekoderga nechta NAND kerak? <details><summary>Javob</summary>2<sup>3</sup> = <strong>8</strong>.</details></div>
+<div class="box check">F = not(Q1 · not(Q2)). Q1 = 0, Q2 = 0 bo'lsa F = ? <details><summary>Javob</summary>not(Q2) = 1; Q1 · 1 = 0 · 1 = 0; not(0) = <strong>1</strong>.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Bit / bayt</td><td>bit / byte</td><td>0 yoki 1 / 8 bit</td></tr>
+<tr><td>L, H</td><td>Low, High</td><td>Past (0) va yuqori (1) daraja</td></tr>
+<tr><td>Ikkilik sanoq</td><td>binary</td><td>Har xona 2 marta katta bo'lgan sanoq</td></tr>
+<tr><td>MSB / LSB</td><td>most / least significant bit</td><td>Eng katta / eng kichik vaznli bit</td></tr>
+<tr><td>Mantiqiy element</td><td>logic gate</td><td>NOT, AND, OR, NAND, NOR, XOR</td></tr>
+<tr><td>Haqiqat jadvali</td><td>truth table</td><td>Har kirish kombinatsiyasi uchun chiqish</td></tr>
+<tr><td>Dekoder</td><td>decoder</td><td>N bitdan 2<sup>N</sup> chiqishning bittasini tanlaydi</td></tr>
+<tr><td>LUT</td><td>look-up table</td><td>FPGA ichidagi istalgan funksiyani bajaruvchi kichik jadval</td></tr>
+<tr><td>Kombinatsion / ketma-ket sxema</td><td>combinational / sequential</td><td>Xotirasiz / xotirali sxema</td></tr>
+<tr><td>Kvantlash</td><td>quantization</td><td>Uzluksiz qiymatni eng yaqin qadamga yaxlitlash</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<p><strong>Ikkilik sanoq</strong></p>
+<ul>
+<li>Xona qiymatlari: ... 16, 8, 4, 2, 1. 1011 = 8 + 2 + 1 = 11.</li>
+<li>MSB = chapdagi (eng katta), LSB = o'ngdagi (eng kichik).</li>
+<li>Hisoblagichda har keyingi bit 2 marta sekin o'zgaradi.</li>
+</ul>
+<p><strong>2<sup>N</sup> jadvali (yod oling)</strong></p>
+<span class="formula">2⁴=16 · 2⁶=64 · 2⁷=128 · 2⁸=256 · 2¹⁰=1024 · 2¹²=4096</span>
+<ul>
+<li>"Necha bit kerak?" → 2<sup>N</sup> ≥ kerakli son bo'ladigan eng kichik N.</li>
+<li>Xato ≤ x bo'lishi uchun: 2<sup>N</sup> ≥ 1/x (016: x = 0.6% → 8 bit).</li>
+<li>N bitli dekoder → 2<sup>N</sup> chiqish → 2<sup>N</sup> NAND (065).</li>
+</ul>
+<p><strong>Mantiqiy elementlar</strong></p>
+<ul>
+<li>NOT: teskari. AND: hammasi 1 → 1. OR: biri 1 → 1.</li>
+<li>NAND: hammasi 1 → 0. NOR: hammasi 0 → 1. XOR: har xil → 1.</li>
+<li>Ifoda: ichki qavsdan boshlab hisoblang.</li>
+<li>LUT k kirishli: kirishlar ko'p bo'lsa funksiyani bo'laklarga ajrating (067: 6 kirish → 2 ta 4-kirishli LUT).</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting). Bu bilan asoslar tugaydi.</div>
+
+<footer class="pager"><a href="04-diod-tranzistor.html">← 4-dars</a><a href="./">Darslar ro'yxati →</a></footer>
+</main></body></html>
