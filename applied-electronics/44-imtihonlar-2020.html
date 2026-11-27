@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>44. Imtihonlar 2020 to'liq yechim</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>44. To'liq imtihonlar: 2020-yil (iyul, sentyabr, dekabr)</h1>
+
+<div class="box note"><strong>Bu sahifa nima uchun:</strong> 2020-yildagi uchta imtihonning yechim fayllarida jami 9 ta masala bor, har biri 7 ball. Har imtihonni alohida, 45 daqiqada yeching. Savollar asl ko'rinishida (imtihon faylidan rasm), tagida tarjima, yashirilgan yechim va dars havolasi. Manba: <em>20200710, 20200902, 20201204-exam-solution.pdf</em>.</div>
+
+<div class="box"><strong>Qoida:</strong> bitta imtihonni (3 ta masala) yechimni ochmasdan qog'ozda yeching, keyin tekshiring. 2020-yil masalalari 2021-yildagilarga juda o'xshaydi: flip-flop zanjiri, ADC, uzatish liniyasi, quvvat manbai. Bir xil turdagi masala har yili qaytadi.</div>
+
+<h2>Imtihon 2020-07 (10-iyul)</h2>
+
+<h3>1-masala: flip-flop lar va "func" bloki, 7 ball</h3>
+<img src="img/x2007-q1.png" alt="2020-07 1-masala: to'rtta D flip-flop FF1–FF4, boshida Q = 0. FF1, FF2, FF3 da D = Q̄, FF1 takti CLK dan, FF2 takti Q1 dan, FF3 takti Q2 dan. func bloki F(A,B,C) = Ā·B̄ + C̄, FF4 ning D kirishi F, takti CLK, chiqishi D. Birinchi 9 ta takt siklining qaysilarida D = 1" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> FF1–FF4 ning Q chiqishlari boshida 0. "func" bloki F(A, B, C) = Ā·B̄ + C̄ funksiyasini bajaradi. Kechikishlar yo'q. Birinchi 9 ta takt siklining qaysilarida D chiqishi 1 bo'ladi?</p>
+<details><summary>Yechim</summary>
+<ol>
+<li>Sxemani o'qing: FF1, FF2, FF3 da D = Q̄ (har frontda almashadi). FF1 takti CLK, FF2 takti Q1, FF3 takti Q2. Bu 3 bitli asinxron <strong>pastga</strong> sanovchi hisoblagich: A = Q1, B = Q2, C = Q3.</li>
+<li>FF4: D-kirish = F, takti CLK. Demak D chiqishi F ni <strong>bir takt kechiktirib</strong> takrorlaydi.</li>
+<li>Jadval (har taktdagi qiymatlar):</li>
+</ol>
+<table>
+<tr><th>Takt</th><th>C B A</th><th>F = Ā·B̄ + C̄</th><th>D (= oldingi F)</th></tr>
+<tr><td>0 (boshlanish)</td><td>000</td><td>1</td><td>0</td></tr>
+<tr><td>1</td><td>111</td><td>0</td><td><strong>1</strong></td></tr>
+<tr><td>2</td><td>110</td><td>0</td><td>0</td></tr>
+<tr><td>3</td><td>101</td><td>0</td><td>0</td></tr>
+<tr><td>4</td><td>100</td><td>1</td><td>0</td></tr>
+<tr><td>5</td><td>011</td><td>1</td><td><strong>1</strong></td></tr>
+<tr><td>6</td><td>010</td><td>1</td><td><strong>1</strong></td></tr>
+<tr><td>7</td><td>001</td><td>1</td><td><strong>1</strong></td></tr>
+<tr><td>8</td><td>000</td><td>1</td><td><strong>1</strong></td></tr>
+<tr><td>9</td><td>111</td><td>0</td><td><strong>1</strong></td></tr>
+</table>
+<p>Javob: D = 1 bo'lgan taktlar <strong>1, 5, 6, 7, 8, 9</strong>. Tuzoq: 1-taktdagi D boshlang'ich holatdagi F = 1 dan keladi. (<a href="09-hisoblagich-fsm.html">9-dars</a>)</p>
+</details>
+
+<h3>2-masala: eng sodda ADC ning namuna olish chastotasi, 7 ball</h3>
+<img src="img/x2007-q2.png" alt="2020-07 2-masala: 35 Hz chastotali, ADC to'liq shkalasini qoplaydigan, SNR = 45 dB bo'lgan uchburchak signal; namuna olish chastotasi signal chastotasidan kamida 20 marta katta bo'lishi kerak; 200 kHz takt bilan ishlaydigan va kvantlash SNR i signal SNR idan katta bo'lgan eng sodda ADC arxitekturasining maksimal namuna olish chastotasi" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> 35 Hz li uchburchak signal ADC ning to'liq shkalasini egallaydi, signalning SNR i 45 dB. Namuna olish chastotasi signal chastotasidan kamida 20 marta katta bo'lishi kerak. 200 kHz takt bilan ishlaydigan, kvantlash SNR i 45 dB dan yuqori bo'lgan eng sodda ADC ning maksimal namuna olish chastotasini toping.</p>
+<details><summary>Yechim</summary>
+<ol>
+<li>Uchburchak (yoki arra) to'lqin to'liq shkalada: SNR<sub>q</sub> = 6.02·N dB (sinusda 6.02N + 1.76 bo'lardi). 6N &gt; 45 → N &gt; 7.5 → <strong>N = 8 bit</strong>.</li>
+<li>Eng sodda ADC bu <strong>tracking</strong> ADC (bitta komparator va hisoblagich). Eng yomon holatda u 2<sup>N</sup> = 256 takt sarflaydi.</li>
+<li>f<sub>s</sub> = 200 kHz / 256 = <strong>781.25 Hz</strong>.</li>
+<li>Tekshirish: 20 · 35 = 700 Hz &lt; 781.25 Hz. Shart bajarildi.</li>
+</ol>
+<p>(<a href="16b-kvantlash-snr.html">16b-dars</a>: SNR; <a href="18-adc-turlari.html">18-dars</a>: tracking ADC)</p>
+</details>
+
+<h3>3-masala: uzatish liniyasi, V<sub>IH</sub> max, 7 ball</h3>
+<img src="img/x2007-q3.png" alt="2020-07 3-masala: ideal uzatish liniyasi Tp = 5 ns, Z∞ = 70 Ω, generator 0 dan Vg = 3.3 V gacha, chiqish qarshiligi Rg = 15 Ω; uzoq uchida (c tugun) kirish sig'imi va o'tkazuvchanligi hisobga olinmaydigan qabul qilgich; ko'pi bilan 7.5 ns kechikish bilan yuqori sathni barqaror qabul qilish uchun VIH ning maksimal qiymati" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> liniya: T<sub>p</sub> = 5 ns, Z∞ = 70 Ω. Generator 0 → 3.3 V, R<sub>g</sub> = 15 Ω. Uzoq uchida qabul qilgich (amalda ochiq uch). Yuqori sath ko'pi bilan 7.5 ns kechikish bilan <em>barqaror</em> qabul qilinishi uchun V<sub>IH</sub> eng ko'pi bilan qancha bo'lishi mumkin?</p>
+<details><summary>Yechim</summary>
+<ol>
+<li>Boshlang'ich to'lqin: U = 3.3 · 70/(15 + 70) = 2.72 V.</li>
+<li>Aks etish koeffitsientlari: Γ<sub>T</sub> = +1 (ochiq uch), Γ<sub>G</sub> = (15 − 70)/(15 + 70) = −0.647.</li>
+<li>7.5 ns &lt; 2T<sub>p</sub> = 10 ns, demak signal <strong>birinchi to'lqinda</strong> (t = T<sub>p</sub> = 5 ns) qabul qilinishi kerak: IWS.</li>
+<li>t = T<sub>p</sub>: v = (1 + 1)·2.72 = 5.44 V. t = 3T<sub>p</sub>: generatordan manfiy aks etish keladi: v = (1 + Γ<sub>T</sub> + Γ<sub>T</sub>Γ<sub>G</sub> + Γ<sub>T</sub>²Γ<sub>G</sub>)·U = (2 − 2·0.647)·2.72 = <strong>1.92 V</strong>.</li>
+<li>"Barqaror" degani: keyingi to'lqinlarda kuchlanish chegaradan qaytib pastga tushmasligi kerak. Eng past nuqta 1.92 V (keyingi tebranishlar so'nadi), demak V<sub>IH,max</sub> = <strong>1.92 V</strong>.</li>
+</ol>
+<p>(<a href="25-uzatish-liniyasi.html">25-dars</a>, <a href="26-iws-rws-terminatsiya.html">26-dars</a>)</p>
+</details>
+
+<h2>Imtihon 2020-09 (2-sentyabr)</h2>
+
+<h3>1-masala: JK va D flip-flop lar, 7 ball</h3>
+<img src="img/x2009-q1.png" alt="2020-09 1-masala: FF1 (JK, J = K = 1, takti CLK), FF2 (D, D = Q̄, takti A dan), FF3 (JK, J = B, K = B̄, takti CLK), func bloki F(A,B,C) = B·C̄ + Ā, FF4 (JK, J = K = F, takti CLK, chiqishi D); birinchi 9 taktning qaysilarida D = 1" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> FF1–FF4 boshida 0. "func" F(A, B, C) = B·C̄ + Ā. Kechikishlar yo'q. Birinchi 9 taktning qaysilarida D = 1?</p>
+<details><summary>Yechim</summary>
+<ol>
+<li>FF1 (JK, J = K = 1, takt CLK): A har frontda almashadi.</li>
+<li>FF2 (D = Q̄, takti A): B har safar A 0 → 1 bo'lganda almashadi, ya'ni har 2 taktda.</li>
+<li>FF3 (JK, J = B, K = B̄, takt CLK): C = B ning bir takt kechikkan nusxasi.</li>
+<li>FF4 (JK, J = K = F, takt CLK): oldingi taktda F = 1 bo'lsa D almashadi, F = 0 bo'lsa saqlanadi.</li>
+</ol>
+<table>
+<tr><th>Takt</th><th>A</th><th>B</th><th>C</th><th>F = B·C̄ + Ā</th><th>D</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td><strong>1</strong></td></tr>
+<tr><td>2</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td></tr>
+<tr><td>3</td><td>1</td><td>0</td><td>1</td><td>0</td><td><strong>1</strong></td></tr>
+<tr><td>4</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>1</strong></td></tr>
+<tr><td>5</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>6</td><td>0</td><td>1</td><td>1</td><td>1</td><td><strong>1</strong></td></tr>
+<tr><td>7</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>8</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>9</td><td>1</td><td>1</td><td>0</td><td>1</td><td><strong>1</strong></td></tr>
+</table>
+<p>D ustuni: D(yangi) = D(oldingi) XOR F(oldingi). Javob: <strong>1, 3, 4, 6, 9</strong>. (<a href="11-mashq-flip-flop.html">11-dars</a>)</p>
+</details>
+
+<h3>2-masala: siljitish registri boshqaradigan buck, 7 ball</h3>
+<img src="img/x2009-q2.png" alt="2020-09 2-masala: ideal buck regulatorning kaliti N ta D flip-flopdan iborat halqa siljitish registrining QN-1 chiqishi bilan boshqariladi (QN-1 = 1 da yoqiq). Vin = 5.6 V, fCLK = 420 kHz, N = 5. Boshlang'ich holat Q2 = 1, Q3 = 1, qolganlari 0 bo'lsa Vout (6 ball); fCLK va Vin bir vaqtda ikki baravar bo'lsa Vout qanday o'zgaradi (1 ball)" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> ideal buck regulatorning kaliti Q<sub>N−1</sub> = 1 bo'lganda yoqiq. V<sub>in</sub> = 5.6 V, f<sub>CLK</sub> = 420 kHz, N = 5 ta D flip-flop. Boshida Q2 = Q3 = 1, qolganlari 0. V<sub>out</sub> qancha? f<sub>CLK</sub> va V<sub>in</sub> bir vaqtda ikki baravar oshsa V<sub>out</sub> qanday o'zgaradi?</p>
+<details><summary>Yechim</summary>
+<ol>
+<li>FF lar halqa siljitish registri: oxirgi chiqish Q<sub>N−1</sub> yana birinchi FF ga kiradi. Ikkita "1" abadiy aylanib yuradi.</li>
+<li>Davr = N = 5 takt, shundan 2 taktda Q<sub>N−1</sub> = 1. Duty cycle D = 2/5 = 0.4.</li>
+<li>Buck: V<sub>out</sub> = D · V<sub>in</sub> = 0.4 · 5.6 = <strong>2.24 V</strong>.</li>
+<li>V<sub>out</sub> chastotaga bog'liq emas, faqat D va V<sub>in</sub> ga. V<sub>in</sub> ×2 → V<sub>out</sub> <strong>increases two times</strong>. "Regulated" varianti tuzoq: bu sxemada teskari aloqa yo'q, D o'zgarmas.</li>
+</ol>
+<p>(<a href="33-buck-regulator.html">33-dars</a>, siljitish registri: <a href="09-hisoblagich-fsm.html">9-dars</a>)</p>
+</details>
+
+<h3>3-masala: zener stabilizator chiqishidagi ripple, 7 ball</h3>
+<img src="img/x2009-q3.png" alt="2020-09 3-masala: zener diodli chiziqli stabilizator, VZ0 = 3.9 V, ichki qarshilik ri = 5 Ω; Vin ideal ikki yarim davrli to'g'rilagichdan, 50 Hz, cho'qqi 6 V; RS = 100 Ω, filtr kondensatori C = 400 µF; chiqish kuchlanishi ripple amplitudasi" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> zener: V<sub>Z0</sub> = 3.9 V, ichki qarshiligi r<sub>i</sub> = 5 Ω. V<sub>in</sub> ideal ikki yarim davrli to'g'rilagichdan (50 Hz, cho'qqi 6 V). R<sub>S</sub> = 100 Ω, C = 400 µF. Chiqishdagi ripple amplitudasini toping.</p>
+<details><summary>Yechim</summary>
+<ol>
+<li>Kondensatordan olinadigan tok (taxminan o'zgarmas): I<sub>S</sub> = (6 − 3.9)/100 = 21 mA.</li>
+<li>Ikki yarim davrli: Δt = 1/(2·50) = 10 ms. Kirish ripple: V<sub>R,in</sub> = I·Δt/C = 0.021 · 0.01 / 0.0004 = 0.53 V.</li>
+<li>Ripple uchun zener bu r<sub>i</sub> qarshilik. R<sub>S</sub> va r<sub>i</sub> kuchlanish bo'lgichi hosil qiladi: V<sub>R,out</sub> = 0.53 · 5/(100 + 5) = <strong>0.025 V</strong> (25 mV).</li>
+</ol>
+<p>Ma'nosi: stabilizator ripple ni 0.53 V dan 25 mV gacha, ya'ni ~21 marta kamaytirdi. (<a href="31-togrilagich-ripple.html">31-dars</a>, <a href="32-zener-chiziqli-stabilizator.html">32-dars</a>)</p>
+</details>
+
+<h2>Imtihon 2020-12 (4-dekabr)</h2>
+<p>Yechim faylida 1, 2 va 4-savollar bor (3-savol faylda yo'q).</p>
+
+<h3>1-masala: hisoblagich va XOR, 7 ball</h3>
+<img src="img/x2012-q1.png" alt="2020-12 1-masala: uchta flip-flop FF1 (JK), FF2 (D), FF3 (D), Q boshida 0; CLK = 1000 kHz; B va C XOR ga kiradi, XOR chiqishi D, D FF1 ning J va K kirishlariga ulangan; B, C, A chastotalari va D ni takt sifatida ishlatgan flash ADC uchun maksimal sinus chastotasi" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> CLK = 1000 kHz, hamma Q boshida 0. Toping: B, C, A ning chastotalari va D takt bo'lib xizmat qiladigan flash ADC o'zgartira oladigan sinusning maksimal chastotasi.</p>
+<details><summary>Yechim</summary>
+<ol>
+<li>FF2 va FF3 ikki bitli asinxron hisoblagich: (C B) = 00 → 01 → 10 → 11 → 00. B har taktda almashadi → <strong>500 kHz</strong>. C undan ikki baravar sekin → <strong>250 kHz</strong>.</li>
+<li>D = B XOR C: 0, 1, 1, 0, 0, 1, 1, 0… Davri 4 takt → 250 kHz.</li>
+<li>FF1 (JK, J = K = D, takt CLK): D = 1 bo'lgan har frontda almashadi. A: 0 → 1 → 0 → 0 → 0 → 1 → 0 → 0… Davri 4 takt → <strong>250 kHz</strong>.</li>
+<li>ADC takti D = 250 kHz → Nyquist: sinus ≤ 250/2 = <strong>125 kHz</strong>.</li>
+</ol>
+<p>2021-01 dagi masalaning egizagi (u yerda NOR edi). (<a href="09-hisoblagich-fsm.html">9-dars</a>)</p>
+</details>
+
+<h3>2-masala: aks etishlar, lattice diagramma, 7 ball</h3>
+<img src="img/x2012-q2.png" alt="2020-12 2-masala: Z∞ = 50 Ω liniya, bir uchida chiqish qarshiligi 10 Ω bo'lgan rail-to-rail drayver, ikkinchi uchida 265 Ω kirish qarshilikli qabul qilgich; TP = 5 ns, 0 dan 5 V ga o'tish; qabul qilgichdagi kuchlanish t = 2TP, 4TP, 6TP da, barqaror kuchlanish va bitta o'tish (IWS) uchun minimal shovqin zaxirasi" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> Z∞ = 50 Ω, drayver R<sub>G</sub> = 10 Ω, qabul qilgich R<sub>T</sub> = 265 Ω, T<sub>P</sub> = 5 ns, o'tish 0 → 5 V. Qabul qilgichdagi kuchlanishni t = 2T<sub>P</sub>, 4T<sub>P</sub>, 6T<sub>P</sub> da, barqaror kuchlanishni va IWS uchun kerakli minimal shovqin zaxirasini toping.</p>
+<details><summary>Yechim</summary>
+<ol>
+<li>U = 5 · 50/(10 + 50) = 4.17 V. Γ<sub>G</sub> = (10 − 50)/60 = −0.67. Γ<sub>T</sub> = (265 − 50)/315 = +0.68.</li>
+<li>Qabul qilgichdagi kuchlanish faqat T<sub>P</sub>, 3T<sub>P</sub>, 5T<sub>P</sub> da o'zgaradi, 2T<sub>P</sub>, 4T<sub>P</sub>, 6T<sub>P</sub> da oldingi qiymat saqlanadi.</li>
+<li>2T<sub>P</sub> (= T<sub>P</sub> dagi qiymat): (1 + 0.68) · 4.17 = <strong>7.01 V</strong>.</li>
+<li>4T<sub>P</sub>: [1 + Γ<sub>T</sub> + Γ<sub>T</sub>Γ<sub>G</sub> + Γ<sub>T</sub>²Γ<sub>G</sub>]·U = [1 + 0.68 − 0.456 − 0.310]·4.17 = <strong>3.82 V</strong>.</li>
+<li>6T<sub>P</sub>: yana ikki had qo'shiladi: + Γ<sub>T</sub>²Γ<sub>G</sub>² + Γ<sub>T</sub>³Γ<sub>G</sub>² = + 0.208 + 0.141 → <strong>5.27 V</strong>.</li>
+<li>Barqaror holat: rezistorlar bo'lgichi, Z∞ yo'q: 5 · 265/(10 + 265) = <strong>4.82 V</strong>.</li>
+<li>IWS: birinchi to'lqindan keyin kuchlanish eng pastga 3.82 V gacha tushadi. Bu ham "1" deb o'qilishi kerak, demak V<sub>IH</sub> ≤ 3.82 V va zaxira 5 − 3.82 = <strong>1.18 V</strong>.</li>
+</ol>
+<p>(<a href="25-uzatish-liniyasi.html">25-dars</a>, <a href="26-iws-rws-terminatsiya.html">26-dars</a>)</p>
+</details>
+
+<h3>4-masala: tranzistor kalit va issiqlik, 7 ball</h3>
+<img src="img/x2012-q4.png" alt="2020-12 4-masala: tranzistor Q to'yinishda VCE = 1 V, θJA = 150 °C/W, maksimal kristall harorati 125 °C; RL = 8 Ω yuklamada 2 W sochiladi; kollektor toki IC, tranzistordagi quvvat PQ, maksimal atrof harorati TA, manba kuchlanishi VCC" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> to'yingan tranzistorda V<sub>CE</sub> = 1 V, θ<sub>JA</sub> = 150 °C/W, T<sub>J,max</sub> = 125 °C. R<sub>L</sub> = 8 Ω yuklamada 2 W quvvat. Toping: I<sub>C</sub>, tranzistordagi quvvat P<sub>Q</sub>, maksimal atrof harorati T<sub>A</sub>, V<sub>CC</sub>.</p>
+<details><summary>Yechim</summary>
+<ol>
+<li>P = I²·R → I<sub>C</sub> = √(2/8) = <strong>0.5 A</strong>.</li>
+<li>P<sub>Q</sub> = V<sub>CE</sub> · I<sub>C</sub> = 1 · 0.5 = <strong>0.5 W</strong>.</li>
+<li>Qizish: 150 · 0.5 = 75 °C. T<sub>A</sub> + 75 ≤ 125 → T<sub>A</sub> ≤ <strong>50 °C</strong>.</li>
+<li>V<sub>CC</sub> = I·R<sub>L</sub> + V<sub>CE</sub> = 0.5 · 8 + 1 = <strong>5 V</strong>.</li>
+</ol>
+<p>(<a href="30-quvvat-tranzistor-issiqlik.html">30-dars</a>)</p>
+</details>
+
+<h2>Javoblar jadvali</h2>
+<table>
+<tr><th>Imtihon</th><th>Masala</th><th>Javob</th><th>Dars</th></tr>
+<tr><td>2020-07</td><td>1</td><td>1, 5, 6, 7, 8, 9</td><td><a href="09-hisoblagich-fsm.html">9</a></td></tr>
+<tr><td>2020-07</td><td>2</td><td>781.25 Hz</td><td><a href="18-adc-turlari.html">18</a></td></tr>
+<tr><td>2020-07</td><td>3</td><td>1.92 V</td><td><a href="26-iws-rws-terminatsiya.html">26</a></td></tr>
+<tr><td>2020-09</td><td>1</td><td>1, 3, 4, 6, 9</td><td><a href="11-mashq-flip-flop.html">11</a></td></tr>
+<tr><td>2020-09</td><td>2</td><td>2.24 V; increases two times</td><td><a href="33-buck-regulator.html">33</a></td></tr>
+<tr><td>2020-09</td><td>3</td><td>0.025 V</td><td><a href="32-zener-chiziqli-stabilizator.html">32</a></td></tr>
+<tr><td>2020-12</td><td>1</td><td>500; 250; 250; 125 kHz</td><td><a href="09-hisoblagich-fsm.html">9</a></td></tr>
+<tr><td>2020-12</td><td>2</td><td>7.01; 3.82; 5.27; 4.82; 1.18 V</td><td><a href="25-uzatish-liniyasi.html">25</a></td></tr>
+<tr><td>2020-12</td><td>4</td><td>0.5 A; 0.5 W; 50 °C; 5 V</td><td><a href="30-quvvat-tranzistor-issiqlik.html">30</a></td></tr>
+</table>
+
+<h2>📝 Konspekt</h2>
+<div class="box">
+<span class="formula">Uchburchak signal: SNR = 6.02N &nbsp;·&nbsp; sinus: 6.02N + 1.76 &nbsp;·&nbsp; tracking: fs = fCLK/2<sup>N</sup></span>
+<span class="formula">U = VA·Z∞/(RG + Z∞) &nbsp;·&nbsp; Γ = (R − Z∞)/(R + Z∞) &nbsp;·&nbsp; 3TP: (1 + ΓT + ΓTΓG + ΓT²ΓG)·U</span>
+<span class="formula">Buck: Vout = D·Vin &nbsp;·&nbsp; zener ripple: VR,out = VR,in·ri/(RS + ri)</span>
+<span class="formula">P = I²R &nbsp;·&nbsp; TJ = TA + θJA·P</span>
+<ul>
+<li>FF jadvali: har taktda avval A, B, C ni, keyin F ni, keyin keyingi taktdagi D ni yozing.</li>
+<li>Qabul qilgich kuchlanishi faqat toq TP larda o'zgaradi; juft TP da saqlanadi.</li>
+<li>IWS zaxirasi = VOH − (birinchi to'lqindan keyingi eng past kuchlanish).</li>
+</ul>
+</div>
+
+<div class="box ok">Natijangizni chatga yozing: har imtihondan necha ball oldingiz (masala 7 balldan).</div>
+
+<footer class="pager"><a href="43-imtihon-2021-01.html">← 43-dars</a><a href="./">Fan darslari →</a></footer>
+</main></body></html>
