@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>26. DFT xossalari va aylanma o'ram</title><link rel="stylesheet" href="../assets/style.css">
+<style>
+svg text{font-family:inherit}
+.s-ink{fill:var(--fg)} .s-muted{fill:var(--muted)}
+.s-line{stroke:var(--border)} .s-axis{stroke:var(--muted)} .s-acc{stroke:var(--accent)} .s-mut{stroke:var(--muted)}
+.f-acc{fill:var(--accent)} .f-accsoft{fill:var(--accent);fill-opacity:.12} .f-card{fill:var(--card)}
+main{overflow-wrap:break-word} .tw{overflow-x:auto} @media (max-width:480px){th,td{padding:4px 6px;font-size:.92em}}
+.sol{border-left:4px solid var(--accent);padding-left:12px;margin:.6em 0}
+</style></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Signal analysis darslari</a></nav>
+<h1>26. DFT xossalari va aylanma o'ram</h1>
+<p>O'qish vaqti: 50 daqiqa. Manba: 30-ma'ruza ("Properties of the Discrete Fourier Transform (DFT)"). Kerakli bilim: DFT ta'rifi va davriy kengaytma (25-dars), chiziqli o'ram (22-dars), DTFT xossalari (24-dars).</p>
+<div class="box warn"><b>Bu B mavzu.</b> Imtihonda: "⟨−3⟩<sub>8</sub> = ?", "x(⟨n − N<sub>0</sub>⟩<sub>N</sub>) ning DFT si?", "aylanma o'ram DFT da nimaga teng?", "{…} va {…} ning aylanma o'rami?", "chiziqli / aylanma o'ram uzunligi?", "DFT uchun Parseval?", "haqiqiy x(n) da X(k) va X(N − k) bog'liqligi?".</div>
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> modul ⟨k⟩<sub>N</sub> va aylanma kechikish (soat misolida); DFT xossalari jadvali — har biri son bilan tekshirilgan; aylanma o'ram, uni qo'lda va matritsa bilan hisoblash; chiziqli va aylanma o'ram farqi (vaqtda aliasing); haqiqiy ketma-ketlik DFT sining simmetriyasi.</div>
+
+<h2>1. Nega yangi amallar kerak?</h2>
+<p>25-darsda ko'rdik: DFT ketma-ketlikni <b>N davr bilan takrorlanadi</b> deb hisoblaydi (davriy kengaytma x̃(n)). Shuning uchun DTFT xossalari DFT ga deyarli o'zgarishsiz o'tadi — faqat ikki narsani almashtirish kerak (ma'ruzadagi eslatmalar):</p>
+<ul>
+<li>f o'rniga <b>k/N</b> yoziladi;</li>
+<li>ketma-ketliklar (vaqtda ham, chastotada ham) <b>davriy kengaytma</b> sifatida qaraladi.</li>
+</ul>
+<p>Xossalarni chekli N ta namunaga (n = 0 … N − 1) qaytarish uchun ikki yangi tushuncha kiritiladi: <span class="term">modul</span> va <span class="term">aylanma kechikish</span>. Uzunligi har xil ketma-ketliklarda esa qisqasi oxiriga <b>nollar qo'shib</b> uzaytiriladi (masalan, {1, 2, 2} → {1, 2, 2, 0}, N = 4).</p>
+<div class="box ok"><b>Hayotiy o'xshatish:</b> oddiy son o'qi — cheksiz to'g'ri chiziq; DFT ning "o'qi" esa <b>aylana</b> (soat siferblati kabi). Soatda 11 dan keyin 12 emas, yana 0 keladi. DFT da ham n = N − 1 dan keyin yana n = 0 keladi. Shuning uchun DFT dagi siljish va o'ram "aylanma" deyiladi.</div>
+
+<h2>2. Modul ⟨k⟩<sub>N</sub></h2>
+<div class="formula">⟨k⟩<sub>N</sub> = k mod N — k ni N ga bo'lgandagi qoldiq, doim 0 … N − 1 oralig'idagi son</div>
+<p>Amalda: k ga N ni qo'shib yoki ayirib boring, natija 0 … N − 1 oralig'iga tushguncha. Soat misolida: 12 soatli siferblatda "15 soat" — bu 3 (15 − 12); "−1 soat" — bu 11 (−1 + 12).</p>
+<div class="sol">
+<p><b>Ma'ruza misollari</b> (N = 16):</p>
+<p>⟨5⟩<sub>16</sub> = <b>5</b> (allaqachon 0 … 15 da).</p>
+<p>⟨21⟩<sub>16</sub> = 21 − 16 = <b>5</b>.</p>
+<p>⟨−13⟩<sub>16</sub> = −13 + 16 = <b>3</b>. (Manfiy son uchun — N ni qo'shamiz. −13 mod 16 = −13 emas!)</p>
+<p><b>N = 4 uchun:</b> ⟨−1⟩<sub>4</sub> = 3, ⟨−2⟩<sub>4</sub> = 2, ⟨4⟩<sub>4</sub> = 0, ⟨6⟩<sub>4</sub> = 2, ⟨−5⟩<sub>4</sub> = 3 (−5 + 8).</p>
+<p>Eng ko'p ishlatiladigani: <b>⟨−k⟩<sub>N</sub> = N − k</b> (k = 1 … N − 1 da), ⟨0⟩<sub>N</sub> = 0.</p>
+</div>
+
+<h2>3. Aylanma kechikish</h2>
+<div class="formula">x(⟨n − N<sub>0</sub>⟩<sub>N</sub>) = x̃(n − N<sub>0</sub>), &nbsp;&nbsp; n ∈ [0, N − 1]</div>
+<p>Ma'ruzadagi 3 qadam:</p>
+<ol>
+<li>x(n) ning <b>davriy kengaytmasini</b> yasaymiz (N davr bilan takrorlaymiz);</li>
+<li>uni N<sub>0</sub> namunaga <b>kechiktiramiz</b> (o'ngga suramiz);</li>
+<li>faqat <b>[0, N − 1] oynani</b> qoldiramiz.</li>
+</ol>
+<p>Natija: oxiridan "chiqib ketgan" namunalar boshiga qaytib kiradi. Aylana ustidagi sonlarni bir qadam aylantirgandek.</p>
+<div class="sol">
+<p><b>Misol:</b> x = {1, 0, 2, 3}, N = 4.</p>
+<p>N<sub>0</sub> = 1: y(n) = x(⟨n − 1⟩<sub>4</sub>): y(0) = x(⟨−1⟩<sub>4</sub>) = x(3) = 3, y(1) = x(0) = 1, y(2) = x(1) = 0, y(3) = x(2) = 2 → <b>{3, 1, 0, 2}</b>.</p>
+<p>N<sub>0</sub> = 2: <b>{2, 3, 1, 0}</b>. &nbsp; N<sub>0</sub> = −1 (oldinga surish): <b>{0, 2, 3, 1}</b>. &nbsp; N<sub>0</sub> = 4: yana {1, 0, 2, 3} (to'liq aylanish).</p>
+<p><b>Taqqoslang:</b> oddiy (chiziqli) kechikish x(n − 1) = {0, 1, 0, 2, 3} — uzunligi 5 ga oshadi. Aylanma kechikishda uzunlik 4 bo'lib qoladi, oxirgi "3" boshiga o'tadi.</p>
+</div>
+<figure>
+<svg viewBox="0 0 720 295" role="img" aria-label="Aylanma kechikish">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<path class="" fill="none" stroke-width="0" style="fill:var(--accent);fill-opacity:.12;stroke:none" d="M186.0 104.3 L186.0 41.8 L324.0 41.8 L324.0 104.3"/><path class="" fill="none" stroke-width="1.2" style="stroke:var(--accent)" stroke-dasharray="4 3" d="M186.0 104.3 L186.0 41.8 L324.0 41.8 L324.0 104.3"/><line x1="24.0" y1="104.3" x2="490.0" y2="104.3" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="490.0" y="122.3" text-anchor="end" font-size="13">n</text><line x1="55.4" y1="104.3" x2="55.4" y2="86.4" stroke-width="2" style="stroke:var(--muted)"/><circle cx="55.4" cy="86.4" r="3" style="fill:var(--muted)"/><line x1="55.4" y1="101.3" x2="55.4" y2="107.3" style="stroke:var(--muted)"/><text class="s-muted" x="55.4" y="122.3" text-anchor="middle" font-size="10">-4</text><circle cx="91.7" cy="104.3" r="2.2" style="fill:var(--muted)"/><line x1="91.7" y1="101.3" x2="91.7" y2="107.3" style="stroke:var(--muted)"/><text class="s-muted" x="91.7" y="122.3" text-anchor="middle" font-size="10">-3</text><line x1="128.0" y1="104.3" x2="128.0" y2="68.6" stroke-width="2" style="stroke:var(--muted)"/><circle cx="128.0" cy="68.6" r="3" style="fill:var(--muted)"/><line x1="128.0" y1="101.3" x2="128.0" y2="107.3" style="stroke:var(--muted)"/><text class="s-muted" x="128.0" y="122.3" text-anchor="middle" font-size="10">-2</text><line x1="164.3" y1="104.3" x2="164.3" y2="50.7" stroke-width="2" style="stroke:var(--muted)"/><circle cx="164.3" cy="50.7" r="3" style="fill:var(--muted)"/><line x1="164.3" y1="101.3" x2="164.3" y2="107.3" style="stroke:var(--muted)"/><text class="s-muted" x="164.3" y="122.3" text-anchor="middle" font-size="10">-1</text><line class="s-acc" x1="200.6" y1="104.3" x2="200.6" y2="86.4" stroke-width="2.4"/><circle class="f-acc" cx="200.6" cy="86.4" r="3.5"/><line x1="200.6" y1="101.3" x2="200.6" y2="107.3" style="stroke:var(--muted)"/><text class="s-muted" x="200.6" y="122.3" text-anchor="middle" font-size="10">0</text><circle class="f-acc" cx="236.9" cy="104.3" r="2.6"/><line x1="236.9" y1="101.3" x2="236.9" y2="107.3" style="stroke:var(--muted)"/><text class="s-muted" x="236.9" y="122.3" text-anchor="middle" font-size="10">1</text><line class="s-acc" x1="273.1" y1="104.3" x2="273.1" y2="68.6" stroke-width="2.4"/><circle class="f-acc" cx="273.1" cy="68.6" r="3.5"/><line x1="273.1" y1="101.3" x2="273.1" y2="107.3" style="stroke:var(--muted)"/><text class="s-muted" x="273.1" y="122.3" text-anchor="middle" font-size="10">2</text><line class="s-acc" x1="309.4" y1="104.3" x2="309.4" y2="50.7" stroke-width="2.4"/><circle class="f-acc" cx="309.4" cy="50.7" r="3.5"/><line x1="309.4" y1="101.3" x2="309.4" y2="107.3" style="stroke:var(--muted)"/><text class="s-muted" x="309.4" y="122.3" text-anchor="middle" font-size="10">3</text><line x1="345.7" y1="104.3" x2="345.7" y2="86.4" stroke-width="2" style="stroke:var(--muted)"/><circle cx="345.7" cy="86.4" r="3" style="fill:var(--muted)"/><line x1="345.7" y1="101.3" x2="345.7" y2="107.3" style="stroke:var(--muted)"/><text class="s-muted" x="345.7" y="122.3" text-anchor="middle" font-size="10">4</text><circle cx="382.0" cy="104.3" r="2.2" style="fill:var(--muted)"/><line x1="382.0" y1="101.3" x2="382.0" y2="107.3" style="stroke:var(--muted)"/><text class="s-muted" x="382.0" y="122.3" text-anchor="middle" font-size="10">5</text><line x1="418.3" y1="104.3" x2="418.3" y2="68.6" stroke-width="2" style="stroke:var(--muted)"/><circle cx="418.3" cy="68.6" r="3" style="fill:var(--muted)"/><line x1="418.3" y1="101.3" x2="418.3" y2="107.3" style="stroke:var(--muted)"/><text class="s-muted" x="418.3" y="122.3" text-anchor="middle" font-size="10">6</text><line x1="454.6" y1="104.3" x2="454.6" y2="50.7" stroke-width="2" style="stroke:var(--muted)"/><circle cx="454.6" cy="50.7" r="3" style="fill:var(--muted)"/><line x1="454.6" y1="101.3" x2="454.6" y2="107.3" style="stroke:var(--muted)"/><text class="s-muted" x="454.6" y="122.3" text-anchor="middle" font-size="10">7</text><text class="s-ink" x="30.0" y="27.0" text-anchor="start" font-size="13" font-weight="700">1) x̃(n): davriy kengaytma, oyna [0, 3]</text><path class="" fill="none" stroke-width="0" style="fill:var(--accent);fill-opacity:.12;stroke:none" d="M186.0 239.3 L186.0 176.8 L324.0 176.8 L324.0 239.3"/><path class="" fill="none" stroke-width="1.2" style="stroke:var(--accent)" stroke-dasharray="4 3" d="M186.0 239.3 L186.0 176.8 L324.0 176.8 L324.0 239.3"/><line x1="24.0" y1="239.3" x2="490.0" y2="239.3" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="490.0" y="257.3" text-anchor="end" font-size="13">n</text><line x1="55.4" y1="239.3" x2="55.4" y2="185.7" stroke-width="2" style="stroke:var(--muted)"/><circle cx="55.4" cy="185.7" r="3" style="fill:var(--muted)"/><line x1="55.4" y1="236.3" x2="55.4" y2="242.3" style="stroke:var(--muted)"/><text class="s-muted" x="55.4" y="257.3" text-anchor="middle" font-size="10">-4</text><line x1="91.7" y1="239.3" x2="91.7" y2="221.4" stroke-width="2" style="stroke:var(--muted)"/><circle cx="91.7" cy="221.4" r="3" style="fill:var(--muted)"/><line x1="91.7" y1="236.3" x2="91.7" y2="242.3" style="stroke:var(--muted)"/><text class="s-muted" x="91.7" y="257.3" text-anchor="middle" font-size="10">-3</text><circle cx="128.0" cy="239.3" r="2.2" style="fill:var(--muted)"/><line x1="128.0" y1="236.3" x2="128.0" y2="242.3" style="stroke:var(--muted)"/><text class="s-muted" x="128.0" y="257.3" text-anchor="middle" font-size="10">-2</text><line x1="164.3" y1="239.3" x2="164.3" y2="203.6" stroke-width="2" style="stroke:var(--muted)"/><circle cx="164.3" cy="203.6" r="3" style="fill:var(--muted)"/><line x1="164.3" y1="236.3" x2="164.3" y2="242.3" style="stroke:var(--muted)"/><text class="s-muted" x="164.3" y="257.3" text-anchor="middle" font-size="10">-1</text><line class="s-acc" x1="200.6" y1="239.3" x2="200.6" y2="185.7" stroke-width="2.4"/><circle class="f-acc" cx="200.6" cy="185.7" r="3.5"/><line x1="200.6" y1="236.3" x2="200.6" y2="242.3" style="stroke:var(--muted)"/><text class="s-muted" x="200.6" y="257.3" text-anchor="middle" font-size="10">0</text><line class="s-acc" x1="236.9" y1="239.3" x2="236.9" y2="221.4" stroke-width="2.4"/><circle class="f-acc" cx="236.9" cy="221.4" r="3.5"/><line x1="236.9" y1="236.3" x2="236.9" y2="242.3" style="stroke:var(--muted)"/><text class="s-muted" x="236.9" y="257.3" text-anchor="middle" font-size="10">1</text><circle class="f-acc" cx="273.1" cy="239.3" r="2.6"/><line x1="273.1" y1="236.3" x2="273.1" y2="242.3" style="stroke:var(--muted)"/><text class="s-muted" x="273.1" y="257.3" text-anchor="middle" font-size="10">2</text><line class="s-acc" x1="309.4" y1="239.3" x2="309.4" y2="203.6" stroke-width="2.4"/><circle class="f-acc" cx="309.4" cy="203.6" r="3.5"/><line x1="309.4" y1="236.3" x2="309.4" y2="242.3" style="stroke:var(--muted)"/><text class="s-muted" x="309.4" y="257.3" text-anchor="middle" font-size="10">3</text><line x1="345.7" y1="239.3" x2="345.7" y2="185.7" stroke-width="2" style="stroke:var(--muted)"/><circle cx="345.7" cy="185.7" r="3" style="fill:var(--muted)"/><line x1="345.7" y1="236.3" x2="345.7" y2="242.3" style="stroke:var(--muted)"/><text class="s-muted" x="345.7" y="257.3" text-anchor="middle" font-size="10">4</text><line x1="382.0" y1="239.3" x2="382.0" y2="221.4" stroke-width="2" style="stroke:var(--muted)"/><circle cx="382.0" cy="221.4" r="3" style="fill:var(--muted)"/><line x1="382.0" y1="236.3" x2="382.0" y2="242.3" style="stroke:var(--muted)"/><text class="s-muted" x="382.0" y="257.3" text-anchor="middle" font-size="10">5</text><circle cx="418.3" cy="239.3" r="2.2" style="fill:var(--muted)"/><line x1="418.3" y1="236.3" x2="418.3" y2="242.3" style="stroke:var(--muted)"/><text class="s-muted" x="418.3" y="257.3" text-anchor="middle" font-size="10">6</text><line x1="454.6" y1="239.3" x2="454.6" y2="203.6" stroke-width="2" style="stroke:var(--muted)"/><circle cx="454.6" cy="203.6" r="3" style="fill:var(--muted)"/><line x1="454.6" y1="236.3" x2="454.6" y2="242.3" style="stroke:var(--muted)"/><text class="s-muted" x="454.6" y="257.3" text-anchor="middle" font-size="10">7</text><text class="s-ink" x="30.0" y="162.0" text-anchor="start" font-size="13" font-weight="700">2) x̃(n − 1): bir qadam o'ngga → oynada {3, 1, 0, 2}</text><circle cx="585" cy="78" r="38" fill="none" style="stroke:var(--border)" stroke-width="2"/><circle cx="585.0" cy="40.0" r="13" class="f-card" style="stroke:var(--accent)" stroke-width="2"/><text class="s-ink" x="585.0" y="45.0" text-anchor="middle" font-size="14" font-weight="700">1</text><text class="s-muted" x="585.0" y="22.0" text-anchor="middle" font-size="10">n=0</text><circle cx="623.0" cy="78.0" r="13" class="f-card" style="stroke:var(--accent)" stroke-width="2"/><text class="s-ink" x="623.0" y="83.0" text-anchor="middle" font-size="14" font-weight="700">0</text><text class="s-muted" x="647.0" y="82.0" text-anchor="middle" font-size="10">n=1</text><circle cx="585.0" cy="116.0" r="13" class="f-card" style="stroke:var(--accent)" stroke-width="2"/><text class="s-ink" x="585.0" y="121.0" text-anchor="middle" font-size="14" font-weight="700">2</text><text class="s-muted" x="585.0" y="142.0" text-anchor="middle" font-size="10">n=2</text><circle cx="547.0" cy="78.0" r="13" class="f-card" style="stroke:var(--accent)" stroke-width="2"/><text class="s-ink" x="547.0" y="83.0" text-anchor="middle" font-size="14" font-weight="700">3</text><text class="s-muted" x="523.0" y="82.0" text-anchor="middle" font-size="10">n=3</text><text class="s-ink" x="585.0" y="82.0" text-anchor="middle" font-size="12" font-weight="700">x(n)</text><circle cx="585" cy="228" r="38" fill="none" style="stroke:var(--border)" stroke-width="2"/><circle cx="585.0" cy="190.0" r="13" class="f-card" style="stroke:var(--accent)" stroke-width="2"/><text class="s-ink" x="585.0" y="195.0" text-anchor="middle" font-size="14" font-weight="700">3</text><text class="s-muted" x="585.0" y="172.0" text-anchor="middle" font-size="10">n=0</text><circle cx="623.0" cy="228.0" r="13" class="f-card" style="stroke:var(--accent)" stroke-width="2"/><text class="s-ink" x="623.0" y="233.0" text-anchor="middle" font-size="14" font-weight="700">1</text><text class="s-muted" x="647.0" y="232.0" text-anchor="middle" font-size="10">n=1</text><circle cx="585.0" cy="266.0" r="13" class="f-card" style="stroke:var(--accent)" stroke-width="2"/><text class="s-ink" x="585.0" y="271.0" text-anchor="middle" font-size="14" font-weight="700">0</text><text class="s-muted" x="585.0" y="292.0" text-anchor="middle" font-size="10">n=2</text><circle cx="547.0" cy="228.0" r="13" class="f-card" style="stroke:var(--accent)" stroke-width="2"/><text class="s-ink" x="547.0" y="233.0" text-anchor="middle" font-size="14" font-weight="700">2</text><text class="s-muted" x="523.0" y="232.0" text-anchor="middle" font-size="10">n=3</text><text class="s-ink" x="585.0" y="232.0" text-anchor="middle" font-size="12" font-weight="700">y(n)</text><path d="M638 120 Q656 153 638 186" fill="none" style="stroke:var(--accent)" stroke-width="2" marker-end="url(#aa)"/><text class="s-ink" x="652.0" y="150.0" text-anchor="start" font-size="11">bir qadam</text><text class="s-ink" x="652.0" y="163.0" text-anchor="start" font-size="11">aylantirish</text>
+</svg>
+<figcaption>Aylanma kechikish 3 qadamda: davriy kengaytma (kulrang — nusxalar), N<sub>0</sub> = 1 ga surish, [0, 3] oynani olish. Oxirgi namuna (3) oynadan chiqib, boshiga (n = 0) qaytib kiradi. O'ngda xuddi shu narsa halqada: hamma son soat mili bo'yicha bir joyga siljigan.</figcaption>
+</figure>
+
+<h2>4. DFT xossalari jadvali</h2>
+<p>x(n), y(n) — uzunligi N; X(k), Y(k) — ularning N nuqtali DFT si.</p>
+<div class="tw"><table>
+<tr><th>Xossa</th><th>Vaqtda</th><th>DFT</th></tr>
+<tr><td>Chiziqlilik</td><td>a<sub>1</sub>x(n) + a<sub>2</sub>y(n)</td><td>a<sub>1</sub>X(k) + a<sub>2</sub>Y(k)</td></tr>
+<tr><td>(Aylanma) kechikish</td><td>x(⟨n − N<sub>0</sub>⟩<sub>N</sub>)</td><td>X(k)·e<sup>−j2πkN<sub>0</sub>/N</sup></td></tr>
+<tr><td>Modulyatsiya</td><td>e<sup>j2πk<sub>0</sub>n/N</sup>·x(n)</td><td>X(⟨k − k<sub>0</sub>⟩<sub>N</sub>)</td></tr>
+<tr><td>Aylanma o'ram</td><td>Σ<sub>p=0</sub><sup>N−1</sup> x(p)·y(⟨n − p⟩<sub>N</sub>)</td><td>X(k)·Y(k)</td></tr>
+<tr><td>Ko'paytma</td><td>x(n)·y(n)</td><td>(1/N)·Σ<sub>p=0</sub><sup>N−1</sup> X(p)·Y(⟨k − p⟩<sub>N</sub>)</td></tr>
+<tr><td>Parseval</td><td>Σ<sub>n=0</sub><sup>N−1</sup> |x(n)|²</td><td>(1/N)·Σ<sub>k=0</sub><sup>N−1</sup> |X(k)|²</td></tr>
+</table></div>
+<p>Bu jadval DTFT jadvalining (24-dars) aynan nusxasi: e<sup>−j2πfN<sub>0</sub></sup> → e<sup>−j2πkN<sub>0</sub>/N</sup>, oddiy siljish → aylanma siljish, oddiy o'ram → aylanma o'ram, ∫df → (1/N)Σ.</p>
+<p>Quyidagi tekshiruvlarda bitta ketma-ketlikdan foydalanamiz: <b>x = {1, 0, 2, 3}</b>. Uning DFT si (e<sup>−j2πnk/4</sup> = (−j)<sup>nk</sup>):</p>
+<div class="sol">
+<p>X(k) = 1 + 2(−1)<sup>k</sup> + 3·j<sup>k</sup> &nbsp; (n = 3 da e<sup>−j3πk/2</sup> = j<sup>k</sup>)</p>
+<p>X(0) = 1 + 2 + 3 = <b>6</b>; &nbsp; X(1) = 1 − 2 + 3j = <b>−1 + 3j</b>; &nbsp; X(2) = 1 + 2 − 3 = <b>0</b>; &nbsp; X(3) = 1 − 2 − 3j = <b>−1 − 3j</b>.</p>
+</div>
+
+<h3>4.1. Chiziqlilik</h3>
+<p>Yig'indining DFT si = DFT lar yig'indisi (yig'indi belgisi chiziqli bo'lgani uchun). Faqat ikkala ketma-ketlik <b>bir xil N</b> ga keltirilgan bo'lishi kerak (qisqasiga nollar qo'shiladi).</p>
+
+<h3>4.2. Aylanma kechikish → faza ko'paytuvchisi</h3>
+<div class="sol">
+<p><b>Isbot g'oyasi:</b> y(n) = x(⟨n − N<sub>0</sub>⟩<sub>N</sub>). Y(k) = Σ<sub>n</sub> x(⟨n − N<sub>0</sub>⟩<sub>N</sub>)e<sup>−j2πnk/N</sup>. m = ⟨n − N<sub>0</sub>⟩<sub>N</sub> deb belgilaymiz: n bir davrni aylanib chiqqanda m ham 0 … N − 1 ni bir martadan oladi; e<sup>−j2πnk/N</sup> davri N bo'lgani uchun n = m + N<sub>0</sub> deb yozish mumkin:</p>
+<p class="formula">Y(k) = Σ<sub>m=0</sub><sup>N−1</sup> x(m)e<sup>−j2π(m + N<sub>0</sub>)k/N</sup> = e<sup>−j2πkN<sub>0</sub>/N</sup>·X(k) ✓</p>
+<p><b>Son bilan tekshiruv:</b> y = {3, 1, 0, 2} (N<sub>0</sub> = 1). Y(1) = 3 + 1·(−j) + 0 + 2·j = <b>3 + j</b>. Formula: X(1)·e<sup>−jπ/2</sup> = (−1 + 3j)(−j) = j + 3 = <b>3 + j</b> ✓.</p>
+<p><b>Xulosa:</b> |Y(k)| = |X(k)| — aylanma siljish <b>faqat fazani</b> o'zgartiradi, amplituda spektri o'zgarmaydi.</p>
+</div>
+
+<h3>4.3. Modulyatsiya → spektrning aylanma siljishi</h3>
+<div class="sol">
+<p>e<sup>j2πk<sub>0</sub>n/N</sup> ga ko'paytirish spektrni k<sub>0</sub> qadam aylanma suradi (kechikishning "chastotadagi juftligi" — duallik).</p>
+<p><b>Misol:</b> k<sub>0</sub> = 1, N = 4: e<sup>j2πn/4</sup> = j<sup>n</sup> = {1, j, −1, −j}. y(n) = j<sup>n</sup>x(n) = {1, 0, −2, −3j}.</p>
+<p>Kutilgan natija: Y(k) = X(⟨k − 1⟩<sub>4</sub>) = {X(3), X(0), X(1), X(2)} = {−1 − 3j, 6, −1 + 3j, 0}.</p>
+<p>Tekshiruv: Y(0) = Σy = 1 + 0 − 2 − 3j = <b>−1 − 3j</b> ✓.</p>
+</div>
+
+<h3>4.4. Ko'paytma</h3>
+<p>Vaqtda ko'paytirish → chastotada <b>aylanma o'ram</b> (1/N bilan). Bu aylanma o'ram xossasining "teskari tomoni" (duallik), xuddi analog Furyedagi kabi (10-dars).</p>
+
+<h3>4.5. Parseval (DFT uchun)</h3>
+<div class="formula">Σ<sub>n=0</sub><sup>N−1</sup> |x(n)|² = (1/N)·Σ<sub>k=0</sub><sup>N−1</sup> |X(k)|²</div>
+<div class="sol">
+<p><b>Tekshiruv 1:</b> x = {1, 0, 2, 3}: chap tomon 1 + 0 + 4 + 9 = 14. O'ng tomon: |X|² = 36, 10, 0, 10 → (36 + 10 + 0 + 10)/4 = 56/4 = <b>14</b> ✓.</p>
+<p><b>Tekshiruv 2:</b> {1, 0, 3, −2} (25-dars): X = {2, −2 − 2j, 6, −2 + 2j}, |X|² = 4, 8, 36, 8 → 56/4 = 14 = 1 + 9 + 4 ✓.</p>
+<p><b>Diqqat — tuzoq:</b> 1/N ni unutmang! Σ|X(k)|² = 56 ≠ 14. (DTFT Parsevalida ∫<sub>−½</sub><sup>½</sup>df edi, DFT da (1/N)Σ — N ta nuqta bo'yicha "o'rtacha".)</p>
+</div>
+
+<h2>5. Aylanma o'ram</h2>
+<h3>Ta'rif</h3>
+<div class="formula">z<sub>cc</sub>(n) = x(n) ⊗ y(n) = Σ<sub>p=0</sub><sup>N−1</sup> x(p)·y(⟨n − p⟩<sub>N</sub>), &nbsp;&nbsp; n ∈ [0, N − 1]</div>
+<p>(cc — "circular convolution".) Chiziqli o'ramga (22-dars) o'xshaydi, lekin ikki farqi bor (ma'ruza):</p>
+<ul>
+<li>natija aynan <b>N ta</b> namunadan iborat;</li>
+<li>o'ram N davrli <b>ikki davriy ketma-ketlikka</b> qo'llangan deb qaraladi: z<sub>cc</sub>(n) = Σ<sub>p=0</sub><sup>N−1</sup> x̃(p)ỹ(n − p).</li>
+</ul>
+<div class="box ok"><b>O'xshatish:</b> ikki halqa tasavvur qiling. Ichki halqada x ning N ta soni, tashqi halqada y ning sonlari <b>teskari tartibda</b>. Har bir n uchun tashqi halqani bir qadam buramiz, ro'para turgan sonlarni ko'paytirib qo'shamiz. Chiziqli o'ramda y to'g'ri chiziq bo'ylab "sirpanib o'tib ketadi"; aylanma o'ramda u chiqib ketmaydi — boshqa tomondan qaytib kiradi.</div>
+<div class="sol">
+<p><b>Davriylik</b> (ma'ruza isboti): z<sub>cc</sub>(n + N) = Σ<sub>p</sub> x(p)ỹ(n + N − p) = Σ<sub>p</sub> x(p)ỹ(n − p) = z<sub>cc</sub>(n), chunki ỹ davri N. Shuning uchun faqat n ∈ [0, N − 1] qiymatlar kerak.</p>
+<p><b>Kommutativlik:</b> y ⊗ x = Σ<sub>p</sub> y(p)x̃(n − p); k = ⟨n − p⟩<sub>N</sub> almashtirish bilan = Σ<sub>k</sub> y(⟨n − k⟩<sub>N</sub>)x(k) = x ⊗ y ✓. Ya'ni qaysi birini "aylantirish" farqi yo'q.</p>
+<p><b>DFT bilan bog'liqlik (eng muhim!):</b> <b>x ⊗ y ↔ X(k)·Y(k)</b>. Isbot g'oyasi: DFT[x ⊗ y] = Σ<sub>p</sub>x(p)·DFT[y(⟨n − p⟩<sub>N</sub>)] = Σ<sub>p</sub>x(p)·Y(k)e<sup>−j2πkp/N</sup> = X(k)Y(k) (4.2-xossa).</p>
+</div>
+
+<h3>Ma'ruza misoli: chiziqli va aylanma o'ram</h3>
+<p>x(n) = {1, 0, 2, 3} (N<sub>1</sub> = 4), &nbsp; y(n) = {1, 2, 2} (N<sub>2</sub> = 3).</p>
+<div class="sol">
+<p><b>A) Chiziqli o'ram</b> z(n) = Σ<sub>k</sub> x(k)y(n − k). Ma'ruza eslatmasi: chekli ketma-ketliklarda oldiga va orqasiga yetarlicha nol qo'shiladi. "Ag'darib, surib, ko'paytirib, qo'shish" (22-dars):</p>
+<div class="tw"><table>
+<tr><th>k</th><td>−2</td><td>−1</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+<tr><th>x(k)</th><td>0</td><td>0</td><td>1</td><td>0</td><td>2</td><td>3</td><td>0</td><td>0</td></tr>
+<tr><th>y(−k)</th><td>2</td><td>2</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><th>y(1 − k)</th><td>0</td><td>2</td><td>2</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><th>y(2 − k)</th><td>0</td><td>0</td><td>2</td><td>2</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><th>y(3 − k)</th><td>0</td><td>0</td><td>0</td><td>2</td><td>2</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><th>y(4 − k)</th><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td><td>2</td><td>1</td><td>0</td></tr>
+<tr><th>y(5 − k)</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td><td>2</td><td>1</td></tr>
+</table></div>
+<p>Har bir qatorda x(k) bilan ustma-ust ko'paytirib qo'shamiz:</p>
+<p>z(0) = 1·1 = <b>1</b>; &nbsp; z(1) = 1·2 + 0·1 = <b>2</b>; &nbsp; z(2) = 1·2 + 0·2 + 2·1 = <b>4</b>; &nbsp; z(3) = 0·2 + 2·2 + 3·1 = <b>7</b>; &nbsp; z(4) = 2·2 + 3·2 = <b>10</b>; &nbsp; z(5) = 3·2 = <b>6</b>.</p>
+<p class="formula">z(n) = {1, 2, 4, 7, 10, 6} — uzunligi 4 + 3 − 1 = 6</p>
+</div>
+<div class="sol">
+<p><b>B) Aylanma o'ram, N = 4.</b> Avval y ni N = 4 gacha nol bilan to'ldiramiz: y = {1, 2, 2, 0}, ya'ni y(0) = 1, y(1) = 2, y(2) = 2, y(3) = 0. Indekslar mod 4 da: y(−1) → y(3), y(−2) → y(2), y(−3) → y(1).</p>
+<p>z<sub>cc</sub>(0) = x(0)y(0) + x(1)y(3) + x(2)y(2) + x(3)y(1) = 1·1 + 0·0 + 2·2 + 3·2 = 1 + 0 + 4 + 6 = <b>11</b></p>
+<p>z<sub>cc</sub>(1) = x(0)y(1) + x(1)y(0) + x(2)y(3) + x(3)y(2) = 2 + 0 + 0 + 6 = <b>8</b></p>
+<p>z<sub>cc</sub>(2) = x(0)y(2) + x(1)y(1) + x(2)y(0) + x(3)y(3) = 2 + 0 + 2 + 0 = <b>4</b></p>
+<p>z<sub>cc</sub>(3) = x(0)y(3) + x(1)y(2) + x(2)y(1) + x(3)y(0) = 0 + 0 + 4 + 3 = <b>7</b></p>
+<p class="formula">z<sub>cc</sub>(n) = {11, 8, 4, 7} — chiziqli o'ramdan butunlay boshqacha!</p>
+<p><b>Yodlash uchun qoida:</b> z<sub>cc</sub>(n) da indekslar yig'indisi p + ⟨n − p⟩ har doim n (mod N) ga teng: z<sub>cc</sub>(0) da juftliklar (0,0), (1,3), (2,2), (3,1) — yig'indilar 0, 4, 4, 4 ≡ 0.</p>
+</div>
+
+<h3>Matritsa ko'rinishi</h3>
+<p>Aylanma o'ramni "matritsa × vektor" ko'rinishida yozish mumkin (ma'ruza). Matritsa birinchi ustunni (y(0), y(1), y(2), y(3)) <b>siklik aylantirib</b> hosil qilinadi — har keyingi ustun pastga bir qadam surilgan (pastdan chiqqani tepaga o'tadi). Bunday matritsa <span class="term">sirkulyant</span> deyiladi.</p>
+<div class="tw"><table>
+<tr><td rowspan="4"><b>z<sub>cc</sub> =</b></td><td>y(0)</td><td>y(3)</td><td>y(2)</td><td>y(1)</td><td rowspan="4">·</td><td>x(0)</td></tr>
+<tr><td>y(1)</td><td>y(0)</td><td>y(3)</td><td>y(2)</td><td>x(1)</td></tr>
+<tr><td>y(2)</td><td>y(1)</td><td>y(0)</td><td>y(3)</td><td>x(2)</td></tr>
+<tr><td>y(3)</td><td>y(2)</td><td>y(1)</td><td>y(0)</td><td>x(3)</td></tr>
+</table></div>
+<p>Sonlar bilan (y = {1, 2, 2, 0}, x = {1, 0, 2, 3}):</p>
+<div class="tw"><table>
+<tr><td>1</td><td>0</td><td>2</td><td>2</td><td rowspan="4">·</td><td>1</td><td rowspan="4">=</td><td><b>11</b></td></tr>
+<tr><td>2</td><td>1</td><td>0</td><td>2</td><td>0</td><td><b>8</b></td></tr>
+<tr><td>2</td><td>2</td><td>1</td><td>0</td><td>2</td><td><b>4</b></td></tr>
+<tr><td>0</td><td>2</td><td>2</td><td>1</td><td>3</td><td><b>7</b></td></tr>
+</table></div>
+<p>Masalan, 1-qator: 1·1 + 0·0 + 2·2 + 2·3 = 11 ✓; 2-qator: 2·1 + 1·0 + 0·2 + 2·3 = 8 ✓.</p>
+
+<h3>DFT orqali tekshiruv</h3>
+<div class="sol">
+<p>X = {6, −1 + 3j, 0, −1 − 3j} (yuqorida). y = {1, 2, 2, 0} ning DFT si: Y(k) = 1 + 2(−j)<sup>k</sup> + 2(−1)<sup>k</sup>:</p>
+<p>Y(0) = 5, &nbsp; Y(1) = 1 − 2j − 2 = −1 − 2j, &nbsp; Y(2) = 1 − 2 + 2 = 1, &nbsp; Y(3) = −1 + 2j.</p>
+<p>X·Y: k = 0: 6·5 = <b>30</b>; k = 1: (−1 + 3j)(−1 − 2j) = 1 + 2j − 3j + 6 = <b>7 − j</b>; k = 2: <b>0</b>; k = 3: <b>7 + j</b>.</p>
+<p>{11, 8, 4, 7} ning DFT si: k = 0: 11 + 8 + 4 + 7 = 30 ✓; k = 1: 11 − 8j − 4 + 7j = 7 − j ✓; k = 2: 11 − 8 + 4 − 7 = 0 ✓. Ya'ni <b>DFT larni ko'paytirib IDFT qilsak — aylanma o'ram</b> chiqadi (chiziqli emas!).</p>
+</div>
+
+<h3>Uzunliklar va nega natija boshqacha</h3>
+<div class="box ok"><b>Chiziqli o'ram</b> uzunligi: <b>N = N<sub>1</sub> + N<sub>2</sub> − 1</b>. &nbsp; <b>Aylanma o'ram</b> uzunligi: <b>N = max(N<sub>1</sub>, N<sub>2</sub>)</b>.</div>
+<p>Chiziqli o'ram 6 ta namuna beradi, aylanma o'ramda esa faqat 4 ta "joy" bor. Ortiqcha namunalar (z(4) = 10, z(5) = 6) yo'qolmaydi — ular aylana bo'ylab <b>boshiga qaytib</b>, o'sha joydagi qiymatga qo'shiladi:</p>
+<p class="formula">z<sub>cc</sub>(n) = Σ<sub>m</sub> z(n + mN): &nbsp; 11 = 1 + 10, &nbsp; 8 = 2 + 6, &nbsp; 4 = 4, &nbsp; 7 = 7</p>
+<p>Bu hodisa <span class="term">vaqtda aliasing</span> (vaqtda ustma-ust tushish) — 19-darsdagi aliasingning "ko'zgu"dagi aksi: u yerda chastotada diskretlash spektrni takrorlab ustma-ust qo'yardi, bu yerda chastotada diskretlash (DFT) vaqtdagi signalni takrorlab ustma-ust qo'yadi.</p>
+<figure>
+<svg viewBox="0 0 720 285" role="img" aria-label="Chiziqli va aylanma o'ram">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<line x1="34.0" y1="210.0" x2="350.0" y2="210.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="350.0" y="228.0" text-anchor="end" font-size="13">n</text><line class="s-acc" x1="65.7" y1="210.0" x2="65.7" y2="197.2" stroke-width="2.4"/><circle class="f-acc" cx="65.7" cy="197.2" r="3.5"/><text class="s-ink" x="65.7" y="189.2" text-anchor="middle" font-size="12" font-weight="700">1</text><line x1="65.7" y1="207.0" x2="65.7" y2="213.0" style="stroke:var(--muted)"/><text class="s-muted" x="65.7" y="228.0" text-anchor="middle" font-size="11">0</text><line class="s-acc" x1="108.6" y1="210.0" x2="108.6" y2="184.4" stroke-width="2.4"/><circle class="f-acc" cx="108.6" cy="184.4" r="3.5"/><text class="s-ink" x="108.6" y="176.4" text-anchor="middle" font-size="12" font-weight="700">2</text><line x1="108.6" y1="207.0" x2="108.6" y2="213.0" style="stroke:var(--muted)"/><text class="s-muted" x="108.6" y="228.0" text-anchor="middle" font-size="11">1</text><line class="s-acc" x1="151.4" y1="210.0" x2="151.4" y2="158.8" stroke-width="2.4"/><circle class="f-acc" cx="151.4" cy="158.8" r="3.5"/><text class="s-ink" x="151.4" y="150.8" text-anchor="middle" font-size="12" font-weight="700">4</text><line x1="151.4" y1="207.0" x2="151.4" y2="213.0" style="stroke:var(--muted)"/><text class="s-muted" x="151.4" y="228.0" text-anchor="middle" font-size="11">2</text><line class="s-acc" x1="194.3" y1="210.0" x2="194.3" y2="120.4" stroke-width="2.4"/><circle class="f-acc" cx="194.3" cy="120.4" r="3.5"/><text class="s-ink" x="194.3" y="112.4" text-anchor="middle" font-size="12" font-weight="700">7</text><line x1="194.3" y1="207.0" x2="194.3" y2="213.0" style="stroke:var(--muted)"/><text class="s-muted" x="194.3" y="228.0" text-anchor="middle" font-size="11">3</text><line x1="237.1" y1="210.0" x2="237.1" y2="82.0" stroke-width="2.4" style="stroke:var(--muted)"/><circle cx="237.1" cy="82.0" r="3" style="fill:var(--muted)"/><text class="s-ink" x="237.1" y="74.0" text-anchor="middle" font-size="12" font-weight="700">10</text><line x1="237.1" y1="207.0" x2="237.1" y2="213.0" style="stroke:var(--muted)"/><text class="s-muted" x="237.1" y="228.0" text-anchor="middle" font-size="11">4</text><line x1="280.0" y1="210.0" x2="280.0" y2="133.2" stroke-width="2.4" style="stroke:var(--muted)"/><circle cx="280.0" cy="133.2" r="3" style="fill:var(--muted)"/><text class="s-ink" x="280.0" y="125.2" text-anchor="middle" font-size="12" font-weight="700">6</text><line x1="280.0" y1="207.0" x2="280.0" y2="213.0" style="stroke:var(--muted)"/><text class="s-muted" x="280.0" y="228.0" text-anchor="middle" font-size="11">5</text><path d="M237.1 230.0 Q151.4 266.0 69.7 230.0" fill="none" style="stroke:var(--muted)" stroke-dasharray="4 3" stroke-width="1.6" marker-end="url(#ah)"/><path d="M280.0 230.0 Q194.3 266.0 112.6 230.0" fill="none" style="stroke:var(--muted)" stroke-dasharray="4 3" stroke-width="1.6" marker-end="url(#ah)"/><text class="s-ink" x="40.0" y="25.0" text-anchor="start" font-size="13" font-weight="700">Chiziqli: z = {1, 2, 4, 7, 10, 6}</text><text class="s-ink" x="258.6" y="272.0" text-anchor="middle" font-size="11">n = 4, 5 → boshiga qaytadi</text><line x1="414.0" y1="210.0" x2="700.0" y2="210.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="700.0" y="228.0" text-anchor="end" font-size="13">n</text><line x1="452.4" y1="197.2" x2="452.4" y2="69.2" stroke-width="5" style="stroke:var(--muted)"/><circle cx="452.4" cy="69.2" r="3.5" style="fill:var(--muted)"/><line class="s-acc" x1="452.4" y1="210.0" x2="452.4" y2="197.2" stroke-width="5"/><circle class="f-acc" cx="452.4" cy="197.2" r="3.5"/><text class="s-ink" x="452.4" y="60.2" text-anchor="middle" font-size="12" font-weight="700">1 + 10 = 11</text><line x1="452.4" y1="207.0" x2="452.4" y2="213.0" style="stroke:var(--muted)"/><text class="s-muted" x="452.4" y="228.0" text-anchor="middle" font-size="11">0</text><line x1="506.4" y1="184.4" x2="506.4" y2="107.6" stroke-width="5" style="stroke:var(--muted)"/><circle cx="506.4" cy="107.6" r="3.5" style="fill:var(--muted)"/><line class="s-acc" x1="506.4" y1="210.0" x2="506.4" y2="184.4" stroke-width="5"/><circle class="f-acc" cx="506.4" cy="184.4" r="3.5"/><text class="s-ink" x="506.4" y="98.6" text-anchor="middle" font-size="12" font-weight="700">2 + 6 = 8</text><line x1="506.4" y1="207.0" x2="506.4" y2="213.0" style="stroke:var(--muted)"/><text class="s-muted" x="506.4" y="228.0" text-anchor="middle" font-size="11">1</text><line class="s-acc" x1="560.4" y1="210.0" x2="560.4" y2="158.8" stroke-width="5"/><circle class="f-acc" cx="560.4" cy="158.8" r="3.5"/><text class="s-ink" x="560.4" y="149.8" text-anchor="middle" font-size="12" font-weight="700">4</text><line x1="560.4" y1="207.0" x2="560.4" y2="213.0" style="stroke:var(--muted)"/><text class="s-muted" x="560.4" y="228.0" text-anchor="middle" font-size="11">2</text><line class="s-acc" x1="614.4" y1="210.0" x2="614.4" y2="120.4" stroke-width="5"/><circle class="f-acc" cx="614.4" cy="120.4" r="3.5"/><text class="s-ink" x="614.4" y="111.4" text-anchor="middle" font-size="12" font-weight="700">7</text><line x1="614.4" y1="207.0" x2="614.4" y2="213.0" style="stroke:var(--muted)"/><text class="s-muted" x="614.4" y="228.0" text-anchor="middle" font-size="11">3</text><text class="s-ink" x="420.0" y="25.0" text-anchor="start" font-size="13" font-weight="700">Aylanma (N = 4): {11, 8, 4, 7}</text>
+</svg>
+<figcaption>Chapda chiziqli o'ram (6 ta namuna). O'ngda 4 nuqtali aylanma o'ram: ko'k qism — z(n) ning o'zi, kulrang qism — joy yetmagani uchun boshiga qaytgan z(4) = 10 va z(5) = 6. Shuning uchun z<sub>cc</sub>(n) = z(n) + z(n + 4) — vaqtda aliasing.</figcaption>
+</figure>
+<div class="box note"><b>Amaliy xulosa (27-darsga ko'prik):</b> agar ikkala ketma-ketlikni nollar bilan <b>N ≥ N<sub>1</sub> + N<sub>2</sub> − 1</b> gacha uzaytirsak, "boshiga qaytadigan" namuna qolmaydi va aylanma o'ram = chiziqli o'ram bo'ladi. Misolda N = 6: x = {1, 0, 2, 3, 0, 0}, y = {1, 2, 2, 0, 0, 0} → z<sub>cc</sub> = {1, 2, 4, 7, 10, 6} = z ✓. Shu yo'l bilan chiziqli o'ramni FFT yordamida tez hisoblash mumkin (27-dars).</div>
+
+<h2>6. Haqiqiy ketma-ketlik DFT sining simmetriyasi</h2>
+<p>x(n) haqiqiy bo'lsa (ma'ruza jadvali; DTFT dagi simmetriyalarning nusxasi, faqat "−k" o'rniga ⟨−k⟩<sub>N</sub> = N − k):</p>
+<div class="tw"><table>
+<tr><th>x(n) ∈ ℝ</th><th>DFT X(k)</th></tr>
+<tr><td>umumiy holda</td><td>X(k) = X<sub>R</sub>(k) + jX<sub>I</sub>(k) (kompleks)</td></tr>
+<tr><td>haqiqiy</td><td><b>X(k) = X*(⟨−k⟩<sub>N</sub>)</b>, ya'ni X(N − k) = X*(k)</td></tr>
+<tr><td>modul</td><td>|X(k)| = |X(⟨−k⟩<sub>N</sub>)| — <b>juft</b> (mod N)</td></tr>
+<tr><td>faza</td><td>φ(X(k)) = −φ(X(⟨−k⟩<sub>N</sub>)) — <b>toq</b> (mod N)</td></tr>
+<tr><td>x(n) juft</td><td>X(k) = X<sub>R</sub>(k) — <b>haqiqiy</b></td></tr>
+<tr><td>x(n) toq</td><td>X(k) = jX<sub>I</sub>(k) — <b>sof mavhum</b></td></tr>
+</table></div>
+<div class="sol">
+<p><b>Tekshiruv:</b> x = {1, 0, 2, 3}: X(3) = −1 − 3j = (−1 + 3j)* = X*(1) ✓ (3 = 4 − 1). X(0) va X(N/2) = X(2) doim haqiqiy (6 va 0) — chunki ⟨−0⟩ = 0, ⟨−2⟩<sub>4</sub> = 2, ular o'z-o'ziga juft.</p>
+<p><b>Amaliy foyda:</b> haqiqiy signalda X(k) ning yarmini bilsak, qolgan yarmi avtomatik (qo'shma). N = 8 da X(5), X(6), X(7) = X*(3), X*(2), X*(1).</p>
+</div>
+<div class="box warn"><b>"Juft" bu yerda aylanma ma'noda:</b> x(n) = x(⟨−n⟩<sub>N</sub>), ya'ni <b>x(N − n) = x(n)</b> (x(0) ixtiyoriy). Masalan N = 4 da {a, b, c, b} ko'rinish. "Toq": x(N − n) = −x(n), bundan x(0) = 0 (juft N da x(N/2) = 0 ham).</div>
+<div class="sol">
+<p><b>Juft misol:</b> x = {2, 1, 0, 1} (x(3) = x(1)). X(k) = 2 + (−j)<sup>k</sup> + j<sup>k</sup> = 2 + 2cos(πk/2) → <b>{4, 2, 0, 2}</b> — haqiqiy ✓.</p>
+<p><b>Toq misol:</b> x = {0, 1, 0, −1}. X(k) = (−j)<sup>k</sup> − j<sup>k</sup> = −2j·sin(πk/2) → <b>{0, −2j, 0, 2j}</b> — sof mavhum ✓.</p>
+<p><b>Tuzoq:</b> {1, 2, 1} (N = 3) ko'zga simmetrik ko'rinadi, lekin aylanma juft emas: x(1) = 2 ≠ x(2) = 1. Uning DFT si haqiqiy emas: X(1) = 1 + 2e<sup>−j2π/3</sup> + e<sup>−j4π/3</sup> = −0,5 − j0,87.</p>
+</div>
+<figure>
+<svg viewBox="0 0 720 235" role="img" aria-label="DFT moduli simmetriyasi">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<line x1="34.0" y1="200.0" x2="690.0" y2="200.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="690.0" y="218.0" text-anchor="end" font-size="13">k</text><line x1="360.0" y1="56.2" x2="360.0" y2="200.0" style="stroke:var(--muted)" stroke-dasharray="5 4"/><line class="s-acc" x1="81.7" y1="200.0" x2="81.7" y2="75.0" stroke-width="2.6"/><circle class="f-acc" cx="81.7" cy="75.0" r="3.5"/><line x1="81.7" y1="197.0" x2="81.7" y2="203.0" style="stroke:var(--muted)"/><text class="s-muted" x="81.7" y="218.0" text-anchor="middle" font-size="11">0</text><text class="s-ink" x="88.7" y="72.0" text-anchor="start" font-size="11" font-weight="700">4,00</text><line class="s-acc" x1="151.3" y1="200.0" x2="151.3" y2="118.3" stroke-width="2.6"/><circle class="f-acc" cx="151.3" cy="118.3" r="3.5"/><line x1="151.3" y1="197.0" x2="151.3" y2="203.0" style="stroke:var(--muted)"/><text class="s-muted" x="151.3" y="218.0" text-anchor="middle" font-size="11">1</text><text class="s-ink" x="158.3" y="115.3" text-anchor="start" font-size="11" font-weight="700">2,61</text><circle class="f-acc" cx="220.9" cy="200.0" r="2.6"/><line x1="220.9" y1="197.0" x2="220.9" y2="203.0" style="stroke:var(--muted)"/><text class="s-muted" x="220.9" y="218.0" text-anchor="middle" font-size="11">2</text><line class="s-acc" x1="290.4" y1="200.0" x2="290.4" y2="166.2" stroke-width="2.6"/><circle class="f-acc" cx="290.4" cy="166.2" r="3.5"/><line x1="290.4" y1="197.0" x2="290.4" y2="203.0" style="stroke:var(--muted)"/><text class="s-muted" x="290.4" y="218.0" text-anchor="middle" font-size="11">3</text><text class="s-ink" x="297.4" y="163.2" text-anchor="start" font-size="11" font-weight="700">1,08</text><circle class="f-acc" cx="360.0" cy="200.0" r="2.6"/><line x1="360.0" y1="197.0" x2="360.0" y2="203.0" style="stroke:var(--muted)"/><text class="s-muted" x="360.0" y="218.0" text-anchor="middle" font-size="11">4</text><line class="s-acc" x1="429.6" y1="200.0" x2="429.6" y2="166.2" stroke-width="2.6"/><circle class="f-acc" cx="429.6" cy="166.2" r="3.5"/><line x1="429.6" y1="197.0" x2="429.6" y2="203.0" style="stroke:var(--muted)"/><text class="s-muted" x="429.6" y="218.0" text-anchor="middle" font-size="11">5</text><text class="s-ink" x="436.6" y="163.2" text-anchor="start" font-size="11" font-weight="700">1,08</text><circle class="f-acc" cx="499.1" cy="200.0" r="2.6"/><line x1="499.1" y1="197.0" x2="499.1" y2="203.0" style="stroke:var(--muted)"/><text class="s-muted" x="499.1" y="218.0" text-anchor="middle" font-size="11">6</text><line class="s-acc" x1="568.7" y1="200.0" x2="568.7" y2="118.3" stroke-width="2.6"/><circle class="f-acc" cx="568.7" cy="118.3" r="3.5"/><line x1="568.7" y1="197.0" x2="568.7" y2="203.0" style="stroke:var(--muted)"/><text class="s-muted" x="568.7" y="218.0" text-anchor="middle" font-size="11">7</text><text class="s-ink" x="575.7" y="115.3" text-anchor="start" font-size="11" font-weight="700">2,61</text><path d="M151.3 96.3 Q360.0 66.3 568.7 96.3" fill="none" style="stroke:var(--accent)" stroke-width="1.4" stroke-dasharray="3 3" marker-start="url(#aa)" marker-end="url(#aa)"/><path d="M290.4 148.2 Q360.0 118.2 429.6 148.2" fill="none" style="stroke:var(--accent)" stroke-width="1.4" stroke-dasharray="3 3" marker-start="url(#aa)" marker-end="url(#aa)"/><text class="s-ink" x="366.0" y="60.2" text-anchor="start" font-size="11">k = N/2 — "ko'zgu"</text><text class="s-ink" x="40.0" y="25.0" text-anchor="start" font-size="13" font-weight="700">|X(k)|, x = {1, 1, 1, 1, 0, 0, 0, 0}, N = 8</text>
+</svg>
+<figcaption>Haqiqiy ketma-ketlik DFT moduli k = N/2 atrofida ko'zgudek simmetrik: |X(1)| = |X(7)|, |X(3)| = |X(5)| (chunki X(N − k) = X*(k)). Shuning uchun haqiqiy signalda spektrning faqat k = 0 … N/2 qismi yangi ma'lumot beradi.</figcaption>
+</figure>
+
+<h2>O'zingizni tekshiring</h2>
+<p>1–8-savollar imtihondagi test shaklida.</p>
+<div class="box check">1. ⟨−3⟩<sub>8</sub> = ?<br>a) −3 &nbsp; b) 3 &nbsp; c) 5 &nbsp; d) 11
+<details><summary>Javob</summary><b>c)</b> −3 + 8 = 5.</details></div>
+<div class="box check">2. x = {4, 5, 6, 7} uchun x(⟨n − 1⟩<sub>4</sub>) = ?<br>a) {0, 4, 5, 6} &nbsp; b) {5, 6, 7, 4} &nbsp; c) {7, 4, 5, 6} &nbsp; d) {4, 5, 6, 7, 0}
+<details><summary>Javob</summary><b>c)</b> oxirgi namuna boshiga o'tadi. (b — oldinga surish N<sub>0</sub> = −1; a — chiziqli kechikish.)</details></div>
+<div class="box check">3. x(⟨n − N<sub>0</sub>⟩<sub>N</sub>) ning DFT si:<br>a) X(k − N<sub>0</sub>) &nbsp; b) X(k)e<sup>−j2πkN<sub>0</sub>/N</sup> &nbsp; c) X(k)e<sup>+j2πkN<sub>0</sub>/N</sup> &nbsp; d) X(k)/N<sub>0</sub>
+<details><summary>Javob</summary><b>b)</b></details></div>
+<div class="box check">4. X(k)·Y(k) ning IDFT si:<br>a) chiziqli o'ram x ∗ y &nbsp; b) aylanma o'ram x ⊗ y &nbsp; c) x(n)·y(n) &nbsp; d) korrelyatsiya
+<details><summary>Javob</summary><b>b)</b></details></div>
+<div class="box check">5. N<sub>1</sub> = 5 va N<sub>2</sub> = 3 uzunlikdagi ketma-ketliklarning chiziqli o'rami uzunligi:<br>a) 5 &nbsp; b) 8 &nbsp; c) 7 &nbsp; d) 15
+<details><summary>Javob</summary><b>c)</b> 5 + 3 − 1 = 7. (Aylanma o'ram uzunligi — max = 5.)</details></div>
+<div class="box check">6. DFT uchun Parseval: Σ<sub>n=0</sub><sup>N−1</sup>|x(n)|² = ?<br>a) Σ|X(k)|² &nbsp; b) (1/N)Σ|X(k)|² &nbsp; c) NΣ|X(k)|² &nbsp; d) ∫<sub>−½</sub><sup>½</sup>|X(k)|²
+<details><summary>Javob</summary><b>b)</b></details></div>
+<div class="box check">7. x(n) haqiqiy, N = 8, X(3) = 2 − 5j. X(5) = ?<br>a) 2 − 5j &nbsp; b) −2 + 5j &nbsp; c) 2 + 5j &nbsp; d) −2 − 5j
+<details><summary>Javob</summary><b>c)</b> X(5) = X(8 − 3) = X*(3).</details></div>
+<div class="box check">8. x = {3, 1, 0, 1} (N = 4) ning DFT si qanday bo'ladi?<br>a) haqiqiy &nbsp; b) sof mavhum &nbsp; c) umumiy kompleks &nbsp; d) nol
+<details><summary>Javob</summary><b>a)</b> x(3) = x(1) — aylanma juft. (X = {5, 3, 1, 3}.)</details></div>
+<div class="box check">9. x = {1, 2} va y = {3, 4} ning chiziqli va 2 nuqtali aylanma o'rami? <details><summary>Javob</summary>Chiziqli: {3, 4 + 6, 8} = {3, 10, 8}. Aylanma (N = 2): z<sub>cc</sub>(0) = 1·3 + 2·4 = 11, z<sub>cc</sub>(1) = 1·4 + 2·3 = 10 → {11, 10} = {3 + 8, 10} (oxirgi 8 boshiga qo'shildi). DFT bilan: X = {3, −1}, Y = {7, −1}, XY = {21, 1}, IDFT = {(21 + 1)/2, (21 − 1)/2} = {11, 10} ✓.</details></div>
+<div class="box check">10. x = {1, 1, 0, 0} va y = {1, 0, 0, 1} ning 4 nuqtali aylanma o'rami? <details><summary>Javob</summary>z<sub>cc</sub>(n) = Σx(p)y(⟨n − p⟩<sub>4</sub>): n = 0: x(0)y(0) + x(1)y(3) = 1 + 1 = 2; n = 1: x(0)y(1) + x(1)y(0) = 0 + 1 = 1; n = 2: x(0)y(2) + x(1)y(1) = 0; n = 3: x(0)y(3) + x(1)y(2) = 1 → <b>{2, 1, 0, 1}</b>.</details></div>
+
+<h2>📝 Konspekt</h2>
+<div class="box note"><p><strong>Shularni bilsangiz, bu mavzuni bilasiz</strong> (30-ma'ruza):</p>
+<ol>
+<li>DFT xossalari = DTFT xossalari, f → k/N, ketma-ketliklar davriy kengaytma sifatida; uzunligi har xil bo'lsa — nol qo'shiladi.</li>
+<li><code>⟨k⟩<sub>N</sub> = k mod N ∈ [0, N − 1]</code>; manfiyga N qo'shiladi: ⟨−13⟩<sub>16</sub> = 3, <code>⟨−k⟩<sub>N</sub> = N − k</code>.</li>
+<li>Aylanma kechikish: davriy kengaytma → N<sub>0</sub> ga surish → [0, N − 1] oyna. {1, 0, 2, 3} → {3, 1, 0, 2}.</li>
+<li><code>x(⟨n − N<sub>0</sub>⟩<sub>N</sub>) ↔ X(k)e<sup>−j2πkN<sub>0</sub>/N</sup></code> (|X| o'zgarmaydi).</li>
+<li><code>e<sup>j2πk<sub>0</sub>n/N</sup>x(n) ↔ X(⟨k − k<sub>0</sub>⟩<sub>N</sub>)</code>.</li>
+<li><code>x ⊗ y = Σ<sub>p=0</sub><sup>N−1</sup>x(p)y(⟨n − p⟩<sub>N</sub>) ↔ X(k)Y(k)</code>; davri N, kommutativ.</li>
+<li><code>x(n)y(n) ↔ (1/N)Σ<sub>p</sub>X(p)Y(⟨k − p⟩<sub>N</sub>)</code>.</li>
+<li>Parseval: <code>Σ|x(n)|² = (1/N)Σ|X(k)|²</code>.</li>
+<li>Uzunlik: chiziqli <code>N<sub>1</sub> + N<sub>2</sub> − 1</code>, aylanma <code>max(N<sub>1</sub>, N<sub>2</sub>)</code>. Misol: {1,0,2,3}, {1,2,2}: chiziqli {1,2,4,7,10,6}, aylanma {11,8,4,7}.</li>
+<li><code>z<sub>cc</sub>(n) = Σ<sub>m</sub>z(n + mN)</code> (vaqtda aliasing); N ≥ N<sub>1</sub> + N<sub>2</sub> − 1 da aylanma = chiziqli.</li>
+<li>Aylanma o'ram = sirkulyant matritsa × vektor.</li>
+<li>Haqiqiy x: <code>X(k) = X*(⟨−k⟩<sub>N</sub>) = X*(N − k)</code>; |X| juft, faza toq; aylanma juft x → X haqiqiy, toq x → X sof mavhum.</li>
+</ol></div>
+
+<div class="box ok">O'qib bo'ldingizmi? Chatga <strong>"tushundim"</strong> deb yozing. <strong>"Tushunmadim"</strong> bo'lsa, qaysi joy qiyin bo'lganini ayting, darsni soddaroq qilib qayta yozaman.</div>
+<footer class="pager"><a href="25-diskret-spektr-dft.html">← 25. Diskret spektr, DFT</a><a href="28-z-almashtirish.html">28. Z-almashtirish →</a></footer>
+</main></body></html>
