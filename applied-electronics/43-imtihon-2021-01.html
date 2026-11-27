@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>43. Imtihon 2021-01 masalalari</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>43. To'liq imtihon: 2021-yil 15-yanvar (3 ta katta masala)</h1>
+
+<div class="box note"><strong>Bu sahifa nima uchun:</strong> 2021-yil yanvar imtihonining yechim faylida faqat uchta 7 ballik masala bor (imtihondagi 2, 5 va 8-savollar). Testlar faylga kiritilmagan. Bu uchta masala 21 ball, ya'ni o'tish uchun kerakli 18 balldan ko'p. Shuning uchun bu turdagi masalalarni ishonch bilan yechish juda muhim. Manba: <em>20210115-exam-solution.pdf</em>. Vaqt: 40 daqiqa.</div>
+
+<div class="box"><strong>Qoida:</strong> har masalani qog'ozda oxirigacha yeching, keyin yechimni oching. Masalada har kichik savolning balli alohida, shuning uchun bitta qismni bilmasangiz ham keyingisiga o'ting.</div>
+
+<h2>Masala 1 (Question 2): NRE va break-even, 7 ball</h2>
+<img src="img/x2101-q2.png" alt="Masala 1: mahsulot uchun uchta variant: mikroprotsessor NRE 40000 USD va birlik narxi 25 USD; FPGA NRE 110000 USD, birlik 15 USD; ASIC NRE 950000 USD, birlik 2 USD. 1) FPGA va mikroprotsessor umumiy narxi teng bo'ladigan break-even soni NBE (2 ball); 2) ASIC va mikroprotsessor orasidagi break-even bunga nisbatan: higher, lower, unchanged (2 ball); 3) 40000 dona FPGA va 400000 dona ASIC ishlab chiqarilsa umumiy narx (3 ball)" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> kompaniya yangi mahsulot uchun uch variantdan birini tanlaydi: mikroprotsessor (NRE 40 000 USD, dona narxi 25 USD), FPGA (NRE 110 000, dona 15), ASIC (NRE 950 000, dona 2). 1) FPGA va mikroprotsessor bilan umumiy xarajat teng bo'ladigan dona soni N<sub>BE</sub>. 2) ASIC va mikroprotsessor orasidagi break-even bundan katta, kichik yoki tengmi? 3) 40 000 dona FPGA bilan va 400 000 dona ASIC bilan ishlab chiqarishning umumiy narxi.</p>
+<details><summary>Yechim</summary>
+<p>Umumiy narx = NRE + N · (dona narxi). Ikki variant teng bo'lgan N ni topamiz.</p>
+<ol>
+<li>Mikroprotsessor = FPGA: 40 000 + 25N = 110 000 + 15N → 10N = 70 000 → N<sub>BE</sub> = <strong>7000</strong>.</li>
+<li>Mikroprotsessor = ASIC: 40 000 + 25N = 950 000 + 2N → 23N = 910 000 → N = 39 565. Bu 7000 dan katta → <strong>higher</strong>.</li>
+<li>FPGA: 110 000 + 40 000 · 15 = 710 000 USD. ASIC: 950 000 + 400 000 · 2 = 1 750 000 USD. Jami: <strong>2 460 000</strong> USD.</li>
+</ol>
+<p>3-qismda tuzoq: NRE ni har variant uchun <strong>bir marta</strong> qo'shing, donalar soniga ko'paytirmang. (<a href="10-dasturlanadigan-mantiq-fpga-nre.html">10-dars</a>)</p>
+</details>
+
+<h2>Masala 2 (Question 5): flip-flop lar va chastotalar, 7 ball</h2>
+<img src="img/x2101-q5.png" alt="Masala 2: uchta flip-flop FF1 (JK), FF2 (D), FF3 (D), Q chiqishlari boshida 0; CLK = 1200 kHz; f bloki D = NOT(B + C) funksiyasini bajaradi; B, C, A signallari chastotasi va D ni takt sifatida ishlatgan flash ADC o'zgartira oladigan sinus signalning maksimal chastotasi; sxemada FF1 ning J va K kirishlari D ga ulangan, FF1 va FF2 CLK dan takt oladi, FF3 FF2 chiqishidan takt oladi" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> uchta FF ning Q chiqishlari boshida 0. CLK chastotasi 1200 kHz. f bloki D = <span style="text-decoration:overline">B + C</span> (NOR) funksiyasini bajaradi. Kechikishlar hisobga olinmaydi. Toping: 1) B ning chastotasi; 2) C ning chastotasi; 3) A ning chastotasi; 4) D signali takt bo'lib xizmat qiladigan flash ADC o'zgartira oladigan sinus signalning maksimal chastotasi.</p>
+<details><summary>Yechim</summary>
+<ol>
+<li><strong>FF2 va FF3</strong> ikki bitli asinxron hisoblagich: FF2 ning D kirishi o'zining Q̄ iga ulangan, demak u har CLK frontida holatini almashtiradi. FF3 esa FF2 ning chiqishidan takt oladi. (C B): 00 → 01 → 10 → 11 → 00 → …</li>
+<li>B har CLK siklida o'zgaradi: to'liq davri 2 ta CLK davri → 1200/2 = <strong>600 kHz</strong>.</li>
+<li>C har ikki B davrida bir marta o'zgaradi → 600/2 = <strong>300 kHz</strong>.</li>
+<li>D = NOT(B + C) faqat B = 0 va C = 0 bo'lganda 1. Bu 4 ta holatdan faqat bittasi: D = 1, 0, 0, 0, 1, 0, 0, 0… Demak D ning davri 4 ta CLK davri → 1200/4 = 300 kHz.</li>
+<li>FF1 (JK) da J = K = D. D = 1 bo'lgan frontda FF1 holatini almashtiradi (toggle), D = 0 da saqlaydi. Demak A har 4 CLK da bir marta o'zgaradi: to'liq davri 8 ta CLK → 1200/8 = <strong>150 kHz</strong>.</li>
+<li>Flash ADC D bilan taktlansa, namuna olish chastotasi f<sub>s</sub> = 300 kHz. Nyquist: sinus ≤ f<sub>s</sub>/2 = <strong>150 kHz</strong>.</li>
+</ol>
+<div class="box warn">Asosiy qoida: signal "har N taktda bir marta <em>o'zgarsa</em>", uning to'liq davri 2N takt (chunki 0 → 1 va 1 → 0 ikkita o'zgarish). D esa boshqacha: u 1 ga bitta taktga chiqib qaytadi, shuning uchun davri 4 takt. Vaqt diagrammasini chizib tekshiring.</div>
+<p>(<a href="09-hisoblagich-fsm.html">9-dars</a>, <a href="07-latch-flip-flop.html">7-dars</a>: JK; Nyquist: <a href="16a-namuna-olish-aliasing.html">16a-dars</a>)</p>
+</details>
+
+<h2>Masala 3 (Question 8): RC ulanish va qabul qilgich chegaralari, 7 ball</h2>
+<img src="img/x2101-q8.png" alt="Masala 3: rail-to-rail drayver Vgnd = 0 V, Vdd = 3.3 V, chiqish qarshiligi Ro = 250 Ω, ekvipotensial liniya orqali kirish sig'imi Ci = 8 pF bo'lgan qabul qilgichni boshqaradi; o'tishlar liniya to'liq o'rnashgandan keyin boshlanadi; TTX = 2 ns uchun VIH ning maksimal qiymati (2 ball) va VIL ning minimal qiymati (2 ball); Ro oshsa va TTX = 2 ns saqlansa shovqin zaxiralari: kamayadi yoki ortadi, proporsional yoki yo'q (3 ball)" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> drayver 0 V va 3.3 V orasida ishlaydi, chiqish qarshiligi Ro = 250 Ω. U ekvipotensial (kechikishsiz) liniya orqali Ci = 8 pF sig'imli qabul qilgichni boshqaradi. Uzatish vaqti T<sub>TX</sub> = 2 ns bo'lishi uchun qabul qilgichning V<sub>IH</sub> chegarasi ko'pi bilan, V<sub>IL</sub> chegarasi kamida qancha bo'lishi kerak? Ro oshsa va T<sub>TX</sub> = 2 ns saqlanishi kerak bo'lsa, shovqin zaxiralari qanday o'zgarishi kerak?</p>
+<details><summary>Yechim</summary>
+<ol>
+<li>Ekvipotensial liniya = kechikish yo'q, faqat RC zaryadlanish. τ = Ro · Ci = 250 · 8 pF = <strong>2 ns</strong>.</li>
+<li>Ko'tarilish (0 → 3.3 V): V(t) = 3.3·(1 − e<sup>−t/τ</sup>). t = 2 ns = τ da: V = 3.3 · (1 − 0.368) = <strong>2.09 V</strong>. Qabul qilgich 2 ns ichida "1" ni sezishi uchun V<sub>IH</sub> ≤ 2.09 V.</li>
+<li>Tushish (3.3 → 0 V): V(t) = 3.3 · e<sup>−t/τ</sup>. t = τ da: V = 3.3 · 0.368 = <strong>1.21 V</strong>. Qabul qilgich 2 ns da "0" ni sezishi uchun V<sub>IL</sub> ≥ 1.21 V.</li>
+<li>Ro oshsa, τ oshadi va 2 ns da kuchlanish kamroq yo'l bosadi. Demak V<sub>IH</sub> pastroq, V<sub>IL</sub> yuqoriroq bo'lishi kerak. Zaxiralar NM<sub>H</sub> = V<sub>OH</sub> − V<sub>IH</sub> va NM<sub>L</sub> = V<sub>IL</sub> − V<sub>OL</sub> <strong>ortadi</strong>. Lekin Ro eksponenta ichida (maxrajda) turadi, shuning uchun bu o'zgarish proporsional emas → <strong>increase, but not in the same proportion as Ro</strong>.</li>
+</ol>
+<p>Tekshirish: t = τ bo'lgani uchun hisob oson: e<sup>−1</sup> = 0.368, 1 − e<sup>−1</sup> = 0.632. (<a href="24-ulanish-rc-skew.html">24-dars</a>, <a href="03-kondensator-rc.html">3-dars</a>)</p>
+</details>
+
+<h2>O'zingizni tekshiring: yangi raqamlar bilan</h2>
+<div class="box check">NRE: mikroprotsessor 30 000 USD + 20 USD/dona, FPGA 90 000 USD + 12 USD/dona. Break-even? <details><summary>Javob</summary>30 000 + 20N = 90 000 + 12N → 8N = 60 000 → <strong>7500 dona</strong>.</details></div>
+<div class="box check">Masala 2 dagi sxema, lekin CLK = 800 kHz. A, B, C chastotalari va ADC uchun maksimal sinus? <details><summary>Javob</summary>B = 400 kHz, C = 200 kHz, D = 200 kHz, A = 100 kHz, maksimal sinus = 100 kHz (hammasi CLK ga proporsional).</details></div>
+<div class="box check">Masala 3, lekin Ro = 125 Ω (Ci = 8 pF, TTX = 2 ns). VIH max? <details><summary>Javob</summary>τ = 1 ns, t/τ = 2: 3.3·(1 − e<sup>−2</sup>) = 3.3 · 0.865 = <strong>2.85 V</strong>. VIL min = 3.3 · 0.135 = 0.45 V.</details></div>
+
+<h2>📝 Konspekt</h2>
+<div class="box">
+<span class="formula">Narx = NRE + N·(dona narxi) &nbsp;·&nbsp; NBE = (NRE₂ − NRE₁)/(narx₁ − narx₂)</span>
+<span class="formula">"har N taktda o'zgaradi" → f = fCLK/(2N) &nbsp;·&nbsp; flash ADC: fsinus,max = fs/2</span>
+<span class="formula">τ = Ro·Ci &nbsp;·&nbsp; VIH,max = VDD(1 − e<sup>−T/τ</sup>) &nbsp;·&nbsp; VIL,min = VDD·e<sup>−T/τ</sup></span>
+<ul>
+<li>D-FF D = Q̄ bo'lsa har frontda toggle; JK da J = K = 1 → toggle, J = K = 0 → saqlaydi.</li>
+<li>Ro ↑ (T saqlansa) → shovqin zaxiralari ↑, lekin proporsional emas.</li>
+</ul>
+</div>
+
+<div class="box ok">Natijangizni chatga yozing: har masaladan necha ball oldingiz (masala 7 balldan).</div>
+
+<footer class="pager"><a href="42-imtihon-2021-06.html">← 42-dars</a><a href="./">Fan darslari →</a></footer>
+</main></body></html>

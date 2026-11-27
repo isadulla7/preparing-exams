@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>41. Imtihon 2021-07 to'liq yechim</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>41. To'liq imtihon: 2021-yil 13-iyul</h1>
+
+<div class="box note"><strong>Bu sahifa nima uchun:</strong> haqiqiy imtihonni boshidan oxirigacha, xuddi imtihondagidek yechib ko'rish. Savollar asl ko'rinishida (inglizcha, imtihon ekranidan olingan rasm). Har birining tagida o'zbekcha tarjima, yashirilgan yechim va mavzu o'rgatilgan dars havolasi bor. Manba: <em>20210713-exam-solution.pdf</em>. Vaqt: 45–60 daqiqa.</div>
+
+<div class="box"><strong>Qanday ishlatish kerak (muhim):</strong>
+<ol>
+<li>Qog'oz, ruchka va kalkulyator oling. Soatni qo'ying.</li>
+<li>Hamma savolni <strong>yechimni ochmasdan</strong> yeching. Javobni qog'ozga yozing.</li>
+<li>Keyin "Yechim" larni birma-bir ochib tekshiring. Har xato uchun qavsdagi darsni qayta o'qing.</li>
+<li>Bir necha kundan keyin shu imtihonni yana bir marta yeching. Ikkinchi safar hammasi to'g'ri chiqishi kerak.</li>
+</ol></div>
+
+<p>Bu imtihon 8 ta testdan va bitta katta masaladan (7 ta kichik savolli xotira sxemasi) iborat. Testda bitta to'g'ri javob bor.</p>
+
+<h2>1-savol. Open-drain chiqishlar birga ulangan</h2>
+<img src="img/x2107-p1.png" alt="1-savol: ikkita bir xil open-drain darvoza chiqishi birlashtirilgan, ikkalasi 0 chiqarsa VOUT qayerda barqarorlashadi; variantlar a) GND ga ulangan sig'imga bog'liq, b) 0 V ≤ VOUT ≤ VOL, c) VDD ga ulangan sig'imga bog'liq, d) VOL ≤ VOUT ≤ VOH" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> ikkita bir xil open-drain darvozaning chiqishlari bir-biriga ulangan. Ikkalasi ham 0 (0 V) chiqarsa, VOUT qayerda barqarorlashadi?</p>
+<details><summary>Yechim</summary>
+<p>Javob: <strong>(b) 0 V ≤ VOUT ≤ VOL</strong>.</p>
+<p>Ikkala darvozaning pastki tranzistori yoqiq. Ikkita yoqiq tranzistor parallel ulangan, demak umumiy qarshilik har biridan kichik. Bitta darvoza yolg'iz o'zi ham chiqishni VOL dan pastda ushlay oladi (VOL ta'rifi shu). Ikkitasi birga ushlasa, chiqish undan ham pastroq bo'ladi. Sig'im faqat o'tish paytida ta'sir qiladi, barqaror holatga emas. (<a href="06-cmos-darvoza.html">6-dars</a>)</p>
+</details>
+
+<h2>2-savol. NAND darvoza kechikishi va yuklama</h2>
+<img src="img/x2107-p2.png" alt="2-savol: 2 kirishli CMOS NAND, CL = 0.2 fF da tP = 200 ps; u jami 0.8 fF sig'imli 2 ta NAND kirishini boshqarsa tP qancha; variantlar a) 5 marta ko'p, b) pull-up rezistorga bog'liq, c) 800 ps, d) 1.6 ns" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> NAND darvozaning kechikishi CL = 0.2 fF yuklamada 200 ps. Endi u ikkita boshqa NAND ning kirishlarini boshqaradi, ularning jami sig'imi CG = 0.8 fF. Yangi tP qancha?</p>
+<details><summary>Yechim</summary>
+<p>Javob: <strong>(c) 800 ps</strong>.</p>
+<p>tP = 0.69·RON·CL, ya'ni kechikish yuklama sig'imiga <strong>to'g'ri proporsional</strong>. Yuklama 0.2 fF dan 0.8 fF ga, ya'ni 4 marta oshdi. Shuning uchun kechikish ham 4 marta oshadi: 4 · 200 ps = 800 ps. "Jami" (total) so'ziga e'tibor bering: 0.8 fF allaqachon ikkala kirish yig'indisi, uni yana 2 ga ko'paytirmang. (<a href="06-cmos-darvoza.html">6-dars</a>)</p>
+</details>
+
+<h2>3-savol. 4 kirishli LUT</h2>
+<img src="img/x2107-p3.png" alt="3-savol: 4 kirishli Look-Up Table; variantlar a) 4 ta xotira katagi bor, b) 2^4 ta 1 bitli xotira katagidan foydalanadi, c) 512 ta katak, d) 2^9 katak" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> 4 kirishli LUT (qidiruv jadvali) haqida qaysi gap to'g'ri?</p>
+<details><summary>Yechim</summary>
+<p>Javob: <strong>(b) 2<sup>4</sup> ta 1 bitli xotira katagi</strong>.</p>
+<p>LUT bu kichik xotira: 4 ta kirish adres vazifasini bajaradi, 4 bitli adres 2<sup>4</sup> = 16 ta katakni tanlay oladi. Har katakda bitta bit (funksiyaning o'sha kirishdagi qiymati). (<a href="10-dasturlanadigan-mantiq-fpga-nre.html">10-dars</a>)</p>
+</details>
+
+<h2>4-savol. Flash ADC ning o'zgartirish vaqti</h2>
+<img src="img/x2107-p4.png" alt="4-savol: flash ADC o'zgartirish vaqti; variantlar a) chiqish bitlari soni N ga proporsional, b) kirish signal sathiga bog'liq emas, c) 2^N ga bog'liq, d) log N ga bog'liq" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> flash ADC ning o'zgartirish vaqti nimaga bog'liq?</p>
+<details><summary>Yechim</summary>
+<p>Javob: <strong>(b) kirish signal sathiga bog'liq emas</strong>.</p>
+<p>Flash ADC hamma solishtirishni <strong>bir vaqtda</strong> (parallel) bajaradi: 2<sup>N</sup> − 1 ta komparator bir zumda ishlaydi. Shuning uchun vaqt N ga ham, signal qiymatiga ham bog'liq emas. Taqqoslang: SAR ning vaqti N ga proporsional (har taktda 1 bit), tracking ADC niki esa signal o'zgarishiga bog'liq. (<a href="18-adc-turlari.html">18-dars</a>)</p>
+</details>
+
+<h2>5-savol. Bir yarim davrli to'g'rilagich (hisob masala)</h2>
+<img src="img/x2107-p5.png" alt="5-savol: 220 V, 60 Hz bilan ishlaydigan bir yarim davrli to'g'rilagich, chiqish kondensatori 1000 µF; ripple ko'pi bilan 3 % bo'lishi uchun yuklama toki IL maksimal qancha mA; kirish kuchlanishi 50 % oshsa ripple qanday o'zgaradi: decreases by 50 %, doubles, unchanged, increases by 50 %" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> bir yarim davrli to'g'rilagich 220 V, 60 Hz tarmoqdan ishlaydi, chiqishida 1000 µF kondensator bor. Chiqishdagi ripple ko'pi bilan 3 % bo'lishi uchun yuklama eng ko'pi bilan qancha tok olishi mumkin (mA)? Yuklama toki o'zgarmay, kirish kuchlanishi 50 % oshsa, ripple amplitudasi qanday o'zgaradi?</p>
+<details><summary>Yechim</summary>
+<ol>
+<li>Ripple formulasi: V<sub>R</sub> = I<sub>L</sub>·Δt / C. Bir yarim davrlida Δt = 1/f = 1/60 s (ikki yarim davrlida 1/(2f) bo'lardi).</li>
+<li>220 V bu samarali (RMS) qiymat. Cho'qqi: 220 · √2 = 311 V.</li>
+<li>3 % ripple: V<sub>R</sub> = 0.03 · 311 = 9.33 V.</li>
+<li>I<sub>L</sub> = C · V<sub>R</sub> · f = 1000·10<sup>−6</sup> · 9.33 · 60 = 0.56 A = <strong>560 mA</strong>.</li>
+<li>Ikkinchi savol: V<sub>R</sub> = I<sub>L</sub>/(f·C) formulasida kirish kuchlanishi yo'q. Tok bir xil qolsa, ripple <strong>unchanged</strong> (o'zgarmaydi).</li>
+</ol>
+<p>Diqqat: kuchlanish oshganda ripple <em>foizi</em> kamayadi, lekin savol <em>amplitudani</em> (voltda) so'rayapti. (<a href="31-togrilagich-ripple.html">31-dars</a>)</p>
+</details>
+
+<h2>6-savol. DDR4 xotira</h2>
+<img src="img/x2107-p6.png" alt="6-savol: hamma DDR4 DRAM xotiralari ko'pi bilan qancha uzatadi; variantlar a) har bus takt siklida 4 bayt, b) har bus takt o'tishida (front) 1 so'z, c) har takt o'tishida 2 so'z, d) har takt siklida 1 so'z" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> hamma DDR4 DRAM xotiralari ko'pi bilan qancha ma'lumot uzatadi?</p>
+<details><summary>Yechim</summary>
+<p>Javob: <strong>(b) har bir takt o'tishida (transition) 1 so'z</strong>.</p>
+<p>DDR = Double Data Rate: ko'tariluvchi frontda ham, tushuvchi frontda ham bittadan so'z. Bitta takt siklida ikkita o'tish bor, demak siklga 2 so'z. (d) "siklga 1 so'z" oddiy SDRAM. (a) noto'g'ri, chunki so'z kengligi har xil bo'lishi mumkin ("hamma DDR4" deyilgan). (<a href="22-sram-dram-flash.html">22-dars</a>)</p>
+</details>
+
+<h2>7-savol. Uzatish liniyasidagi barqaror kuchlanish</h2>
+<img src="img/x2107-p7.png" alt="7-savol: uzatish liniyasidagi barqaror holat kuchlanishi; variantlar a) drayver chiqish qarshiligiga bog'liq bo'lishi mumkin, b) liniya terminatsiya qarshiligiga bog'liq emas, c) drayver chiqish qarshiligiga bog'liq emas, d) xarakteristik impedans Z∞ ga bog'liq" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> uzatish liniyasidagi barqaror (steady-state) kuchlanish haqida qaysi gap to'g'ri?</p>
+<details><summary>Yechim</summary>
+<p>Javob: <strong>(a) drayverning chiqish qarshiligiga bog'liq bo'lishi mumkin</strong>.</p>
+<p>Hamma aks etishlar tugagach, liniya oddiy sim bo'lib qoladi va Z∞ ning ahamiyati yo'qoladi, shuning uchun (d) noto'g'ri. Agar uchida terminatsiya rezistori bo'lsa, tok oqadi va kuchlanish bo'lgich hosil bo'ladi: V = VA·RT/(RO + RT). Bu formulada RO ham, RT ham bor, shuning uchun (b) va (c) noto'g'ri. Uchi ochiq bo'lsa tok yo'q va V = VA, shuning uchun "bo'lishi mumkin" degan so'z to'g'ri. (<a href="25-uzatish-liniyasi.html">25-dars</a>)</p>
+</details>
+
+<h2>8-savol. Buck-boost dagi induktivlik qarshiligi</h2>
+<img src="img/x2107-p8.png" alt="8-savol: buck-boost DC-DC o'zgartirgich induktivligining parazit ketma-ket qarshiligi; variantlar a) kalitlarda sochilayotgan quvvatni oshiradi, b) kondensatorlardagi aktiv quvvatni oshiradi, c) kalitlash chastotasini kamaytiradi, d) induktivlikda quvvat sochadi" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> buck-boost o'zgartirgich induktivligining parazit (keraksiz) ketma-ket qarshiligi nima qiladi?</p>
+<details><summary>Yechim</summary>
+<p>Javob: <strong>(d) induktivlikning o'zida quvvat sochadi (issiqlikka aylantiradi)</strong>.</p>
+<p>Induktivlik orqali tok oqadi, unga ketma-ket qarshilik R bor: P = I²·R isrof bo'ladi, aynan shu yerda. Chastotani tashqi boshqaruv sxemasi beradi, shuning uchun (c) noto'g'ri. Ideal kalit va kondensator aktiv quvvat sochmaydi, shuning uchun (a) va (b) noto'g'ri. (<a href="34-boost-buckboost-flyback.html">34-dars</a>)</p>
+</details>
+
+<h2>9-savol. Xotira sxemasi (katta masala, 7 ta kichik savol)</h2>
+<img src="img/x2107-p9.png" alt="9-savol: 1-rasmdagi xotira: to'rtta bitline Y3–Y0, tepada pull-up tranzistorlar M3–M0, sakkizta wordline X0–X7, har ustunda tranzistorlar ketma-ket zanjir. Savollar: xotira turi, Y signallarining vazifasi, X signallarining vazifasi, M tranzistorlar vazifasi, nechta so'z, nechta bit, adres 5 dagi ikkilik qiymat" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> 1) xotira turi qanday? 2) Y0–Y3 signallari nima vazifada? 3) X0–X7 signallari nima vazifada? 4) M0–M3 tranzistorlari nima vazifada? 5) xotirada nechta so'z saqlanadi? 6) nechta bit saqlanadi? 7) adres 5 da qanday ikkilik qiymat saqlangan?</p>
+<details><summary>Yechim</summary>
+<ol>
+<li><strong>ROM NAND</strong>: har ustunda tranzistorlar ketma-ket zanjir bo'lib yerga boradi (NOR da ular parallel bo'lardi).</li>
+<li>Y = <strong>bit lines</strong>: qiymat shu simlardan o'qiladi.</li>
+<li>X = <strong>word lines</strong>: tranzistorlar gate larini boshqaradi, qatorni tanlaydi.</li>
+<li>M = <strong>pull-up</strong>: bitline ni VDD ga tortib turuvchi "rezistor".</li>
+<li>8 ta wordline → <strong>8</strong> so'z.</li>
+<li>Har so'zda 4 bit (4 ta bitline) → 8 · 4 = <strong>32</strong> bit.</li>
+<li>Adres 5 → X5 qatori. Bu qatorda tranzistor yo'q, hech bir zanjir uzilmaydi, hamma bitline yerda qoladi → <strong>0000</strong>.</li>
+</ol>
+<p>Qoida (NAND ROM): qatorda tranzistor <em>bor</em> ustun = 1, <em>yo'q</em> ustun = 0. To'liq jadval va tushuntirish: <a href="21-xotira-tuzilishi-rom.html">21-dars</a>.</p>
+</details>
+
+<h2>Natijani baholang</h2>
+<table>
+<tr><th>Savol</th><th>Javob</th><th>Mavzu</th><th>Xato bo'lsa o'qing</th></tr>
+<tr><td>1</td><td>b</td><td>open-drain</td><td><a href="06-cmos-darvoza.html">6</a></td></tr>
+<tr><td>2</td><td>c (800 ps)</td><td>tP ∝ CL</td><td><a href="06-cmos-darvoza.html">6</a></td></tr>
+<tr><td>3</td><td>b</td><td>LUT</td><td><a href="10-dasturlanadigan-mantiq-fpga-nre.html">10</a></td></tr>
+<tr><td>4</td><td>b</td><td>flash ADC</td><td><a href="18-adc-turlari.html">18</a></td></tr>
+<tr><td>5</td><td>560 mA; unchanged</td><td>ripple</td><td><a href="31-togrilagich-ripple.html">31</a></td></tr>
+<tr><td>6</td><td>b</td><td>DDR</td><td><a href="22-sram-dram-flash.html">22</a></td></tr>
+<tr><td>7</td><td>a</td><td>barqaror holat</td><td><a href="25-uzatish-liniyasi.html">25</a></td></tr>
+<tr><td>8</td><td>d</td><td>buck-boost isrofi</td><td><a href="34-boost-buckboost-flyback.html">34</a></td></tr>
+<tr><td>9</td><td>ROM NAND, bit lines, word lines, pull-up, 8, 32, 0000</td><td>ROM</td><td><a href="21-xotira-tuzilishi-rom.html">21</a></td></tr>
+</table>
+
+<h2>📝 Konspekt (shu imtihondan o'rganiladigan qoidalar)</h2>
+<div class="box">
+<span class="formula">tP = 0.69·RON·CL → tP ∝ CL &nbsp;·&nbsp; LUT k kirish → 2<sup>k</sup> katak</span>
+<span class="formula">VR = IL·Δt/C, Δt = 1/f (bir yarim davr), 1/(2f) (ikki yarim davr) &nbsp;·&nbsp; Vpk = VRMS·√2</span>
+<ul>
+<li>Open-drain chiqishlar birlashsa va ikkalasi 0 bo'lsa: VOUT ≤ VOL.</li>
+<li>Flash ADC vaqti N ga ham, signalga ham bog'liq emas. SAR: ∝ N.</li>
+<li>DDR: har front (o'tish)da 1 so'z = siklga 2 so'z.</li>
+<li>Barqaror kuchlanish Z∞ ga bog'liq emas, RO va RT ga bog'liq bo'lishi mumkin.</li>
+<li>Induktivlikning parazit qarshiligi induktivlikning o'zida I²R sochadi.</li>
+<li>NAND ROM: ketma-ket zanjir; tranzistor bor = 1, yo'q = 0; so'zlar = wordline soni, bitlar = so'zlar × bitline lar.</li>
+</ul>
+</div>
+
+<div class="box ok">Yechib bo'lgach chatga natijangizni yozing (masalan "9 tadan 7 tasi to'g'ri, 5 va 8 xato"). Qaysi savol qiyin bo'lganini ayting.</div>
+
+<footer class="pager"><a href="40-mashq-measurements.html">← 40-dars</a><a href="42-imtihon-2021-06.html">42-dars →</a></footer>
+</main></body></html>

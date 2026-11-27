@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>42. Imtihon 2021-06 to'liq yechim</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>42. To'liq imtihon: 2021-yil 16-iyun</h1>
+
+<div class="box note"><strong>Bu sahifa nima uchun:</strong> haqiqiy imtihonni boshidan oxirigacha yechib ko'rish. Savollar asl ko'rinishida (imtihon ekranidan olingan rasm, fondagi kulrang raqamlar talabaning suv belgisi). Har birining tagida tarjima, yashirilgan yechim va dars havolasi. Manba: <em>20210616-exam-solution.pdf</em>. Vaqt: 60 daqiqa.</div>
+
+<div class="box"><strong>Qoida:</strong> avval hammasini yechimni ochmasdan qog'ozda yeching, keyin tekshiring. Xato bo'lgan savolning darsini qayta o'qing va 2–3 kundan keyin shu sahifani qayta yeching.</div>
+
+<p>Tarkibi: 7 ta test va 2 ta katta masala (CMOS quvvati va issiqlik, 7 ball; flip-flop zanjiri, 7 ball).</p>
+
+<h2>1-savol. Three-state chiqishlar to'qnashuvi</h2>
+<img src="img/x2106-p1.png" alt="1-savol: ikki darvozaning three-state chiqishlari birlashtirilgan, xato bilan ikkalasi yoqilgan va ikkalasi 0 chiqaradi, VOUT qayerda; variantlar a) pull-down rezistorga bog'liq, b) VOUT VOL dan oshmaydi, c) pull-up rezistorga bog'liq, d) jami sig'imga bog'liq" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> ikki darvozaning three-state chiqishlari bir-biriga ulangan. Xato bilan ikkalasi bir vaqtda yoqilib, ikkalasi ham 0 chiqarsa, VOUT qayerda barqarorlashadi?</p>
+<details><summary>Yechim</summary>
+<p>Javob: <strong>(b) VOUT VOL dan oshmaydi</strong>.</p>
+<p>Ikkala pastki tranzistor parallel bo'lib ishlaydi, umumiy qarshilik har biridan kichik. Bittasi yolg'iz ham VOUT ni VOL dan past ushlardi, ikkitasi birga undan ham pastroq ushlaydi. 2021-07 dagi open-drain savolining egizagi. (<a href="06-cmos-darvoza.html">6-dars</a>)</p>
+</details>
+
+<h2>2-savol. SAR ADC ning o'zgartirish vaqti</h2>
+<img src="img/x2106-p2.png" alt="2-savol: N bitli ketma-ket yaqinlashish ADC sining o'zgartirish vaqti nimaga proporsional; variantlar a) 2^N − 1, b) signal slew rate, c) signal qiymati, d) chiqish bitlari soni" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> N bitli SAR (ketma-ket yaqinlashish) ADC ning o'zgartirish vaqti nimaga proporsional?</p>
+<details><summary>Yechim</summary>
+<p>Javob: <strong>(d) chiqish bitlari soniga</strong>.</p>
+<p>SAR har takt siklida bitta bitni aniqlaydi (MSB dan LSB gacha), demak N bit uchun N takt kerak. 2<sup>N</sup> − 1 bu tracking ADC ning eng yomon holati yoki flash dagi komparatorlar soni. (<a href="18-adc-turlari.html">18-dars</a>)</p>
+</details>
+
+<h2>3-savol. Xarakteristik impedans</h2>
+<img src="img/x2106-p3.png" alt="3-savol: LU birlik induktivlik, CU birlik sig'im bo'lsa xarakteristik impedans; variantlar a) CU ning darajasiga teskari proporsional, b) LU ning darajasiga teskari proporsional, c) LU ga proporsional, d) CU ga proporsional" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> LU liniyaning uzunlik birligidagi induktivligi, CU esa sig'imi. Xarakteristik impedans qanday bog'liq?</p>
+<details><summary>Yechim</summary>
+<p>Javob: <strong>(a)</strong>.</p>
+<p>Z∞ = √(LU/CU). C maxrajda, demak Z∞ C ga <strong>teskari</strong> proporsional (aniqrog'i √CU ga). L suratda, demak Z∞ L ga teskari emas, shuning uchun (b) noto'g'ri. (c) "L ga proporsional" ham noto'g'ri, chunki √L ga proporsional. (d) butunlay teskari. Ekrandagi daraja belgisi formatlashda buzilgan (rasmiy yechimda ham "2" ko'rinadi), lekin teskari bog'liqlikni faqat (a) aytadi. Imtihonda shu mantiq bilan tanlang: "C ko'paysa Z∞ kamayadi". (<a href="25-uzatish-liniyasi.html">25-dars</a>)</p>
+</details>
+
+<h2>4-savol. CMOS protsessor quvvati va issiqligi (masala, 7 ball)</h2>
+<img src="img/x2106-p4.png" alt="4-savol: 100 million MOS tranzistorli CMOS sxema, har tranzistor gate sig'imi CG = 0.3 fF, o'rtacha 2 ta boshqa tranzistor gate ini boshqaradi, VDD = 1.8 V, Fclock = 100 MHz; idle rejimda 1 %, aktiv rejimda 80 % tranzistor ishlaydi; Pidle (2 ball), Pactive (1 ball); TA = 23 °C, θJC = 1.1 °C/W, θCA = 43 °C/W bo'lsa idle dagi TJ (2 ball); VDD ikki baravar bo'lsa quvvat (1 ball); chastota ikki baravar bo'lsa quvvat (1 ball)" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> sxemada 100 million MOS tranzistor bor. Har birining gate sig'imi CG = 0.3 fF, har biri o'rtacha 2 ta boshqa tranzistor gate ini boshqaradi, VDD = 1.8 V. Idle rejimda tranzistorlarning 1 %, aktiv rejimda 80 % ishlaydi, chastota 100 MHz. Idle va aktiv rejim quvvatini, idle rejimdagi kristall haroratini (TA = 23 °C, θJC = 1.1 °C/W, θCA = 43 °C/W) toping. VDD yoki chastota ikki baravar bo'lsa quvvat qanday o'zgaradi?</p>
+<details><summary>Yechim</summary>
+<ol>
+<li>Har tranzistorning yuklamasi: 2 ta gate → C<sub>L</sub> = 2·C<sub>G</sub> = 0.6 fF.</li>
+<li>Dinamik quvvat: P = N · F · C<sub>L</sub> · V<sub>DD</sub>². V<sub>DD</sub>² = 1.8² = 3.24 V².</li>
+<li>Idle: N = 1 % · 10<sup>8</sup> = 10<sup>6</sup>. P = 10<sup>6</sup> · 10<sup>8</sup> · 0.6·10<sup>−15</sup> · 3.24 = <strong>0.194 W</strong>.</li>
+<li>Aktiv: N = 80 % · 10<sup>8</sup> = 8·10<sup>7</sup>, ya'ni 80 baravar ko'p: 80 · 0.194 = <strong>15.6 W</strong>.</li>
+<li>Issiqlik: θ<sub>JA</sub> = 1.1 + 43 = 44.1 °C/W. T<sub>J</sub> = 23 + 44.1 · 0.194 = <strong>31.6 °C</strong>.</li>
+<li>V<sub>DD</sub> ×2 → P ∝ V² → <strong>increases 4 times</strong>.</li>
+<li>F ×2 → P ∝ F → <strong>increases 2 times</strong>.</li>
+</ol>
+<p>Tuzoq: "drives the gates of 2 other transistors" degani C<sub>L</sub> = 2·C<sub>G</sub>. Uni unutsangiz hamma javob ikki baravar kam chiqadi. (<a href="06-cmos-darvoza.html">6-dars</a>, <a href="30-quvvat-tranzistor-issiqlik.html">30-dars</a>)</p>
+</details>
+
+<h2>5-savol. Open-drain inverterning statik quvvati</h2>
+<img src="img/x2106-p6.png" alt="5-savol: chiqishi past sathda bo'lgan open-drain CMOS inverterning statik quvvat iste'moli; variantlar a) chiqishdagi jami sig'imga bog'liq, b) chiqish pull-down qarshiligiga bog'liq, c) chiqishga ulangan har qanday rezistiv yuklamaga bog'liq, d) chiqish va yer orasidagi tashqi qarshilikka bog'liq emas" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> open-drain CMOS inverterning chiqishi past (0) bo'lganda statik quvvat iste'moli nimaga bog'liq?</p>
+<details><summary>Yechim</summary>
+<p>Javob: <strong>(d) chiqish va yer (GND) orasidagi tashqi qarshilikka bog'liq emas</strong>.</p>
+<p>Chiqish 0 V da. Chiqish bilan yer orasiga ulangan rezistorning ikki uchida ham 0 V, undan tok oqmaydi. Tok faqat VDD ga ulangan pull-up rezistordan keladi, shuning uchun (c) "har qanday rezistiv yuklama" noto'g'ri. Open-drain da ichki pull-down rezistor yo'q, demak (b) ham noto'g'ri. Sig'im faqat o'tish paytida ta'sir qiladi, statik holatda emas, shuning uchun (a) ham noto'g'ri. (<a href="06-cmos-darvoza.html">6-dars</a>)</p>
+</details>
+
+<h2>6-savol. Crosstalk</h2>
+<img src="img/x2106-p7.png" alt="6-savol: bog'langan uzatish liniyalaridagi crosstalk shovqini; variantlar a) gate kuchlanishi kamayganda ortadi, b) liniyalar orasidagi masofa ortganda kamayadi, c) masofa kamayganda kamayadi, d) differensial signallarda ortadi" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> yonma-yon liniyalar orasidagi crosstalk (o'zaro xalaqit) shovqini haqida qaysi gap to'g'ri?</p>
+<details><summary>Yechim</summary>
+<p>Javob: <strong>(b) liniyalar orasidagi masofa ortsa kamayadi</strong>.</p>
+<p>Crosstalk kuchlanish o'zgarishiga proporsional (kuchlanish kamaysa kamayadi, shuning uchun (a) teskari), simlar yaqinlashganda ortadi (shuning uchun (c) teskari) va differensial signallarda ancha kamayadi (shuning uchun (d) teskari). (<a href="28-ketma-ket-signal-yaxlitligi.html">28-dars</a>)</p>
+</details>
+
+<h2>7-savol. Flip-flop zanjiri, FMAX (masala, 7 ball)</h2>
+<img src="img/x2106-p8.png" alt="7-savol: to'rtta flip-flop FF1 (D), FF2 (JK, XOR bilan), FF3 (D, inverter bilan), FF4 (JK, J=K=VDD), har biri oldingisining chiqishidan takt oladi; tCKQ = 2.5 ns, tSU = 1.5 ns, tH = 0.7 ns; har holat takt davrining kamida yarmida barqaror turadigan FMAX (3 ball); tSU va tH yarimga tushsa FMAX (2 ball); tSU = 2 ns va tCKQ = 2 ns bo'lsa FMAX (2 ball)" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> FF lar uchun tCKQ = 2.5 ns, tSU = 1.5 ns, tH = 0.7 ns, darvozalar ideal. Sxema to'g'ri ishlab, har bir holat takt davrining kamida yarmida barqaror turadigan maksimal chastota FMAX qancha? tSU va tH ikkalasi yarimga tushsa FMAX qanday o'zgaradi? tSU = 2 ns ga oshib, tCKQ = 2 ns ga tushsa-chi?</p>
+<details><summary>Yechim</summary>
+<ol>
+<li>Kuzating: har FF ning chiqishi <strong>keyingi FF ning taktiga</strong> ulangan (asinxron zanjir). Kechikishlar qo'shiladi.</li>
+<li>Eng yomon holat: hamma chiqish o'zgaradi (0000 → 1111). Q4 frontdan 4·t<sub>CKQ</sub> keyin barqarorlashadi.</li>
+<li>Holat davrning kamida yarmida barqaror turishi kerak: T = 4·t<sub>CKQ</sub> + T/2 → T/2 = 4·t<sub>CKQ</sub> → T = 8·t<sub>CKQ</sub> = 8 · 2.5 = 20 ns.</li>
+<li>F<sub>MAX</sub> = 1/20 ns = <strong>50 MHz</strong>.</li>
+<li>Formulada t<sub>SU</sub> va t<sub>H</sub> yo'q (zanjirda faqat t<sub>CKQ</sub> qo'shiladi, va T = 20 ns ≫ t<sub>SU</sub>). Ular yarimga tushsa F<sub>MAX</sub> <strong>is unchanged</strong>.</li>
+<li>t<sub>CKQ</sub> = 2 ns → T = 16 ns → 62.5 MHz: F<sub>MAX</sub> <strong>increases</strong> (t<sub>SU</sub> oshgani ta'sir qilmaydi).</li>
+</ol>
+<p>Batafsil vaqt diagrammasi bilan: <a href="11-mashq-flip-flop.html">11-dars</a> (asinxron hisoblagich: <a href="09-hisoblagich-fsm.html">9-dars</a>).</p>
+</details>
+
+<h2>8-savol. DRAM ni o'qish</h2>
+<img src="img/x2106-p10.png" alt="8-savol: DRAM katagi kondensatori 0 V, o'qishda bitline VDD/2 ga oldindan o'rnatilgan; variantlar a) bitline kuchlanishi ΔV < VDD/2 ga kamayadi, b) katak kuchlanishi o'zgarmaydi, c) ΔV = VDD/2 − Vth ga kamayadi, d) ΔV < VDD/2 ga ortadi" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> DRAM katagidagi kondensatorda 0 V saqlangan. O'qishdan oldin bitline VDD/2 ga o'rnatilgan. O'qishda nima bo'ladi?</p>
+<details><summary>Yechim</summary>
+<p>Javob: <strong>(a) bitline kuchlanishi ΔV &lt; VDD/2 ga kamayadi</strong>.</p>
+<p>Kalit ulanganda bitline (VDD/2) va kichik kondensator (0 V) zaryadni bo'lishadi. Bitline sig'imi katak sig'imidan ancha katta, shuning uchun bitline 0 V tomon <strong>ozgina</strong> tushadi va 0 V gacha yetib bormaydi. (b) noto'g'ri: zaryad bo'linganda katak kondensatori ham bitline dan zaryad olib, 0 V dan biroz ko'tariladi. O'qish katakni buzadi, shuning uchun keyin qiymat qayta yoziladi. (<a href="22-sram-dram-flash.html">22-dars</a>)</p>
+</details>
+
+<h2>9-savol. 3 kirishli LUT</h2>
+<img src="img/x2106-p11.png" alt="9-savol: FPGA dagi 3 kirishli LUT; variantlar a) 3 kirishli 8 ta funksiya, b) 3 kirishli 2^(2^3) ta funksiya, c) 2^(2^3) ta xotira katagi, d) 4 kirishli 2^(2^4) funksiya" style="max-width:100%;background:#fff;border-radius:6px">
+<p><strong>Tarjima:</strong> FPGA mantiqiy blokidagi 3 kirishli LUT haqida qaysi gap to'g'ri?</p>
+<details><summary>Yechim</summary>
+<p>Javob: <strong>(b) 3 kirishli 2<sup>2<sup>3</sup></sup> = 256 ta funksiyani bajara oladi</strong>.</p>
+<p>3 kirish → 2<sup>3</sup> = 8 ta katak (shuning uchun (c) noto'g'ri, 256 katak emas). Har katakka 0 yoki 1 yoziladi, ya'ni 8 ta katakni 2<sup>8</sup> = 256 xil to'ldirish mumkin. Har to'ldirish bitta funksiya. (<a href="10-dasturlanadigan-mantiq-fpga-nre.html">10-dars</a>)</p>
+</details>
+
+<h2>Natijani baholang</h2>
+<table>
+<tr><th>Savol</th><th>Javob</th><th>Mavzu</th><th>Dars</th></tr>
+<tr><td>1</td><td>b</td><td>three-state to'qnashuvi</td><td><a href="06-cmos-darvoza.html">6</a></td></tr>
+<tr><td>2</td><td>d</td><td>SAR vaqti</td><td><a href="18-adc-turlari.html">18</a></td></tr>
+<tr><td>3</td><td>a</td><td>Z∞ = √(L/C)</td><td><a href="25-uzatish-liniyasi.html">25</a></td></tr>
+<tr><td>4</td><td>0.194 W; 15.6 W; 31.6 °C; ×4; ×2</td><td>CMOS quvvati, issiqlik</td><td><a href="06-cmos-darvoza.html">6</a>, <a href="30-quvvat-tranzistor-issiqlik.html">30</a></td></tr>
+<tr><td>5</td><td>d</td><td>open-drain statik quvvat</td><td><a href="06-cmos-darvoza.html">6</a></td></tr>
+<tr><td>6</td><td>b</td><td>crosstalk</td><td><a href="28-ketma-ket-signal-yaxlitligi.html">28</a></td></tr>
+<tr><td>7</td><td>50 MHz; unchanged; increases</td><td>asinxron zanjir</td><td><a href="11-mashq-flip-flop.html">11</a></td></tr>
+<tr><td>8</td><td>a</td><td>DRAM o'qish</td><td><a href="22-sram-dram-flash.html">22</a></td></tr>
+<tr><td>9</td><td>b</td><td>LUT</td><td><a href="10-dasturlanadigan-mantiq-fpga-nre.html">10</a></td></tr>
+</table>
+
+<h2>📝 Konspekt</h2>
+<div class="box">
+<span class="formula">P = N·F·CL·VDD², CL = (boshqarilgan gate lar soni)·CG &nbsp;·&nbsp; TJ = TA + (θJC + θCA)·P</span>
+<span class="formula">Asinxron zanjir, k ta FF, holat T/2 barqaror: T = 2·k·tCKQ</span>
+<span class="formula">Z∞ = √(LU/CU) &nbsp;·&nbsp; LUT k kirish: 2<sup>k</sup> katak, 2<sup>2<sup>k</sup></sup> funksiya</span>
+<ul>
+<li>Parallel chiqishlar ikkalasi 0 → VOUT ≤ VOL. Open-drain 0 da: yerga ulangan rezistor tok olmaydi.</li>
+<li>SAR vaqti ∝ N; flash vaqti N ga bog'liq emas.</li>
+<li>Crosstalk: masofa ↑ → ↓, kuchlanish ↑ → ↑, differensial → ↓.</li>
+<li>DRAM: bitline VDD/2 dan saqlangan qiymat tomon ΔV &lt; VDD/2 ga siljiydi; o'qish buzadi.</li>
+</ul>
+</div>
+
+<div class="box ok">Natijangizni chatga yozing: nechta to'g'ri, qaysilari xato.</div>
+
+<footer class="pager"><a href="41-imtihon-2021-07.html">← 41-dars</a><a href="43-imtihon-2021-01.html">43-dars →</a></footer>
+</main></body></html>
