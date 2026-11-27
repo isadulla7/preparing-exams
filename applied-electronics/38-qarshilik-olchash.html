@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>38. Qarshilikni o'lchash</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>38. Qarshilikni o'lchash: volt-ampermetr usuli, 4 simli ulanish, taqqoslash usuli</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> qarshilikni voltmetr va ampermetr bilan o'lchash (Om qonuni orqali), asboblarning <strong>yuklama effekti</strong> va ikki sxemadan to'g'risini tanlash (√(RA·RV) qoidasi), simlar va kontaktlar qarshiligi va undan qutulish uchun <strong>4 simli ulanish</strong>, raqamli multimetr qarshilikni qanday o'lchashi va eng aniq usul: etalon bilan <strong>taqqoslash</strong>. Oxirida slayddagi to'liq sonli masala yechiladi (RX = 146.0 ± 1.2 Ω). Manba: A. Carullo, "Measurement of electrical resistance" slaydlari va konspekti, "Comparison method" laboratoriya ishi. Asos: 1-dars (Om qonuni), 35-dars (noaniqlik, yuklama effekti). O'qish vaqti: 35 daqiqa.</div>
+
+<h2>1. Volt-ampermetr usuli</h2>
+<p>Qarshilik passiv kattalik: o'zi signal bermaydi. Shuning uchun tashqi manba (Vs) tok o'tkazadi, ampermetr <strong>ketma-ket</strong> ulanib tokni (I), voltmetr <strong>parallel</strong> ulanib kuchlanishni (V) o'lchaydi. Natija Om qonunidan (bilvosita o'lchash):</p>
+<span class="formula">R = V / I &nbsp;·&nbsp; εR = εV + εI</span>
+<p>Bo'linma bo'lgani uchun nisbiy noaniqliklar qo'shiladi (35-dars). Demak, R hech qachon V va I dan aniqroq o'lchanmaydi. Bu usul bilan qurilmaning V-I xarakteristikasini va quvvatini (P = V·I) ham olish mumkin.</p>
+
+<h2>2. Yuklama effekti: ikki sxema</h2>
+<p>Haqiqiy asboblar ideal emas: ampermetrning ichki qarshiligi RA kichik, lekin nol emas; voltmetrniki RV katta, lekin cheksiz emas. Shuning uchun asboblar o'lchanayotgan zanjirni biroz o'zgartiradi (35-darsdagi <span class="term">yuklama effekti</span>, load effect). Voltmetrni ikki joyga ulash mumkin:</p>
+<figure><svg viewBox="0 0 720 270" role="img" aria-label="Volt-ampermetr usulining ikki sxemasi. Chapda: voltmetr ampermetrdan keyin (downstream), voltmetr R ga to'g'ridan-to'g'ri parallel, ampermetr R va voltmetr toklari yig'indisini o'lchaydi: r = R parallel RV, R dan kichik. O'ngda: voltmetr ampermetrdan oldin (upstream), ampermetr faqat R tokini o'lchaydi, voltmetr esa R va ampermetr kuchlanishlari yig'indisini: r = R + RA" font-family="system-ui,sans-serif">
+<text x="180.0" y="24.0" text-anchor="middle" font-size="13" fill="currentColor" font-weight="700">1) Voltmetr pastda (downstream)</text>
+<circle cx="40" cy="125" r="15" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="40.0" y="122.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">+</text><text x="20.0" y="130.0" text-anchor="end" font-size="12" fill="currentColor" font-weight="700">Vs</text>
+<path d="M40 110V60H95M125 60H290V80M40 140V190H290V150" fill="none" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="110" cy="60" r="15" fill="var(--bg,#fff)" fill-opacity="0" stroke="#2563eb" stroke-width="1.8"/><text x="110.0" y="65.0" text-anchor="middle" font-size="14" fill="#2563eb" font-weight="700">A</text>
+<path d="M200 60V110M200 140V190" stroke="currentColor" stroke-width="1.5"/><circle cx="200" cy="60" r="3" fill="currentColor"/><circle cx="200" cy="190" r="3" fill="currentColor"/>
+<circle cx="200" cy="125" r="15" fill="var(--bg,#fff)" fill-opacity="0" stroke="#16a34a" stroke-width="1.8"/><text x="200.0" y="130.0" text-anchor="middle" font-size="14" fill="#16a34a" font-weight="700">V</text>
+<rect x="280" y="80" width="20" height="70" rx="3" fill="#9333ea" fill-opacity=".15" stroke="#9333ea" stroke-width="1.8"/><text x="306.0" y="120.0" text-anchor="start" font-size="13" fill="#9333ea" font-weight="700">R</text>
+<text x="110.0" y="38.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">i = I + IV</text><text x="245.0" y="52.0" text-anchor="middle" font-size="11" fill="currentColor">I →</text><text x="176.0" y="130.0" text-anchor="end" font-size="12" fill="#16a34a" font-weight="700">v = V</text>
+<text x="180.0" y="222.0" text-anchor="middle" font-size="13" fill="#dc2626" font-weight="700">r = v/i = R·RV/(R + RV) < R</text><text x="180.0" y="244.0" text-anchor="middle" font-size="13" fill="#dc2626" font-weight="700">εLE,V ≈ −R / RV</text>
+<text x="540.0" y="24.0" text-anchor="middle" font-size="13" fill="currentColor" font-weight="700">2) Voltmetr yuqorida (upstream)</text>
+<circle cx="400" cy="125" r="15" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="400.0" y="122.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">+</text><text x="380.0" y="130.0" text-anchor="end" font-size="12" fill="currentColor" font-weight="700">Vs</text>
+<path d="M400 110V60H535M565 60H650V80M400 140V190H650V150" fill="none" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="550" cy="60" r="15" fill="var(--bg,#fff)" fill-opacity="0" stroke="#2563eb" stroke-width="1.8"/><text x="550.0" y="65.0" text-anchor="middle" font-size="14" fill="#2563eb" font-weight="700">A</text>
+<path d="M470 60V110M470 140V190" stroke="currentColor" stroke-width="1.5"/><circle cx="470" cy="60" r="3" fill="currentColor"/><circle cx="470" cy="190" r="3" fill="currentColor"/>
+<circle cx="470" cy="125" r="15" fill="var(--bg,#fff)" fill-opacity="0" stroke="#16a34a" stroke-width="1.8"/><text x="470.0" y="130.0" text-anchor="middle" font-size="14" fill="#16a34a" font-weight="700">V</text>
+<rect x="640" y="80" width="20" height="70" rx="3" fill="#9333ea" fill-opacity=".15" stroke="#9333ea" stroke-width="1.8"/><text x="666.0" y="120.0" text-anchor="start" font-size="13" fill="#9333ea" font-weight="700">R</text>
+<text x="550.0" y="38.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">i = I</text><text x="494.0" y="130.0" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">v = V + VA</text>
+<text x="540.0" y="222.0" text-anchor="middle" font-size="13" fill="#dc2626" font-weight="700">r = v/i = R + RA > R</text><text x="540.0" y="244.0" text-anchor="middle" font-size="13" fill="#dc2626" font-weight="700">εLE,A = RA / R</text>
+<path d="M360 40V250" stroke="#9aa0a6" stroke-dasharray="4 4"/>
+</svg></figure>
+<table>
+<tr><th></th><th>1) Voltmetr pastda (downstream)</th><th>2) Voltmetr yuqorida (upstream)</th></tr>
+<tr><td>Nima noto'g'ri o'lchanadi</td><td>v = V to'g'ri, lekin i = I + IV (voltmetr toki ham qo'shiladi)</td><td>i = I to'g'ri, lekin v = V + VA (ampermetrdagi tushish qo'shiladi)</td></tr>
+<tr><td>O'lchangan r</td><td>r = R·RV / (R + RV) (R ∥ RV)</td><td>r = R + RA</td></tr>
+<tr><td>Absolyut xato δLE = r − R</td><td>−R² / (R + RV)</td><td>+RA</td></tr>
+<tr><td>Nisbiy xato εLE</td><td>−R / (R + RV) ≈ −R / RV</td><td>RA / R</td></tr>
+<tr><td>Qachon yaxshi</td><td><strong>kichik</strong> R</td><td><strong>katta</strong> R</td></tr>
+</table>
+
+<h3>Qaysi sxemani tanlash</h3>
+<p>Ikki xato teng bo'ladigan nuqta: R/RV = RA/R → <strong>R = √(RA·RV)</strong>.</p>
+<figure><svg viewBox="0 0 720 300" role="img" aria-label="Qaysi sxema yaxshi: RA = 1 Ω, RV = 10 kΩ. Voltmetr pastda bo'lsa nisbiy xato R/RV, R oshgan sari oshadi. Voltmetr yuqorida bo'lsa xato RA/R, R oshgan sari kamayadi. Ikki chiziq R = ildiz(RA·RV) = 100 Ω da kesishadi" font-family="system-ui,sans-serif">
+<path d="M80.0 230V235" stroke="currentColor"/><text x="80.0" y="248.0" text-anchor="middle" font-size="11" fill="currentColor">1 Ω</text>
+<path d="M80 30.0H500" stroke="#9aa0a6" stroke-opacity=".25"/><text x="74.0" y="34.0" text-anchor="end" font-size="11" fill="currentColor">1</text>
+<path d="M185.0 230V235" stroke="currentColor"/><text x="185.0" y="248.0" text-anchor="middle" font-size="11" fill="currentColor">10 Ω</text>
+<path d="M80 80.0H500" stroke="#9aa0a6" stroke-opacity=".25"/><text x="74.0" y="84.0" text-anchor="end" font-size="11" fill="currentColor">0.1</text>
+<path d="M290.0 230V235" stroke="currentColor"/><text x="290.0" y="248.0" text-anchor="middle" font-size="11" fill="currentColor">100 Ω</text>
+<path d="M80 130.0H500" stroke="#9aa0a6" stroke-opacity=".25"/><text x="74.0" y="134.0" text-anchor="end" font-size="11" fill="currentColor">0.01</text>
+<path d="M395.0 230V235" stroke="currentColor"/><text x="395.0" y="248.0" text-anchor="middle" font-size="11" fill="currentColor">1 kΩ</text>
+<path d="M80 180.0H500" stroke="#9aa0a6" stroke-opacity=".25"/><text x="74.0" y="184.0" text-anchor="end" font-size="11" fill="currentColor">0.001</text>
+<path d="M500.0 230V235" stroke="currentColor"/><text x="500.0" y="248.0" text-anchor="middle" font-size="11" fill="currentColor">10 kΩ</text>
+<path d="M80 230.0H500" stroke="#9aa0a6" stroke-opacity=".25"/><text x="74.0" y="234.0" text-anchor="end" font-size="11" fill="currentColor">0.0001</text>
+<path d="M80 22V230H508" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="500.0" y="266.0" text-anchor="end" font-size="12" fill="currentColor" font-weight="700">R (o'lchanayotgan)</text><text x="86.0" y="18.0" text-anchor="start" font-size="12" fill="currentColor" font-weight="700">|nisbiy yuklama xatosi|</text>
+<path d="M80.0 230.0L500.0 30.0" stroke="#16a34a" stroke-width="2.4"/>
+<path d="M80.0 30.0L500.0 230.0" stroke="#2563eb" stroke-width="2.4"/>
+<circle cx="290.0" cy="130.0" r="5" fill="#dc2626"/><path d="M290.0 130.0V230" stroke="#dc2626" stroke-dasharray="4 3"/>
+<text x="298.0" y="148.0" text-anchor="start" font-size="12" fill="#dc2626" font-weight="700">√(RA·RV) = 100 Ω</text>
+<text x="530.0" y="60.0" text-anchor="start" font-size="12" fill="currentColor" font-weight="700">RA = 1 Ω, RV = 10 kΩ</text>
+<path d="M530 90h24" stroke="#16a34a" stroke-width="2.4"/><text x="560.0" y="94.0" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">pastda: R / RV</text>
+<path d="M530 114h24" stroke="#2563eb" stroke-width="2.4"/><text x="560.0" y="118.0" text-anchor="start" font-size="12" fill="#2563eb" font-weight="700">yuqorida: RA / R</text>
+<text x="530.0" y="160.0" text-anchor="start" font-size="12" fill="#9333ea" font-weight="700">R < 100 Ω → pastda</text><text x="530.0" y="180.0" text-anchor="start" font-size="11" fill="#9333ea">(kichik R)</text>
+<text x="530.0" y="206.0" text-anchor="start" font-size="12" fill="#9333ea" font-weight="700">R > 100 Ω → yuqorida</text><text x="530.0" y="226.0" text-anchor="start" font-size="11" fill="#9333ea">(katta R)</text>
+<text x="360.0" y="294.0" text-anchor="middle" font-size="12" fill="currentColor">Har doim pastroq chiziqni tanlang</text>
+</svg></figure>
+<span class="formula">R &lt; √(RA·RV) → voltmetr pastda &nbsp;·&nbsp; R &gt; √(RA·RV) → voltmetr yuqorida</span>
+<div class="box warn"><strong>Diqqat (slayddan):</strong> bu qoida xatoni <strong>eng kichik</strong> qiladi, lekin uni <strong>arzimas</strong> qilishga kafolat bermaydi. Tanlangan sxemaning εLE sini boshqa noaniqliklar (εV + εI) bilan solishtirish kerak:
+<ul>
+<li>εLE ≪ εV + εI → oddiy model: R = v/i.</li>
+<li>Arzimas emas, voltmetr yuqorida → <strong>R = v/i − RA</strong>.</li>
+<li>Arzimas emas, voltmetr pastda → <strong>R = v / (i − v/RV)</strong>.</li>
+</ul>
+RA va RV ning o'zi ham noaniq, shuning uchun tuzatishdan keyin ham ularning noaniqligi natijaga qo'shiladi.</div>
+
+<h2>3. Simlar va kontaktlar qarshiligi. 4 simli ulanish</h2>
+<p>Har bir ulash simining qarshiligi Rw (wire) va har bir kontaktning qarshiligi Rc (contact) bor. Oddiy (2 simli) ulanishda ular R bilan ketma-ket o'lchanadi:</p>
+<span class="formula">r = v / i = R + 2·Rc + 2·Rw</span>
+<p>Bu <strong>sistematik</strong> xato, qiymati odatda kamida <strong>0.1 Ω</strong>. U qachon muhim?</p>
+<ul>
+<li>R = 100 Ω, talab qilingan aniqlik 1 % → δR = 1 Ω. 0.1 Ω ≪ 1 Ω: <strong>arzimas</strong>.</li>
+<li>R = 10 kΩ, talab 10⁻⁵ → δR = 0.1 Ω. Simlar xatosi bilan teng: <strong>arzimas emas</strong> → 4 simli ulanish kerak.</li>
+</ul>
+<figure><svg viewBox="0 0 720 240" role="img" aria-label="Ikki simli va to'rt simli ulanish. Ikki simlida voltmetr o'lchaydigan kuchlanishga simlar va kontaktlar qarshiligi qo'shiladi: r = R + 2Rc + 2Rw. To'rt simlida tok ikki tashqi simdan o'tadi, kuchlanish boshqa ikki ichki simdan to'g'ridan-to'g'ri R uchlarida o'lchanadi; voltmetr toki juda kichik bo'lgani uchun ichki simlarda kuchlanish tushmaydi" font-family="system-ui,sans-serif">
+<text x="180.0" y="22.0" text-anchor="middle" font-size="13" fill="currentColor" font-weight="700">2 simli (2W)</text>
+<circle cx="40" cy="120" r="15" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="40.0" y="117.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">+</text><text x="20.0" y="125.0" text-anchor="end" font-size="12" fill="currentColor" font-weight="700">Vs</text>
+<circle cx="100" cy="50" r="15" fill="var(--bg,#fff)" fill-opacity="0" stroke="#2563eb" stroke-width="1.8"/><text x="100.0" y="55.0" text-anchor="middle" font-size="14" fill="#2563eb" font-weight="700">A</text>
+<rect x="290" y="85" width="20" height="70" rx="3" fill="#9333ea" fill-opacity=".15" stroke="#9333ea" stroke-width="1.8"/><text x="316.0" y="125.0" text-anchor="start" font-size="13" fill="#9333ea" font-weight="700">R</text>
+<path d="M40 105V50H85M115 50H160M40 135V190H160" fill="none" stroke="currentColor" stroke-width="1.5"/>
+<path d="M160 50h6.25l3.1 -6l3.1 6l3.1 6l3.1 -6l3.1 -6l3.1 6l3.1 6l3.1 -6l3.1 -6l3.1 6l3.1 6l3.1 -6h6.25" fill="none" stroke="#d9622b" stroke-width="1.6"/><path d="M160 190h6.25l3.1 -6l3.1 6l3.1 6l3.1 -6l3.1 -6l3.1 6l3.1 6l3.1 -6l3.1 -6l3.1 6l3.1 6l3.1 -6h6.25" fill="none" stroke="#d9622b" stroke-width="1.6"/>
+<path d="M210 50H300V85M210 190H300V155" fill="none" stroke="currentColor" stroke-width="1.5"/>
+<path d="M130 50V105M130 135V190" stroke="currentColor" stroke-width="1.5"/><circle cx="130" cy="120" r="15" fill="var(--bg,#fff)" fill-opacity="0" stroke="#16a34a" stroke-width="1.8"/><text x="130.0" y="125.0" text-anchor="middle" font-size="14" fill="#16a34a" font-weight="700">V</text>
+<text x="185.0" y="38.0" text-anchor="middle" font-size="11" fill="#d9622b" font-weight="700">Rw + Rc</text><text x="185.0" y="212.0" text-anchor="middle" font-size="11" fill="#d9622b" font-weight="700">Rw + Rc</text>
+<text x="180.0" y="234.0" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="700">r = R + 2Rc + 2Rw (sistematik xato)</text>
+<text x="540.0" y="22.0" text-anchor="middle" font-size="13" fill="currentColor" font-weight="700">4 simli (4W)</text>
+<circle cx="400" cy="120" r="15" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="400.0" y="117.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">+</text><text x="380.0" y="125.0" text-anchor="end" font-size="12" fill="currentColor" font-weight="700">Vs</text>
+<circle cx="460" cy="50" r="15" fill="var(--bg,#fff)" fill-opacity="0" stroke="#2563eb" stroke-width="1.8"/><text x="460.0" y="55.0" text-anchor="middle" font-size="14" fill="#2563eb" font-weight="700">A</text>
+<rect x="650" y="85" width="20" height="70" rx="3" fill="#9333ea" fill-opacity=".15" stroke="#9333ea" stroke-width="1.8"/><text x="676.0" y="125.0" text-anchor="start" font-size="13" fill="#9333ea" font-weight="700">R</text>
+<path d="M400 105V50H445M475 50H520M400 135V190H520" fill="none" stroke="currentColor" stroke-width="1.5"/>
+<path d="M520 50h6.25l3.1 -6l3.1 6l3.1 6l3.1 -6l3.1 -6l3.1 6l3.1 6l3.1 -6l3.1 -6l3.1 6l3.1 6l3.1 -6h6.25" fill="none" stroke="#d9622b" stroke-width="1.6"/><path d="M520 190h6.25l3.1 -6l3.1 6l3.1 6l3.1 -6l3.1 -6l3.1 6l3.1 6l3.1 -6l3.1 -6l3.1 6l3.1 6l3.1 -6h6.25" fill="none" stroke="#d9622b" stroke-width="1.6"/>
+<path d="M570 50H660V85M570 190H660V155" fill="none" stroke="currentColor" stroke-width="1.5"/>
+<path d="M660 92H622M572 92H540V105M660 148H622M572 148H540V135" fill="none" stroke="#16a34a" stroke-width="1.5"/><path d="M572 92h6.25l3.1 -6l3.1 6l3.1 6l3.1 -6l3.1 -6l3.1 6l3.1 6l3.1 -6l3.1 -6l3.1 6l3.1 6l3.1 -6h6.25" fill="none" stroke="#d9622b" stroke-width="1.2"/><path d="M572 148h6.25l3.1 -6l3.1 6l3.1 6l3.1 -6l3.1 -6l3.1 6l3.1 6l3.1 -6l3.1 -6l3.1 6l3.1 6l3.1 -6h6.25" fill="none" stroke="#d9622b" stroke-width="1.2"/>
+<circle cx="660" cy="92" r="3" fill="#16a34a"/><circle cx="660" cy="148" r="3" fill="#16a34a"/><circle cx="540" cy="120" r="15" fill="var(--bg,#fff)" fill-opacity="0" stroke="#16a34a" stroke-width="1.8"/><text x="540.0" y="125.0" text-anchor="middle" font-size="14" fill="#16a34a" font-weight="700">V</text>
+<text x="545.0" y="38.0" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">tok simlari</text><text x="597.0" y="82.0" text-anchor="middle" font-size="10" fill="#16a34a" font-weight="700">kuchl. simlari</text>
+<text x="540.0" y="234.0" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">IV ≈ 0 → ichki simlarda tushish yo'q → v = V</text>
+<path d="M360 30V220" stroke="#9aa0a6" stroke-dasharray="4 4"/>
+</svg></figure>
+<p><span class="term">4 simli ulanish</span> (four-wire, 4W, Kelvin ulanishi): R ga 4 ta sim ulanadi. Ikkitasi <strong>tashqi tok halqasi</strong> (I shulardan oqadi), ikkitasi <strong>ichki kuchlanish halqasi</strong> (voltmetrga, R ning aynan uchlaridan). Voltmetrning RV si juda katta (gigaom darajasida bo'lishi mumkin), shuning uchun ichki simlardan deyarli tok oqmaydi va ularda kuchlanish tushmaydi: v = V. Tok simlaridagi tushish esa voltmetrga umuman kirmaydi.</p>
+<div class="box analogy"><strong>O'xshatish:</strong> shlangdagi bosimni o'lchash. Bosim o'lchagichni nasos yonida emas, aynan kerakli joyga alohida ingichka naycha bilan ulasangiz, shlang bo'ylab yo'qotilgan bosim natijaga kirmaydi.</div>
+<p><strong>Rezistorning holati:</strong> qarshilik haroratga bog'liq. Harorat atrof-muhitdan va o'lchash tokining o'zi qizdirishidan (<span class="term">self-heating</span>, o'z-o'zini qizdirish) kelib chiqadi. Shuning uchun Vs (tok) tanlanganda buni hisobga olish kerak.</p>
+
+<h3>Raqamli multimetr (DMM) qanday o'lchaydi</h3>
+<p>DMM ichida aniq tok manbai Iref bor. U Rx orqali tok o'tkazadi va kuchlanishni o'lchaydi (kirish qarshiligi &gt; 10 GΩ):</p>
+<span class="formula">2W: &nbsp;Rm = Vin / Iref = Rx + Rcon + Rwire</span>
+<ul>
+<li><strong>4W rejim</strong> (alohida HI/LO sense kirishlari) bo'lsa, simlar ta'siri yo'qoladi: Rm ≈ Rx.</li>
+<li>4W bo'lmasa: avval sim uchlarini bir-biriga tutashtirib o'lchaysiz va DMM ning <strong>NULL / REL / ZERO</strong> funksiyasi bu qiymatni keyingi o'lchashlardan avtomatik ayiradi.</li>
+</ul>
+
+<h2>4. Slayddagi sonli masala</h2>
+<div class="box"><p><em>Volt-ammeter method. RX = 150 Ω (nominal value). Voltmeter: δV = ±(0.2% reading + 0.01) V; RV = 10 kΩ, ±10%. Ammeter: δI = ±0.2 mA; RA = 1 Ω, ±10%. Decide what is the best circuit configuration (voltmeter downstream or upstream). Estimate the measurement of RX when v = 7.350 V, i = 50 mA.</em></p></div>
+<p><strong>1-qadam: sxemani tanlash.</strong></p>
+<span class="formula">√(RA·RV) = √(1 · 10⁴) = 100 Ω &nbsp;·&nbsp; RX = 150 Ω &gt; 100 Ω → voltmetr yuqorida</span>
+<p>Tekshiruv: yuqorida εLE,A = RA/RX = 1/150 = <strong>0.0067</strong>; pastda bo'lsa εLE,V ≈ RX/RV = 150/10 000 = 0.015. 0.0067 &lt; 0.015 ✓.</p>
+<p><strong>2-qadam: yuklama xatosi arzimasmi?</strong> Ideal model bilan noaniqlik:</p>
+<span class="formula">R = v/i = 7.350 / 0.05 = 147 Ω</span>
+<span class="formula">εv = (0.002·7.350 + 0.010)/7.350 = 0.025/7.350 = 0.0034 &nbsp;·&nbsp; εi = 0.2/50 = 0.004 &nbsp;·&nbsp; εR = 0.0074</span>
+<p>εLE = 0.0067 va εR = 0.0074 deyarli teng → <strong>arzimas emas</strong>, modelni tuzatamiz:</p>
+<span class="formula">RX = v/i − RA = 147 − 1 = 146 Ω</span>
+<p><strong>3-qadam: noaniqlik</strong> (35-darsdagi retsept: har bir kirish bo'yicha hosila × noaniqlik, keyin yig'indi). δv = 0.025 V, δi = 0.2 mA, δRA = 10 % · 1 Ω = 0.1 Ω.</p>
+<table>
+<tr><th>Kirish</th><th>Hosila</th><th>|hosila| · δ</th></tr>
+<tr><td>v</td><td>∂RX/∂v = 1/i = 20 Ω/V</td><td>20 · 0.025 = 0.5 Ω</td></tr>
+<tr><td>i</td><td>∂RX/∂i = −v/i² = −2940 Ω/A</td><td>2940 · 2·10⁻⁴ = 0.588 Ω</td></tr>
+<tr><td>RA</td><td>∂RX/∂RA = −1</td><td>1 · 0.1 = 0.1 Ω</td></tr>
+<tr><td colspan="2"><strong>δRX</strong></td><td><strong>1.188 ≈ 1.2 Ω</strong></td></tr>
+</table>
+<span class="formula">RX = (146.0 ± 1.2) Ω &nbsp;·&nbsp; εRX = 1.2/146 = 0.82 %</span>
+<div class="box warn"><strong>Tez-tez xatolar:</strong> (1) sxemani tanlab, keyin yuklama xatosini noaniqlik bilan solishtirmaslik; (2) RA noaniqligini (±10 %) unutish; (3) δv dagi "0.01 V" qismini (diapazonga bog'liq qism) tashlab ketish.</div>
+
+<h2>5. Taqqoslash usuli (comparison method)</h2>
+<p>Eng aniq usul: noma'lum RX ni aniq ma'lum <span class="term">etalon</span> qarshilik RS (standard resistor) bilan solishtirish. Ular <strong>ketma-ket</strong> ulanadi, shuning uchun bir xil tok IT oqadi; ikki kuchlanish o'lchanadi.</p>
+<figure><svg viewBox="0 0 720 240" role="img" aria-label="Taqqoslash usuli: tok manbai IT ketma-ket ulangan etalon qarshilik RS va noma'lum RX orqali bir xil tok o'tkazadi. VS va VX kuchlanishlar o'lchanadi. RX = RS · VX / VS" font-family="system-ui,sans-serif">
+<defs><marker id="cm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<circle cx="80" cy="120" r="18" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M80 134V106" stroke="currentColor" stroke-width="1.8" marker-end="url(#cm)"/><text x="54.0" y="124.0" text-anchor="end" font-size="13" fill="#2563eb" font-weight="700">IT</text>
+<path d="M80 102V30H260V45M80 138V210H260V195M260 115V125" fill="none" stroke="currentColor" stroke-width="1.5"/>
+<rect x="250" y="45" width="20" height="70" rx="3" fill="#d9622b" fill-opacity=".15" stroke="#d9622b" stroke-width="1.8"/><text x="276.0" y="85.0" text-anchor="start" font-size="13" fill="#d9622b" font-weight="700"></text><text x="240.0" y="85.0" text-anchor="end" font-size="13" fill="#d9622b" font-weight="700">RS (etalon)</text>
+<rect x="250" y="125" width="20" height="70" rx="3" fill="#9333ea" fill-opacity=".15" stroke="#9333ea" stroke-width="1.8"/><text x="276.0" y="165.0" text-anchor="start" font-size="13" fill="#9333ea" font-weight="700"></text><text x="240.0" y="165.0" text-anchor="end" font-size="13" fill="#9333ea" font-weight="700">RX (noma'lum)</text>
+<path d="M260 50H400V65M260 110H400V95M260 130H400V145M260 190H400V175" fill="none" stroke="#16a34a" stroke-width="1.3"/><circle cx="400" cy="80" r="15" fill="var(--bg,#fff)" fill-opacity="0" stroke="#16a34a" stroke-width="1.8"/><text x="400.0" y="85.0" text-anchor="middle" font-size="14" fill="#16a34a" font-weight="700">V</text><circle cx="400" cy="160" r="15" fill="var(--bg,#fff)" fill-opacity="0" stroke="#16a34a" stroke-width="1.8"/><text x="400.0" y="165.0" text-anchor="middle" font-size="14" fill="#16a34a" font-weight="700">V</text>
+<text x="424.0" y="85.0" text-anchor="start" font-size="13" fill="#d9622b" font-weight="700">VS</text><text x="424.0" y="165.0" text-anchor="start" font-size="13" fill="#9333ea" font-weight="700">VX</text>
+<text x="560.0" y="70.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">Tok bir xil:</text><text x="560.0" y="92.0" text-anchor="middle" font-size="13" fill="#2563eb" font-weight="700">IT = VS/RS = VX/RX</text>
+<text x="560.0" y="140.0" text-anchor="middle" font-size="15" fill="#dc2626" font-weight="700">RX = RS · VX / VS</text>
+<text x="560.0" y="166.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">εRX = εVX + εVS + εRS</text>
+</svg></figure>
+<span class="formula">IT = VS / RS = VX / RX &nbsp;→&nbsp; RX = RS · VX / VS &nbsp;·&nbsp; εRX = εVX + εVS + εRS</span>
+<p>Tok IT ning qiymati natijaga kirmaydi! Faqat u barqaror bo'lishi kerak.</p>
+<ul>
+<li><strong>Bitta voltmetr</strong> bilan navbatma-navbat o'lchansa, VS va VX turli vaqtda olinadi → tok manbaining qisqa muddatli siljishi qo'shiladi: εRX = εVX + εVS + εRS + εIT,st.</li>
+<li><strong>RS ≈ RX</strong> bo'lsa juda qulay: VS ≈ VX, voltmetr ikkalasini <strong>bir xil diapazonda</strong> o'lchaydi. Unda voltmetrning kuchaytirish xatosi εG qisqarib ketadi:</li>
+</ul>
+<span class="formula">RX = RS · LX(1 + εG) / (LS(1 + εG)) = RS · LX / LS</span>
+<p>(L = voltmetr ko'rsatishi.) Ideal (chiziqli) voltmetrda faqat ruxsat va takrorlanuvchanlik qoladi (offset ham avtomatik kompensatsiyalanadi). Haqiqiy voltmetrda yana <strong>nochiziqlilik</strong> qoladi, u odatda absolyut noaniqlikdan 100–1000 marta kichik:</p>
+<span class="formula">εRX = εVX,NL + εVS,NL + εRS + εIT,st</span>
+<p><strong>Voltmetrlar yuklamasi</strong> (RV1 = RV2 = RV): IT = VS/(RS∥RV) = VX/(RX∥RV), bundan</p>
+<span class="formula">RX = RV²·RS·VX / ( RV²·VS + RV·RS·(VS − VX) )</span>
+<p>RV → ∞ da bu oddiy RX = RS·VX/VS ga aylanadi. RS va RX 4 simli ulanadi, shuning uchun simlar ta'siri arzimas.</p>
+
+<h3>Termoelektr kuchlanish</h3>
+<p>Zanjirda har xil metallar har xil haroratda bo'lsa, <strong>Seebeck effekti</strong> tufayli kichik kuchlanish vtev paydo bo'ladi (past Seebeck koeffitsiyentli metallarda 1–10 µV). U VX va VS ning noaniqligi bilan teng bo'lsa, arzimas emas.</p>
+<div class="box"><p><strong>Slayddagi misol:</strong> RX = 1 kΩ, IT = 1 mA → VX ≈ 1 V. Talab εVX = 1·10⁻⁵, ya'ni 10 µV. Termoelektr kuchlanish ham ≈ 10 µV bo'lsa, u arzimas emas.</p></div>
+<p>IT ni tanlash murosaga asoslanadi: katta tok → o'z-o'zini qizdirish; kichik tok → termoelektr kuchlanish nisbatan katta. Yechim: <strong>tok yo'nalishini almashtirish</strong>. vtev ning ishorasi tok yo'nalishiga bog'liq emas:</p>
+<span class="formula">V'X = VX + vtev &nbsp;·&nbsp; V''X = −VX + vtev &nbsp;→&nbsp; VXC = (V'X − V''X) / 2 = VX</span>
+
+<h2>6. Mashqlar (o'zim tuzgan, imtihon uslubida)</h2>
+<div class="box"><p><strong>Mashq 1.</strong> R ≈ 47 Ω, RA = 1 Ω, RV = 10 kΩ. Qaysi sxema? O'lchandi: v = 2.350 V, i = 50.25 mA. Yuklama xatosini tuzatib R ni toping.</p>
+<details><summary>Yechim</summary>√(RA·RV) = 100 Ω &gt; 47 Ω → <strong>voltmetr pastda</strong>. εLE,V ≈ −47/10 047 = −0.47 % (yuqorida bo'lsa RA/R = 2.1 % bo'lardi).<br>
+r = v/i = 2.350/0.05025 = 46.77 Ω.<br>
+Tuzatilgan: R = v / (i − v/RV) = 2.350 / (0.05025 − 0.000235) = 2.350/0.050015 = <strong>46.99 Ω</strong>.</details></div>
+<div class="box"><p><strong>Mashq 2.</strong> 2 simli ulanishda har tomondagi Rw + Rc = 0.15 Ω. R = 10 Ω va R = 10 kΩ uchun nisbiy xato?</p>
+<details><summary>Yechim</summary>Jami 0.3 Ω qo'shiladi. 10 Ω: 0.3/10 = <strong>3 %</strong> (juda katta, 4W kerak). 10 kΩ: 0.3/10 000 = <strong>0.003 %</strong> (ko'pincha arzimas, lekin 10⁻⁵ aniqlik talab qilinsa emas).</details></div>
+<div class="box"><p><strong>Mashq 3.</strong> Taqqoslash usuli: RS = 1000.00 Ω ± 0.005 %, VS = 1.00020 V, VX = 0.98765 V; har bir kuchlanish noaniqligi 1·10⁻⁵ (nisbiy). RX = ?</p>
+<details><summary>Yechim</summary>RX = 1000 · 0.98765 / 1.00020 = <strong>987.45 Ω</strong>.<br>
+εRX = 1·10⁻⁵ + 1·10⁻⁵ + 5·10⁻⁵ = 7·10⁻⁵ → δRX = 0.069 Ω.<br>
+RX = (987.45 ± 0.07) Ω.</details></div>
+<div class="box"><p><strong>Mashq 4.</strong> Tok yo'nalishini almashtirib o'lchandi: V'X = 1.000025 V, V''X = −0.999985 V. VX va vtev?</p>
+<details><summary>Yechim</summary>VX = (1.000025 + 0.999985)/2 = <strong>1.000005 V</strong>. vtev = (V'X + V''X)/2 = (1.000025 − 0.999985)/2 = <strong>20 µV</strong>.</details></div>
+
+<h2>O'zingizni tekshiring</h2>
+<div class="box check">RA = 0.5 Ω, RV = 20 kΩ. Chegaraviy qarshilik? R = 50 Ω uchun qaysi sxema? <details><summary>Javob</summary>√(0.5 · 20 000) = <strong>100 Ω</strong>. 50 &lt; 100 → <strong>voltmetr pastda</strong>.</details></div>
+<div class="box check">Voltmetr yuqorida bo'lsa o'lchangan r R dan katta yoki kichikmi? Pastda-chi? <details><summary>Javob</summary>Yuqorida: r = R + RA &gt; R. Pastda: r = R∥RV &lt; R.</details></div>
+<div class="box check">4 simli ulanishda nega ichki (kuchlanish) simlaridagi qarshilik xato bermaydi? <details><summary>Javob</summary>Voltmetrning RV si juda katta, ulardan deyarli tok oqmaydi (IV ≈ 0), shuning uchun ularda kuchlanish tushmaydi.</details></div>
+<div class="box check">Taqqoslash usulida RS ≈ RX tanlash nega foydali? <details><summary>Javob</summary>VS ≈ VX bo'ladi, bitta voltmetr bir xil diapazonda o'lchaydi va uning kuchaytirish xatosi nisbatda qisqarib ketadi: RX = RS·LX/LS.</details></div>
+<div class="box check">Termoelektr kuchlanishni qanday yo'qotish mumkin? <details><summary>Javob</summary>Tok yo'nalishini almashtirib ikki marta o'lchash: VXC = (V'X − V''X)/2. vtev ishorasi tokka bog'liq emas, shuning uchun ayirmada yo'qoladi.</details></div>
+<div class="box check">Slayd masalasida δRA hisobga olinmasa natija qanday bo'lardi? <details><summary>Javob</summary>δRX = 0.5 + 0.588 = 1.09 Ω ≈ 1.1 Ω. Kichik farq, lekin imtihonda to'liq hisob kutiladi: <strong>1.2 Ω</strong>.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Volt-ampermetr usuli</td><td>volt-ammeter method</td><td>R = V/I, ikki asbob bilan bilvosita o'lchash</td></tr>
+<tr><td>Yuklama effekti</td><td>load effect</td><td>Asbob ichki qarshiligi tufayli zanjirning o'zgarishi</td></tr>
+<tr><td>Voltmetr pastda / yuqorida</td><td>voltmeter downstream / upstream (the ammeter)</td><td>Voltmetr R ga to'g'ridan-to'g'ri / ampermetr bilan birga parallel</td></tr>
+<tr><td>Sim / kontakt qarshiligi</td><td>wire / contact resistance (Rw, Rc)</td><td>Ulanishlarning qarshiligi, ≥ 0.1 Ω</td></tr>
+<tr><td>4 simli ulanish</td><td>four-wire (4W) circuit</td><td>Tok va kuchlanish uchun alohida simlar</td></tr>
+<tr><td>O'z-o'zini qizdirish</td><td>self-heating</td><td>O'lchash tokining rezistorni qizdirishi</td></tr>
+<tr><td>NULL / REL / ZERO</td><td>—</td><td>DMM da simlar qarshiligini ayirish funksiyasi</td></tr>
+<tr><td>Taqqoslash usuli</td><td>comparison method</td><td>RX = RS·VX/VS</td></tr>
+<tr><td>Etalon qarshilik</td><td>standard resistor RS</td><td>Qiymati juda aniq ma'lum qarshilik</td></tr>
+<tr><td>Kuchaytirish xatosi</td><td>gain error εG</td><td>Voltmetr ko'rsatishining proporsional xatosi</td></tr>
+<tr><td>Nochiziqlilik</td><td>non linearity (NL)</td><td>Ko'rsatishning to'g'ri chiziqdan chetlanishi</td></tr>
+<tr><td>Termoelektr kuchlanish</td><td>thermoelectric voltage (Seebeck effect)</td><td>Har xil metallar va haroratdan hosil bo'ladigan µV kuchlanish</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<span class="formula">R = V/I, &nbsp;εR = εV + εI</span>
+<span class="formula">Pastda: r = R∥RV, εLE ≈ −R/RV &nbsp;·&nbsp; Yuqorida: r = R + RA, εLE = RA/R &nbsp;·&nbsp; chegara √(RA·RV)</span>
+<span class="formula">Tuzatish: yuqorida R = v/i − RA &nbsp;·&nbsp; pastda R = v/(i − v/RV)</span>
+<span class="formula">2W: r = R + 2Rc + 2Rw &nbsp;·&nbsp; 4W: simlar ta'siri yo'q</span>
+<span class="formula">Taqqoslash: RX = RS·VX/VS, &nbsp;εRX = εVX + εVS + εRS (+ εIT,st)</span>
+<span class="formula">Termoelektr: VXC = (V'X − V''X)/2</span>
+<ul>
+<li>Kichik R → voltmetr pastda; katta R → yuqorida. Keyin εLE ni εV + εI bilan solishtiring.</li>
+<li>Simlar xatosi ≥ 0.1 Ω: kichik R yoki yuqori aniqlikda 4W kerak. DMM: 4W yoki NULL/REL.</li>
+<li>Taqqoslashda RS ≈ RX → bir diapazon → kuchaytirish xatosi qisqaradi. IT: o'z-o'zini qizdirish va termoelektr o'rtasida murosa.</li>
+<li>Slayd masalasi: 100 Ω chegara → yuqorida; εLE 0.0067 ≈ εR 0.0074 → tuzatish; RX = (146.0 ± 1.2) Ω, 0.82 %.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+<footer class="pager"><a href="37-integratsiyalovchi-adc.html">← 37-dars</a><a href="39-sensorlar-noaniqlik.html">39-dars →</a></footer>
+</main></body></html>
