@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>30. Quvvat tranzistori va issiqlik</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>30. Quvvat tranzistori kalit sifatida va issiqlik hisobi</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> katta tokni boshqaruvchi tranzistor (BJT yoki MOS) kalit sifatida qanday ishlashini, unda qancha quvvat yo'qolishini va bu quvvat kristallni qanchalik qizdirishini. Asosiy formula: <strong>TJ = TA + PD·θJA</strong>. Bu <strong>B mavzu</strong>: <strong>2020-12 imtihonidagi 7 ballik masala</strong>, 2021-06 masalasining harorat qismi (6-dars), 029, 046, 062, 075, 085, 117-savollar. Manba: E1 slaydlari va Ee1 mashqi. O'qish vaqti: 35 daqiqa.</div>
+
+<h2>1. Tranzistor kalit sifatida: ON, OFF va oraliq</h2>
+<p>4-darsda: tranzistor = boshqariladigan kalit. Quvvat elektronikasida u katta yuklamani (motor, lampa, rele, isitgich) yoqib-o'chiradi. Undagi yo'qotish:</p>
+<span class="formula">P = V · I &nbsp;&nbsp;(tranzistordagi kuchlanish × undan o'tayotgan tok)</span>
+<figure><svg viewBox="0 0 720 260" role="img" aria-label="BJT kalit: yuklama chizig'i IC = (VCC − VCE)/RL. Ikki ishchi nuqta: OFF (cutoff) VCE = VCC, IC = 0; ON (saturation) VCE = VCEsat ≈ 0.2 V, IC ≈ VCC/RL. Ikkalasida ham P = VCE·IC kichik. O'rtada (aktiv soha) ikkalasi ham katta, quvvat maksimal" font-family="system-ui,sans-serif">
+<path d="M80 20V210H440" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="444.0" y="214.0" text-anchor="start" font-size="12" fill="currentColor">VCE</text><text x="74.0" y="18.0" text-anchor="end" font-size="12" fill="currentColor">IC</text>
+<path d="M88 36L410 210" stroke="#2563eb" stroke-width="2.4"/><text x="360.0" y="80.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">yuklama chizig'i</text>
+<circle cx="88" cy="36" r="6" fill="#16a34a"/><text x="100.0" y="34.0" text-anchor="start" font-size="11.5" fill="#16a34a" font-weight="700">ON (saturation): VCE = VCEsat, IC ≈ VCC/RL</text>
+<circle cx="410" cy="210" r="6" fill="#dc2626"/><text x="410.0" y="230.0" text-anchor="middle" font-size="11.5" fill="#dc2626" font-weight="700">OFF (cutoff): IC = 0, VCE = VCC</text>
+<circle cx="250.0" cy="123.0" r="6" fill="#d9622b"/><text x="260.0" y="127.0" text-anchor="start" font-size="11.5" fill="#d9622b" font-weight="700">aktiv: P max (o'tish paytida)</text>
+<text x="470.0" y="60.0" text-anchor="start" font-size="12.5" fill="#9333ea" font-weight="700">P = VCE · IC</text>
+<text x="470.0" y="84.0" text-anchor="start" font-size="12.5" fill="currentColor">OFF: IC ≈ 0 → P ≈ 0</text>
+<text x="470.0" y="108.0" text-anchor="start" font-size="12.5" fill="currentColor">ON: VCE ≈ 0.2 V → P kichik</text>
+<text x="470.0" y="132.0" text-anchor="start" font-size="12.5" fill="currentColor">O'tishda: ikkalasi ham ≠ 0</text>
+<text x="470.0" y="156.0" text-anchor="start" font-size="12.5" fill="currentColor" font-weight="700">→ tez almashtirish kerak</text>
+<text x="470.0" y="180.0" text-anchor="start" font-size="12.5" fill="currentColor">(lekin tez = ko'proq EMI shovqin)</text>
+</svg><figcaption>Kalit faqat ikki chetki nuqtada turadi: ikkalasida ham V yoki I juda kichik, shuning uchun P kichik.</figcaption></figure>
+<table>
+<tr><th></th><th>BJT (bipolyar)</th><th>MOS (MOSFET)</th></tr>
+<tr><td>ON (yopiq kalit)</td><td><strong>saturation</strong> (to'yinish): VCE = VCEsat ≈ 0.1…1 V</td><td><strong>triode</strong> soha: VDS = ID · RON</td></tr>
+<tr><td>OFF (ochiq kalit)</td><td>cutoff: IB = 0 → IC ≈ 0 (kichik sizish toki)</td><td>VGS &lt; VT → ID ≈ 0 (IOFF)</td></tr>
+<tr><td>Kuchaytirgich (kalit emas)</td><td>active soha</td><td>saturation soha (MOS da nomi boshqacha!)</td></tr>
+<tr><td>Boshqarish</td><td>baza toki kerak: β·IB ≫ IC (chuqur to'yinish)</td><td>faqat gate kuchlanishi, doimiy tok yo'q (faqat CGS ni zaryadlash)</td></tr>
+<tr><td>β</td><td>tok kuchaytirish IC/IB; quvvat BJT da kichik (5…20)</td><td>yo'q</td></tr>
+</table>
+<p>MOS afzalliklari (slayd): tezroq, haroratga kamroq bog'liq, boshqarish sxemasi oddiyroq. BJT xavfi: OFF holatda sizish toki qizdiradi → issiq → sizish oshadi → yana qiziydi … <span class="term">thermal runaway</span> (issiqlik qochishi).</p>
+<p>Eng katta quvvat <strong>o'tish paytida</strong> (aktiv soha, V va I ikkalasi katta). Shuning uchun kalitni tez almashtirish kerak; lekin tez almashtirish ko'proq EMI shovqin beradi: murosaga kelinadi.</p>
+
+<div class="box"><p><strong>029.</strong> <em>Bipolar junction transistors operate as switches: a) in triode region &nbsp; b) in active region &nbsp; c) in saturation region &nbsp; d) with IB = β·IC</em></p>
+<details><summary>Javob</summary><p><strong>c) in saturation region</strong>. Diqqat: MOS uchun javob "triode" (6-dars, 081), BJT uchun "saturation". Ikkalasini adashtirmang.</p></details></div>
+<div class="box"><p><strong>062.</strong> <em>For transistors, "β": a) is high for power transistors &nbsp; b) is the current gain of the metal-oxide-semiconductor transistors &nbsp; c) is the current gain of the bipolar junction transistors &nbsp; d) is the derating factor due to operating temperature</em></p>
+<details><summary>Javob</summary><p><strong>c)</strong>. β = IC/IB faqat BJT da. Quvvat tranzistorlarida u <strong>past</strong> (a noto'g'ri).</p></details></div>
+
+<h3>Slayddagi mashq Ee1</h3>
+<div class="box"><p><em>A BJT is used as ON/OFF switch for a 100 Ω load, powered at 12 V. Transistor parameters: β = 50, VCEsat = 0.2 V. a. Draw the interface circuit to drive the BJT using a CMOS gate supplied with VDD = 5 V. b. Determine the maximum power dissipated in the transistor.</em></p></div>
+<details><summary>Yechim (slaydda yechim yo'q, men hisobladim)</summary>
+<p><strong>a)</strong> "Low-side" ulanish (slayd): yuklama 12 V va kollektor orasida, emitter yerga, CMOS chiqishi baza rezistori RB orqali bazaga.</p>
+<ul>
+<li>IC = (12 − 0.2)/100 = <strong>118 mA</strong>.</li>
+<li>Minimal baza toki IB = IC/β = 118/50 = 2.36 mA. Chuqur to'yinish uchun 2 marta zaxira: IB ≈ 5 mA.</li>
+<li>RB = (VDD − VBE)/IB = (5 − 0.7)/0.005 ≈ <strong>860 Ω</strong> (masalan 820 Ω).</li>
+</ul>
+<p><strong>b)</strong> ON holatda: P = VCEsat · IC = 0.2 · 0.118 = <strong>23.6 mW</strong>. OFF da ≈ 0. (O'tish paytida bir lahzada P max = (12/2)·(0.12/2) ≈ 0.36 W bo'ladi, lekin juda qisqa.)</p>
+</details>
+
+<h2>2. Chegaralar: SOA va derating</h2>
+<p>Har bir qurilmaning to'rtta chegarasi bor: <strong>kuchlanish</strong> (V &lt; Vbreakdown, aks holda teshiladi), <strong>tok</strong> (I &lt; Imax, simlar eriydi), <strong>quvvat</strong> (V·I &lt; PDmax), <strong>harorat</strong> (TJ &lt; TJmax, kremniy uchun ≈ 150 °C). Ruxsat etilgan V, I, P oralig'i: <span class="term">SOA</span> (Safe Operating Area, xavfsiz ishlash sohasi).</p>
+<p><span class="term">Derating</span> (quvvatni kamaytirish): datasheetdagi PDmax odatda 25 °C uchun. Atrof issiqroq bo'lsa, issiqlikni chiqarib yuborish qiyinroq, demak ruxsat etilgan quvvat kamayadi; TA = TJmax da esa nol.</p>
+<figure><svg viewBox="0 0 720 250" role="img" aria-label="Derating grafigi: ruxsat etilgan quvvat 25 °C gacha PDmax, keyin atrof harorati oshgan sari chiziqli kamayadi va TA = TJmax = 150 °C da nolga tushadi" font-family="system-ui,sans-serif">
+<path d="M90 20V200H660" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="664.0" y="204.0" text-anchor="start" font-size="12" fill="currentColor">TA, °C</text><text x="84.0" y="16.0" text-anchor="end" font-size="12" fill="currentColor">PD ruxsat</text>
+<path d="M90.0 45.45454545454547H168.57142857142856L561.4285714285714 200.0" fill="none" stroke="#d9622b" stroke-width="2.6"/>
+<path d="M90.0 200v5" stroke="currentColor"/><text x="90.0" y="218.0" text-anchor="middle" font-size="11" fill="currentColor">0</text>
+<path d="M168.6 200v5" stroke="currentColor"/><text x="168.6" y="218.0" text-anchor="middle" font-size="11" fill="currentColor">25</text>
+<path d="M247.1 200v5" stroke="currentColor"/><text x="247.1" y="218.0" text-anchor="middle" font-size="11" fill="currentColor">50</text>
+<path d="M325.7 200v5" stroke="currentColor"/><text x="325.7" y="218.0" text-anchor="middle" font-size="11" fill="currentColor">75</text>
+<path d="M404.3 200v5" stroke="currentColor"/><text x="404.3" y="218.0" text-anchor="middle" font-size="11" fill="currentColor">100</text>
+<path d="M482.9 200v5" stroke="currentColor"/><text x="482.9" y="218.0" text-anchor="middle" font-size="11" fill="currentColor">125</text>
+<path d="M561.4 200v5" stroke="currentColor"/><text x="561.4" y="218.0" text-anchor="middle" font-size="11" fill="currentColor">150</text>
+<text x="84.0" y="49.5" text-anchor="end" font-size="12" fill="#d9622b" font-weight="700">PDmax</text><text x="84.0" y="126.7" text-anchor="end" font-size="11" fill="currentColor">PDmax/2</text>
+<path d="M90 122.7H365.0V200" fill="none" stroke="#9aa0a6" stroke-dasharray="4 3"/>
+<text x="561.4" y="190.0" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="700">TA = TJmax → PD = 0</text>
+<text x="404.3" y="60.9" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">Qiyalik = 1/θJA</text>
+<text x="360.0" y="240.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">Atrof qancha issiq bo'lsa, shuncha kam quvvat "chiqarib yuborish" mumkin</text>
+</svg><figcaption>PD ruxsat = (TJmax − TA)/θJA.</figcaption></figure>
+<div class="box"><p><strong>117.</strong> <em>Power derating of electronic devices is due to: a) wearing during device operation &nbsp; b) ambient temperature &nbsp; c) junction temperature &nbsp; d) break-in period for new devices</em></p>
+<details><summary>Javob</summary><p><strong>b) ambient temperature</strong> (rasmiy javob). Grafikda gorizontal o'q = atrof harorati TA.</p></details></div>
+
+<h2>3. Issiqlik modeli: "issiqlik uchun Om qonuni"</h2>
+<p>Tranzistordagi quvvat <span class="term">kristall</span> (junction, J) ichida issiqlikka aylanadi. Issiqlik kristalldan korpusga (case, C), korpusdan radiatorga (heatsink, S), radiatordan havoga (ambient, A) oqadi. Har bir yo'lning "qarshiligi" bor: <span class="term">issiqlik qarshiligi</span> θ, birligi °C/W (1 W quvvat o'tganda necha gradus farq hosil bo'ladi).</p>
+<figure><svg viewBox="0 0 720 270" role="img" aria-label="Issiqlik modeli elektr sxema ko'rinishida: quvvat PD tok manbai, u ketma-ket thetaJC, thetaCS, thetaSA rezistorlar orqali atrof harorati TA kuchlanish manbaiga oqadi. Tugunlardagi kuchlanish = harorat: TJ (kristall), TC (korpus), TS (radiator), TA (havo)" font-family="system-ui,sans-serif">
+<defs><marker id="th" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<circle cx="105" cy="145.0" r="18" fill="none" stroke="#dc2626" stroke-width="1.8"/><path d="M105 155.0V135.0" stroke="#dc2626" stroke-width="1.8" marker-end="url(#th)"/><text x="79.0" y="141.0" text-anchor="end" font-size="13" fill="#dc2626" font-weight="700">PD</text><text x="79.0" y="157.0" text-anchor="end" font-size="10" fill="#dc2626">(tok manbai)</text>
+<path d="M105 127.0V70H130M105 163.0V220H600" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<path d="M150 70h12.5l6.2 -6l6.2 6l6.2 6l6.2 -6l6.2 -6l6.2 6l6.2 6l6.2 -6l6.2 -6l6.2 6l6.2 6l6.2 -6h12.5" fill="none" stroke="#2563eb" stroke-width="1.6"/><path d="M130 70H150M250 70H290" stroke="currentColor" stroke-width="1.6"/><text x="200.0" y="54.0" text-anchor="middle" font-size="13" fill="#2563eb" font-weight="700">θJC</text><text x="200.0" y="94.0" text-anchor="middle" font-size="10.5" fill="currentColor">kristall→korpus</text>
+<path d="M310 70h12.5l6.2 -6l6.2 6l6.2 6l6.2 -6l6.2 -6l6.2 6l6.2 6l6.2 -6l6.2 -6l6.2 6l6.2 6l6.2 -6h12.5" fill="none" stroke="#d9622b" stroke-width="1.6"/><path d="M290 70H310M410 70H450" stroke="currentColor" stroke-width="1.6"/><text x="360.0" y="54.0" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">θCS</text><text x="360.0" y="94.0" text-anchor="middle" font-size="10.5" fill="currentColor">korpus→radiator</text>
+<path d="M470 70h12.5l6.2 -6l6.2 6l6.2 6l6.2 -6l6.2 -6l6.2 6l6.2 6l6.2 -6l6.2 -6l6.2 6l6.2 6l6.2 -6h12.5" fill="none" stroke="#16a34a" stroke-width="1.6"/><path d="M450 70H470M570 70H610" stroke="currentColor" stroke-width="1.6"/><text x="520.0" y="54.0" text-anchor="middle" font-size="13" fill="#16a34a" font-weight="700">θSA</text><text x="520.0" y="94.0" text-anchor="middle" font-size="10.5" fill="currentColor">radiator→havo</text>
+<circle cx="130" cy="70" r="4" fill="#9333ea"/><text x="130.0" y="40.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">TJ</text>
+<circle cx="290" cy="70" r="4" fill="#9333ea"/><text x="290.0" y="40.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">TC</text>
+<circle cx="450" cy="70" r="4" fill="#9333ea"/><text x="450.0" y="40.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">TS</text>
+<path d="M610 70H600V127.0" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<circle cx="600" cy="145.0" r="18" fill="none" stroke="#16a34a" stroke-width="1.8"/><text x="600.0" y="141.0" text-anchor="middle" font-size="13" fill="#16a34a" font-weight="700">+</text><text x="600.0" y="157.0" text-anchor="middle" font-size="13" fill="#16a34a" font-weight="700">−</text><text x="626.0" y="149.0" text-anchor="start" font-size="13" fill="#16a34a" font-weight="700">TA</text><text x="600.0" y="179.0" text-anchor="middle" font-size="10" fill="#16a34a">(kuchlanish manbai)</text>
+<path d="M600 163.0V220" stroke="currentColor" stroke-width="1.6"/><text x="335.0" y="238.0" text-anchor="middle" font-size="11" fill="currentColor">0 °C (mos yozuv nuqtasi, "yer")</text>
+<text x="335.0" y="258.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">TJ = TA + PD·(θJC + θCS + θSA)  ↔  V = V0 + I·R (Om qonuni)</text>
+</svg><figcaption>Issiqlik yo'li elektr sxema sifatida. Tugun kuchlanishi = shu joyning harorati.</figcaption></figure>
+<table>
+<tr><th>Issiqlik</th><th>Elektr o'xshashi</th></tr>
+<tr><td>Quvvat PD (W)</td><td><strong>tok manbai</strong></td></tr>
+<tr><td>Harorat T (°C)</td><td>kuchlanish; atrof harorati TA = <strong>kuchlanish manbai</strong></td></tr>
+<tr><td>Issiqlik qarshiligi θ (°C/W)</td><td><strong>rezistor</strong> (ketma-ket qo'shiladi)</td></tr>
+</table>
+<span class="formula">TJ = TA + PD · θJA &nbsp;&nbsp;·&nbsp;&nbsp; θJA = θJC + θCS + θSA &nbsp;&nbsp;·&nbsp;&nbsp; PD ≤ (TJmax − TA)/θJA</span>
+<div class="box analogy"><strong>O'xshatish:</strong> issiqlik = quvurdagi suv, θ = quvurning torligi. Bir xil oqim (PD) tor quvurdan (katta θ) o'tishi uchun katta bosim farqi (harorat farqi) kerak. Radiator = keng quvur: θ ni kamaytiradi, kristall sovuqroq qoladi.</div>
+<p>Dizayner faqat θCS (korpusni o'rnatish, termopasta) va θSA (radiator, ventilyator) ni o'zgartira oladi; θJC korpusga bog'liq.</p>
+
+<div class="box"><p><strong>046.</strong> <em>In the electric model of the thermal paths, the dissipated power is modeled by: a) a voltage source &nbsp; b) a current source &nbsp; c) a resistor &nbsp; d) is negligible</em></p><details><summary>Javob</summary><p><strong>b) a current source</strong>.</p></details></div>
+<div class="box"><p><strong>075.</strong> <em>In the electric model of the thermal paths, the ambient temperature is modeled by: a) a voltage source &nbsp; b) a current source &nbsp; c) a resistor &nbsp; d) is negligible</em></p><details><summary>Javob</summary><p><strong>a) a voltage source</strong>.</p></details></div>
+<div class="box"><p><strong>085.</strong> <em>In the electric model of the thermal paths, the thermal resistance is modeled by: a) a voltage source &nbsp; b) a current source &nbsp; c) a resistor &nbsp; d) is negligible</em></p><details><summary>Javob</summary><p><strong>c) a resistor</strong>.</p></details></div>
+
+<h3>Slayddagi misollar (TIP30 tranzistori: θJA = 62.5 °C/W, θJC = 3.125 °C/W, TJmax = 150 °C)</h3>
+<ol>
+<li><strong>Radiatorsiz</strong>, PD = 0.8 W, TA = 25 °C: ΔT = 62.5 · 0.8 = 50 °C → TJ = 25 + 50 = <strong>75 °C</strong> ✓.</li>
+<li><strong>Radiator tanlash</strong>, PD = 5 W, TA = 50 °C: θJA ≤ (150 − 50)/5 = 20 °C/W. θJC = 3.125 → θCS + θSA ≤ 20 − 3.125 = <strong>16.8 °C/W</strong>. Shundan kichik θ li radiator olinadi. (Radiatorsiz 62.5 °C/W bo'lardi: TJ = 50 + 312 °C, kuyadi!)</li>
+</ol>
+
+<h2>4. Imtihon masalasi: 2020-12, Question 4 (7 ball)</h2>
+<div class="box"><p><em>The saturation voltage of the transistor Q in the figure below is VCE = 1 V, its thermal resistance junction-to-ambient is θJA = 150 ºC/W, and its maximum junction temperature during operation is 125 ºC. With the transistor in saturation, the power dissipated on the resistive load RL = 8 Ω is 2 W. For the transistor operating in saturation, it is required to calculate: 1. the collector current, IC (1 point); 2. the power dissipated by the transistor, PQ (1 point); 3. the maximum ambient temperature TA (2 points); 4. the supply voltage VCC (3 points).</em></p>
+<img src="img/e2012q4.png" alt="2020-12 sxemasi: VB manbai RB orqali npn tranzistor Q bazasiga; kollektor RL orqali VCC ga, emitter yerga" style="max-width:min(100%,360px);background:#fff;border-radius:6px"></div>
+<details><summary>Yechim (rasmiy, qadam-baqadam)</summary>
+<ol>
+<li><strong>IC</strong>: RL dagi quvvat P = I²·R → IC = √(2/8) = √0.25 = <strong>0.5 A</strong>.</li>
+<li><strong>PQ</strong> = VCEsat · IC = 1 · 0.5 = <strong>0.5 W</strong>.</li>
+<li><strong>TA max</strong>: harorat farqi = PQ · θJA = 0.5 · 150 = 75 °C. TJ = TA + 75 ≤ 125 → TA ≤ <strong>50 °C</strong>.</li>
+<li><strong>VCC</strong> = RL dagi kuchlanish + VCEsat = 0.5 · 8 + 1 = <strong>5 V</strong>.</li>
+</ol>
+<p>Rasmiy javoblar: 0.5; 0.5; 50; 5.</p>
+</details>
+<p>Yana bir imtihon: 2021-06 masalasida (6-dars) TJ = 23 + (1.1 + 43) · 0.194 = 31.6 °C. Xuddi shu formula: θJC va θCA ketma-ket qo'shiladi.</p>
+
+<h2>O'zingizni tekshiring</h2>
+<div class="box check">θJA = 50 °C/W, TA = 30 °C, PD = 1.5 W. TJ? <details><summary>Javob</summary>30 + 75 = <strong>105 °C</strong>.</details></div>
+<div class="box check">TJmax = 150 °C, θJA = 40 °C/W, TA = 70 °C. PD max? <details><summary>Javob</summary>(150 − 70)/40 = <strong>2 W</strong>.</details></div>
+<div class="box check">PD = 10 W, TA = 40 °C, TJmax = 150 °C, θJC = 1.5, θCS = 0.5 °C/W. Radiatorning θSA eng ko'pi bilan? <details><summary>Javob</summary>θJA ≤ 110/10 = 11 → θSA ≤ 11 − 2 = <strong>9 °C/W</strong>.</details></div>
+<div class="box check">MOSFET RON = 50 mΩ orqali 4 A o'tadi. Yo'qotish? <details><summary>Javob</summary>P = I²·RON = 16 · 0.05 = <strong>0.8 W</strong>.</details></div>
+<div class="box check">2020-12 masalasi, lekin RL dagi quvvat 4.5 W. IC, PQ, TA max? <details><summary>Javob</summary>IC = √(4.5/8) = 0.75 A; PQ = 0.75 W; ΔT = 112.5 °C → TA ≤ <strong>12.5 °C</strong>.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>To'yinish (BJT)</td><td>saturation</td><td>BJT ning ON kalit holati, VCE = VCEsat</td></tr>
+<tr><td>Berk holat</td><td>cutoff</td><td>OFF kalit, tok ≈ 0</td></tr>
+<tr><td>Tok kuchaytirish</td><td>β (hFE)</td><td>BJT da IC/IB</td></tr>
+<tr><td>Kristall harorati</td><td>junction temperature TJ</td><td>Yarimo'tkazgich ichidagi harorat</td></tr>
+<tr><td>Issiqlik qarshiligi</td><td>thermal resistance θ (°C/W)</td><td>1 W da necha gradus farq</td></tr>
+<tr><td>Radiator</td><td>heatsink</td><td>θSA ni kamaytiruvchi metall</td></tr>
+<tr><td>Xavfsiz ishlash sohasi</td><td>Safe Operating Area (SOA)</td><td>Ruxsat etilgan V, I, P chegaralari</td></tr>
+<tr><td>Quvvatni kamaytirish</td><td>derating</td><td>TA oshganda ruxsat etilgan PD kamayadi</td></tr>
+<tr><td>Issiqlik qochishi</td><td>thermal runaway</td><td>Qizish → sizish ↑ → yana qizish</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<span class="formula">TJ = TA + PD·θJA &nbsp;·&nbsp; θJA = θJC + θCS + θSA &nbsp;·&nbsp; PDmax = (TJmax − TA)/θJA</span>
+<span class="formula">BJT ON: P = VCEsat·IC, IB ≥ IC/β &nbsp;·&nbsp; MOS ON: P = I²·RON &nbsp;·&nbsp; P = I²R → I = √(P/R)</span>
+<ul>
+<li>Issiqlik modeli: PD = <strong>tok manbai</strong>, TA = <strong>kuchlanish manbai</strong>, θ = <strong>rezistor</strong>.</li>
+<li>Kalit: BJT → <strong>saturation</strong>; MOS → <strong>triode</strong>. β faqat BJT, quvvat BJT da past.</li>
+<li>P max o'tish paytida → tez almashtirish (lekin EMI). Derating → ambient temperature.</li>
+<li>Javoblar: 029 c; 062 c; 117 b; 046 b; 075 a; 085 c; 2020-12 → 0.5 A, 0.5 W, 50 °C, 5 V; Ee1 → 118 mA, RB ≈ 860 Ω, 23.6 mW.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="29-mashq-liniyalar.html">← 29-dars</a><a href="31-togrilagich-ripple.html">31-dars →</a></footer>
+</main></body></html>
