@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>10. Dasturlanadigan mantiq va NRE</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>10. Dasturlanadigan mantiq: PAL, PLA, FPGA, LUT va NRE xarajati</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> mantiqiy sxemani "zavodda qotirmasdan", foydalanuvchi o'zi dasturlab yaratadigan mikrosxemalarni (PAL, PLA, CPLD, FPGA), FPGA ichidagi asosiy g'isht bo'lgan <strong>LUT</strong> ni va mahsulot narxini hisoblashni (<strong>NRE</strong> va dona narxi, kesishish nuqtasi). Imtihonda: <strong>2021-01 imtihonidagi 7 ballik NRE masalasi</strong>, 2021-06 va 2021-07 testlari (LUT), 005, 067, 084, 112-savollar. Manba: B6 slaydlari (Programmable Logic). O'qish vaqti: 35 daqiqa.</div>
+
+<div class="box analogy"><strong>O'xshatish:</strong> kiyim. <strong>Full custom</strong> = tikuvchiga buyurtma: aynan sizga mos, lekin qimmat va uzoq. <strong>Semi-custom</strong> = tayyor qolipdan tikish. <strong>Dasturlanadigan mantiq</strong> = do'kondan sotib olingan, kamari va yenglari sozlanadigan kiyim: darhol kiyasiz, lekin har bir dona biroz qimmatroq va "ideal" emas.</div>
+
+<h2>1. Mikrosxemani yaratishning uch yo'li</h2>
+<table>
+<tr><th>Yo'l</th><th>Nimadan boshlanadi</th><th>Afzalligi</th><th>Kamchiligi</th></tr>
+<tr><td><strong>Full custom</strong> (to'liq buyurtma)</td><td>Bo'sh kremniy: har bir tranzistor va sim loyihalanadi</td><td>Eng yuqori tezlik, eng kichik maydon</td><td>Juda ko'p mehnat, murakkab tekshiruv, katta xarajat. Faqat juda ko'p dona uchun</td></tr>
+<tr><td><strong>Semi-custom: standard cell</strong></td><td>Tayyor mantiqiy elementlar kutubxonasi</td><td>Yaxshi moslashuvchanlik</td><td>O'rtacha murakkablik; barcha ishlab chiqarish bosqichlari kerak</td></tr>
+<tr><td><strong>Semi-custom: gate array</strong></td><td>Tayyor darvozalar qatori, faqat ulanishlar loyihalanadi</td><td>Loyihalash oson</td><td>Moslashuvchanlik o'rtacha-past</td></tr>
+<tr><td><strong>Dasturlanadigan mantiq</strong> (PLD, FPGA)</td><td>Tayyor chip: foydalanuvchi ichidagi ulanishlarni o'zi "yozadi"</td><td>Zavod kerak emas, tez, xatoni tuzatish mumkin. "Apparat tezligi + dasturiy moslashuvchanlik"</td><td>Dona narxi yuqoriroq, tezligi full custom dan past</td></tr>
+</table>
+<p>Full custom va semi-custom chiplarni umumiy nomi: <span class="term">ASIC</span> (Application-Specific Integrated Circuit) = faqat bitta vazifa uchun yasalgan mikrosxema. <span class="term">Protsessor + dastur</span> (SW) ham "dasturlanadigan" yechim, lekin u buyruqlarni ketma-ket bajaradi, shuning uchun sekinroq.</p>
+
+<h2>2. AND-OR tekisliklari: PAL, PLA, PROM</h2>
+<p>Har qanday mantiqiy funksiyani <span class="term">ko'paytmalar yig'indisi</span> (sum of products) ko'rinishida yozish mumkin: avval bir nechta AND (ko'paytma), keyin ularni OR (yig'indi). Masalan O = I1·I4' + I2'·I3 (' = inkor, NOT). Shuning uchun dasturlanadigan chip ichida ikki "tekislik" bor: <strong>AND tekisligi</strong> va <strong>OR tekisligi</strong>.</p>
+<p>Chizmada vertikal simlar = kirishlar va ularning inkorlari, gorizontal chiziq = bitta AND darvozasi. Kesishmadagi <strong>X</strong> = "shu kirish shu AND ga ulangan". Dasturlash = qaysi kesishmaga X qo'yishni tanlash.</p>
+<figure><svg viewBox="0 0 720 270" role="img" aria-label="PAL misoli: kirishlar I1..I4 va ularning inkorlari vertikal simlar. Har bir gorizontal chiziq bitta AND darvozasi. X belgisi ulanishni bildiradi. Birinchi AND: I1 va I4 inkor; ikkinchi AND: I2 inkor va I3. Ikkala AND chiqishi OR darvozasiga kiradi: O = I1·I4' + I2'·I3" font-family="system-ui,sans-serif">
+<path d="M90 50V220" stroke="#2563eb" stroke-width="1.4"/><text x="90.0" y="42.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">I1</text>
+<path d="M128 50V220" stroke="#2563eb" stroke-width="1.4"/><text x="128.0" y="42.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">I1'</text>
+<path d="M166 50V220" stroke="#2563eb" stroke-width="1.4"/><text x="166.0" y="42.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">I2</text>
+<path d="M204 50V220" stroke="#2563eb" stroke-width="1.4"/><text x="204.0" y="42.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">I2'</text>
+<path d="M242 50V220" stroke="#2563eb" stroke-width="1.4"/><text x="242.0" y="42.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">I3</text>
+<path d="M280 50V220" stroke="#2563eb" stroke-width="1.4"/><text x="280.0" y="42.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">I3'</text>
+<path d="M318 50V220" stroke="#2563eb" stroke-width="1.4"/><text x="318.0" y="42.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">I4</text>
+<path d="M356 50V220" stroke="#2563eb" stroke-width="1.4"/><text x="356.0" y="42.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">I4'</text>
+<path d="M70 70H394" stroke="#9aa0a6" stroke-width="1.4"/>
+<path d="M394 56H410A14 14 0 0 1 410 84H394Z" fill="#9333ea" fill-opacity=".12" stroke="#9333ea" stroke-width="1.8"/>
+<path d="M84 64L96 76M96 64L84 76" stroke="#d9622b" stroke-width="2.4"/>
+<path d="M350 64L362 76M362 64L350 76" stroke="#d9622b" stroke-width="2.4"/>
+<path d="M70 120H394" stroke="#9aa0a6" stroke-width="1.4"/>
+<path d="M394 106H410A14 14 0 0 1 410 134H394Z" fill="#9333ea" fill-opacity=".12" stroke="#9333ea" stroke-width="1.8"/>
+<path d="M198 114L210 126M210 114L198 126" stroke="#d9622b" stroke-width="2.4"/>
+<path d="M236 114L248 126M248 114L236 126" stroke="#d9622b" stroke-width="2.4"/>
+<path d="M70 170H394" stroke="#9aa0a6" stroke-width="1.4"/>
+<path d="M394 156H410A14 14 0 0 1 410 184H394Z" fill="#9333ea" fill-opacity=".12" stroke="#9333ea" stroke-width="1.8"/>
+<text x="64.0" y="174.0" text-anchor="end" font-size="10" fill="#9aa0a6">(bo'sh)</text>
+<text x="64.0" y="74.0" text-anchor="end" font-size="11" fill="#9333ea" font-weight="700">AND 1</text><text x="64.0" y="124.0" text-anchor="end" font-size="11" fill="#9333ea" font-weight="700">AND 2</text>
+<path d="M424 70H546V87H564M424 120H546V103H564" fill="none" stroke="currentColor" stroke-width="1.5"/>
+<path d="M560 75Q574 95 560 115Q590 115 608 95Q590 75 560 75Z" fill="#16a34a" fill-opacity=".12" stroke="#16a34a" stroke-width="1.8"/>
+<path d="M608 95H640" stroke="currentColor" stroke-width="1.5"/><text x="646.0" y="100.0" text-anchor="start" font-size="13" fill="#16a34a" font-weight="700">O</text>
+<text x="584.0" y="135.0" text-anchor="middle" font-size="11" fill="#16a34a" font-weight="700">OR (qotirilgan)</text>
+<text x="414.0" y="210.0" text-anchor="middle" font-size="10" fill="currentColor"></text>
+<text x="360.0" y="248.0" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">O = I1·I4' + I2'·I3      (X = ulangan, ' = inkor)</text>
+</svg></figure>
+<p>Qaysi tekislik dasturlanishiga qarab uch xil tuzilma bor:</p>
+<figure><svg viewBox="0 0 720 250" role="img" aria-label="Uch xil AND-OR tuzilma: PROM da AND tekisligi qotirilgan (dekoder), OR tekisligi dasturlanadi. PAL da AND tekisligi dasturlanadi, OR tekisligi qotirilgan. PLA da ikkala tekislik ham dasturlanadi" font-family="system-ui,sans-serif">
+<defs><marker id="pl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<text x="125.0" y="24.0" text-anchor="middle" font-size="15" fill="currentColor" font-weight="700">PROM</text>
+<rect x="30" y="50" width="90" height="110" rx="6" fill="#9aa0a6" fill-opacity="0.06" stroke="#9aa0a6" stroke-width="1.8" stroke-dasharray="5 3"/><text x="75.0" y="90.0" text-anchor="middle" font-size="13" fill="#9aa0a6" font-weight="700">AND</text><text x="75.0" y="112.0" text-anchor="middle" font-size="11" fill="#9aa0a6" font-weight="700">qotirilgan</text><text x="75.0" y="130.0" text-anchor="middle" font-size="10" fill="#9aa0a6">(o'zgarmas)</text><rect x="140" y="50" width="90" height="110" rx="6" fill="#d9622b" fill-opacity="0.16" stroke="#d9622b" stroke-width="1.8"/><text x="185.0" y="90.0" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">OR</text><text x="185.0" y="112.0" text-anchor="middle" font-size="11" fill="#d9622b" font-weight="700">dasturlanadi</text><text x="185.0" y="130.0" text-anchor="middle" font-size="10" fill="#d9622b">(X lar)</text>
+<path d="M120 105H138" stroke="#555" stroke-width="1.6" marker-end="url(#pl)"/>
+<path d="M75 185V162" stroke="#555" stroke-width="1.6" marker-end="url(#pl)"/><text x="75.0" y="200.0" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">kirishlar</text>
+<path d="M185 162V185" stroke="#555" stroke-width="1.6" marker-end="url(#pl)"/><text x="185.0" y="200.0" text-anchor="middle" font-size="11" fill="#16a34a" font-weight="700">chiqishlar</text>
+<text x="130.0" y="228.0" text-anchor="middle" font-size="11" fill="currentColor">AND = adres dekoderi</text>
+<text x="360.0" y="24.0" text-anchor="middle" font-size="15" fill="currentColor" font-weight="700">PAL</text>
+<rect x="265" y="50" width="90" height="110" rx="6" fill="#d9622b" fill-opacity="0.16" stroke="#d9622b" stroke-width="1.8"/><text x="310.0" y="90.0" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">AND</text><text x="310.0" y="112.0" text-anchor="middle" font-size="11" fill="#d9622b" font-weight="700">dasturlanadi</text><text x="310.0" y="130.0" text-anchor="middle" font-size="10" fill="#d9622b">(X lar)</text><rect x="375" y="50" width="90" height="110" rx="6" fill="#9aa0a6" fill-opacity="0.06" stroke="#9aa0a6" stroke-width="1.8" stroke-dasharray="5 3"/><text x="420.0" y="90.0" text-anchor="middle" font-size="13" fill="#9aa0a6" font-weight="700">OR</text><text x="420.0" y="112.0" text-anchor="middle" font-size="11" fill="#9aa0a6" font-weight="700">qotirilgan</text><text x="420.0" y="130.0" text-anchor="middle" font-size="10" fill="#9aa0a6">(o'zgarmas)</text>
+<path d="M355 105H373" stroke="#555" stroke-width="1.6" marker-end="url(#pl)"/>
+<path d="M310 185V162" stroke="#555" stroke-width="1.6" marker-end="url(#pl)"/><text x="310.0" y="200.0" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">kirishlar</text>
+<path d="M420 162V185" stroke="#555" stroke-width="1.6" marker-end="url(#pl)"/><text x="420.0" y="200.0" text-anchor="middle" font-size="11" fill="#16a34a" font-weight="700">chiqishlar</text>
+<text x="365.0" y="228.0" text-anchor="middle" font-size="11" fill="currentColor">eng ko'p uchraydi</text>
+<text x="595.0" y="24.0" text-anchor="middle" font-size="15" fill="currentColor" font-weight="700">PLA</text>
+<rect x="500" y="50" width="90" height="110" rx="6" fill="#d9622b" fill-opacity="0.16" stroke="#d9622b" stroke-width="1.8"/><text x="545.0" y="90.0" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">AND</text><text x="545.0" y="112.0" text-anchor="middle" font-size="11" fill="#d9622b" font-weight="700">dasturlanadi</text><text x="545.0" y="130.0" text-anchor="middle" font-size="10" fill="#d9622b">(X lar)</text><rect x="610" y="50" width="90" height="110" rx="6" fill="#d9622b" fill-opacity="0.16" stroke="#d9622b" stroke-width="1.8"/><text x="655.0" y="90.0" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">OR</text><text x="655.0" y="112.0" text-anchor="middle" font-size="11" fill="#d9622b" font-weight="700">dasturlanadi</text><text x="655.0" y="130.0" text-anchor="middle" font-size="10" fill="#d9622b">(X lar)</text>
+<path d="M590 105H608" stroke="#555" stroke-width="1.6" marker-end="url(#pl)"/>
+<path d="M545 185V162" stroke="#555" stroke-width="1.6" marker-end="url(#pl)"/><text x="545.0" y="200.0" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">kirishlar</text>
+<path d="M655 162V185" stroke="#555" stroke-width="1.6" marker-end="url(#pl)"/><text x="655.0" y="200.0" text-anchor="middle" font-size="11" fill="#16a34a" font-weight="700">chiqishlar</text>
+<text x="600.0" y="228.0" text-anchor="middle" font-size="11" fill="currentColor">eng moslashuvchan</text>
+</svg></figure>
+<table>
+<tr><th>Tuzilma</th><th>AND tekisligi</th><th>OR tekisligi</th><th>Izoh</th></tr>
+<tr><td><strong>PAL</strong> (Programmable Array Logic)</td><td>dasturlanadi</td><td>qotirilgan</td><td>Har OR ga aniq AND lar biriktirilgan</td></tr>
+<tr><td><strong>PLA</strong> (Programmable Logic Array)</td><td>dasturlanadi</td><td>dasturlanadi</td><td>Eng moslashuvchan: istalgan funksiya</td></tr>
+<tr><td><strong>PROM</strong> (Programmable ROM)</td><td>qotirilgan (= adres dekoderi)</td><td>dasturlanadi</td><td>Har kirish kombinatsiyasi uchun chiqishni yozasiz. 21-darsdagi dekoder + xotira</td></tr>
+</table>
+<div class="box warn"><strong>Chalkashtirmang:</strong> PAL = <strong>A</strong>ND dasturlanadi (PAL da "A" bor → AND). PLA = ikkalasi ham. PROM = faqat OR (AND = dekoder).</div>
+
+<h2>3. SPLD → CPLD → FPGA</h2>
+<ul>
+<li><span class="term">SPLD</span> (Simple PLD): bitta AND-OR tuzilma + <strong>chiqish mantiqi</strong>. Chiqishda tri-state bufer (OE = 1 → chiqish, OE = 0 → oyoqcha kirish bo'lib ishlaydi) va <strong>flip-flop</strong> (registr) bor. Registr chiqishi AND tekisligiga qaytib keladi (feedback), shuning uchun ketma-ket (sequential) sxema, masalan hisoblagich yasash mumkin (7–9-darslar).</li>
+<li><span class="term">CPLD</span> (Complex PLD): bitta chipda <strong>bir nechta SPLD</strong> + ular orasidagi dasturlanadigan ulanishlar. Ikki darajada dasturlanadi: (1) har bir PLD bloki, (2) bloklar orasidagi ulanishlar.</li>
+<li><span class="term">FPGA</span> (Field Programmable Gate Array, "joyida dasturlanadigan darvozalar massivi"): millionlab ekvivalent darvoza. Uch xil dasturlanadigan qismdan iborat:</li>
+</ul>
+<figure><svg viewBox="0 0 720 300" role="img" aria-label="FPGA tuzilishi: o'rtada mantiqiy bloklar (CLB) jadvali, ular orasida dasturlanadigan ulanish kanallari va switch matrix lar, chekkada kirish-chiqish bloklari (IOB)" font-family="system-ui,sans-serif">
+<rect x="30" y="10" width="340" height="280" rx="8" fill="none" stroke="#9aa0a6"/>
+<rect x="70.0" y="14" width="16" height="10" fill="#16a34a" fill-opacity=".5" stroke="#16a34a"/>
+<rect x="70.0" y="278" width="16" height="10" fill="#16a34a" fill-opacity=".5" stroke="#16a34a"/>
+<rect x="34" y="40.0" width="16" height="10" fill="#16a34a" fill-opacity=".5" stroke="#16a34a"/>
+<rect x="350" y="40.0" width="16" height="10" fill="#16a34a" fill-opacity=".5" stroke="#16a34a"/>
+<rect x="134.0" y="14" width="16" height="10" fill="#16a34a" fill-opacity=".5" stroke="#16a34a"/>
+<rect x="134.0" y="278" width="16" height="10" fill="#16a34a" fill-opacity=".5" stroke="#16a34a"/>
+<rect x="34" y="104.0" width="16" height="10" fill="#16a34a" fill-opacity=".5" stroke="#16a34a"/>
+<rect x="350" y="104.0" width="16" height="10" fill="#16a34a" fill-opacity=".5" stroke="#16a34a"/>
+<rect x="198.0" y="14" width="16" height="10" fill="#16a34a" fill-opacity=".5" stroke="#16a34a"/>
+<rect x="198.0" y="278" width="16" height="10" fill="#16a34a" fill-opacity=".5" stroke="#16a34a"/>
+<rect x="34" y="168.0" width="16" height="10" fill="#16a34a" fill-opacity=".5" stroke="#16a34a"/>
+<rect x="350" y="168.0" width="16" height="10" fill="#16a34a" fill-opacity=".5" stroke="#16a34a"/>
+<rect x="262.0" y="14" width="16" height="10" fill="#16a34a" fill-opacity=".5" stroke="#16a34a"/>
+<rect x="262.0" y="278" width="16" height="10" fill="#16a34a" fill-opacity=".5" stroke="#16a34a"/>
+<rect x="34" y="232.0" width="16" height="10" fill="#16a34a" fill-opacity=".5" stroke="#16a34a"/>
+<rect x="350" y="232.0" width="16" height="10" fill="#16a34a" fill-opacity=".5" stroke="#16a34a"/>
+<rect x="70" y="40" width="44" height="44" rx="4" fill="#2563eb" fill-opacity=".15" stroke="#2563eb" stroke-width="1.6"/><text x="92.0" y="67.0" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">CLB</text>
+<rect x="150" y="40" width="44" height="44" rx="4" fill="#2563eb" fill-opacity=".15" stroke="#2563eb" stroke-width="1.6"/><text x="172.0" y="67.0" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">CLB</text>
+<rect x="230" y="40" width="44" height="44" rx="4" fill="#2563eb" fill-opacity=".15" stroke="#2563eb" stroke-width="1.6"/><text x="252.0" y="67.0" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">CLB</text>
+<rect x="70" y="120" width="44" height="44" rx="4" fill="#2563eb" fill-opacity=".15" stroke="#2563eb" stroke-width="1.6"/><text x="92.0" y="147.0" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">CLB</text>
+<rect x="150" y="120" width="44" height="44" rx="4" fill="#2563eb" fill-opacity=".15" stroke="#2563eb" stroke-width="1.6"/><text x="172.0" y="147.0" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">CLB</text>
+<rect x="230" y="120" width="44" height="44" rx="4" fill="#2563eb" fill-opacity=".15" stroke="#2563eb" stroke-width="1.6"/><text x="252.0" y="147.0" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">CLB</text>
+<rect x="70" y="200" width="44" height="44" rx="4" fill="#2563eb" fill-opacity=".15" stroke="#2563eb" stroke-width="1.6"/><text x="92.0" y="227.0" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">CLB</text>
+<rect x="150" y="200" width="44" height="44" rx="4" fill="#2563eb" fill-opacity=".15" stroke="#2563eb" stroke-width="1.6"/><text x="172.0" y="227.0" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">CLB</text>
+<rect x="230" y="200" width="44" height="44" rx="4" fill="#2563eb" fill-opacity=".15" stroke="#2563eb" stroke-width="1.6"/><text x="252.0" y="227.0" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">CLB</text>
+<path d="M56 32H340M62 26V274" stroke="#d9622b" stroke-width="1.2" stroke-opacity=".8"/>
+<path d="M56 112H340M142 26V274" stroke="#d9622b" stroke-width="1.2" stroke-opacity=".8"/>
+<path d="M56 192H340M222 26V274" stroke="#d9622b" stroke-width="1.2" stroke-opacity=".8"/>
+<path d="M56 272H340M302 26V274" stroke="#d9622b" stroke-width="1.2" stroke-opacity=".8"/>
+<rect x="56" y="26" width="12" height="12" fill="#d9622b" fill-opacity=".6"/>
+<rect x="136" y="26" width="12" height="12" fill="#d9622b" fill-opacity=".6"/>
+<rect x="216" y="26" width="12" height="12" fill="#d9622b" fill-opacity=".6"/>
+<rect x="296" y="26" width="12" height="12" fill="#d9622b" fill-opacity=".6"/>
+<rect x="56" y="106" width="12" height="12" fill="#d9622b" fill-opacity=".6"/>
+<rect x="136" y="106" width="12" height="12" fill="#d9622b" fill-opacity=".6"/>
+<rect x="216" y="106" width="12" height="12" fill="#d9622b" fill-opacity=".6"/>
+<rect x="296" y="106" width="12" height="12" fill="#d9622b" fill-opacity=".6"/>
+<rect x="56" y="186" width="12" height="12" fill="#d9622b" fill-opacity=".6"/>
+<rect x="136" y="186" width="12" height="12" fill="#d9622b" fill-opacity=".6"/>
+<rect x="216" y="186" width="12" height="12" fill="#d9622b" fill-opacity=".6"/>
+<rect x="296" y="186" width="12" height="12" fill="#d9622b" fill-opacity=".6"/>
+<rect x="56" y="266" width="12" height="12" fill="#d9622b" fill-opacity=".6"/>
+<rect x="136" y="266" width="12" height="12" fill="#d9622b" fill-opacity=".6"/>
+<rect x="216" y="266" width="12" height="12" fill="#d9622b" fill-opacity=".6"/>
+<rect x="296" y="266" width="12" height="12" fill="#d9622b" fill-opacity=".6"/>
+<rect x="420" y="40" width="22" height="22" rx="4" fill="#2563eb" fill-opacity=".15" stroke="#2563eb"/><text x="452.0" y="56.0" text-anchor="start" font-size="12" fill="#2563eb" font-weight="700">CLB: mantiqiy blok (LUT + flip-flop)</text>
+<rect x="425" y="95" width="12" height="12" fill="#d9622b" fill-opacity=".6"/><text x="452.0" y="106.0" text-anchor="start" font-size="12" fill="#d9622b" font-weight="700">switch matrix + ulanish kanallari</text><text x="452.0" y="122.0" text-anchor="start" font-size="11" fill="#d9622b">(qaysi CLB qaysiga ulanishini tanlaydi)</text>
+<rect x="423" y="155" width="16" height="10" fill="#16a34a" fill-opacity=".5" stroke="#16a34a"/><text x="452.0" y="165.0" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">IOB: kirish-chiqish bloki</text><text x="452.0" y="181.0" text-anchor="start" font-size="11" fill="#16a34a">(chip oyoqchalari bilan aloqa)</text>
+<text x="420.0" y="230.0" text-anchor="start" font-size="12" fill="currentColor" font-weight="700">Hammasi dasturlanadi: konfiguratsiya</text><text x="420.0" y="248.0" text-anchor="start" font-size="12" fill="currentColor">bitlari odatda SRAM da saqlanadi</text><text x="420.0" y="266.0" text-anchor="start" font-size="11" fill="currentColor">(tok o'chsa → qayta yuklanadi)</text>
+</svg></figure>
+<p><strong>Misol: Xilinx XC4000 ning CLB bloki</strong> (slayddagi): ichida 3 ta LUT bor: <strong>F</strong> va <strong>G</strong> (har biri 4 kirishli) hamda <strong>H</strong> (3 kirishli; uning ikki kirishi F va G chiqishidan kelishi mumkin). Yana <strong>2 ta flip-flop</strong> (umumiy clock, clock enable, set/reset). Ya'ni CLB = kombinatsion mantiq (LUT) + xotira (flip-flop).</p>
+<p>Zamonaviy FPGA larda tayyor qo'shimcha bloklar ham bor: qo'shuvchi va ko'paytiruvchi (DSP), xotira (block RAM), hatto butun protsessor.</p>
+
+<h2>4. LUT: funksiyani xotiraga yozish</h2>
+<p><span class="term">LUT</span> (Look-Up Table, "qarab topish jadvali") = kichik xotira + multipleksor. Funksiyani formula bilan hisoblamaydi: <strong>haqiqat jadvali</strong> (truth table) ni oldindan yozib qo'yadi. Kirishlar <strong>adres</strong> bo'lib xizmat qiladi va kerakli katakchani tanlaydi.</p>
+<figure><svg viewBox="0 0 720 330" role="img" aria-label="3 kirishli LUT: 8 ta 1 bitli xotira katakchasi (000 dan 111 gacha) va multipleksor. A B C kirishlari multipleksorga adres bo'lib kiradi va bitta katakchani tanlaydi; tanlangan katakchadagi bit chiqishga O beriladi. Misolda katakchalarda 0 0 0 1 0 1 1 1 yozilgan, bu ko'pchilik (majority) funksiyasi" font-family="system-ui,sans-serif">
+<defs><marker id="lu" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<text x="140.0" y="26.0" text-anchor="middle" font-size="11" fill="currentColor" font-weight="700">adres</text><text x="218.0" y="26.0" text-anchor="middle" font-size="11" fill="#9333ea" font-weight="700">bit</text>
+<text x="140.0" y="58.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">000</text>
+<rect x="200" y="40" width="36" height="26" fill="#9333ea" fill-opacity="0.06" stroke="#9333ea"/><text x="218.0" y="58.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">0</text>
+<path d="M236 53.0H320" stroke="#9aa0a6" stroke-width="1.2"/>
+<text x="140.0" y="84.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">001</text>
+<rect x="200" y="66" width="36" height="26" fill="#9333ea" fill-opacity="0.06" stroke="#9333ea"/><text x="218.0" y="84.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">0</text>
+<path d="M236 79.0H320" stroke="#9aa0a6" stroke-width="1.2"/>
+<text x="140.0" y="110.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">010</text>
+<rect x="200" y="92" width="36" height="26" fill="#9333ea" fill-opacity="0.06" stroke="#9333ea"/><text x="218.0" y="110.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">0</text>
+<path d="M236 105.0H320" stroke="#9aa0a6" stroke-width="1.2"/>
+<text x="140.0" y="136.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">011</text>
+<rect x="200" y="118" width="36" height="26" fill="#9333ea" fill-opacity="0.25" stroke="#9333ea"/><text x="218.0" y="136.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">1</text>
+<path d="M236 131.0H320" stroke="#9aa0a6" stroke-width="1.2"/>
+<text x="140.0" y="162.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">100</text>
+<rect x="200" y="144" width="36" height="26" fill="#9333ea" fill-opacity="0.06" stroke="#9333ea"/><text x="218.0" y="162.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">0</text>
+<path d="M236 157.0H320" stroke="#9aa0a6" stroke-width="1.2"/>
+<text x="140.0" y="188.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">101</text>
+<rect x="200" y="170" width="36" height="26" fill="#9333ea" fill-opacity="0.25" stroke="#9333ea"/><text x="218.0" y="188.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">1</text>
+<path d="M236 183.0H320" stroke="#9aa0a6" stroke-width="1.2"/>
+<text x="140.0" y="214.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">110</text>
+<rect x="200" y="196" width="36" height="26" fill="#9333ea" fill-opacity="0.25" stroke="#9333ea"/><text x="218.0" y="214.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">1</text>
+<path d="M236 209.0H320" stroke="#9aa0a6" stroke-width="1.2"/>
+<text x="140.0" y="240.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">111</text>
+<rect x="200" y="222" width="36" height="26" fill="#9333ea" fill-opacity="0.25" stroke="#9333ea"/><text x="218.0" y="240.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">1</text>
+<path d="M236 235.0H320" stroke="#9aa0a6" stroke-width="1.2"/>
+<path d="M320 34L380 70V218L320 254Z" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.8"/><text x="350.0" y="148.0" text-anchor="middle" font-size="13" fill="#2563eb" font-weight="700">MUX</text><text x="350.0" y="164.0" text-anchor="middle" font-size="11" fill="#2563eb">8 → 1</text>
+<path d="M380 144H440" stroke="#555" stroke-width="1.8" marker-end="url(#lu)"/><text x="448.0" y="149.0" text-anchor="start" font-size="14" fill="#16a34a" font-weight="700">O</text>
+<path d="M350 298V236" stroke="#555" stroke-width="1.6" marker-end="url(#lu)"/><text x="350.0" y="312.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">A B C (kirishlar = adres)</text>
+<rect x="118" y="196" width="122" height="26" fill="none" stroke="#d9622b" stroke-width="2.2" rx="4"/>
+<text x="535.0" y="70.0" text-anchor="start" font-size="12" fill="#d9622b" font-weight="700">Misol: A B C = 1 1 0</text><text x="535.0" y="88.0" text-anchor="start" font-size="12" fill="#d9622b" font-weight="700">→ 6-katakcha → O = 1</text>
+<text x="535.0" y="130.0" text-anchor="start" font-size="12" fill="currentColor" font-weight="700">3 kirish → 2³ = 8 katakcha</text>
+<text x="535.0" y="150.0" text-anchor="start" font-size="12" fill="currentColor">har katakchaga 0 yoki 1</text>
+<text x="535.0" y="170.0" text-anchor="start" font-size="12" fill="#dc2626" font-weight="700">→ 2⁸ = 256 xil funksiya</text>
+<text x="535.0" y="210.0" text-anchor="start" font-size="11" fill="currentColor">Bu yerdagi bitlar: "kamida</text><text x="535.0" y="226.0" text-anchor="start" font-size="11" fill="currentColor">ikkitasi 1 bo'lsa → 1"</text>
+</svg></figure>
+<p>Hisob:</p>
+<ul>
+<li>k kirish → <strong>2<sup>k</sup></strong> ta kombinatsiya → <strong>2<sup>k</sup> ta 1 bitli xotira katakchasi</strong>.</li>
+<li>Har katakchaga 0 yoki 1 yoziladi → katakchalarni to'ldirish usullari soni = <strong>2<sup>(2<sup>k</sup>)</sup></strong> = shuncha xil funksiya.</li>
+</ul>
+<table>
+<tr><th>Kirishlar k</th><th>Katakchalar 2<sup>k</sup></th><th>Funksiyalar 2<sup>(2<sup>k</sup>)</sup></th></tr>
+<tr><td>2</td><td>4</td><td>16</td></tr>
+<tr><td>3</td><td>8</td><td>256</td></tr>
+<tr><td>4</td><td>16</td><td>65 536</td></tr>
+</table>
+<div class="box analogy"><strong>O'xshatish:</strong> ko'paytirish jadvali. Bola 7×8 ni hisoblamaydi, jadvaldan "qarab topadi". LUT ham shunday: istalgan funksiya, faqat jadvalni to'ldirish kerak. Shuning uchun k kirishli LUT k kirishli <strong>istalgan</strong> funksiyani bajaradi.</div>
+
+<h3>Imtihon savollari</h3>
+<div class="box"><p><strong>2021-06 (test).</strong> <em>A three-input look-up table (LUT) in the logic blocks of an FPGA: (a) Can implement up to 8 logic functions with three inputs. (b) Can implement up to 2^(2^3) logic functions with three inputs. (c) Has 2^(2^3) memory cells. (d) Can implement up to 2^(2^4) logic functions with four inputs.</em></p>
+<details><summary>Yechim</summary>Rasmiy yechim: 3 kirish 8 ta katakchani tanlaydi, har katakcha 2 xil qiymat (0, 1) saqlaydi → 2<sup>8</sup> = 2<sup>(2<sup>3</sup>)</sup> = 256 funksiya. (a) xato: 8 = katakchalar soni, funksiyalar emas. (c) xato: katakchalar 2<sup>3</sup> = 8 ta. (d) xato: 3 kirishli LUT 4 kirishli funksiya qila olmaydi. <strong>Javob: (b)</strong>.</details></div>
+<div class="box"><p><strong>2021-07 (test).</strong> <em>A Look-Up Table with 4 inputs: (a) Has 4 memory cells. (b) Uses 2^4 1-bit memory cells (c) Has 512 memory cells. (d) Has 2^8 memory cells.</em></p>
+<details><summary>Yechim</summary>4 kirish → 2<sup>4</sup> = 16 kombinatsiya → 16 ta 1 bitli katakcha. <strong>Javob: (b)</strong>.</details></div>
+<div class="box"><p><strong>067.</strong> <em>An FPGA uses only 4-input Look-up-Table (LUT) to perform combinatorial logic functions. To achieve O = A B C (D + E + F) are needed: a) 5 LUT &nbsp; b) 3 LUT &nbsp; c) 2 LUT &nbsp; d) functions with 6 inputs cannot be implemented</em></p>
+<details><summary>Yechim</summary>Funksiyada 6 ta kirish bor (A…F), bitta 4 kirishli LUT ga sig'maydi. Funksiyani ikki bo'lakka bo'lamiz: avval X = D + E + F (3 kirish → 1-LUT), keyin O = A·B·C·X (4 kirish → 2-LUT).
+<figure><svg viewBox="0 0 720 190" role="img" aria-label="067 yechimi: birinchi 4 kirishli LUT D, E, F ni oladi (bitta kirish bo'sh) va X = D+E+F ni chiqaradi. Ikkinchi LUT A, B, C va X ni oladi va O = A·B·C·X ni chiqaradi. Jami 2 LUT" font-family="system-ui,sans-serif">
+<defs><marker id="l7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<rect x="130" y="40" width="130" height="90" rx="8" fill="#9333ea" fill-opacity=".1" stroke="#9333ea" stroke-width="1.8"/><text x="195.0" y="78.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">LUT 1 (4 kirish)</text><text x="195.0" y="100.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">X = D+E+F</text><rect x="430" y="40" width="130" height="90" rx="8" fill="#9333ea" fill-opacity=".1" stroke="#9333ea" stroke-width="1.8"/><text x="495.0" y="78.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">LUT 2 (4 kirish)</text><text x="495.0" y="100.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">O = A·B·C·X</text>
+<path d="M80 55H128" stroke="#555" stroke-width="1.4" marker-end="url(#l7)"/><text x="72.0" y="59.0" text-anchor="end" font-size="12" fill="#2563eb" font-weight="700">D</text>
+<path d="M80 75H128" stroke="#555" stroke-width="1.4" marker-end="url(#l7)"/><text x="72.0" y="79.0" text-anchor="end" font-size="12" fill="#2563eb" font-weight="700">E</text>
+<path d="M80 95H128" stroke="#555" stroke-width="1.4" marker-end="url(#l7)"/><text x="72.0" y="99.0" text-anchor="end" font-size="12" fill="#2563eb" font-weight="700">F</text>
+<path d="M80 115H128" stroke="#555" stroke-width="1.4" marker-end="url(#l7)"/><text x="72.0" y="119.0" text-anchor="end" font-size="12" fill="#9aa0a6" font-weight="700">—</text>
+<path d="M260 85H340V115H428" fill="none" stroke="#d9622b" stroke-width="2" marker-end="url(#l7)"/><text x="300.0" y="78.0" text-anchor="middle" font-size="13" fill="#d9622b" font-weight="700">X</text>
+<path d="M380 55H428" stroke="#555" stroke-width="1.4" marker-end="url(#l7)"/><text x="372.0" y="59.0" text-anchor="end" font-size="12" fill="#2563eb" font-weight="700">A</text>
+<path d="M380 75H428" stroke="#555" stroke-width="1.4" marker-end="url(#l7)"/><text x="372.0" y="79.0" text-anchor="end" font-size="12" fill="#2563eb" font-weight="700">B</text>
+<path d="M380 95H428" stroke="#555" stroke-width="1.4" marker-end="url(#l7)"/><text x="372.0" y="99.0" text-anchor="end" font-size="12" fill="#2563eb" font-weight="700">C</text>
+<path d="M560 85H620" stroke="#555" stroke-width="1.8" marker-end="url(#l7)"/><text x="628.0" y="90.0" text-anchor="start" font-size="14" fill="#16a34a" font-weight="700">O</text>
+<text x="360.0" y="165.0" text-anchor="middle" font-size="13" fill="#dc2626" font-weight="700">6 kirish > 4 → bitta LUT yetmaydi, lekin 2 ta LUT yetadi  → javob (c)</text>
+</svg></figure>
+<strong>Javob: (c) 2 LUT</strong>. (d) xato: LUT larni ketma-ket ulab istalgan katta funksiyani qurish mumkin.</details></div>
+<div class="box note"><strong>Qoida:</strong> har bir 4 kirishli LUT "signallar sonini" 4 tadan 1 taga kamaytiradi, ya'ni 3 taga. n kirishli AND/OR turidagi funksiya uchun kerakli LUT soni ≈ ⌈(n − 1)/3⌉. 6 kirish: ⌈5/3⌉ = 2.</div>
+
+<h2>5. Dastur (konfiguratsiya) qayerda saqlanadi?</h2>
+<table>
+<tr><th>Usul</th><th>Qanday ishlaydi</th><th>Qayta yozish</th></tr>
+<tr><td><strong>Uchuvchan xotira</strong> (SRAM, registrlar)</td><td>Ko'pchilik FPGA. Tok yoqilganda tashqi uchmas xotiradan yuklanadi</td><td>cheksiz</td></tr>
+<tr><td><strong>EPROM, EEPROM, Flash</strong></td><td>Floating gate tranzistor (22-dars): yuqori kuchlanish (12 V) elektronlarni zatvorga "qamaydi" → tranzistor yopiq. EPROM ultrabinafsha nur bilan o'chiriladi</td><td>ha</td></tr>
+<tr><td><strong>Fuse</strong> (saqlagich)</td><td>Ingichka metall sim; katta tok uni kuydiradi → ulanish <strong>uziladi</strong>. PROM va oddiy PAL/PLA</td><td>yo'q (OTP)</td></tr>
+<tr><td><strong>Antifuse</strong></td><td>Ingichka dielektrik qatlam; yuqori kuchlanish uni teshadi → ulanish <strong>paydo bo'ladi</strong></td><td>yo'q (OTP)</td></tr>
+</table>
+<p><span class="term">OTP</span> = one-time programmable, bir marta dasturlanadi.</p>
+
+<h2>6. Narx: NRE va dona narxi</h2>
+<p>Mahsulot narxi ikki qismdan iborat:</p>
+<ul>
+<li><span class="term">NRE</span> (Non-Recurring Engineering) = <strong>bir martalik</strong> xarajat: loyihalash, maskalar, uskunalar. Nechta dona yasashingizdan qat'i nazar bir marta to'lanadi.</li>
+<li><span class="term">Dona narxi</span> (unit cost) = <strong>bitta</strong> donani ishlab chiqarish narxi (material + ish haqi, loyihalash kirmaydi).</li>
+</ul>
+<span class="formula">Jami narx = NRE + dona narxi · N</span>
+<span class="formula">Bir mahsulot narxi = Jami / N = NRE / N + dona narxi</span>
+<div class="box analogy"><strong>O'xshatish:</strong> to'y oshi. Qozon, o'choq, oshpaz haqi (NRE) bir marta to'lanadi. Har bir mehmonga ketadigan guruch va go'sht (dona narxi) mehmon soniga ko'paytiriladi. Mehmon qancha ko'p bo'lsa, bir kishiga to'g'ri keladigan qozon xarajati shuncha kichik.</div>
+<p><strong>Slayddagi misol</strong> (uchta texnologiya):</p>
+<table>
+<tr><th></th><th>NRE</th><th>Dona narxi</th><th>Xarakteri</th></tr>
+<tr><td>A</td><td>$2 000</td><td>$100</td><td>kam NRE, qimmat dona (masalan protsessor)</td></tr>
+<tr><td>B</td><td>$30 000</td><td>$30</td><td>o'rtacha (masalan FPGA)</td></tr>
+<tr><td>C</td><td>$100 000</td><td>$2</td><td>katta NRE, arzon dona (masalan ASIC)</td></tr>
+</table>
+<p><strong>Kesishish nuqtasi</strong> (<span class="term">break-even</span>, N<sub>BE</sub>) = ikki usulning jami narxi teng bo'lgan dona soni:</p>
+<span class="formula">NRE₁ + u₁·N = NRE₂ + u₂·N &nbsp;→&nbsp; N<sub>BE</sub> = (NRE₂ − NRE₁) / (u₁ − u₂)</span>
+<p>A va B: (30 000 − 2 000)/(100 − 30) = <strong>400</strong> dona. B va C: (100 000 − 30 000)/(30 − 2) = <strong>2 500</strong> dona. Demak: 400 dan kam → A, 400–2 500 → B, 2 500 dan ko'p → C arzon.</p>
+
+<h3>Bozorga chiqish vaqti</h3>
+<p>Narxdan tashqari <strong>vaqt</strong> ham muhim. Daromad uchburchak shaklida: bozor o'sadi, keyin mahsulot eskiradi. Kechikib chiqqan mahsulot kichikroq uchburchakni oladi: slaydga ko'ra kechikish daromadni <strong>kvadratik</strong> kamaytiradi. Shuning uchun boshqalar yasagan tayyor komponentlar (protsessor, FPGA) ishlatiladi: dizayn vaqti va NRE kamayadi.</p>
+<figure><svg viewBox="0 0 720 230" role="img" aria-label="Bozorga chiqish vaqti: daromad uchburchak shaklida, bozor o'sadi va keyin mahsulot eskiradi. O'z vaqtida chiqqan mahsulot katta uchburchakni oladi, kechikkan mahsulot ancha kichik uchburchakni oladi. Kechikish daromadni kvadratik kamaytiradi" font-family="system-ui,sans-serif">
+<path d="M60 20V180H680" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="680.0" y="198.0" text-anchor="end" font-size="11" fill="currentColor" font-weight="700">vaqt</text><text x="64.0" y="16.0" text-anchor="start" font-size="11" fill="currentColor" font-weight="700">daromad</text>
+<path d="M100 180L340 40L580 180Z" fill="#16a34a" fill-opacity=".15" stroke="#16a34a" stroke-width="2"/>
+<path d="M180 180L340 87L580 180Z" fill="#dc2626" fill-opacity=".18" stroke="#dc2626" stroke-width="2"/>
+<text x="100.0" y="196.0" text-anchor="middle" font-size="11" fill="#16a34a" font-weight="700">o'z vaqtida</text><text x="180.0" y="196.0" text-anchor="middle" font-size="11" fill="#dc2626" font-weight="700">kechikib</text><text x="140.0" y="212.0" text-anchor="middle" font-size="10" fill="currentColor">← kechikish →</text>
+<text x="340.0" y="32.0" text-anchor="middle" font-size="11" fill="#16a34a" font-weight="700">maksimal daromad</text><text x="490.0" y="100.0" text-anchor="start" font-size="11" fill="#dc2626" font-weight="700">kamaygan daromad</text>
+<text x="580.0" y="196.0" text-anchor="middle" font-size="11" fill="currentColor">mahsulot eskiradi</text>
+<text x="690.0" y="40.0" text-anchor="end" font-size="12" fill="#9333ea" font-weight="700">Dizayn tez</text><text x="690.0" y="58.0" text-anchor="end" font-size="12" fill="#9333ea" font-weight="700">bo'lishi shart!</text>
+</svg></figure>
+
+<h3>Imtihon savollari</h3>
+<div class="box"><p><strong>005.</strong> <em>A SW implementation of a programmable processor application has: a) lower unit cost than a dedicated HW &nbsp; b) higher performance than a dedicated HW &nbsp; c) lower NRE cost than a dedicated HW &nbsp; d) lower flexibility than a dedicated HW</em></p>
+<details><summary>Yechim</summary>Protsessor tayyor, faqat dastur yoziladi → loyihalash arzon (kichik NRE). Lekin protsessor qimmat (dona narxi yuqori), sekinroq, ammo moslashuvchanroq. <strong>Javob: (c)</strong>.</details></div>
+<div class="box"><p><strong>112.</strong> <em>A dedicated hardware implementation of an application has: a) lower unit cost than a software using a CPU &nbsp; b) lower performance than a software using a CPU &nbsp; c) lower NRE cost than a software using a CPU &nbsp; d) greater flexibility than a software using a CPU</em></p>
+<details><summary>Yechim</summary>005 ning teskarisi: maxsus apparat (ASIC) = katta NRE, lekin <strong>arzon dona</strong>, yuqori tezlik, past moslashuvchanlik. <strong>Javob: (a)</strong>.</details></div>
+<div class="box"><p><strong>084.</strong> <em>If the non-recurring costs NRE to manufacture an integrated circuit double, in order to keep the cost per product constant, it is generally necessary to: a) halve the engineers' wages &nbsp; b) double the selling price of each chip &nbsp; c) double the number of chips sold &nbsp; d) halve the unit cost of the chip</em></p>
+<details><summary>Yechim</summary>Bir mahsulot narxi = NRE/N + dona narxi. NRE 2 baravar oshsa, NRE/N o'zgarmasligi uchun N ham 2 baravar oshishi kerak: 2·NRE / 2N = NRE/N. (b) sotish narxi — bu xarajat emas. <strong>Javob: (c)</strong>.</details></div>
+
+<h2>7. Imtihon masalasi: 2021-01, Question 2 (7 ball)</h2>
+<div class="box"><p><em>To ramp up the production and sales of a new product, a company has three major options: using microprocessors with an NRE cost of 40000 USD and a unit cost of 25 USD; using FPGAs with an NRE cost of 110000 USD and a unit cost of 15 USD; using an ASIC with an NRE cost of 950000 USD and a unit cost of 2 USD. Considering these data, calculate:<br>
+1. The break-even number of units N<sub>BE</sub>, for which the total cost for their production using FPGAs would be the same as their production using microprocessors (2 points)<br>
+2. Compared to the above, how is the break-even number of units between the production using ASICs and the production using microprocessors (higher / lower / unchanged) (2 points)<br>
+3. The total cost if are produced 40000 units using FPGAs and 400000 units using ASICs (3 points)</em></p></div>
+<figure><svg viewBox="0 0 720 330" role="img" aria-label="Jami narx sotilgan dona soniga bog'liq: mikroprotsessor 40000 + 25·N, FPGA 110000 + 15·N, ASIC 950000 + 2·N. Mikroprotsessor va FPGA chiziqlari N = 7000 da kesishadi, mikroprotsessor va ASIC N ≈ 39565 da kesishadi. Kam donada mikroprotsessor arzon, ko'p donada ASIC arzon" font-family="system-ui,sans-serif">
+<path d="M90 270.0H690" stroke="#9aa0a6" stroke-opacity=".35"/><text x="84.0" y="274.0" text-anchor="end" font-size="11" fill="currentColor">0</text>
+<path d="M90 215.5H690" stroke="#9aa0a6" stroke-opacity=".35"/><text x="84.0" y="219.5" text-anchor="end" font-size="11" fill="currentColor">0.5 M$</text>
+<path d="M90 160.9H690" stroke="#9aa0a6" stroke-opacity=".35"/><text x="84.0" y="164.9" text-anchor="end" font-size="11" fill="currentColor">1 M$</text>
+<path d="M90 106.4H690" stroke="#9aa0a6" stroke-opacity=".35"/><text x="84.0" y="110.4" text-anchor="end" font-size="11" fill="currentColor">1.5 M$</text>
+<path d="M90 51.8H690" stroke="#9aa0a6" stroke-opacity=".35"/><text x="84.0" y="55.8" text-anchor="end" font-size="11" fill="currentColor">2 M$</text>
+<text x="90.0" y="286.0" text-anchor="middle" font-size="11" fill="currentColor">0</text>
+<text x="240.0" y="286.0" text-anchor="middle" font-size="11" fill="currentColor">20k</text>
+<text x="390.0" y="286.0" text-anchor="middle" font-size="11" fill="currentColor">40k</text>
+<text x="540.0" y="286.0" text-anchor="middle" font-size="11" fill="currentColor">60k</text>
+<text x="690.0" y="286.0" text-anchor="middle" font-size="11" fill="currentColor">80k</text>
+<path d="M90 22V270H696" fill="none" stroke="currentColor" stroke-width="1.3"/>
+<text x="690.0" y="304.0" text-anchor="end" font-size="12" fill="currentColor" font-weight="700">N (sotilgan dona)</text><text x="84.0" y="16.0" text-anchor="start" font-size="12" fill="currentColor" font-weight="700">jami narx</text>
+<path d="M90.0 265.6L690.0 47.5" stroke="#2563eb" stroke-width="2.4"/>
+<path d="M90.0 258.0L690.0 127.1" stroke="#d9622b" stroke-width="2.4"/>
+<path d="M90.0 166.4L690.0 148.9" stroke="#16a34a" stroke-width="2.4"/>
+<text x="570.0" y="87.1" text-anchor="end" font-size="12" fill="#2563eb" font-weight="700">µP: 40k + 25·N</text>
+<text x="585.0" y="172.0" text-anchor="start" font-size="12" fill="#d9622b" font-weight="700">FPGA: 110k + 15·N</text>
+<text x="112.5" y="155.7" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">ASIC: 950k + 2·N</text>
+<circle cx="142.5" cy="246.5" r="5" fill="#dc2626"/><path d="M142.5 246.5V270" stroke="#dc2626" stroke-dasharray="4 3"/>
+<text x="142.5" y="212.5" text-anchor="start" font-size="12" fill="#dc2626" font-weight="700">N = 7000</text>
+<circle cx="386.7" cy="157.7" r="5" fill="#dc2626"/><path d="M386.7 157.7V270" stroke="#dc2626" stroke-dasharray="4 3"/>
+<text x="378.7" y="143.7" text-anchor="end" font-size="12" fill="#dc2626" font-weight="700">N ≈ 39 565</text>
+<text x="360.0" y="318.0" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">Kesishish nuqtasi (break-even) dan chapda: kam NRE li yo'l arzon; o'ngda: kam dona narxli yo'l arzon</text>
+</svg></figure>
+<p><strong>1-qadam (N<sub>BE</sub>, µP va FPGA).</strong> Ikkala jami narxni tenglaymiz:</p>
+<span class="formula">40 000 + 25·N = 110 000 + 15·N &nbsp;→&nbsp; 10·N = 70 000 &nbsp;→&nbsp; N<sub>BE</sub> = 7 000</span>
+<p>Tekshiruv: µP: 40 000 + 25·7 000 = 215 000; FPGA: 110 000 + 15·7 000 = 215 000 ✓.</p>
+<p><strong>2-qadam (ASIC va µP).</strong></p>
+<span class="formula">40 000 + 25·N = 950 000 + 2·N &nbsp;→&nbsp; 23·N = 910 000 &nbsp;→&nbsp; N ≈ 39 565</span>
+<p>39 565 &gt; 7 000 → <strong>higher</strong>. Mantiqan: ASIC ning NRE si juda katta, uni "qoplash" uchun ko'p dona kerak.</p>
+<p><strong>3-qadam (jami narx).</strong> Ikki alohida partiya, har biriga o'z NRE si:</p>
+<span class="formula">FPGA: 110 000 + 15 · 40 000 = 710 000 USD</span>
+<span class="formula">ASIC: 950 000 + 2 · 400 000 = 1 750 000 USD</span>
+<span class="formula">Jami = 710 000 + 1 750 000 = 2 460 000 USD</span>
+<div class="box ok"><strong>Rasmiy javoblar:</strong> 1) 7000 &nbsp; 2) higher &nbsp; 3) 2460000.</div>
+<div class="box warn"><strong>Tez-tez xato:</strong> 3-qadamda NRE ni unutish yoki uni dona soniga ko'paytirish. NRE har bir texnologiya uchun <strong>bir marta</strong> qo'shiladi.</div>
+<p>Qo'shimcha (savolda yo'q, lekin foydali): FPGA va ASIC kesishishi (950 000 − 110 000)/(15 − 2) ≈ 64 615 dona. Demak: 7 000 gacha µP, 7 000 – 64 615 FPGA, undan ko'p ASIC eng arzon.</p>
+
+<h2>8. Qachon nimani tanlash kerak</h2>
+<table>
+<tr><th></th><th>Protsessor + dastur</th><th>FPGA</th><th>ASIC</th></tr>
+<tr><td>NRE</td><td>eng kichik</td><td>o'rtacha</td><td>eng katta</td></tr>
+<tr><td>Dona narxi</td><td>yuqori</td><td>o'rtacha</td><td>eng past</td></tr>
+<tr><td>Tezlik (performance)</td><td>past</td><td>yuqori</td><td>eng yuqori</td></tr>
+<tr><td>Moslashuvchanlik</td><td>eng yuqori</td><td>yuqori (qayta dasturlanadi)</td><td>yo'q</td></tr>
+<tr><td>Bozorga chiqish vaqti</td><td>tez</td><td>tez</td><td>uzoq</td></tr>
+<tr><td>Qachon</td><td>kam dona, oddiy vazifa</td><td>o'rtacha dona yoki tez apparat kerak</td><td>juda ko'p dona</td></tr>
+</table>
+
+<h2>O'zingizni tekshiring</h2>
+<div class="box check">5 kirishli LUT da nechta xotira katakchasi bor va u nechta funksiya bajara oladi? <details><summary>Javob</summary>2<sup>5</sup> = <strong>32</strong> katakcha; 2<sup>32</sup> ≈ 4.3 milliard funksiya.</details></div>
+<div class="box check">Qaysi tuzilmada AND tekisligi qotirilgan va u nima vazifani bajaradi? <details><summary>Javob</summary><strong>PROM</strong>: qotirilgan AND tekisligi = adres dekoderi. OR tekisligi dasturlanadi.</details></div>
+<div class="box check">O = A·B·C·D·E·F·G·H ni faqat 4 kirishli LUT bilan qurish uchun nechta LUT kerak? <details><summary>Javob</summary>X = A·B·C·D (1-LUT), Y = X·E·F·G (2-LUT), O = Y·H (3-LUT) → <strong>3 LUT</strong> (⌈7/3⌉ = 3).</details></div>
+<div class="box check">NRE = $50 000, dona narxi $10, 10 000 dona yasaldi. Bir mahsulot narxi? <details><summary>Javob</summary>50 000/10 000 + 10 = <strong>$15</strong>.</details></div>
+<div class="box check">2021-01 ma'lumotlari bilan 20 000 dona yasash kerak. Qaysi usul eng arzon? <details><summary>Javob</summary>µP: 40 000 + 500 000 = 540 000; FPGA: 110 000 + 300 000 = <strong>410 000</strong>; ASIC: 950 000 + 40 000 = 990 000 → <strong>FPGA</strong> (7 000 &lt; 20 000 &lt; 64 615 ekanini ham ko'rasiz).</details></div>
+<div class="box check">Fuse va antifuse farqi? <details><summary>Javob</summary>Fuse: katta tok simni kuydiradi → ulanish <strong>uziladi</strong>. Antifuse: yuqori kuchlanish dielektrikni teshadi → ulanish <strong>paydo bo'ladi</strong>. Ikkalasi ham bir martalik (OTP).</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Ko'paytmalar yig'indisi</td><td>sum of products</td><td>Bir nechta AND, keyin OR</td></tr>
+<tr><td>PAL / PLA / PROM</td><td>Programmable Array Logic / Programmable Logic Array / Programmable ROM</td><td>AND dasturlanadi / ikkalasi / OR dasturlanadi</td></tr>
+<tr><td>SPLD / CPLD</td><td>simple / complex PLD</td><td>Bitta AND-OR + chiqish mantiqi / bir nechta SPLD + ulanishlar</td></tr>
+<tr><td>FPGA</td><td>Field Programmable Gate Array</td><td>CLB + dasturlanadigan ulanishlar + IOB</td></tr>
+<tr><td>CLB</td><td>configurable logic block</td><td>FPGA ning mantiqiy bloki: LUT + flip-flop</td></tr>
+<tr><td>IOB</td><td>I/O block</td><td>Oyoqcha va ichki signallar orasidagi blok</td></tr>
+<tr><td>LUT</td><td>look-up table</td><td>Haqiqat jadvali yozilgan kichik xotira</td></tr>
+<tr><td>ASIC</td><td>application-specific IC</td><td>Bitta vazifa uchun maxsus chip</td></tr>
+<tr><td>Full custom / standard cell / gate array</td><td>—</td><td>Hammasi noldan / tayyor kutubxona / tayyor darvozalar, faqat ulanish</td></tr>
+<tr><td>NRE</td><td>non-recurring engineering cost</td><td>Bir martalik loyihalash xarajati</td></tr>
+<tr><td>Dona narxi</td><td>unit cost</td><td>Bitta donani yasash narxi</td></tr>
+<tr><td>Kesishish nuqtasi</td><td>break-even</td><td>Ikki usul jami narxi teng bo'lgan dona soni</td></tr>
+<tr><td>Bozorga chiqish vaqti</td><td>time to market</td><td>Kechiksa daromad kvadratik kamayadi</td></tr>
+<tr><td>Fuse / antifuse / OTP</td><td>—</td><td>Kuydirib uzish / teshib ulash / bir marta dasturlash</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<span class="formula">k kirishli LUT: 2<sup>k</sup> katakcha, 2<sup>(2<sup>k</sup>)</sup> funksiya (3 → 8 va 256; 4 → 16 va 65 536)</span>
+<span class="formula">Jami = NRE + u·N &nbsp;·&nbsp; Bir dona = NRE/N + u &nbsp;·&nbsp; N<sub>BE</sub> = ΔNRE / Δu</span>
+<ul>
+<li>PAL: AND dasturlanadi, OR qotirilgan. PLA: ikkalasi. PROM: AND qotirilgan (dekoder), OR dasturlanadi.</li>
+<li>CPLD = bir nechta SPLD + dasturlanadigan ulanishlar. FPGA = CLB (LUT + flip-flop) + ulanishlar (switch matrix) + IOB.</li>
+<li>Katta funksiyani LUT larga bo'lib qurish: har 4 kirishli LUT signallar sonini 3 taga kamaytiradi (067 → 2 LUT).</li>
+<li>SW (protsessor): kichik NRE, qimmat dona, sekin, moslashuvchan. Maxsus HW (ASIC): katta NRE, arzon dona, tez, moslashmaydi.</li>
+<li>NRE 2 baravar → bir dona narxi o'zgarmasligi uchun sotuvni 2 baravar oshirish kerak.</li>
+<li>Konfiguratsiya: SRAM (uchuvchan), EPROM/EEPROM/Flash, fuse va antifuse (OTP).</li>
+<li>Javoblar: 005 c; 112 a; 084 c; 067 c; 2021-06 LUT (b); 2021-07 LUT (b); 2021-01: 7000, higher, 2 460 000 USD.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+<footer class="pager"><a href="09-hisoblagich-fsm.html">← 9-dars</a><a href="11-mashq-flip-flop.html">11-dars →</a></footer>
+</main></body></html>
