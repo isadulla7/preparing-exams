@@ -4,7 +4,7 @@
 <body><main>
 <nav class="top"><a href="../">← Bosh sahifa</a></nav>
 <h1>Applied electronics and measurements</h1>
-<p>Fanning to'liq mundarijasi: 41 ta dars. Tayyor darslar havola ko'rinishida. Har birini o'qib bo'lgach, chatda "tushundim" yoki "tushunmadim" deb yozing.</p>
+<p>Fanning to'liq mundarijasi: 40 ta dars. Tayyor darslar havola ko'rinishida. Har birini o'qib bo'lgach, chatda "tushundim" yoki "tushunmadim" deb yozing.</p>
 <p><a href="reja.html"><strong>📋 O'qish rejasi: imtihon formati va qaysi mavzu qaysi savolga bog'langani</strong></a></p>
 <!-- LESSONS: mundarija -->
 <h2>0-bosqich. Noldan asoslar</h2>
@@ -29,14 +29,13 @@
 <h2>2-bosqich. Analog sxemalar</h2>
 <p class="status">Slaydlar B4, B5, Be1</p>
 <ol class="lessons" start="12">
-<li>Komparator va Schmitt trigger <span class="status">— B4: chegara, gisterezis · ⏳ tayyorlanmoqda</span></li>
-<li>Generator (oscillator) <span class="status">— B4: Schmitt generator, T = RC·ln(...) · ⏳ tayyorlanmoqda</span></li>
+<li><a href="13-komparator-generator.html">Komparator, Schmitt trigger va generator</a> <span class="status">— B4 + Be1: gisterezis, T = RC·ln(...), monostabil, kvars; 008, 073, 077, 083, 086 · 📖 o'qilmoqda</span></li>
 <li>Filtrlar <span class="status">— B5: past/yuqori chastota filtri, kesish chastotasi, tartib · ⏳ tayyorlanmoqda</span></li>
 <li>Mashq: CMOS, oscillator, issiqlik, NRE <span class="status">— 22 ta imtihon savoli · ⏳ tayyorlanmoqda</span></li>
 </ol>
 <h2>3-bosqich. Analog ↔ raqamli o&#x27;zgartirish</h2>
 <p class="status">Slaydlar D1, D2, D3, D5</p>
-<ol class="lessons" start="16">
+<ol class="lessons" start="15">
 <li><a href="16a-namuna-olish-aliasing.html">16a. Namuna olish va aliasing</a> · <a href="16b-kvantlash-snr.html">16b. Kvantlash, SNR va ENOB</a> <span class="status">— D1: Nyquist, SNR = 6N + 1.76 dB, ENOB · 📖 o'qilmoqda</span></li>
 <li><a href="17-dac.html">DAC</a> <span class="status">— D2: R-2R, xatolar (offset, gain, INL, DNL) · 📖 o'qilmoqda</span></li>
 <li><a href="18-adc-turlari.html">ADC turlari</a> <span class="status">— D3: flash, SAR, tracking, tezlik va komparatorlar soni · 📖 o'qilmoqda</span></li>
@@ -45,14 +44,14 @@
 </ol>
 <h2>4-bosqich. Xotiralar</h2>
 <p class="status">Slaydlar B7, B7e</p>
-<ol class="lessons" start="21">
+<ol class="lessons" start="20">
 <li><a href="21-xotira-tuzilishi-rom.html">Xotira tuzilishi va ROM</a> <span class="status">— matritsa, dekoder, kechikish 0.69·R·C, NOR/NAND ROM + 2021-07 masalasi · 📖 o'qilmoqda</span></li>
 <li><a href="22-sram-dram-flash.html">SRAM, DRAM, DDR, Flash</a> <span class="status">— katakcha turlari, refresh, DDR tezligi, NOR/NAND flash · 📖 o'qilmoqda</span></li>
 <li>Mashq: xotira va FPGA <span class="status">— 12 ta imtihon savoli + 2021-06 masalasi · ⏳ tayyorlanmoqda</span></li>
 </ol>
 <h2>5-bosqich. Ulanishlar va uzatish liniyalari</h2>
 <p class="status">Slaydlar C1–C7</p>
-<ol class="lessons" start="24">
+<ol class="lessons" start="23">
 <li><a href="24-ulanish-rc-skew.html">Nega sim bitta nuqta emas</a> <span class="status">— C1: RC model, uzatish vaqti, skew, jitter · 📖 o'qilmoqda</span></li>
 <li><a href="25-uzatish-liniyasi.html">Uzatish liniyasi va aks etish</a> <span class="status">— C2: Z∞, tp, aks etish koeffitsienti Γ, lattice · 📖 o'qilmoqda</span></li>
 <li><a href="26-iws-rws-terminatsiya.html">Terminatsiya, IWS va RWS</a> <span class="status">— C3: moslashtirish, uzatish vaqti, RS tanlash · 📖 o'qilmoqda</span></li>
@@ -62,7 +61,7 @@
 </ol>
 <h2>6-bosqich. Quvvat manbalari</h2>
 <p class="status">Slaydlar E1, E2, E3, Ee</p>
-<ol class="lessons" start="30">
+<ol class="lessons" start="29">
 <li><a href="30-quvvat-tranzistor-issiqlik.html">Quvvat tranzistori va issiqlik</a> <span class="status">— E1: BJT/MOS kalit, TJ = TA + PD·θJA, radiator + 2020-12 masalasi · 📖 o'qilmoqda</span></li>
 <li><a href="31-togrilagich-ripple.html">To&#x27;g&#x27;rilagich va ripple</a> <span class="status">— E2: bir/ikki yarim davrli, VR = IO/(f·C) + 2021-07 testi · 📖 o'qilmoqda</span></li>
 <li><a href="32-zener-chiziqli-stabilizator.html">Chiziqli stabilizatorlar va zener</a> <span class="status">— E2: Rmin, Rmax, series regulator, LDO + 2020-09 masalasi · 📖 o'qilmoqda</span></li>
@@ -71,7 +70,7 @@
 </ol>
 <h2>7-bosqich. Measurements (A. Carullo)</h2>
 <p class="status">Measurements slaydlari va laboratoriya ishlari</p>
-<ol class="lessons" start="35">
+<ol class="lessons" start="34">
 <li><a href="35-olchash-noaniqligi.html">O&#x27;lchash noaniqligi</a> <span class="status">— asbob noaniqligi, tarqalish qoidalari · 📖 o'qilmoqda</span></li>
 <li>Chastota va davrni o&#x27;lchash <span class="status">— hisoblagich, gate time, ±1 xato · ⏳ tayyorlanmoqda</span></li>
 <li>Integratsiyalovchi ADC <span class="status">— dual-slope, multi-slope, NPLC · ⏳ tayyorlanmoqda</span></li>
@@ -81,7 +80,7 @@
 </ol>
 <h2>8-bosqich. To&#x27;liq imtihonlar</h2>
 <p class="status">2018–2021 yillar</p>
-<ol class="lessons" start="41">
+<ol class="lessons" start="40">
 <li>11 ta eski imtihonni yechish <span class="status">— vaqt bilan yechish va xatolarni tahlil qilish · ⏳ tayyorlanmoqda</span></li>
 </ol>
 </main></body></html>
