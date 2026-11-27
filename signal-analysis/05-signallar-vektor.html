@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>5. Signallar vektor sifatida</title><link rel="stylesheet" href="../assets/style.css">
+<style>
+svg text{font-family:inherit}
+.s-ink{fill:var(--fg)} .s-muted{fill:var(--muted)}
+.s-line{stroke:var(--border)} .s-axis{stroke:var(--muted)} .s-acc{stroke:var(--accent)} .s-mut{stroke:var(--muted)}
+.f-acc{fill:var(--accent)} .f-accsoft{fill:var(--accent);fill-opacity:.12} .f-card{fill:var(--card)}
+main{overflow-wrap:break-word} .tw{overflow-x:auto} @media (max-width:480px){th,td{padding:4px 6px;font-size:.92em}}
+.sol{border-left:4px solid var(--accent);padding-left:12px;margin:.6em 0}
+</style></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Signal analysis darslari</a></nav>
+<h1>5. Signallar vektor sifatida</h1>
+<p>O'qish vaqti: 45 daqiqa. Manba: 03-ma'ruza ("Vectorial representation of signals"), 1-qism. Kerakli bilim: energiya (4-dars), kompleks son va qo'shmasi (3-dars), maktab geometriyasidagi vektorlar.</p>
+<div class="box warn"><b>Bu C mavzu</b>, lekin juda "toza" test savollari chiqadi: "ikki signal ortogonal qachon?", "signal normasi kvadrati = ?", "Evklid masofasining kvadrati nimaning energiyasi?", "Shvars tengsizligida tenglik qachon?", "skalyar ko'paytma ta'rifi?". Ular Furye qatori (7-dars) va ortonormal bazis (6-dars) uchun asos.</div>
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> nega signallarni vektor deb qarash foydali; masofa, metrika, vektor fazo, chiziqli bog'liqlik, bazis; skalyar ko'paytma, norma, energiya; ortogonallik va "burchak"; Shvars tengsizligi; ma'ruzadagi ortogonallik misoli; vektor ↔ signal jadvali.</div>
+
+<h2>1. Nega signallarni vektor deb qaraymiz?</h2>
+<p>Signalni "vaqt funksiyasi" deb ta'riflash ba'zi muhandislik masalalarida yetarli emas: real fizik signal (masalan, ovoz yozuvi) ma'lum matematik funksiyalarning (eksponenta, logarifm, sinusoida…) birortasiga ham o'xshamaydi. Shuning uchun <b>istalgan</b> signalni samarali tasvirlaydigan vosita kerak.</p>
+<div class="box ok"><b>Yechim (ma'ruza):</b> signallarni <b>vektor</b> deb qarash mumkin — ular oddiy "elementar" signallar to'plamidan yig'iladi. O'xshatish: tekislikdagi istalgan nuqtaga "3 qadam sharqqa, 2 qadam shimolga" deb borish mumkin — ikki yo'nalish (bazis) va ikki son (koeffitsientlar) yetarli. Signal ham "shuncha bu elementar signal + shuncha u elementar signal" ko'rinishida yoziladi.</div>
+
+<h2>2. Eslatma: tekislikdagi vektorlar</h2>
+<p>x = (x<sub>1</sub>, x<sub>2</sub>) — ikki son, tekislikdagi strelka. Amallar:</p>
+<ul>
+<li><b>Yig'indi:</b> (x<sub>1</sub> + y<sub>1</sub>, x<sub>2</sub> + y<sub>2</sub>) — parallelogramm qoidasi. <b>Songa ko'paytma:</b> αx = (αx<sub>1</sub>, αx<sub>2</sub>) — strelka cho'ziladi/qisqaradi (α &lt; 0 da teskari tomonga).</li>
+<li><b>Uzunlik (norma):</b> ‖x‖ = √(x<sub>1</sub>² + x<sub>2</sub>²) (Pifagor).</li>
+<li><b>Skalyar ko'paytma:</b> ⟨x, y⟩ = x<sub>1</sub>y<sub>1</sub> + x<sub>2</sub>y<sub>2</sub> = ‖x‖·‖y‖·cos θ (θ — orasidagi burchak).</li>
+<li><b>Perpendikulyar</b> (θ = 90°) ⇔ ⟨x, y⟩ = 0.</li>
+</ul>
+<div class="sol"><p><b>Son misol:</b> x = (3, 4), y = (4, −3). ‖x‖ = √(9 + 16) = 5, ‖y‖ = 5. ⟨x, y⟩ = 12 − 12 = 0 → perpendikulyar. Masofa ‖x − y‖ = ‖(−1, 7)‖ = √50 ≈ 7,07.</p></div>
+<figure>
+<svg viewBox="0 0 720 270" role="img" aria-label="Tekislikdagi vektorlar">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<line x1="34.0" y1="184.2" x2="408.0" y2="184.2" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="408.0" y="202.2" text-anchor="end" font-size="13"></text><line x1="156.5" y1="261.0" x2="156.5" y2="17.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><path class="" fill="none" stroke-width="1.2" style="stroke:var(--muted)" stroke-dasharray="5 4" d="M209.4 86.9 L336.5 60.4"/><path class="" fill="none" stroke-width="1.2" style="stroke:var(--muted)" stroke-dasharray="5 4" d="M283.5 157.7 L336.5 60.4"/><line x1="156.5" y1="184.2" x2="209.4" y2="86.9" stroke-width="2.6" style="stroke:var(--accent)" marker-end="url(#aa)"/><line x1="156.5" y1="184.2" x2="283.5" y2="157.7" stroke-width="2.6" style="stroke:var(--accent)" marker-end="url(#aa)"/><line x1="156.5" y1="184.2" x2="336.5" y2="60.4" stroke-width="2.6" style="stroke:var(--fg)" marker-end="url(#ah)"/><line x1="156.5" y1="184.2" x2="71.8" y2="201.9" stroke-width="2.6" style="stroke:var(--muted)" marker-end="url(#ah)"/><line x1="156.5" y1="184.2" x2="238.0" y2="215.2" stroke-width="2.6" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-ink" x="201.4" y="82.9" text-anchor="end" font-size="14" font-weight="700">z</text><text class="s-ink" x="289.5" y="171.7" text-anchor="start" font-size="14" font-weight="700">y</text><text class="s-ink" x="342.5" y="60.4" text-anchor="start" font-size="13" font-weight="700">t = z + y</text><text class="s-ink" x="67.8" y="217.9" text-anchor="middle" font-size="13" font-weight="700">x = αy</text><text class="s-ink" x="244.0" y="225.2" text-anchor="start" font-size="13" font-weight="700">p ⊥ z</text><text class="s-ink" x="430.0" y="70.0" text-anchor="start" font-size="13" font-weight="700">z, y — chiziqli erkli →</text><text class="s-ink" x="430.0" y="96.0" text-anchor="start" font-size="13">  (z, y) — ℝ² uchun bazis</text><text class="s-ink" x="430.0" y="122.0" text-anchor="start" font-size="13" font-weight="700">x = αy — y ga chiziqli bog'liq</text><text class="s-ink" x="430.0" y="148.0" text-anchor="start" font-size="13">  (bir chiziqda yotadi)</text><text class="s-ink" x="430.0" y="174.0" text-anchor="start" font-size="13" font-weight="700">t = z + y — parallelogramm</text><text class="s-ink" x="430.0" y="200.0" text-anchor="start" font-size="13" font-weight="700">p ⊥ z: ⟨z, p⟩ = 0 (ortogonal)</text>
+</svg>
+<figcaption>Ma'ruzadagi ℝ² misoli (18-slayd): ikki chiziqli erkli vektor z va y tekislikning bazisi — istalgan vektor (masalan t = z + y) ulardan yig'iladi; x = αy — y bilan bir chiziqda; p vektor z ga perpendikulyar, ya'ni skalyar ko'paytmasi nol.</figcaption>
+</figure>
+
+<h2>3. Ikki signal orasidagi masofa</h2>
+<p>Vektorlar kabi, ikki signal qanchalik "uzoq" (farqli) ekanini o'lchamoqchimiz. Bir nechta ta'rif mumkin (ma'ruza):</p>
+<div class="formula">d(x, y) = ∫<sub>−∞</sub><sup>+∞</sup> |x(t) − y(t)| dt &nbsp;&nbsp; yoki &nbsp;&nbsp; <b>d(x, y) = √(∫<sub>−∞</sub><sup>+∞</sup> |x(t) − y(t)|² dt)</b></div>
+<p>Kursda <b>ikkinchisi</b> — <span class="term">Evklid masofasi</span> ishlatiladi. U vektorlardagi d(x, y) = ‖x − y‖ = √((x<sub>1</sub> − y<sub>1</sub>)² + … + (x<sub>n</sub> − y<sub>n</sub>)²) ning signal varianti: yig'indi → integral.</p>
+<div class="box ok"><b>Muhim:</b> Evklid masofasining kvadrati d²(x, y) = ∫|x(t) − y(t)|²dt — bu <b>farq signalining energiyasi</b>. Masofa ikki signalni solishtirish, ular qanchalik o'xshashligini o'lchash uchun kerak: nutqni tanish (ovozni namuna bilan solishtirish), shovqinli kanal orqali uzatish (qabul qilingan signal qaysi yuborilgan signalga eng yaqin?), ma'lumotlarni qayta ishlash.</div>
+<div class="sol"><p><b>Misol:</b> x(t) = 1, y(t) = t, ikkalasi [0, 1] da (tashqarida 0). d² = ∫<sub>0</sub><sup>1</sup>(1 − t)²dt = [−(1 − t)³/3]<sub>0</sub><sup>1</sup> = <b>1/3</b>, d = 1/√3 ≈ 0,577.</p></div>
+
+<h2>4. Chiziqli algebradan eslatmalar</h2>
+<h3>4.1. Metrik fazo</h3>
+<p><span class="term">Metrika</span> — to'plamning ikki elementiga son (masofa) mos qo'yuvchi funksiya, quyidagi xossalar bilan:</p>
+<ol>
+<li>d(x, y) ≥ 0 — manfiy emas;</li>
+<li>d(x, y) = d(y, x) — simmetrik;</li>
+<li>d(x, y) = 0 ⇔ x = y;</li>
+<li>d(x, z) ≤ d(x, y) + d(y, z) — <b>uchburchak tengsizligi</b> (to'g'ri yo'l eng qisqa).</li>
+</ol>
+<p>Evklid masofasi — mumkin bo'lgan metrikalardan biri.</p>
+<h3>4.2. Vektor fazo</h3>
+<p><span class="term">Vektor fazo</span> — elementlari (vektorlar) uchun ikki amal aniqlangan to'plam: <b>vektorlar yig'indisi</b> va <b>songa ko'paytma</b>, quyidagi xossalar bilan:</p>
+<div class="tw"><table>
+<tr><th>Yig'indi xossalari</th><th>Ko'paytma xossalari</th></tr>
+<tr><td>x + y = y + x</td><td>αx — shu fazoning vektori</td></tr>
+<tr><td>x + (y + z) = (x + y) + z</td><td>1·x = x, 0·x = 0</td></tr>
+<tr><td>x + 0 = x</td><td>α(βx) = (αβ)x</td></tr>
+<tr><td>har bir x uchun −x bor: x + (−x) = 0</td><td>α(x + y) = αx + αy; (α + β)x = αx + βx</td></tr>
+</table></div>
+<p><b>Vektorlar</b> — n ta haqiqiy sonning tartiblangan to'plami x = (x<sub>1</sub>, …, x<sub>n</sub>); yig'indi va ko'paytma koordinatalar bo'yicha bajariladi.</p>
+<h3>4.3. Chiziqli kombinatsiya, bog'liqlik, bazis</h3>
+<ul>
+<li><span class="term">Chiziqli kombinatsiya:</span> x = α<sub>1</sub>w<sub>1</sub> + α<sub>2</sub>w<sub>2</sub> + … + α<sub>n</sub>w<sub>n</sub>.</li>
+<li><span class="term">Chiziqli bog'liq:</span> vektorlardan biri qolganlarining chiziqli kombinatsiyasi sifatida yozilsa: w<sub>k</sub> = Σ<sub>i≠k</sub>α<sub>i</sub>w<sub>i</sub>.</li>
+<li><span class="term">Chiziqli erkli (bog'liqmas):</span> Σα<sub>i</sub>x<sub>i</sub> = 0 faqat <b>barcha α<sub>i</sub> = 0</b> bo'lganda.</li>
+<li><span class="term">Bazis:</span> fazoning barcha elementlarini chiziqli kombinatsiya orqali hosil qilish uchun yetarli bo'lgan <b>minimal</b> {w<sub>i</sub>} to'plam: x = Σα<sub>i</sub>w<sub>i</sub>.</li>
+<li>Bazis <b>yagona emas</b> (bitta fazo uchun ko'p bazis bor), lekin undagi elementlar soni n <b>yagona</b> — u fazoning <span class="term">o'lchami</span> (dimensionality).</li>
+</ul>
+<div class="sol"><p><b>Ma'ruzadagi 2D misol (FIG1):</b> z va y chiziqli erkli → (z, y) — ℝ² uchun bazis; t = z + y. x = αy — x va y chiziqli bog'liq (bir chiziqda). z va p — ortogonal, skalyar ko'paytmasi nol.</p></div>
+
+<h2>5. Skalyar ko'paytma, norma, energiya</h2>
+<div class="formula">⟨x, y⟩ = Σ<sub>i=1</sub><sup>n</sup> x<sub>i</sub>·y<sub>i</sub>* &nbsp;&nbsp; (n o'lchamli Evklid fazosi — <b>asosiy ta'rif</b>)</div>
+<p>Ikki vektorga kompleks son mos qo'yadi. Xossalari: ⟨x, y⟩ = ⟨y, x⟩*; &nbsp; ⟨x + z, y⟩ = ⟨x, y⟩ + ⟨z, y⟩; &nbsp; ⟨αx, y⟩ = α⟨x, y⟩. Ikki vektor <span class="term">ortogonal</span>, agar <b>⟨x, y⟩ = 0</b>.</p>
+<p><span class="term">Norma</span> ‖x‖ — har bir vektorga haqiqiy son mos qo'yadi, xossalari: (1) ‖x‖ ≥ 0; (2) ‖x‖ = 0 ⇔ x = 0; (3) ‖x + y‖ ≤ ‖x‖ + ‖y‖; (4) ‖αx‖ = |α|·‖x‖. Skalyar ko'paytmadan:</p>
+<div class="formula">‖x‖² = ⟨x, x⟩ = Σ|x<sub>i</sub>|², &nbsp;&nbsp; d(x, y) = ‖x − y‖, &nbsp;&nbsp; <b>E(x) = ‖x‖²</b></div>
+<p>Vektor energiyasi — normasining kvadrati. (Kompleks holda |x<sub>i</sub>|² = x<sub>i</sub>x<sub>i</sub>*.)</p>
+<h3>Shvars tengsizligi</h3>
+<div class="formula">|⟨x, y⟩|² ≤ ‖x‖²·‖y‖² &nbsp;&nbsp; (skalyar ko'paytma modulining kvadrati ≤ energiyalar ko'paytmasi)</div>
+<p><b>Tenglik</b> faqat vektorlar (signallar) <b>proporsional</b> bo'lganda: x = αy. Geometrik ma'nosi: |cos θ| ≤ 1.</p>
+<div class="sol"><p><b>Tekshiruv:</b> x = (1, 2), y = (3, 1): ⟨x, y⟩ = 5, |⟨x, y⟩|² = 25 ≤ ‖x‖²‖y‖² = 5·10 = 50 ✓. y = (2, 4) = 2x bo'lsa: ⟨x, y⟩ = 10, 100 = 5·20 ✓ — tenglik.</p></div>
+
+<h2>6. Endi signallar: xuddi shu tushunchalar</h2>
+<p>Uzluksiz signallar ham odatiy yig'indi va songa ko'paytma bilan vektor fazo hosil qiladi: x + y ≡ x(t) + y(t), αx ≡ αx(t). <b>Muhim (ma'ruza):</b> Evklid fazosidagi vektorlar uchun barcha tushunchalar signallarga ham qo'llanadi — yig'indi Σ<sub>i</sub> o'rniga integral ∫dt.</p>
+<div class="formula">⟨x(t), y(t)⟩ ≜ ∫<sub>−∞</sub><sup>+∞</sup> x(t)·y*(t) dt</div>
+<div class="formula">‖x(t)‖ = √(∫<sub>−∞</sub><sup>+∞</sup>|x(t)|²dt) = √⟨x(t), x(t)⟩, &nbsp;&nbsp; <b>E<sub>x</sub> = ‖x(t)‖²</b></div>
+<p>Signal energiyasi (4-dars) — uning normasining kvadrati!</p>
+<h3>Ortogonallik va "burchak"</h3>
+<p>Vektorlardagi cos θ = ⟨x, y⟩/(‖x‖‖y‖) formulasi signallar orasidagi "burchak"ni ham aniqlaydi. Ikki signal <b>ortogonal</b>, agar:</p>
+<div class="formula">⟨x, y⟩ = ∫<sub>−∞</sub><sup>+∞</sup> x(t)·y*(t) dt = 0</div>
+<p>Ya'ni ko'paytma x(t)y*(t) ning musbat va manfiy yuzalari bir-birini to'liq yo'qotadi.</p>
+
+<h2>7. Ma'ruza misoli: ortogonallikni tekshirish</h2>
+<div class="sol">
+<p>a(t) = 1, t ∈ [0, T<sub>S</sub>] (tashqarida 0); &nbsp; b(t) = (2/T<sub>S</sub>)(t − T<sub>S</sub>/2), t ∈ [0, T<sub>S</sub>] (−1 dan +1 gacha chiziqli o'suvchi; tashqarida 0).</p>
+<p class="formula">⟨a, b⟩ = ∫<sub>0</sub><sup>T<sub>S</sub></sup> 1·(2/T<sub>S</sub>)(t − T<sub>S</sub>/2)dt = (2/T<sub>S</sub>)[t²/2 − T<sub>S</sub>t/2]<sub>0</sub><sup>T<sub>S</sub></sup> = (2/T<sub>S</sub>)(T<sub>S</sub>²/2 − T<sub>S</sub>²/2) = <b>0</b></p>
+<p>→ a va b <b>ortogonal</b>. Grafik ma'nosi: b(t) T<sub>S</sub>/2 atrofida toq simmetrik — chap yarmidagi manfiy yuza o'ng yarmidagi musbat yuzaga teng.</p>
+<p><b>Qo'shimcha:</b> energiyalar E<sub>a</sub> = T<sub>S</sub>; E<sub>b</sub> = (4/T<sub>S</sub>²)∫<sub>0</sub><sup>T<sub>S</sub></sup>(t − T<sub>S</sub>/2)²dt = (4/T<sub>S</sub>²)·(T<sub>S</sub>³/12) = <b>T<sub>S</sub>/3</b>. Ortogonal bo'lgani uchun Pifagor: ‖a + b‖² = E<sub>a</sub> + E<sub>b</sub> = 4T<sub>S</sub>/3.</p>
+</div>
+<figure>
+<svg viewBox="0 0 720 210" role="img" aria-label="Ortogonal signallar">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--accent)"/></marker></defs>
+<line x1="19.0" y1="120.2" x2="235.0" y2="120.2" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="235.0" y="138.2" text-anchor="end" font-size="13">t</text><line x1="55.3" y1="196.0" x2="55.3" y2="35.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><path class="s-acc" fill="none" stroke-width="2.5"  d="M25.0 120.2 L55.3 120.2 L55.3 66.5 L176.5 66.5 L176.5 120.2 L212.9 120.2"/><line x1="176.5" y1="117.2" x2="176.5" y2="123.2" style="stroke:var(--muted)"/><text class="s-muted" x="176.5" y="138.2" text-anchor="middle" font-size="12">Tₛ</text><line x1="115.9" y1="117.2" x2="115.9" y2="123.2" style="stroke:var(--muted)"/><text class="s-muted" x="115.9" y="138.2" text-anchor="middle" font-size="11">Tₛ/2</text><line x1="52.3" y1="66.5" x2="58.3" y2="66.5" style="stroke:var(--muted)"/><text class="s-muted" x="48.3" y="70.5" text-anchor="end" font-size="11">1</text><text class="s-ink" x="25.0" y="25.0" text-anchor="start" font-size="13" font-weight="700">a(t)</text><line x1="254.0" y1="120.2" x2="470.0" y2="120.2" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="470.0" y="138.2" text-anchor="end" font-size="13">t</text><line x1="290.3" y1="196.0" x2="290.3" y2="35.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><path class="s-acc" fill="none" stroke-width="2.5"  d="M260.0 120.2 L290.3 120.2 L290.3 173.9 L411.5 66.5 L411.5 120.2 L447.9 120.2"/><line x1="411.5" y1="117.2" x2="411.5" y2="123.2" style="stroke:var(--muted)"/><text class="s-muted" x="411.5" y="138.2" text-anchor="middle" font-size="12">Tₛ</text><line x1="350.9" y1="117.2" x2="350.9" y2="123.2" style="stroke:var(--muted)"/><text class="s-muted" x="350.9" y="112.2" text-anchor="middle" font-size="11">Tₛ/2</text><line x1="287.3" y1="66.5" x2="293.3" y2="66.5" style="stroke:var(--muted)"/><text class="s-muted" x="283.3" y="70.5" text-anchor="end" font-size="11">1</text><line x1="287.3" y1="173.9" x2="293.3" y2="173.9" style="stroke:var(--muted)"/><text class="s-muted" x="283.3" y="177.9" text-anchor="end" font-size="11">−1</text><text class="s-ink" x="260.0" y="25.0" text-anchor="start" font-size="13" font-weight="700">b(t)</text><path class="" fill="none" stroke-width="0" style="fill:var(--fg);fill-opacity:.15;stroke:none" d="M525.3 120.2 L525.3 173.9 L585.9 120.2"/><path class="" fill="none" stroke-width="0" style="fill:var(--accent);fill-opacity:.22;stroke:none" d="M585.9 120.2 L646.5 66.5 L646.5 120.2"/><text class="s-ink" x="552.0" y="139.0" text-anchor="middle" font-size="18" font-weight="700">−</text><text class="s-ink" x="622.3" y="99.8" text-anchor="middle" font-size="18" font-weight="700">+</text><line x1="489.0" y1="120.2" x2="705.0" y2="120.2" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><text class="s-muted" x="705.0" y="138.2" text-anchor="end" font-size="13">t</text><line x1="525.3" y1="196.0" x2="525.3" y2="35.0" stroke-width="1.5" style="stroke:var(--muted)" marker-end="url(#ah)"/><path class="s-acc" fill="none" stroke-width="2.5"  d="M495.0 120.2 L525.3 120.2 L525.3 173.9 L646.5 66.5 L646.5 120.2 L682.9 120.2"/><line x1="646.5" y1="117.2" x2="646.5" y2="123.2" style="stroke:var(--muted)"/><text class="s-muted" x="646.5" y="138.2" text-anchor="middle" font-size="12">Tₛ</text><line x1="585.9" y1="117.2" x2="585.9" y2="123.2" style="stroke:var(--muted)"/><text class="s-muted" x="585.9" y="112.2" text-anchor="middle" font-size="11">Tₛ/2</text><line x1="522.3" y1="66.5" x2="528.3" y2="66.5" style="stroke:var(--muted)"/><text class="s-muted" x="518.3" y="70.5" text-anchor="end" font-size="11">1</text><line x1="522.3" y1="173.9" x2="528.3" y2="173.9" style="stroke:var(--muted)"/><text class="s-muted" x="518.3" y="177.9" text-anchor="end" font-size="11">−1</text><text class="s-ink" x="495.0" y="25.0" text-anchor="start" font-size="13" font-weight="700">a(t)·b(t)</text>
+</svg>
+<figcaption>Ma'ruza misoli: a(t) — [0, T<sub>S</sub>] dagi to'g'ri to'rtburchak, b(t) — −1 dan +1 gacha to'g'ri chiziq. Ko'paytmaning manfiy yuzasi (kulrang) va musbat yuzasi (ko'k) teng, integral 0 — signallar ortogonal.</figcaption>
+</figure>
+<div class="sol">
+<p><b>Yana bir misol — burchak:</b> x(t) = 1, y(t) = t, [0, 1] da. ⟨x, y⟩ = ∫<sub>0</sub><sup>1</sup>t dt = ½; E<sub>x</sub> = 1, E<sub>y</sub> = ∫t²dt = 1/3. Shvars: (½)² = ¼ ≤ 1·(1/3) ✓. cos θ = (½)/√(1/3) = √3/2 → <b>θ = 30°</b>. Tekshiruv: d² = E<sub>x</sub> + E<sub>y</sub> − 2⟨x, y⟩ = 1 + 1/3 − 1 = 1/3 ✓ (3-bo'lim).</p>
+<p><b>Sinus va kosinus</b> bitta davrda ortogonal: ∫<sub>0</sub><sup>T</sup>sin(2πt/T)cos(2πt/T)dt = ½∫<sub>0</sub><sup>T</sup>sin(4πt/T)dt = 0 — Furye qatorining (7-dars) asosi.</p>
+</div>
+
+<h2>8. Xulosa jadvali (ma'ruza)</h2>
+<div class="tw"><table>
+<tr><th>Tushuncha</th><th>Signal</th><th>Vektor</th></tr>
+<tr><td>Skalyar ko'paytma ⟨x, y⟩</td><td>∫x(t)y*(t)dt</td><td>Σx<sub>i</sub>y<sub>i</sub>*</td></tr>
+<tr><td>Energiya</td><td>∫|x(t)|²dt</td><td>Σ|x<sub>i</sub>|²</td></tr>
+<tr><td>Norma</td><td>√(∫|x(t)|²dt)</td><td>√(Σ|x<sub>i</sub>|²)</td></tr>
+<tr><td>Masofa</td><td>√(∫|x(t) − y(t)|²dt)</td><td>√(Σ|x<sub>i</sub> − y<sub>i</sub>|²)</td></tr>
+</table></div>
+<p>Ma'ruza xulosasi: odatiy yig'indi va ko'paytma bilan signallar vektor fazo hosil qiladi; skalyar ko'paytma orqali norma va masofa, ular orqali energiya va ortogonallik aniqlanadi. Keyingi qadam (6-dars) — har bir signalga <b>aniq vektor</b> (sonlar ro'yxati) mos qo'yish.</p>
+
+<h2>O'zingizni tekshiring</h2>
+<p>1–7-savollar imtihondagi test shaklida.</p>
+<div class="box check">1. Ikki signal ortogonal, agar:<br>a) ∫x(t)y*(t)dt = 0 &nbsp; b) x(t) = −y(t) &nbsp; c) E<sub>x</sub> = E<sub>y</sub> &nbsp; d) x(t)y(t) = 0 har bir t da
+<details><summary>Javob</summary><b>a)</b> (d ham ortogonallikni beradi, lekin shart emas — a umumiy ta'rif.)</details></div>
+<div class="box check">2. ‖x(t)‖² = ?<br>a) ∫x(t)dt &nbsp; b) ∫|x(t)|²dt — energiya &nbsp; c) max|x(t)| &nbsp; d) quvvat
+<details><summary>Javob</summary><b>b)</b></details></div>
+<div class="box check">3. Evklid masofasining kvadrati d²(x, y):<br>a) E<sub>x</sub> − E<sub>y</sub> &nbsp; b) x − y farq signalining energiyasi &nbsp; c) ⟨x, y⟩ &nbsp; d) |E<sub>x</sub> − E<sub>y</sub>|²
+<details><summary>Javob</summary><b>b)</b></details></div>
+<div class="box check">4. Shvars tengsizligida tenglik qachon?<br>a) signallar ortogonal &nbsp; b) signallar proporsional (x = αy) &nbsp; c) energiyalar teng &nbsp; d) hech qachon
+<details><summary>Javob</summary><b>b)</b></details></div>
+<div class="box check">5. Metrika xossasi EMAS:<br>a) d(x, y) = d(y, x) &nbsp; b) d(x, z) ≤ d(x, y) + d(y, z) &nbsp; c) d(x, y) ≥ 0 &nbsp; d) d(x, y) = d(x, 0) + d(y, 0)
+<details><summary>Javob</summary><b>d)</b></details></div>
+<div class="box check">6. Bazis haqida to'g'ri:<br>a) har bir fazoning yagona bazisi bor &nbsp; b) bazislar ko'p, lekin elementlar soni (o'lcham) bir xil &nbsp; c) bazis elementlari chiziqli bog'liq &nbsp; d) bazis — maksimal to'plam
+<details><summary>Javob</summary><b>b)</b></details></div>
+<div class="box check">7. ⟨x, y⟩ = ⟨y, x⟩* xossasi bo'yicha, ⟨x, y⟩ = 2 + 3j bo'lsa ⟨y, x⟩ = ?<br>a) 2 + 3j &nbsp; b) 2 − 3j &nbsp; c) −2 − 3j &nbsp; d) 3 + 2j
+<details><summary>Javob</summary><b>b)</b></details></div>
+<div class="box check">8. x(t) = 2, y(t) = 2 − 4t, ikkalasi [0, 1] da. Ortogonalmi? E<sub>x</sub>, E<sub>y</sub>? <details><summary>Javob</summary>⟨x, y⟩ = ∫<sub>0</sub><sup>1</sup>2(2 − 4t)dt = 2(2 − 2) = 0 → ortogonal. E<sub>x</sub> = 4; E<sub>y</sub> = ∫(2 − 4t)²dt = 4·∫(1 − 2t)²dt = 4·(1/3) = 4/3.</details></div>
+<div class="box check">9. x = (1, j), y = (1, 1). ⟨x, y⟩, ‖x‖? <details><summary>Javob</summary>⟨x, y⟩ = 1·1* + j·1* = 1 + j; ‖x‖² = |1|² + |j|² = 2 → ‖x‖ = √2.</details></div>
+
+<h2>📝 Konspekt</h2>
+<div class="box note"><p><strong>Shularni bilsangiz, bu mavzuni bilasiz</strong> (03-ma'ruza, 1-qism):</p>
+<ol>
+<li>Signallar vektor kabi: elementar signallardan yig'iladi; odatiy yig'indi va songa ko'paytma bilan vektor fazo.</li>
+<li>Evklid masofasi: <code>d(x, y) = √∫|x(t) − y(t)|²dt</code>; <code>d²</code> — farq signali energiyasi.</li>
+<li>Metrika: d ≥ 0; simmetrik; d = 0 ⇔ x = y; uchburchak tengsizligi.</li>
+<li>Chiziqli erkli: Σα<sub>i</sub>x<sub>i</sub> = 0 ⇒ barcha α<sub>i</sub> = 0. Bazis — minimal hosil qiluvchi to'plam; yagona emas, o'lchami yagona.</li>
+<li>Skalyar ko'paytma: vektor <code>Σx<sub>i</sub>y<sub>i</sub>*</code>, signal <code>∫x(t)y*(t)dt</code>; <code>⟨x, y⟩ = ⟨y, x⟩*</code>, chiziqli.</li>
+<li>Norma: ‖x‖ ≥ 0, ‖x‖ = 0 ⇔ x = 0, ‖x + y‖ ≤ ‖x‖ + ‖y‖, ‖αx‖ = |α|‖x‖; <code>‖x‖² = ⟨x, x⟩</code>.</li>
+<li><code>E = ‖x‖²</code>; <code>d(x, y) = ‖x − y‖</code>.</li>
+<li>Ortogonal: <code>⟨x, y⟩ = 0</code>; "burchak": <code>cos θ = ⟨x, y⟩/(‖x‖‖y‖)</code>.</li>
+<li>Shvars: <code>|⟨x, y⟩|² ≤ ‖x‖²‖y‖²</code>, tenglik ⇔ x = αy.</li>
+<li>Ma'ruza misoli: 1 va (2/T<sub>S</sub>)(t − T<sub>S</sub>/2) [0, T<sub>S</sub>] da — ortogonal.</li>
+</ol></div>
+
+<div class="box ok">O'qib bo'ldingizmi? Chatga <strong>"tushundim"</strong> deb yozing. <strong>"Tushunmadim"</strong> bo'lsa, qaysi joy qiyin bo'lganini ayting, darsni soddaroq qilib qayta yozaman.</div>
+<footer class="pager"><a href="04-energiya-quvvat.html">← 4. Energiya va quvvat</a><a href="06-ortonormal-bazis.html">6. Ortonormal bazis va δ(t) →</a></footer>
+</main></body></html>
