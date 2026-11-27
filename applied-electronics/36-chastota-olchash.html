@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>36. Chastota va davrni o'lchash</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>36. Chastota va davrni o'lchash: hisoblagich, gate vaqti, ±1 xato</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> raqamli hisoblagich (counter) bilan chastotani qanday o'lchashni (ikki usul: <strong>to'g'ridan-to'g'ri chastota</strong> va <strong>to'g'ridan-to'g'ri davr</strong> o'lchash), har birining ruxsatini (resolution), qaysi holatda qaysi usul yaxshi ekanini va o'lchash noaniqligini: ±1 hisob xatosi, ichki kvars generatori xatosi va shovqin. Oxirida slayddagi kuch sensori masalasi to'liq yechiladi. Manba: A. Carullo, "Frequency measurement" slaydlari. 35-dars (noaniqlik: δ va ε) shu darsga asos. O'qish vaqti: 35 daqiqa.</div>
+
+<div class="box note"><strong>Eslatma:</strong> chastota f = 1 soniyadagi takrorlanishlar soni (Hz). Davr T = bitta takrorlanish vaqti. f = 1/T. 35-darsdan: δ = absolyut noaniqlik, ε = δ/qiymat = nisbiy noaniqlik. Ko'paytma va bo'linmada <strong>ε lar qo'shiladi</strong>.</div>
+
+<h2>1. To'g'ridan-to'g'ri chastota o'lchash</h2>
+<p>G'oya juda oddiy: ma'lum vaqt oralig'ida signal necha marta takrorlanganini sanaymiz.</p>
+<div class="box analogy"><strong>O'xshatish:</strong> yurak urishini o'lchash. Shifokor soatga qarab 15 soniya davomida urishlarni sanaydi (masalan 18 ta), keyin 4 ga ko'paytiradi: 72 zarb/daqiqa. "15 soniya" = gate vaqti, "18" = n.</div>
+<figure><svg viewBox="0 0 720 250" role="img" aria-label="To'g'ridan-to'g'ri chastota o'lchash: noma'lum fx signali impulslari ma'lum uzunlikdagi gate vaqti TC davomida sanaladi. Darvoza ichida 8 ta impuls: n = 8, fx = n / TC" font-family="system-ui,sans-serif">
+<text x="100.0" y="70.0" text-anchor="end" font-size="12" fill="#d9622b" font-weight="700">fx signali</text><path d="M110 80H116.0V40H134.0V80H152.0V40H170.0V80H188.0V40H206.0V80H224.0V40H242.0V80H260.0V40H278.0V80H296.0V40H314.0V80H332.0V40H350.0V80H368.0V40H386.0V80H404.0V40H422.0V80H440.0V40H458.0V80H476.0V40H494.0V80H512.0V40H530.0V80H548.0V40H566.0V80H584.0V40H602.0V80H620.0V40H638.0V80H656.0V40H674.0V80H690" fill="none" stroke="#d9622b" stroke-width="1.8"/>
+<text x="100.0" y="140.0" text-anchor="end" font-size="12" fill="#2563eb" font-weight="700">gate (TC)</text><path d="M110 150H170V110H458V150H690" fill="none" stroke="#2563eb" stroke-width="2"/>
+<path d="M170 160H458M170 154V166M458 154V166" stroke="#2563eb" stroke-width="1.6"/><text x="314.0" y="178.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">TC = K · tCK (ichki kvars generatoridan)</text>
+<text x="100.0" y="214.0" text-anchor="end" font-size="12" fill="#16a34a" font-weight="700">sanaladi</text>
+<path d="M188.0 222V196H206.0V222" fill="none" stroke="#16a34a" stroke-width="2"/><text x="197.0" y="192.0" text-anchor="middle" font-size="10" fill="#16a34a" font-weight="700">1</text>
+<path d="M224.0 222V196H242.0V222" fill="none" stroke="#16a34a" stroke-width="2"/><text x="233.0" y="192.0" text-anchor="middle" font-size="10" fill="#16a34a" font-weight="700">2</text>
+<path d="M260.0 222V196H278.0V222" fill="none" stroke="#16a34a" stroke-width="2"/><text x="269.0" y="192.0" text-anchor="middle" font-size="10" fill="#16a34a" font-weight="700">3</text>
+<path d="M296.0 222V196H314.0V222" fill="none" stroke="#16a34a" stroke-width="2"/><text x="305.0" y="192.0" text-anchor="middle" font-size="10" fill="#16a34a" font-weight="700">4</text>
+<path d="M332.0 222V196H350.0V222" fill="none" stroke="#16a34a" stroke-width="2"/><text x="341.0" y="192.0" text-anchor="middle" font-size="10" fill="#16a34a" font-weight="700">5</text>
+<path d="M368.0 222V196H386.0V222" fill="none" stroke="#16a34a" stroke-width="2"/><text x="377.0" y="192.0" text-anchor="middle" font-size="10" fill="#16a34a" font-weight="700">6</text>
+<path d="M404.0 222V196H422.0V222" fill="none" stroke="#16a34a" stroke-width="2"/><text x="413.0" y="192.0" text-anchor="middle" font-size="10" fill="#16a34a" font-weight="700">7</text>
+<path d="M440.0 222V196H458.0V222" fill="none" stroke="#16a34a" stroke-width="2"/><text x="449.0" y="192.0" text-anchor="middle" font-size="10" fill="#16a34a" font-weight="700">8</text>
+<path d="M110 222H690" stroke="#16a34a" stroke-width="1.2"/>
+<text x="360.0" y="244.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">n = 8 ta impuls  →  fx = n / TC</text>
+</svg></figure>
+<span class="formula">fx = n / TC = n / (K · tCK)</span>
+<ul>
+<li><span class="term">Gate vaqti</span> (gate time) TC = hisoblagich "eshigi" ochiq turgan vaqt. U ichki aniq generatorning (odatda kvars, tCK masalan 100 ns) K ta davridan yasaladi: TC = K·tCK.</li>
+<li><strong>Trigger sxemasi</strong> signalda aniq nuqtalarni (masalan chegarani kesib o'tishni: daraja, qiyalik yo'nalishi, AC/DC ulanish) aniqlaydi. 13-darsdagi komparator aynan shu!</li>
+<li>Qulay holat: TC = 1 s bo'lsa, n to'g'ridan-to'g'ri hertzdagi chastota.</li>
+</ul>
+<h3>Ruxsat (resolution)</h3>
+<p>Hisoblagich eng kamida <strong>1 ta</strong> impulsni farqlay oladi (Δn = 1). Shuning uchun:</p>
+<span class="formula">Δfx = 1 / TC (absolyut) &nbsp;·&nbsp; Δfx / fx = 1 / n (nisbiy)</span>
+<div class="box"><p><strong>Slayddagi misol:</strong> fx = 1000 Hz.</p>
+<table>
+<tr><th>TC</th><th>n</th><th>Δfx</th><th>Ekranda</th></tr>
+<tr><td>1 s</td><td>1 000</td><td>1 Hz</td><td>1000 Hz</td></tr>
+<tr><td>10 s</td><td>10 000</td><td>0.1 Hz</td><td>1000.0 Hz</td></tr>
+<tr><td>100 s</td><td>100 000</td><td>0.01 Hz</td><td>1000.00 Hz</td></tr>
+</table>
+<p>Gate qancha uzun bo'lsa, ruxsat shuncha yaxshi (Δfx kichik). <strong>Lekin diqqat:</strong> juda uzun gate bilan <strong>o'rtacha</strong> chastota o'lchanadi: shu vaqt ichida chastota o'zgarsa, biz o'zgarishni ko'rmaymiz.</p></div>
+
+<h2>2. To'g'ridan-to'g'ri davr o'lchash</h2>
+<p>Teskari g'oya: endi noma'lum signalning <strong>davri</strong> darvoza bo'ladi va uning ichida ichki aniq generatorning (fCK) impulslarini sanaymiz.</p>
+<figure><svg viewBox="0 0 720 240" role="img" aria-label="To'g'ridan-to'g'ri davr o'lchash: noma'lum signalning bitta davri tx darvoza bo'lib xizmat qiladi; shu vaqt ichida ichki takt generatori (fCK) impulslari sanaladi: m ta impuls, tx = m · tCK" font-family="system-ui,sans-serif">
+<text x="100.0" y="70.0" text-anchor="end" font-size="12" fill="#d9622b" font-weight="700">tx signali</text><path d="M110 80H150.0V40H350.0V80H550.0V40H690.0V80H690" fill="none" stroke="#d9622b" stroke-width="1.8"/>
+<text x="100.0" y="140.0" text-anchor="end" font-size="12" fill="#2563eb" font-weight="700">gate = tx</text><path d="M110 150H150V110H550V150H690" fill="none" stroke="#2563eb" stroke-width="2"/>
+<path d="M150 160H550M150 154V166M550 154V166" stroke="#2563eb" stroke-width="1.6"/><text x="350.0" y="178.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">bitta davr tx (yoki M ta davr)</text>
+<text x="100.0" y="214.0" text-anchor="end" font-size="12" fill="#16a34a" font-weight="700">tCK takti</text>
+<path d="M113.0 222V202H119.0V222" fill="none" stroke="#9aa0a6" stroke-width="1.6"/>
+<path d="M126.3 222V202H132.3V222" fill="none" stroke="#9aa0a6" stroke-width="1.6"/>
+<path d="M139.6 222V202H145.6V222" fill="none" stroke="#9aa0a6" stroke-width="1.6"/>
+<path d="M152.9 222V202H158.9V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M166.2 222V202H172.2V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M179.5 222V202H185.5V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M192.8 222V202H198.8V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M206.1 222V202H212.1V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M219.4 222V202H225.4V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M232.7 222V202H238.7V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M246.0 222V202H252.0V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M259.3 222V202H265.3V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M272.6 222V202H278.6V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M285.9 222V202H291.9V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M299.2 222V202H305.2V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M312.5 222V202H318.5V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M325.8 222V202H331.8V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M339.1 222V202H345.1V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M352.4 222V202H358.4V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M365.7 222V202H371.7V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M379.0 222V202H385.0V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M392.3 222V202H398.3V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M405.6 222V202H411.6V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M418.9 222V202H424.9V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M432.2 222V202H438.2V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M445.5 222V202H451.5V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M458.8 222V202H464.8V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M472.1 222V202H478.1V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M485.4 222V202H491.4V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M498.7 222V202H504.7V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M512.0 222V202H518.0V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M525.3 222V202H531.3V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M538.6 222V202H544.6V222" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+<path d="M551.9 222V202H557.9V222" fill="none" stroke="#9aa0a6" stroke-width="1.6"/>
+<path d="M565.2 222V202H571.2V222" fill="none" stroke="#9aa0a6" stroke-width="1.6"/>
+<path d="M578.5 222V202H584.5V222" fill="none" stroke="#9aa0a6" stroke-width="1.6"/>
+<path d="M591.8 222V202H597.8V222" fill="none" stroke="#9aa0a6" stroke-width="1.6"/>
+<path d="M605.1 222V202H611.1V222" fill="none" stroke="#9aa0a6" stroke-width="1.6"/>
+<path d="M618.4 222V202H624.4V222" fill="none" stroke="#9aa0a6" stroke-width="1.6"/>
+<path d="M631.7 222V202H637.7V222" fill="none" stroke="#9aa0a6" stroke-width="1.6"/>
+<path d="M645.0 222V202H651.0V222" fill="none" stroke="#9aa0a6" stroke-width="1.6"/>
+<path d="M658.3 222V202H664.3V222" fill="none" stroke="#9aa0a6" stroke-width="1.6"/>
+<path d="M671.6 222V202H677.6V222" fill="none" stroke="#9aa0a6" stroke-width="1.6"/>
+<path d="M110 222H690" stroke="#9aa0a6" stroke-width="1.2"/>
+<text x="360.0" y="22.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">tx ichida m = 30 ta takt impulsi  →  tx = m · tCK ,  fx = 1/tx</text>
+</svg></figure>
+<span class="formula">tx = m · tCK &nbsp;·&nbsp; M ta davr o'lchansa: tx = (m / M) · tCK</span>
+<div class="box analogy"><strong>O'xshatish:</strong> sekundomer. Mayatnikning bitta tebranishi necha "tik" davom etishini sanaysiz. Aniqroq bo'lishi uchun 10 ta tebranishni o'lchab 10 ga bo'lasiz (M = 10).</div>
+<span class="formula">Δtx = tCK / M (absolyut) &nbsp;·&nbsp; Δtx / tx = Δfx / fx = 1 / m (nisbiy)</span>
+<p>Ko'proq davr (M katta) o'lchasak, m katta bo'ladi va ruxsat yaxshilanadi.</p>
+
+<h2>3. Qaysi usul yaxshiroq?</h2>
+<p>Ikkala usulda ham nisbiy ruxsat = 1/(sanalgan impulslar soni). Demak, <strong>qaysi usulda ko'proq impuls sanalsa, o'sha yaxshi</strong>. Bir xil vaqt TC davomida:</p>
+<ul>
+<li>chastota usuli: n = TC · fx (signal impulslari);</li>
+<li>davr usuli: m = TC · fCK (takt impulslari).</li>
+</ul>
+<p>Shunday qilib: <strong>fx &gt; fCK</strong> → chastota o'lchash yaxshi (yuqori chastotali signallar); <strong>fx &lt; fCK</strong> → davr o'lchash yaxshi (past chastotali signallar, uzun davrlar). Chegara TC ga bog'liq emas: doim fx = fCK.</p>
+<figure><svg viewBox="0 0 720 345" role="img" aria-label="Nisbiy ruxsat (resolution) chastotaga bog'liq, fCK = 10 MHz. Chastota o'lchashda 1/(TC·fx): fx oshgan sari kamayadi (yaxshilanadi). Davr o'lchashda 1/(TC·fCK): o'zgarmas gorizontal chiziq. Chiziqlar fx = fCK da kesishadi: fx kichik bo'lsa davr o'lchash, katta bo'lsa chastota o'lchash yaxshi" font-family="system-ui,sans-serif">
+<path d="M90.0 270V275" stroke="currentColor"/><text x="90.0" y="288.0" text-anchor="middle" font-size="11" fill="currentColor">10<tspan dy="-5" font-size="8">2</tspan></text>
+<path d="M151.4 270V275" stroke="currentColor"/><text x="151.4" y="288.0" text-anchor="middle" font-size="11" fill="currentColor">10<tspan dy="-5" font-size="8">3</tspan></text>
+<path d="M212.9 270V275" stroke="currentColor"/><text x="212.9" y="288.0" text-anchor="middle" font-size="11" fill="currentColor">10<tspan dy="-5" font-size="8">4</tspan></text>
+<path d="M274.3 270V275" stroke="currentColor"/><text x="274.3" y="288.0" text-anchor="middle" font-size="11" fill="currentColor">10<tspan dy="-5" font-size="8">5</tspan></text>
+<path d="M335.7 270V275" stroke="currentColor"/><text x="335.7" y="288.0" text-anchor="middle" font-size="11" fill="currentColor">10<tspan dy="-5" font-size="8">6</tspan></text>
+<path d="M397.1 270V275" stroke="currentColor"/><text x="397.1" y="288.0" text-anchor="middle" font-size="11" fill="currentColor">10<tspan dy="-5" font-size="8">7</tspan></text>
+<path d="M458.6 270V275" stroke="currentColor"/><text x="458.6" y="288.0" text-anchor="middle" font-size="11" fill="currentColor">10<tspan dy="-5" font-size="8">8</tspan></text>
+<path d="M520.0 270V275" stroke="currentColor"/><text x="520.0" y="288.0" text-anchor="middle" font-size="11" fill="currentColor">10<tspan dy="-5" font-size="8">9</tspan></text>
+<path d="M90 270.0H520" stroke="#9aa0a6" stroke-opacity=".25"/><text x="84.0" y="274.0" text-anchor="end" font-size="11" fill="currentColor">10<tspan dy="-5" font-size="8">-9</tspan></text>
+<path d="M90 240.0H520" stroke="#9aa0a6" stroke-opacity=".25"/><text x="84.0" y="244.0" text-anchor="end" font-size="11" fill="currentColor">10<tspan dy="-5" font-size="8">-8</tspan></text>
+<path d="M90 210.0H520" stroke="#9aa0a6" stroke-opacity=".25"/><text x="84.0" y="214.0" text-anchor="end" font-size="11" fill="currentColor">10<tspan dy="-5" font-size="8">-7</tspan></text>
+<path d="M90 180.0H520" stroke="#9aa0a6" stroke-opacity=".25"/><text x="84.0" y="184.0" text-anchor="end" font-size="11" fill="currentColor">10<tspan dy="-5" font-size="8">-6</tspan></text>
+<path d="M90 150.0H520" stroke="#9aa0a6" stroke-opacity=".25"/><text x="84.0" y="154.0" text-anchor="end" font-size="11" fill="currentColor">10<tspan dy="-5" font-size="8">-5</tspan></text>
+<path d="M90 120.0H520" stroke="#9aa0a6" stroke-opacity=".25"/><text x="84.0" y="124.0" text-anchor="end" font-size="11" fill="currentColor">10<tspan dy="-5" font-size="8">-4</tspan></text>
+<path d="M90 90.0H520" stroke="#9aa0a6" stroke-opacity=".25"/><text x="84.0" y="94.0" text-anchor="end" font-size="11" fill="currentColor">10<tspan dy="-5" font-size="8">-3</tspan></text>
+<path d="M90 60.0H520" stroke="#9aa0a6" stroke-opacity=".25"/><text x="84.0" y="64.0" text-anchor="end" font-size="11" fill="currentColor">10<tspan dy="-5" font-size="8">-2</tspan></text>
+<path d="M90 30.0H520" stroke="#9aa0a6" stroke-opacity=".25"/><text x="84.0" y="34.0" text-anchor="end" font-size="11" fill="currentColor">10<tspan dy="-5" font-size="8">-1</tspan></text>
+<path d="M90 22V270H528" fill="none" stroke="currentColor" stroke-width="1.2"/>
+<text x="520.0" y="304.0" text-anchor="end" font-size="12" fill="currentColor" font-weight="700">fx (Hz)</text><text x="96.0" y="18.0" text-anchor="start" font-size="12" fill="currentColor" font-weight="700">Δfx / fx</text>
+<path d="M90.0 30.0L520.0 240.0" stroke="#9aa0a6" stroke-width="2.2"/>
+<path d="M90 180.0H520" stroke="#9aa0a6" stroke-width="2" stroke-dasharray="6 4"/>
+<path d="M90.0 60.0L520.0 270.0" stroke="#dc2626" stroke-width="2.2"/>
+<path d="M90 210.0H520" stroke="#dc2626" stroke-width="2" stroke-dasharray="6 4"/>
+<path d="M90.0 90.0L458.6 270.0" stroke="#16a34a" stroke-width="2.2"/>
+<path d="M90 240.0H520" stroke="#16a34a" stroke-width="2" stroke-dasharray="6 4"/>
+<path d="M397.1 70V270" stroke="#2563eb" stroke-width="2"/><text x="401.1" y="66.0" text-anchor="start" font-size="11" fill="#2563eb" font-weight="700">fx = fCK</text>
+<path d="M545 50h24" stroke="#9aa0a6" stroke-width="2.4"/><text x="575.0" y="54.0" text-anchor="start" font-size="12" fill="#9aa0a6" font-weight="700">TC = 0.1 s</text>
+<path d="M545 70h24" stroke="#dc2626" stroke-width="2.4"/><text x="575.0" y="74.0" text-anchor="start" font-size="12" fill="#dc2626" font-weight="700">TC = 1 s</text>
+<path d="M545 90h24" stroke="#16a34a" stroke-width="2.4"/><text x="575.0" y="94.0" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">TC = 10 s</text>
+<path d="M545 130h24" stroke="currentColor" stroke-width="2"/><text x="575.0" y="134.0" text-anchor="start" font-size="11" fill="currentColor">chastota o'lchash</text>
+<path d="M545 150h24" stroke="currentColor" stroke-width="2" stroke-dasharray="6 4"/><text x="575.0" y="154.0" text-anchor="start" font-size="11" fill="currentColor">davr o'lchash</text>
+<text x="545.0" y="190.0" text-anchor="start" font-size="12" fill="#2563eb" font-weight="700">fCK = 10 MHz</text>
+<text x="545.0" y="214.0" text-anchor="start" font-size="12" fill="#9333ea" font-weight="700">fx < fCK → davr</text><text x="545.0" y="232.0" text-anchor="start" font-size="12" fill="#9333ea" font-weight="700">o'lchash yaxshiroq</text>
+<text x="545.0" y="256.0" text-anchor="start" font-size="12" fill="#9333ea" font-weight="700">fx > fCK → chastota</text><text x="545.0" y="274.0" text-anchor="start" font-size="12" fill="#9333ea" font-weight="700">o'lchash yaxshiroq</text>
+<text x="360.0" y="336.0" text-anchor="middle" font-size="12" fill="currentColor">Pastroq = yaxshiroq (nisbiy xato kichik). Har qanday TC da kesishish fx = fCK da.</text>
+</svg></figure>
+<div class="box"><p><strong>Slayddagi misol 1:</strong> fCK = 5 MHz, TC = 1 s, fx = 1 kHz.</p>
+<details><summary>Yechim</summary>Chastota usuli: n = TC·fx = 1·10³ = 1000 → nisbiy ruxsat 1/1000 = <strong>10⁻³</strong>.<br>
+Davr usuli: m = TC·fCK = 1·5·10⁶ = 5·10⁶ → 1/(5·10⁶) = <strong>2·10⁻⁷</strong>.<br>
+Davr usuli 5000 marta yaxshiroq (fx &lt; fCK).</details></div>
+<div class="box"><p><strong>Slayddagi misol 2:</strong> fCK = 5 MHz, TC = 1 s, fx = 20 MHz.</p>
+<details><summary>Yechim</summary>Chastota usuli: n = 1·20·10⁶ = 2·10⁷ → <strong>5·10⁻⁸</strong>. Davr usuli: yana 2·10⁻⁷. Endi chastota usuli yaxshiroq (fx &gt; fCK).</details></div>
+<p>Zamonaviy hisoblagichlar usulni o'zi tanlaydi: gate vaqti berilgach, ko'proq impuls sanaladigan usulni ishlatadi. <strong>Ammo ruxsat noaniqlikning faqat bitta qismi.</strong></p>
+
+<h2>4. O'lchash noaniqligi</h2>
+<p>O'lchash modeli va undan kelib chiqqan nisbiy noaniqlik (35-darsdagi qoida: bo'linma va ko'paytmada ε lar qo'shiladi):</p>
+<table>
+<tr><th></th><th>Chastota usuli</th><th>Davr usuli</th></tr>
+<tr><td>Model</td><td>fx = n / (K·tCK)</td><td>tx = 1/fx = (m/M)·tCK</td></tr>
+<tr><td>Nisbiy noaniqlik</td><td>εfx = εn + εtCK</td><td>εtx = εfx = εm + εtCK</td></tr>
+</table>
+<p>Ikki manba: <strong>kvantlash</strong> (εn yoki εm, sanashdagi ±1 xato) va <strong>ichki generator</strong> (εtCK).</p>
+
+<h3>4.1 Kvantlash: ±1 hisob</h3>
+<p>Gate vaqti signal bilan <strong>sinxron emas</strong> (asinxron): u impulslarga nisbatan tasodifiy joyda ochiladi. Shuning uchun bir xil uzunlikdagi gate goh bir impuls ko'p, goh bir impuls kam sanaydi.</p>
+<figure><svg viewBox="0 0 720 220" role="img" aria-label="±1 hisob xatosi: bir xil uzunlikdagi gate vaqti impulslarga nisbatan qayerdan boshlanishiga qarab 4 yoki 3 ta impulsni sanaydi. Gate va signal sinxron emas, shuning uchun eng yomon holatda natija ±1 hisobga farq qiladi" font-family="system-ui,sans-serif">
+<text x="130.0" y="50.0" text-anchor="end" font-size="12" fill="#d9622b" font-weight="700">signal</text><path d="M140 60H160.0V30H174.0V60H270.0V30H284.0V60H380.0V30H394.0V60H490.0V30H504.0V60H600.0V30H614.0V60H690" fill="none" stroke="#d9622b" stroke-width="1.8"/>
+<text x="130.0" y="114.0" text-anchor="end" font-size="12" fill="#2563eb" font-weight="700">gate A</text><path d="M150 122V98H562.5V122Z" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.8"/>
+<text x="574.5" y="115.0" text-anchor="start" font-size="13" fill="#16a34a" font-weight="700">n = 4</text>
+<text x="130.0" y="169.0" text-anchor="end" font-size="12" fill="#2563eb" font-weight="700">gate B</text><path d="M180 177V153H592.5V177Z" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.8"/>
+<text x="604.5" y="170.0" text-anchor="start" font-size="13" fill="#dc2626" font-weight="700">n = 3</text>
+<text x="400.0" y="212.0" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">Bir xil TC, lekin boshlanish joyi tasodifiy → natija ±1 hisobga farq qiladi: εn = 1/n</text>
+</svg></figure>
+<span class="formula">δn = ±1 &nbsp;·&nbsp; εn = 1/n &nbsp;(davr usulida εm = 1/m)</span>
+
+<h3>4.2 Ichki generator (kvars) noaniqligi εtCK</h3>
+<p>Ichki takt generatori kvars rezonatori (13-dars). Uning chastotasiga ta'sir qiladi: nominal qiymatdan chetlanish (tolerantlik), <strong>eskirish</strong> (aging, vaqt o'tishi bilan siljish), <strong>ta'sir etuvchi kattaliklar</strong> (asosan harorat va manba kuchlanishi). Tolerantlik odatda boshlang'ich kalibrlashda yo'qotiladi (ma'lum chastota beriladi va sanaladi). Uch toifa:</p>
+<table>
+<tr><th></th><th>RTXO (xona haroratidagi)</th><th>TCXO (harorati kompensatsiyalangan)</th><th>OCXO (pechkada saqlanadigan)</th></tr>
+<tr><td>Harorat (0÷50) °C</td><td>&lt; 2.5·10⁻⁶</td><td>&lt; 5·10⁻⁷</td><td>&lt; 7·10⁻⁹</td></tr>
+<tr><td>Eskirish, 1 oyda</td><td>&lt; 3·10⁻⁷</td><td>&lt; 1·10⁻⁷</td><td>&lt; 1·10⁻⁸</td></tr>
+<tr><td>Vsupply (±10 %)</td><td>&lt; 1·10⁻⁷</td><td>&lt; 5·10⁻⁸</td><td>&lt; 1·10⁻¹⁰</td></tr>
+<tr><td>Narxi (nisbiy)</td><td>1</td><td>10</td><td>100</td></tr>
+</table>
+<div class="box analogy"><strong>Hayotiy misol (slayddan):</strong> qo'l soatidagi RTXO. Eskirish 3·10⁻⁷/oy → yiliga ≈ 36·10⁻⁷. Yilda 31.5 million soniya bor: 3.6·10⁻⁶ · 31.5·10⁶ ≈ <strong>114 s/yil</strong>. Shuning uchun soatni vaqti-vaqti bilan to'g'rilaysiz! GPS qabul qiluvchili asboblar esa har soatdan tez-tez sun'iy yo'ldoshlardagi seziy soatlariga moslanadi.</div>
+
+<h3>4.3 Shovqin (davr usulida)</h3>
+<p>Davr usulida darvozani <strong>kirish signalining o'zi</strong> ochib-yopadi. Signalga qo'shilgan shovqin (cho'qqi qiymati Vn) chegarani kesib o'tish vaqtini te ga siljitadi (<span class="term">gate-time error</span>). Soddalashtirilgan model: signal chegara yonida to'g'ri chiziq, qiyaligi dVx/dt:</p>
+<span class="formula">te = Vn / (dVx/dt)</span>
+<figure><svg viewBox="0 0 720 230" role="img" aria-label="Shovqin ta'siri: sinus signalga Vn amplitudali shovqin qo'shilgan. Chegara nolga yaqin bo'lsa signal qiyaligi katta va vaqt xatosi te kichik. Chegara cho'qqiga yaqin bo'lsa qiyalik kichik va te katta. te = Vn / (dV/dt)" font-family="system-ui,sans-serif">
+<path d="M40 115H470" stroke="#9aa0a6" stroke-opacity=".5"/>
+<path d="M40.0 107.0 L41.4 105.3 L42.9 103.6 L44.3 102.0 L45.7 100.3 L47.2 98.6 L48.6 97.0 L50.0 95.3 L51.5 93.7 L52.9 92.0 L54.3 90.4 L55.8 88.7 L57.2 87.1 L58.6 85.5 L60.1 83.9 L61.5 82.3 L62.9 80.7 L64.4 79.1 L65.8 77.6 L67.2 76.0 L68.7 74.5 L70.1 72.9 L71.5 71.4 L73.0 69.9 L74.4 68.5 L75.8 67.0 L77.3 65.6 L78.7 64.1 L80.1 62.7 L81.6 61.3 L83.0 60.0 L84.4 58.6 L85.9 57.3 L87.3 56.0 L88.7 54.7 L90.2 53.5 L91.6 52.2 L93.0 51.0 L94.5 49.8 L95.9 48.7 L97.3 47.5 L98.8 46.4 L100.2 45.4 L101.6 44.3 L103.1 43.3 L104.5 42.3 L105.9 41.3 L107.4 40.4 L108.8 39.5 L110.2 38.6 L111.7 37.7 L113.1 36.9 L114.5 36.1 L116.0 35.3 L117.4 34.6 L118.8 33.9 L120.3 33.3 L121.7 32.6 L123.1 32.0 L124.6 31.4 L126.0 30.9 L127.4 30.4 L128.9 29.9 L130.3 29.5 L131.7 29.1 L133.2 28.7 L134.6 28.4 L136.0 28.1 L137.5 27.9 L138.9 27.6 L140.3 27.4 L141.8 27.3 L143.2 27.2 L144.6 27.1 L146.1 27.0 L147.5 27.0 L148.9 27.0 L150.4 27.1 L151.8 27.2 L153.2 27.3 L154.7 27.4 L156.1 27.6 L157.5 27.9 L159.0 28.1 L160.4 28.4 L161.8 28.7 L163.3 29.1 L164.7 29.5 L166.1 29.9 L167.6 30.4 L169.0 30.9 L170.4 31.4 L171.9 32.0 L173.3 32.6 L174.7 33.3 L176.2 33.9 L177.6 34.6 L179.0 35.3 L180.5 36.1 L181.9 36.9 L183.3 37.7 L184.8 38.6 L186.2 39.5 L187.6 40.4 L189.1 41.3 L190.5 42.3 L191.9 43.3 L193.4 44.3 L194.8 45.4 L196.2 46.4 L197.7 47.5 L199.1 48.7 L200.5 49.8 L202.0 51.0 L203.4 52.2 L204.8 53.5 L206.3 54.7 L207.7 56.0 L209.1 57.3 L210.6 58.6 L212.0 60.0 L213.4 61.3 L214.9 62.7 L216.3 64.1 L217.7 65.6 L219.2 67.0 L220.6 68.5 L222.0 69.9 L223.5 71.4 L224.9 72.9 L226.3 74.5 L227.8 76.0 L229.2 77.6 L230.6 79.1 L232.1 80.7 L233.5 82.3 L234.9 83.9 L236.4 85.5 L237.8 87.1 L239.2 88.7 L240.7 90.4 L242.1 92.0 L243.5 93.7 L245.0 95.3 L246.4 97.0 L247.8 98.6 L249.3 100.3 L250.7 102.0 L252.1 103.6 L253.6 105.3 L255.0 107.0 L256.4 108.7 L257.9 110.4 L259.3 112.0 L260.7 113.7 L262.2 115.4 L263.6 117.0 L265.0 118.7 L266.5 120.3 L267.9 122.0 L269.3 123.6 L270.8 125.3 L272.2 126.9 L273.6 128.5 L275.1 130.1 L276.5 131.7 L277.9 133.3 L279.4 134.9 L280.8 136.4 L282.2 138.0 L283.7 139.5 L285.1 141.1 L286.5 142.6 L288.0 144.1 L289.4 145.5 L290.8 147.0 L292.3 148.4 L293.7 149.9 L295.1 151.3 L296.6 152.7 L298.0 154.0 L299.4 155.4 L300.9 156.7 L302.3 158.0 L303.7 159.3 L305.2 160.5 L306.6 161.8 L308.0 163.0 L309.5 164.2 L310.9 165.3 L312.3 166.5 L313.8 167.6 L315.2 168.6 L316.6 169.7 L318.1 170.7 L319.5 171.7 L320.9 172.7 L322.4 173.6 L323.8 174.5 L325.2 175.4 L326.7 176.3 L328.1 177.1 L329.5 177.9 L331.0 178.7 L332.4 179.4 L333.8 180.1 L335.3 180.7 L336.7 181.4 L338.1 182.0 L339.6 182.6 L341.0 183.1 L342.4 183.6 L343.9 184.1 L345.3 184.5 L346.7 184.9 L348.2 185.3 L349.6 185.6 L351.0 185.9 L352.5 186.1 L353.9 186.4 L355.3 186.6 L356.8 186.7 L358.2 186.8 L359.6 186.9 L361.1 187.0 L362.5 187.0 L363.9 187.0 L365.4 186.9 L366.8 186.8 L368.2 186.7 L369.7 186.6 L371.1 186.4 L372.5 186.1 L374.0 185.9 L375.4 185.6 L376.8 185.3 L378.3 184.9 L379.7 184.5 L381.1 184.1 L382.6 183.6 L384.0 183.1 L385.4 182.6 L386.9 182.0 L388.3 181.4 L389.7 180.7 L391.2 180.1 L392.6 179.4 L394.0 178.7 L395.5 177.9 L396.9 177.1 L398.3 176.3 L399.8 175.4 L401.2 174.5 L402.6 173.6 L404.1 172.7 L405.5 171.7 L406.9 170.7 L408.4 169.7 L409.8 168.6 L411.2 167.6 L412.7 166.5 L414.1 165.3 L415.5 164.2 L417.0 163.0 L418.4 161.8 L419.8 160.5 L421.3 159.3 L422.7 158.0 L424.1 156.7 L425.6 155.4 L427.0 154.0 L428.4 152.7 L429.9 151.3 L431.3 149.9 L432.7 148.4 L434.2 147.0 L435.6 145.5 L437.0 144.1 L438.5 142.6 L439.9 141.1 L441.3 139.5 L442.8 138.0 L444.2 136.4 L445.6 134.9 L447.1 133.3 L448.5 131.7 L449.9 130.1 L451.4 128.5 L452.8 126.9 L454.2 125.3 L455.7 123.6 L457.1 122.0 L458.5 120.3 L460.0 118.7 L461.4 117.0 L462.8 115.4 L464.3 113.7 L465.7 112.0 L467.1 110.4 L468.6 108.7 L470.0 107.0 L470.0 123.0 L468.6 124.7 L467.1 126.4 L465.7 128.0 L464.3 129.7 L462.8 131.4 L461.4 133.0 L460.0 134.7 L458.5 136.3 L457.1 138.0 L455.7 139.6 L454.2 141.3 L452.8 142.9 L451.4 144.5 L449.9 146.1 L448.5 147.7 L447.1 149.3 L445.6 150.9 L444.2 152.4 L442.8 154.0 L441.3 155.5 L439.9 157.1 L438.5 158.6 L437.0 160.1 L435.6 161.5 L434.2 163.0 L432.7 164.4 L431.3 165.9 L429.9 167.3 L428.4 168.7 L427.0 170.0 L425.6 171.4 L424.1 172.7 L422.7 174.0 L421.3 175.3 L419.8 176.5 L418.4 177.8 L417.0 179.0 L415.5 180.2 L414.1 181.3 L412.7 182.5 L411.2 183.6 L409.8 184.6 L408.4 185.7 L406.9 186.7 L405.5 187.7 L404.1 188.7 L402.6 189.6 L401.2 190.5 L399.8 191.4 L398.3 192.3 L396.9 193.1 L395.5 193.9 L394.0 194.7 L392.6 195.4 L391.2 196.1 L389.7 196.7 L388.3 197.4 L386.9 198.0 L385.4 198.6 L384.0 199.1 L382.6 199.6 L381.1 200.1 L379.7 200.5 L378.3 200.9 L376.8 201.3 L375.4 201.6 L374.0 201.9 L372.5 202.1 L371.1 202.4 L369.7 202.6 L368.2 202.7 L366.8 202.8 L365.4 202.9 L363.9 203.0 L362.5 203.0 L361.1 203.0 L359.6 202.9 L358.2 202.8 L356.8 202.7 L355.3 202.6 L353.9 202.4 L352.5 202.1 L351.0 201.9 L349.6 201.6 L348.2 201.3 L346.7 200.9 L345.3 200.5 L343.9 200.1 L342.4 199.6 L341.0 199.1 L339.6 198.6 L338.1 198.0 L336.7 197.4 L335.3 196.7 L333.8 196.1 L332.4 195.4 L331.0 194.7 L329.5 193.9 L328.1 193.1 L326.7 192.3 L325.2 191.4 L323.8 190.5 L322.4 189.6 L320.9 188.7 L319.5 187.7 L318.1 186.7 L316.6 185.7 L315.2 184.6 L313.8 183.6 L312.3 182.5 L310.9 181.3 L309.5 180.2 L308.0 179.0 L306.6 177.8 L305.2 176.5 L303.7 175.3 L302.3 174.0 L300.9 172.7 L299.4 171.4 L298.0 170.0 L296.6 168.7 L295.1 167.3 L293.7 165.9 L292.3 164.4 L290.8 163.0 L289.4 161.5 L288.0 160.1 L286.5 158.6 L285.1 157.1 L283.7 155.5 L282.2 154.0 L280.8 152.4 L279.4 150.9 L277.9 149.3 L276.5 147.7 L275.1 146.1 L273.6 144.5 L272.2 142.9 L270.8 141.3 L269.3 139.6 L267.9 138.0 L266.5 136.3 L265.0 134.7 L263.6 133.0 L262.2 131.4 L260.7 129.7 L259.3 128.0 L257.9 126.4 L256.4 124.7 L255.0 123.0 L253.6 121.3 L252.1 119.6 L250.7 118.0 L249.3 116.3 L247.8 114.6 L246.4 113.0 L245.0 111.3 L243.5 109.7 L242.1 108.0 L240.7 106.4 L239.2 104.7 L237.8 103.1 L236.4 101.5 L234.9 99.9 L233.5 98.3 L232.1 96.7 L230.6 95.1 L229.2 93.6 L227.8 92.0 L226.3 90.5 L224.9 88.9 L223.5 87.4 L222.0 85.9 L220.6 84.5 L219.2 83.0 L217.7 81.6 L216.3 80.1 L214.9 78.7 L213.4 77.3 L212.0 76.0 L210.6 74.6 L209.1 73.3 L207.7 72.0 L206.3 70.7 L204.8 69.5 L203.4 68.2 L202.0 67.0 L200.5 65.8 L199.1 64.7 L197.7 63.5 L196.2 62.4 L194.8 61.4 L193.4 60.3 L191.9 59.3 L190.5 58.3 L189.1 57.3 L187.6 56.4 L186.2 55.5 L184.8 54.6 L183.3 53.7 L181.9 52.9 L180.5 52.1 L179.0 51.3 L177.6 50.6 L176.2 49.9 L174.7 49.3 L173.3 48.6 L171.9 48.0 L170.4 47.4 L169.0 46.9 L167.6 46.4 L166.1 45.9 L164.7 45.5 L163.3 45.1 L161.8 44.7 L160.4 44.4 L159.0 44.1 L157.5 43.9 L156.1 43.6 L154.7 43.4 L153.2 43.3 L151.8 43.2 L150.4 43.1 L148.9 43.0 L147.5 43.0 L146.1 43.0 L144.6 43.1 L143.2 43.2 L141.8 43.3 L140.3 43.4 L138.9 43.6 L137.5 43.9 L136.0 44.1 L134.6 44.4 L133.2 44.7 L131.7 45.1 L130.3 45.5 L128.9 45.9 L127.4 46.4 L126.0 46.9 L124.6 47.4 L123.1 48.0 L121.7 48.6 L120.3 49.3 L118.8 49.9 L117.4 50.6 L116.0 51.3 L114.5 52.1 L113.1 52.9 L111.7 53.7 L110.2 54.6 L108.8 55.5 L107.4 56.4 L105.9 57.3 L104.5 58.3 L103.1 59.3 L101.6 60.3 L100.2 61.4 L98.8 62.4 L97.3 63.5 L95.9 64.7 L94.5 65.8 L93.0 67.0 L91.6 68.2 L90.2 69.5 L88.7 70.7 L87.3 72.0 L85.9 73.3 L84.4 74.6 L83.0 76.0 L81.6 77.3 L80.1 78.7 L78.7 80.1 L77.3 81.6 L75.8 83.0 L74.4 84.5 L73.0 85.9 L71.5 87.4 L70.1 88.9 L68.7 90.5 L67.2 92.0 L65.8 93.6 L64.4 95.1 L62.9 96.7 L61.5 98.3 L60.1 99.9 L58.6 101.5 L57.2 103.1 L55.8 104.7 L54.3 106.4 L52.9 108.0 L51.5 109.7 L50.0 111.3 L48.6 113.0 L47.2 114.6 L45.7 116.3 L44.3 118.0 L42.9 119.6 L41.4 121.3 L40.0 123.0Z" fill="#d9622b" fill-opacity=".18"/>
+<path d="M40.0 115.0 L41.4 113.3 L42.9 111.6 L44.3 110.0 L45.7 108.3 L47.2 106.6 L48.6 105.0 L50.0 103.3 L51.5 101.7 L52.9 100.0 L54.3 98.4 L55.8 96.7 L57.2 95.1 L58.6 93.5 L60.1 91.9 L61.5 90.3 L62.9 88.7 L64.4 87.1 L65.8 85.6 L67.2 84.0 L68.7 82.5 L70.1 80.9 L71.5 79.4 L73.0 77.9 L74.4 76.5 L75.8 75.0 L77.3 73.6 L78.7 72.1 L80.1 70.7 L81.6 69.3 L83.0 68.0 L84.4 66.6 L85.9 65.3 L87.3 64.0 L88.7 62.7 L90.2 61.5 L91.6 60.2 L93.0 59.0 L94.5 57.8 L95.9 56.7 L97.3 55.5 L98.8 54.4 L100.2 53.4 L101.6 52.3 L103.1 51.3 L104.5 50.3 L105.9 49.3 L107.4 48.4 L108.8 47.5 L110.2 46.6 L111.7 45.7 L113.1 44.9 L114.5 44.1 L116.0 43.3 L117.4 42.6 L118.8 41.9 L120.3 41.3 L121.7 40.6 L123.1 40.0 L124.6 39.4 L126.0 38.9 L127.4 38.4 L128.9 37.9 L130.3 37.5 L131.7 37.1 L133.2 36.7 L134.6 36.4 L136.0 36.1 L137.5 35.9 L138.9 35.6 L140.3 35.4 L141.8 35.3 L143.2 35.2 L144.6 35.1 L146.1 35.0 L147.5 35.0 L148.9 35.0 L150.4 35.1 L151.8 35.2 L153.2 35.3 L154.7 35.4 L156.1 35.6 L157.5 35.9 L159.0 36.1 L160.4 36.4 L161.8 36.7 L163.3 37.1 L164.7 37.5 L166.1 37.9 L167.6 38.4 L169.0 38.9 L170.4 39.4 L171.9 40.0 L173.3 40.6 L174.7 41.3 L176.2 41.9 L177.6 42.6 L179.0 43.3 L180.5 44.1 L181.9 44.9 L183.3 45.7 L184.8 46.6 L186.2 47.5 L187.6 48.4 L189.1 49.3 L190.5 50.3 L191.9 51.3 L193.4 52.3 L194.8 53.4 L196.2 54.4 L197.7 55.5 L199.1 56.7 L200.5 57.8 L202.0 59.0 L203.4 60.2 L204.8 61.5 L206.3 62.7 L207.7 64.0 L209.1 65.3 L210.6 66.6 L212.0 68.0 L213.4 69.3 L214.9 70.7 L216.3 72.1 L217.7 73.6 L219.2 75.0 L220.6 76.5 L222.0 77.9 L223.5 79.4 L224.9 80.9 L226.3 82.5 L227.8 84.0 L229.2 85.6 L230.6 87.1 L232.1 88.7 L233.5 90.3 L234.9 91.9 L236.4 93.5 L237.8 95.1 L239.2 96.7 L240.7 98.4 L242.1 100.0 L243.5 101.7 L245.0 103.3 L246.4 105.0 L247.8 106.6 L249.3 108.3 L250.7 110.0 L252.1 111.6 L253.6 113.3 L255.0 115.0 L256.4 116.7 L257.9 118.4 L259.3 120.0 L260.7 121.7 L262.2 123.4 L263.6 125.0 L265.0 126.7 L266.5 128.3 L267.9 130.0 L269.3 131.6 L270.8 133.3 L272.2 134.9 L273.6 136.5 L275.1 138.1 L276.5 139.7 L277.9 141.3 L279.4 142.9 L280.8 144.4 L282.2 146.0 L283.7 147.5 L285.1 149.1 L286.5 150.6 L288.0 152.1 L289.4 153.5 L290.8 155.0 L292.3 156.4 L293.7 157.9 L295.1 159.3 L296.6 160.7 L298.0 162.0 L299.4 163.4 L300.9 164.7 L302.3 166.0 L303.7 167.3 L305.2 168.5 L306.6 169.8 L308.0 171.0 L309.5 172.2 L310.9 173.3 L312.3 174.5 L313.8 175.6 L315.2 176.6 L316.6 177.7 L318.1 178.7 L319.5 179.7 L320.9 180.7 L322.4 181.6 L323.8 182.5 L325.2 183.4 L326.7 184.3 L328.1 185.1 L329.5 185.9 L331.0 186.7 L332.4 187.4 L333.8 188.1 L335.3 188.7 L336.7 189.4 L338.1 190.0 L339.6 190.6 L341.0 191.1 L342.4 191.6 L343.9 192.1 L345.3 192.5 L346.7 192.9 L348.2 193.3 L349.6 193.6 L351.0 193.9 L352.5 194.1 L353.9 194.4 L355.3 194.6 L356.8 194.7 L358.2 194.8 L359.6 194.9 L361.1 195.0 L362.5 195.0 L363.9 195.0 L365.4 194.9 L366.8 194.8 L368.2 194.7 L369.7 194.6 L371.1 194.4 L372.5 194.1 L374.0 193.9 L375.4 193.6 L376.8 193.3 L378.3 192.9 L379.7 192.5 L381.1 192.1 L382.6 191.6 L384.0 191.1 L385.4 190.6 L386.9 190.0 L388.3 189.4 L389.7 188.7 L391.2 188.1 L392.6 187.4 L394.0 186.7 L395.5 185.9 L396.9 185.1 L398.3 184.3 L399.8 183.4 L401.2 182.5 L402.6 181.6 L404.1 180.7 L405.5 179.7 L406.9 178.7 L408.4 177.7 L409.8 176.6 L411.2 175.6 L412.7 174.5 L414.1 173.3 L415.5 172.2 L417.0 171.0 L418.4 169.8 L419.8 168.5 L421.3 167.3 L422.7 166.0 L424.1 164.7 L425.6 163.4 L427.0 162.0 L428.4 160.7 L429.9 159.3 L431.3 157.9 L432.7 156.4 L434.2 155.0 L435.6 153.5 L437.0 152.1 L438.5 150.6 L439.9 149.1 L441.3 147.5 L442.8 146.0 L444.2 144.4 L445.6 142.9 L447.1 141.3 L448.5 139.7 L449.9 138.1 L451.4 136.5 L452.8 134.9 L454.2 133.3 L455.7 131.6 L457.1 130.0 L458.5 128.3 L460.0 126.7 L461.4 125.0 L462.8 123.4 L464.3 121.7 L465.7 120.0 L467.1 118.4 L468.6 116.7 L470.0 115.0" fill="none" stroke="#d9622b" stroke-width="2.2"/>
+<path d="M40 115H470" stroke="#16a34a" stroke-dasharray="5 3" stroke-width="1.6"/><text x="474.0" y="119.0" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">chegara ≈ 0: te kichik ✓</text>
+<path d="M40 41.4H470" stroke="#dc2626" stroke-dasharray="5 3" stroke-width="1.6"/><text x="474.0" y="45.4" text-anchor="start" font-size="12" fill="#dc2626" font-weight="700">chegara cho'qqi yonida: te katta ✗</text>
+<text x="50.0" y="24.0" text-anchor="start" font-size="11" fill="#d9622b" font-weight="700">Vn = shovqin cho'qqisi (to'q sariq yo'lak)</text>
+<text x="600.0" y="150.0" text-anchor="middle" font-size="14" fill="#9333ea" font-weight="700">te = Vn / (dV/dt)</text><text x="600.0" y="172.0" text-anchor="middle" font-size="11" fill="currentColor">sinus uchun eng katta</text><text x="600.0" y="188.0" text-anchor="middle" font-size="11" fill="currentColor">qiyalik nol atrofida</text>
+</svg></figure>
+<p>Xulosa: chegara signal qiyaligi <strong>eng katta</strong> joyda bo'lishi kerak; sinus uchun bu nol atrofi. (Chastota usulida gate ichki generatordan olinadi, uning signal/shovqin nisbatini ishlab chiqaruvchi nazorat qiladi.)</p>
+<p>Darvoza ochilishi va yopilishida ikkita xato bo'lishi mumkin (start va stop), shuning uchun 2·te. U M ta davrga taqsimlanadi.</p>
+
+<h3>4.4 Yakuniy formulalar (slayddagi xulosa)</h3>
+<span class="formula">Chastota usuli: &nbsp;εfx = 1/n + εtCK</span>
+<span class="formula">Davr usuli: &nbsp;εfx = 1/m + εtCK + 2·te / (M·tx)</span>
+
+<h2>5. Slayddagi masala: kuch sensori</h2>
+<div class="box"><p><em>Force sensor with an output signal that is a square wave with period tx = t0 + K·F; t0 = 10 µs (negligible uncertainty); K = 0.01 µs/N, ± 0.1%. Direct frequency measurement. Counter with internal time base characterized by εtck = 1·10⁻⁶. Estimate the minimum gate time that makes negligible the uncertainty of the period measurement when F = 1 kN.</em></p>
+<p>Ya'ni: kuch o'zgarsa, sensor chiqishidagi to'rtburchak signalning davri o'zgaradi. Biz hisoblagich bilan chastotani o'lchaymiz. Savol: hisoblagich qo'shadigan xato sensorning o'z xatosiga nisbatan <strong>arzimas</strong> bo'lishi uchun gate vaqti kamida qancha bo'lishi kerak?</p></div>
+<p><strong>1-qadam: o'lchanadigan qiymat.</strong></p>
+<span class="formula">tx = 10 µs + 0.01 µs/N · 1000 N = 20 µs &nbsp;→&nbsp; fx = 1/tx = 50 kHz</span>
+<p><strong>2-qadam: sensorning o'z noaniqligi.</strong> t0 xatosiz, faqat K ning xatosi bor: δK = 0.1 % · 0.01 = 1·10⁻⁵ µs/N.</p>
+<span class="formula">δtx = |∂tx/∂K| · δK = F · δK = 1000 · 1·10⁻⁵ = 1·10⁻² µs</span>
+<span class="formula">εfx = εtx = δtx / tx = 0.01 / 20 = 5·10⁻⁴</span>
+<p><strong>3-qadam: hisoblagich xatolari shundan ancha kichik bo'lishi kerak.</strong> εtCK = 1·10⁻⁶ ≪ 5·10⁻⁴: arzimas ✓. Qolgani kvantlash:</p>
+<span class="formula">1/n = 1/(TC · fx) ≪ 5·10⁻⁴ &nbsp;→&nbsp; TC ≫ 1/(5·10⁻⁴ · 5·10⁴) = 0.04 s</span>
+<p>"≫" (ancha katta) = odatda <strong>10 baravar</strong>. Javob: <strong>minimal gate vaqti = 0.4 s</strong> (slayddagi javob).</p>
+<div class="box warn"><strong>Tez-tez xato:</strong> 0.04 s ni javob deb yozish. 0.04 s da hisoblagich xatosi sensor xatosiga <strong>teng</strong> bo'ladi, arzimas emas. "Negligible" so'zi = 10 baravar zaxira.</div>
+
+<h2>6. Mashq (o'zim tuzgan, imtihon uslubida)</h2>
+<div class="box"><p>Sinus signal: amplitudasi 1 V, fx = 1 kHz, shovqin cho'qqisi Vn = 1 mV. Davr usuli: fCK = 10 MHz, M = 10 davr, εtCK = 1·10⁻⁶ (TCXO), chegara 0 V da. Nisbiy noaniqlik εfx = ?</p>
+<details><summary>Yechim</summary>
+tx = 1 ms. m = M·tx·fCK = 10 · 10⁻³ · 10⁷ = 10⁵ → 1/m = 1·10⁻⁵.<br>
+Nol atrofida sinus qiyaligi: dV/dt = 2π·f·A = 2π · 1000 · 1 = 6283 V/s → te = 10⁻³ / 6283 = 0.16 µs.<br>
+2·te/(M·tx) = 0.32 µs / 10 ms = 3.2·10⁻⁵.<br>
+εfx = 1·10⁻⁵ + 1·10⁻⁶ + 3.2·10⁻⁵ ≈ <strong>4.3·10⁻⁵</strong>. Bu yerda eng katta hissa shovqindan! Yaxshilash: M ni oshirish (masalan 100 davr → hammasi ≈ 4.3·10⁻⁶).
+</details></div>
+<div class="box"><p>Xuddi shu signalni chastota usuli bilan TC = 1 s da o'lchasak?</p>
+<details><summary>Yechim</summary>n = 1000 → 1/n = 10⁻³; εfx = 10⁻³ + 10⁻⁶ ≈ <strong>1·10⁻³</strong>. Davr usulidan ancha yomon (fx = 1 kHz ≪ fCK = 10 MHz).</details></div>
+
+<h2>O'zingizni tekshiring</h2>
+<div class="box check">TC = 0.1 s, fx = 2 MHz. Chastota usulida n va nisbiy ruxsat? <details><summary>Javob</summary>n = 0.1 · 2·10⁶ = 2·10⁵ → 1/n = <strong>5·10⁻⁶</strong>; Δfx = 1/TC = 10 Hz.</details></div>
+<div class="box check">fCK = 10 MHz. Qaysi chastotadan boshlab chastota usuli davr usulidan yaxshi bo'ladi? <details><summary>Javob</summary>fx &gt; fCK = <strong>10 MHz</strong> (har qanday TC da).</details></div>
+<div class="box check">±1 hisob xatosi nima uchun paydo bo'ladi? <details><summary>Javob</summary>Gate vaqti signal impulslariga nisbatan asinxron: boshlanish joyi tasodifiy, shuning uchun bir xil TC da sanash bitta ko'p yoki kam chiqishi mumkin.</details></div>
+<div class="box check">Davr usulida chegarani qayerga qo'yish kerak va nega? <details><summary>Javob</summary>Signal qiyaligi eng katta joyga (sinus uchun nol atrofi): te = Vn/(dV/dt) eng kichik bo'ladi.</details></div>
+<div class="box check">Kuch sensori masalasida F = 500 N bo'lsa, minimal gate vaqti? <details><summary>Javob</summary>tx = 15 µs, fx = 66.7 kHz; δtx = 500·10⁻⁵ = 5·10⁻³ µs; εfx = 5·10⁻³/15 = 3.33·10⁻⁴. TC ≫ 1/(3.33·10⁻⁴ · 66 667) = 0.045 s → <strong>0.45 s</strong>.</details></div>
+<div class="box check">Uchta kvars generatorining eng barqarori va eng arzoni? <details><summary>Javob</summary>Eng barqaror: <strong>OCXO</strong> (pechkada doimiy haroratda), eng arzon: <strong>RTXO</strong>.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Hisoblagich (chastotomer)</td><td>counter</td><td>Impulslarni sanab chastota/davr o'lchaydigan asbob</td></tr>
+<tr><td>Gate vaqti</td><td>gate time TC</td><td>Sanash davom etadigan ma'lum vaqt</td></tr>
+<tr><td>Vaqt bazasi</td><td>time base, internal clock (tCK)</td><td>Ichki aniq (kvars) generator</td></tr>
+<tr><td>Ruxsat</td><td>resolution</td><td>Farqlanadigan eng kichik o'zgarish (1 hisob)</td></tr>
+<tr><td>Kvantlash noaniqligi</td><td>quantization uncertainty</td><td>±1 hisob: εn = 1/n</td></tr>
+<tr><td>Asinxron</td><td>asynchronous</td><td>Bir-biriga bog'lanmagan vaqt bilan ishlaydi</td></tr>
+<tr><td>Eskirish</td><td>aging (time drift)</td><td>Generator chastotasining vaqt bilan siljishi</td></tr>
+<tr><td>Ta'sir etuvchi kattaliklar</td><td>influence quantities</td><td>Harorat, manba kuchlanishi va h.k.</td></tr>
+<tr><td>RTXO / TCXO / OCXO</td><td>room temperature / temperature compensated / oven controlled crystal oscillator</td><td>Kvars generatorlarining uch toifasi</td></tr>
+<tr><td>Gate vaqti xatosi</td><td>gate-time error te</td><td>Shovqin tufayli darvoza ochilish vaqtining siljishi</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<span class="formula">Chastota usuli: fx = n/TC, &nbsp;TC = K·tCK, &nbsp;Δfx = 1/TC, &nbsp;εfx = 1/n + εtCK</span>
+<span class="formula">Davr usuli: tx = (m/M)·tCK, &nbsp;Δtx = tCK/M, &nbsp;εfx = 1/m + εtCK + 2te/(M·tx)</span>
+<span class="formula">te = Vn / (dVx/dt) &nbsp;·&nbsp; sinus: dV/dt (nolda) = 2π·f·A</span>
+<ul>
+<li>Ko'proq impuls sanalgan usul yaxshi: fx &gt; fCK → chastota usuli, fx &lt; fCK → davr usuli.</li>
+<li>Uzun gate → yaxshi ruxsat, lekin o'rtacha chastota o'lchanadi.</li>
+<li>±1 hisob gate va signal asinxronligidan. Chegara eng katta qiyalikda (sinus: nolda).</li>
+<li>Kvars: RTXO (arzon) &lt; TCXO &lt; OCXO (eng barqaror). Soat: ≈ 114 s/yil.</li>
+<li>"Negligible" = 10 baravar kichik. Kuch sensori: tx = 20 µs, fx = 50 kHz, εfx = 5·10⁻⁴, TC ≥ 0.4 s.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+<footer class="pager"><a href="35-olchash-noaniqligi.html">← 35-dars</a><a href="39-sensorlar-noaniqlik.html">39-dars →</a></footer>
+</main></body></html>
