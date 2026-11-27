@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>23. Mashq: xotira va FPGA</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>23. Mashq: xotira va FPGA (12 ta imtihon savoli)</h1>
+
+<div class="box note"><strong>Bu dars nima uchun:</strong> savollar bazasidagi xotira va FPGA ga oid 12 ta savolni bir joyda takrorlash (4 tasi hisob/sxema). Asl inglizcha matn, tarjima va yashirilgan javob. Kerakli darslar: 10, 21, 22. Vaqt: 20 daqiqa.</div>
+
+<div class="box"><strong>Usul:</strong> har savolga avval o'zingiz javob bering (qog'ozga yozing), keyin "Javob" ni oching. Xato savollarni belgilab, 2 kundan keyin faqat shularni qayta yeching.</div>
+
+<h2>1. Xotira katakchalari</h2>
+<div class="box"><table><tr><th>Xotira</th><th>Katakcha</th><th>Xususiyat</th></tr><tr><td>SRAM</td><td>6 ta MOS (2 inverter + 2 kalit)</td><td>tez, refresh yo'q, katta joy</td></tr><tr><td>DRAM</td><td>1 MOS + 1 kondensator</td><td>zich, refresh kerak, o'qish buzadi</td></tr><tr><td>Flash</td><td>suzuvchi zatvorli (floating gate) MOS</td><td>uchmas (non-volatile)</td></tr></table></div>
+<div class="box check" id="q036"><p><strong>036.</strong> <em>An SRAM memory cell includes:</em></p>
+<ol type="a"><li><em>A floating gate MOS</em></li><li><em>A MOS and a capacitor</em></li><li><em>6 MOS</em></li><li><em>a NMOS, a PMOS and two capacitors</em></li></ol>
+<p><strong>Tarjima:</strong> SRAM xotira katakchasi nimadan iborat?</p>
+<details><summary>Javob</summary><p><strong>(c) 6 MOS</strong>. Ikkita bir-biriga ulangan inverter (4 MOS) va ikkita kirish kaliti (2 MOS): 6 MOS. (<a href="22-sram-dram-flash.html">22-dars</a>)</p></details></div>
+<div class="box check" id="q106"><p><strong>106.</strong> <em>A DRAM memory cell includes:</em></p>
+<ol type="a"><li><em>A floating MOS transistor gate</em></li><li><em>A MOS transistor and a capacitance</em></li><li><em>6 MOS transistors</em></li><li><em>a NMOS ttransistor, a PMOS transistor, and two capacitances</em></li></ol>
+<p><strong>Tarjima:</strong> DRAM xotira katakchasi nimadan iborat?</p>
+<details><summary>Javob</summary><p><strong>(b) A MOS transistor and a capacitance</strong>. Bitta kalit tranzistor va bitta kichik kondensator: zaryad bor = 1, yo'q = 0. (<a href="22-sram-dram-flash.html">22-dars</a>)</p></details></div>
+<div class="box check" id="q089"><p><strong>089.</strong> <em>A FLASH memory cell includes:</em></p>
+<ol type="a"><li><em>A floating gate MOS</em></li><li><em>A MOS and a capacitance</em></li><li><em>6 MOS</em></li><li><em>an NMOS, a PMOS and two capacitances</em></li></ol>
+<p><strong>Tarjima:</strong> Flash xotira katakchasi nimadan iborat?</p>
+<details><summary>Javob</summary><p><strong>(a) A floating gate MOS</strong>. Suzuvchi zatvorga (floating gate) qamalgan zaryad tok o'chganda ham saqlanadi. (<a href="22-sram-dram-flash.html">22-dars</a>)</p></details></div>
+<div class="box check" id="q032"><p><strong>032.</strong> <em>A FLASH NOR memory has, compared to a NAND:</em></p>
+<ol type="a"><li><em>greater word width</em></li><li><em>greater reading speed</em></li><li><em>better noise immunity</em></li><li><em>greater density</em></li></ol>
+<p><strong>Tarjima:</strong> NOR flash NAND flash ga nisbatan qanday?</p>
+<details><summary>Javob</summary><p><strong>(b) greater reading speed</strong>. NOR da har katak bitline ga alohida (parallel) ulangan, shuning uchun o'qish tez va har baytga to'g'ridan-to'g'ri murojaat qilinadi. Lekin zichlik pastroq. (<a href="22-sram-dram-flash.html">22-dars</a>)</p></details></div>
+<div class="box check" id="q100"><p><strong>100.</strong> <em>A FLASH NAND memory has, compared to a NOR:</em></p>
+<ol type="a"><li><em>larger word width</em></li><li><em>faster reading speed</em></li><li><em>better noise immunity</em></li><li><em>greater density</em></li></ol>
+<p><strong>Tarjima:</strong> NAND flash NOR flash ga nisbatan qanday?</p>
+<details><summary>Javob</summary><p><strong>(d) greater density</strong>. NAND da kataklar ketma-ket zanjirda, kontaktlar kam, shuning uchun zichlik yuqori (arzon, katta hajm: USB, SSD). O'qish sekinroq. (<a href="22-sram-dram-flash.html">22-dars</a>)</p></details></div>
+<div class="box check" id="q037"><p><strong>037.</strong> <em>A DDR4 memory has the bus clock at 2000 MHz and 8-bit parallelism. The maximum rate is:</em></p>
+<ol type="a"><li><em>16 Gbit/s</em></li><li><em>32 Gbit/s</em></li><li><em>64 Gbit/s</em></li><li><em>2 Gbit/s</em></li></ol>
+<p><strong>Tarjima:</strong> DDR4 xotiraning bus takti 2000 MHz, kengligi 8 bit. Maksimal tezlik qancha?</p>
+<details><summary>Javob</summary><p><strong>(b) 32 Gbit/s</strong>. DDR: har taktda 2 ta uzatish → 2 · 2000 MHz = 4000 MT/s. 4000·10⁶ · 8 bit = 32 Gbit/s. (<a href="22-sram-dram-flash.html">22-dars</a>)</p></details></div>
+<h2>2. Dekoder va so'z chizig'i (wordline) kechikishi</h2>
+<div class="box"><span class="formula">K bit → 2<sup>K</sup> chiqish → 2<sup>K</sup> ta K-kirishli NAND (+ inverterlar)</span><span class="formula">t = 0.69·RON·Cwordline, Cwordline = (katak soni)·(katakdagi kalitlar soni)·CG</span> SRAM katagida wordline ga 2 ta kalit ulangan, DRAM da 1 ta.</div>
+<div class="box check" id="q065"><p><strong>065.</strong> <em>An address decoder with 4-bit input requires:</em></p>
+<ol type="a"><li><em>4 NAND gates</em></li><li><em>8 NAND gates</em></li><li><em>4 AND gates</em></li><li><em>16 NAND gates</em></li></ol>
+<p><strong>Tarjima:</strong> 4 bitli kirishli adres dekoderiga nima kerak?</p>
+<details><summary>Javob</summary><p><strong>(d) 16 NAND gates</strong>. 4 bit → 2⁴ = 16 ta chiqish (wordline). Har chiqish uchun bitta 4 kirishli NAND (kirishlarga A yoki Ā beriladi). (<a href="21-xotira-tuzilishi-rom.html">21-dars</a>, <a href="05-raqamli-0-1.html">5-dars</a>)</p></details></div>
+<div class="box check" id="q002"><p><strong>002.</strong> <em>Consider an SRAM with 16 wordlines, each driving 16 cells. Suppose that each transistor has a gate capacitance of 0.5 fF and that the Ron of the decoder transistors is 100 Ω. Draw the schematic of the row decoder.</em></p>
+<p><strong>Tarjima:</strong> SRAM: 16 ta wordline, har biri 16 ta katakni boshqaradi, CG = 0.5 fF, dekoder tranzistorlari RON = 100 Ω. Qator dekoderi sxemasini chizing.</p>
+<details><summary>Javob</summary><p><strong>Sxema</strong>. Javob sxema: 4 ta adres biti A3…A0 va ularning inversiyalari (4 ta inverter) → 16 ta 4 kirishli NAND, har birining chiqishida inverter (drayver) → WL0…WL15. Masalan WL5 (0101) uchun NAND ga Ā3, A2, Ā1, A0 kiradi. (<a href="21-xotira-tuzilishi-rom.html">21-dars</a>)</p></details></div>
+<div class="box check" id="q059"><p><strong>059.</strong> <em>Consider a DRAM with 16 wordlines, each driving 16 cells. Assume that each pass-transistor has a gate capacitance of 0.1 fF and that the Ron of the decoder transistors is 40 Ω. Draw the schematic of the row decoder.</em></p>
+<p><strong>Tarjima:</strong> DRAM: 16 wordline × 16 katak, CG = 0.1 fF, RON = 40 Ω. Qator dekoderi sxemasini chizing.</p>
+<details><summary>Javob</summary><p><strong>Sxema 002 dagidek</strong>. 002 bilan bir xil sxema: 16 wordline uchun 4 bitli dekoder (16 NAND + drayverlar). Raqamlar sxemaga ta'sir qilmaydi, ular 066 da kerak. (<a href="21-xotira-tuzilishi-rom.html">21-dars</a>)</p></details></div>
+<div class="box check" id="q066"><p><strong>066.</strong> <em>Consider a DRAM with 16 wordlines, each driving 16 cells. Assume that each pass-transistor has a gate capacitance of 0.1 fF and that the Ron of the decoder transistors is 40 Ω. Calculate the maximum cell activation delay (only the delay of the last stage of the decoder).</em></p>
+<p><strong>Tarjima:</strong> Xuddi shu DRAM: katakni yoqishning maksimal kechikishini hisoblang (faqat dekoderning oxirgi bosqichi).</p>
+<details><summary>Javob</summary><p><strong>≈ 44 fs</strong>. DRAM katagida wordline ga 1 ta kalit: C = 16 · 0.1 fF = 1.6 fF. t = 0.69 · 40 · 1.6·10⁻¹⁵ = 44·10⁻¹⁵ s. (<a href="21-xotira-tuzilishi-rom.html">21-dars</a>)</p></details></div>
+<div class="box check" id="q102"><p><strong>102.</strong> <em>Consider an SRAM with 16 wordlines, each driving 16 cells. Suppose that each transistor has a gate capacity of 0.5 fF and that the Ron of the decoder transistors is 100 Ω. Calculate the maximum cell activation delay (only the delay of the last stage of the decoder): ……</em></p>
+<p><strong>Tarjima:</strong> SRAM (16 × 16, CG = 0.5 fF, RON = 100 Ω): oxirgi bosqich kechikishi?</p>
+<details><summary>Javob</summary><p><strong>≈ 1.1 ps</strong>. SRAM katagida wordline 2 ta kalitni boshqaradi: C = 16 · 2 · 0.5 fF = 16 fF. t = 0.69 · 100 · 16·10⁻¹⁵ = 1.1·10⁻¹² s. Tuzoq: "2" ni unutish (0.55 ps chiqadi). (<a href="21-xotira-tuzilishi-rom.html">21-dars</a>)</p></details></div>
+<h2>3. FPGA va LUT</h2>
+<div class="box"><span class="formula">k kirishli LUT: 2<sup>k</sup> katak, 2<sup>2<sup>k</sup></sup> funksiya</span> Funksiyada k dan ko'p kirish bo'lsa, uni bo'laklarga ajrating: har bo'lak ≤ k kirish.</div>
+<div class="box check" id="q067"><p><strong>067.</strong> <em>An FPGA uses only 4-input Look-up-Table (LUT) to perform combinatorial logic functions. To achieve O = A B C (D + E + F) are needed:</em></p>
+<ol type="a"><li><em>5 LUT</em></li><li><em>3 LUT</em></li><li><em>2 LUT</em></li><li><em>functions with 6 inputs cannot be implemented</em></li></ol>
+<p><strong>Tarjima:</strong> FPGA faqat 4 kirishli LUT ishlatadi. O = A·B·C·(D + E + F) uchun nechta LUT kerak?</p>
+<details><summary>Javob</summary><p><strong>(c) 2 LUT</strong>. 1-LUT: X = D + E + F (3 kirish). 2-LUT: O = A·B·C·X (4 kirish). Jami 2 ta. 6 kirishli funksiya ham bo'laklab bajariladi, shuning uchun (d) noto'g'ri. (<a href="10-dasturlanadigan-mantiq-fpga-nre.html">10-dars</a>)</p></details></div>
+<h2>4. Imtihonlardagi shu mavzudagi savollar</h2>
+<div class="box"><ul><li>2021-07: 4 kirishli LUT → 2⁴ ta 1 bitli katak; DDR4 → har o'tishda 1 so'z; ROM sxemasi (7 ball). <a href="41-imtihon-2021-07.html">41-dars</a></li><li>2021-06: DRAM o'qish → bitline ΔV &lt; VDD/2 ga kamayadi; 3 kirishli LUT → 2<sup>2<sup>3</sup></sup> funksiya. <a href="42-imtihon-2021-06.html">42-dars</a></li></ul></div>
+
+<h2>Javoblar kaliti</h2>
+<table>
+<tr><th>Savol</th><th>036</th><th>106</th><th>089</th><th>032</th><th>100</th></tr><tr><td>Javob</td><td>c</td><td>b</td><td>a</td><td>b</td><td>d</td></tr>
+<tr><th>Savol</th><th>037</th><th>065</th><th>066</th><th>102</th><th>067</th></tr><tr><td>Javob</td><td>b (32 Gbit/s)</td><td>d</td><td>44 fs</td><td>1.1 ps</td><td>c (2 LUT)</td></tr>
+</table>
+<p>Diqqat: imtihonda variantlar tartibi o'zgarishi mumkin. Harfni emas, <strong>ma'noni</strong> yodlang.</p>
+
+<h2>📝 Konspekt</h2>
+<div class="box">
+<span class="formula">SRAM 6 MOS · DRAM 1 MOS + 1 C · Flash: floating gate</span>
+<span class="formula">DDR: tezlik = 2·fbus·kenglik</span>
+<span class="formula">K bit dekoder: 2<sup>K</sup> ta K-kirishli NAND · t = 0.69·RON·N·n·CG (SRAM n = 2, DRAM n = 1)</span>
+<span class="formula">LUT k kirish: 2<sup>k</sup> katak, 2<sup>2<sup>k</sup></sup> funksiya; katta funksiyani ≤ k kirishli bo'laklarga ajrating</span>
+<ul><li>NOR flash: tez o'qish. NAND flash: zichlik.</li><li>DRAM o'qish: bitline VDD/2 dan ΔV &lt; VDD/2 ga siljiydi, katak buziladi, refresh kerak.</li></ul>
+</div>
+
+<div class="box ok">Natijangizni chatga yozing: nechta to'g'ri va qaysilari xato.</div>
+
+<footer class="pager"><a href="22-sram-dram-flash.html">← 22-dars</a><a href="24-ulanish-rc-skew.html">24-dars →</a></footer>
+</main></body></html>

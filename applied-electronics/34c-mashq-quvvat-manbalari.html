@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>34c. Mashq: quvvat manbalari</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>34c. Mashq: quvvat manbalari (28 ta imtihon savoli)</h1>
+
+<div class="box note"><strong>Bu dars nima uchun:</strong> savollar bazasidagi to'g'rilagich, zener, chiziqli va impulsli stabilizatorlarga oid 28 ta testni bir joyda takrorlash. Bu bazadagi eng katta guruh, imtihonda har doim 2–3 ta savol shu yerdan keladi. Asl inglizcha matn, tarjima va yashirilgan javob. Kerakli darslar: 31–34. Vaqt: 30 daqiqa.</div>
+
+<div class="box"><strong>Usul:</strong> har savolga avval o'zingiz javob bering (qog'ozga yozing), keyin "Javob" ni oching. Xato savollarni belgilab, 2 kundan keyin faqat shularni qayta yeching.</div>
+
+<h2>1. To'g'rilagich va ripple</h2>
+<div class="box"><span class="formula">VR = IL·Δt/C, Δt = 1/f (bir yarim davr), 1/(2f) (ikki yarim davr)</span></div>
+<div class="box check" id="q070"><p><strong>070.</strong> <em>The ripple voltage of a half-wave rectifier is halved if:</em></p>
+<ol type="a"><li><em>the capacity doubles</em></li><li><em>the frequency is halved</em></li><li><em>the current doubles</em></li><li><em>the input voltage is halved</em></li></ol>
+<p><strong>Tarjima:</strong> Bir yarim davrli to'g'rilagichda ripple kuchlanishi qachon yarmiga tushadi?</p>
+<details><summary>Javob</summary><p><strong>(a) the capacity doubles</strong>. VR = I/(f·C): C ×2 → VR yarim. (b) chastota yarmi bo'lsa ripple ikki baravar bo'ladi; (c) tok ×2 → ripple ×2; (d) kirish kuchlanishi formulada yo'q. (<a href="31-togrilagich-ripple.html">31-dars</a>)</p></details></div>
+<div class="box check" id="q094"><p><strong>094.</strong> <em>In a full-wave rectifier, compared to a half-wave rectifier:</em></p>
+<ol type="a"><li><em>the ripple output voltage doubles</em></li><li><em>the DC output voltage halves</em></li><li><em>the DC output voltage doubles</em></li><li><em>the ripple output voltage halves</em></li></ol>
+<p><strong>Tarjima:</strong> Ikki yarim davrli to'g'rilagich bir yarim davrliga nisbatan qanday?</p>
+<details><summary>Javob</summary><p><strong>(d) the ripple output voltage halves</strong>. Ikki yarim davrlida kondensator har yarim davrda zaryadlanadi: Δt ikki baravar qisqa → ripple yarmi. O'zgarmas chiqish kuchlanishi deyarli bir xil (cho'qqi kuchlanish). (<a href="31-togrilagich-ripple.html">31-dars</a>)</p></details></div>
+<h2>2. Zener va chiziqli stabilizator</h2>
+<div class="box"><span class="formula">Chiziqli stabilizator FIK: η ≈ VO/VI</span> Parallel zener stabilizator manbadan doim deyarli o'zgarmas tok oladi (yuklama olmagan tok zener orqali ketadi).</div>
+<div class="box check" id="q068"><p><strong>068.</strong> <em>A Zener diode:</em></p>
+<ol type="a"><li><em>cannot operate in breakdown region</em></li><li><em>cannot operate in forward bias</em></li><li><em>can keep constant the current through the diode</em></li><li><em>can keep constant the voltage across the diode</em></li></ol>
+<p><strong>Tarjima:</strong> Zener diod haqida qaysi gap to'g'ri?</p>
+<details><summary>Javob</summary><p><strong>(d) can keep constant the voltage across the diode</strong>. Teskari yorilish (breakdown) rejimida zener kuchlanishi tok keng oraliqda o'zgarsa ham deyarli o'zgarmaydi. U breakdown da ham (a noto'g'ri), to'g'ri yo'nalishda ham (b noto'g'ri) ishlay oladi. (<a href="32-zener-chiziqli-stabilizator.html">32-dars</a>, <a href="04-diod-tranzistor.html">4-dars</a>)</p></details></div>
+<div class="box check" id="q056"><p><strong>056.</strong> <em>A voltage regulator using a parallel Zener diode:</em></p>
+<ol type="a"><li><em>draws constant the current from the power supply</em></li><li><em>keeps constant the power supply voltage</em></li><li><em>inverts the polarity of the output voltage</em></li><li><em>can increase the output voltage</em></li></ol>
+<p><strong>Tarjima:</strong> Parallel zener diodli stabilizator qanday ishlaydi?</p>
+<details><summary>Javob</summary><p><strong>(a) draws constant the current from the power supply</strong>. I_S = (VI − VZ)/R_S o'zgarmas: yuklama tokni kamroq olsa, ortiqchasi zener orqali oqadi. Shuning uchun manbadan olinadigan tok o'zgarmas (va bu FIK ni pasaytiradi). (<a href="32-zener-chiziqli-stabilizator.html">32-dars</a>)</p></details></div>
+<div class="box check" id="q028"><p><strong>028.</strong> <em>The efficiency (ratio of output power/input power) of a linear series regulator with VI input and VO output is approximately</em></p>
+<ol type="a"><li><em>VI / VO</em></li><li><em>VO / VI</em></li><li><em>0.5</em></li><li><em>VO / (VI + VO)</em></li></ol>
+<p><strong>Tarjima:</strong> VI kirishli va VO chiqishli chiziqli ketma-ket stabilizatorning FIK i taxminan qancha?</p>
+<details><summary>Javob</summary><p><strong>(b) VO / VI</strong>. Ketma-ket tranzistor orqali yuklama toki to'liq oqadi: P_in ≈ VI·I, P_out = VO·I → η ≈ VO/VI. Ortiqcha kuchlanish issiqlikka aylanadi. (<a href="32-zener-chiziqli-stabilizator.html">32-dars</a>)</p></details></div>
+<div class="box check" id="q034"><p><strong>034.</strong> <em>The efficiency of a linear regulator is approximately:</em></p>
+<ol type="a"><li><em>Vout / Vin</em></li><li><em>1</em></li><li><em>Vin / Vout</em></li><li><em>(Vin / Vout)2</em></li></ol>
+<p><strong>Tarjima:</strong> Chiziqli stabilizatorning FIK i taxminan qancha?</p>
+<details><summary>Javob</summary><p><strong>(a) Vout / Vin</strong>. 028 bilan bir xil: Vout/Vin. (<a href="32-zener-chiziqli-stabilizator.html">32-dars</a>)</p></details></div>
+<div class="box check" id="q064"><p><strong>064.</strong> <em>The schematic in the following figure represents:</em></p>
+<img src="img/q064.png" alt="064-savol sxemasi" style="max-width:min(100%,520px);background:#fff;border-radius:6px">
+<ol type="a"><li><em>a parallel voltage regulator</em></li><li><em>a variable output voltage regulator</em></li><li><em>a way to invert the polarity of the output voltage</em></li><li><em>a flyback voltage regulator</em></li></ol>
+<p><strong>Tarjima:</strong> Rasmdagi sxema nima?</p>
+<details><summary>Javob</summary><p><strong>(b) a variable output voltage regulator</strong>. Integral stabilizator (Vreg) va R1, R2 bo'luvchi: VO = Vreg·(R1 + R2)/R1 + IQ·R2. Rezistorlarni o'zgartirib chiqish kuchlanishini sozlash mumkin. (<a href="32-zener-chiziqli-stabilizator.html">32-dars</a>)</p></details></div>
+<div class="box check" id="q061"><p><strong>061.</strong> <em>Compared to a linear regulator, a switching regulator allows to:</em></p>
+<ol type="a"><li><em>increase the stability of the output voltage</em></li><li><em>increase the efficiency of the regulator</em></li><li><em>simplify the regulator circuit</em></li><li><em>increase the accuracy of the output voltage</em></li></ol>
+<p><strong>Tarjima:</strong> Impulsli (switching) stabilizator chiziqliga nisbatan nimaga imkon beradi?</p>
+<details><summary>Javob</summary><p><strong>(b) increase the efficiency of the regulator</strong>. Kalit yoki to'liq yoqiq (V ≈ 0), yoki to'liq o'chiq (I = 0): isrof kam, FIK 80–95 %. Lekin sxema murakkabroq va shovqinliroq, aniqlik va barqarorlik chiziqlida yaxshiroq. (<a href="33-buck-regulator.html">33-dars</a>, <a href="04-diod-tranzistor.html">4-dars</a>)</p></details></div>
+<h2>3. Buck, boost, buck-boost, flyback: formulalar</h2>
+<div class="box"><span class="formula">Buck: VO = D·VI (VO ≤ VI) &nbsp;·&nbsp; Boost: VO = VI/(1 − D) (VO ≥ VI) &nbsp;·&nbsp; Buck-boost: VO = −VI·D/(1 − D) &nbsp;·&nbsp; Flyback: VO = VI·(N2/N1)·D/(1 − D)</span> CCM da ideal o'zgartirgich uzatish funksiyasi faqat D ga (flyback da yana o'ramlar nisbatiga) bog'liq: L, diod va yuklamaga bog'liq emas.</div>
+<div class="box check" id="q030"><p><strong>030.</strong> <em>The voltage gain of a buck regulator with duty cycle D = 0.75 is:</em></p>
+<ol type="a"><li><em>0.75</em></li><li><em>0.25</em></li><li><em>1.33</em></li><li><em>4</em></li></ol>
+<p><strong>Tarjima:</strong> D = 0.75 bo'lgan buck regulatorning kuchlanish kuchaytirishi?</p>
+<details><summary>Javob</summary><p><strong>(a) 0.75</strong>. VO/VI = D = 0.75. (<a href="33-buck-regulator.html">33-dars</a>)</p></details></div>
+<div class="box check" id="q091"><p><strong>091.</strong> <em>The voltage gain of a buck regulator with duty cycle D = 0.25 is:</em></p>
+<ol type="a"><li><em>0.75</em></li><li><em>0.25</em></li><li><em>1.33</em></li><li><em>4</em></li></ol>
+<p><strong>Tarjima:</strong> D = 0.25 bo'lgan buck regulatorning kuchaytirishi?</p>
+<details><summary>Javob</summary><p><strong>(b) 0.25</strong>. VO/VI = D = 0.25. (<a href="33-buck-regulator.html">33-dars</a>)</p></details></div>
+<div class="box check" id="q079"><p><strong>079.</strong> <em>The voltage gain of a boost voltage regulator with duty cycle D = 0.75 is:</em></p>
+<ol type="a"><li><em>0.75</em></li><li><em>0.25</em></li><li><em>1.33</em></li><li><em>4</em></li></ol>
+<p><strong>Tarjima:</strong> D = 0.75 bo'lgan boost regulatorning kuchaytirishi?</p>
+<details><summary>Javob</summary><p><strong>(d) 4</strong>. VO/VI = 1/(1 − D) = 1/0.25 = 4. (c) 1.33 = 1/0.75 tuzoq: buck ning teskarisi emas! (<a href="34-boost-buckboost-flyback.html">34-dars</a>)</p></details></div>
+<div class="box check" id="q003"><p><strong>003.</strong> <em>For an ideal buck power regulator, the output voltage can be:</em></p>
+<ol type="a"><li><em>higher than or equal to the input voltage</em></li><li><em>higher than the input voltage</em></li><li><em>lower than or equal to the input voltage</em></li><li><em>lower than the input voltage</em></li></ol>
+<p><strong>Tarjima:</strong> Ideal buck regulatorning chiqish kuchlanishi qanday bo'lishi mumkin?</p>
+<details><summary>Javob</summary><p><strong>(c) lower than or equal to the input voltage</strong>. VO = D·VI, D 0 dan 1 gacha → VO ≤ VI (D = 1 da teng). "Teng" so'zi bor variantni tanlang. (<a href="33-buck-regulator.html">33-dars</a>)</p></details></div>
+<div class="box check" id="q105"><p><strong>105.</strong> <em>The output (regulated) voltage of a boost power regulator can be:</em></p>
+<ol type="a"><li><em>Lower or equal to the input voltage</em></li><li><em>Higher or equal to the input voltage</em></li><li><em>Higher than the input voltage</em></li><li><em>Lower than the input voltage</em></li></ol>
+<p><strong>Tarjima:</strong> Boost regulatorning (stabillangan) chiqish kuchlanishi qanday bo'lishi mumkin?</p>
+<details><summary>Javob</summary><p><strong>(b) Higher or equal to the input voltage</strong>. VO = VI/(1 − D) ≥ VI (D = 0 da teng). (<a href="34-boost-buckboost-flyback.html">34-dars</a>)</p></details></div>
+<div class="box check" id="q114"><p><strong>114.</strong> <em>The transfer function in continuous current mode of an ideal buck power regulator depends on:</em></p>
+<ol type="a"><li><em>the value of the inductance</em></li><li><em>the characteristics of the diode</em></li><li><em>the switch duty cycle</em></li><li><em>the value of the load</em></li></ol>
+<p><strong>Tarjima:</strong> Ideal buck regulatorning CCM dagi uzatish funksiyasi nimaga bog'liq?</p>
+<details><summary>Javob</summary><p><strong>(c) the switch duty cycle</strong>. Faqat duty cycle ga: VO/VI = D. (<a href="33-buck-regulator.html">33-dars</a>)</p></details></div>
+<div class="box check" id="q052"><p><strong>052.</strong> <em>The transfer function in continuous current mode of an ideal boost power regulator depends on:</em></p>
+<ol type="a"><li><em>the value of the inductance</em></li><li><em>the characteristics of the diode</em></li><li><em>the switch duty cycle</em></li><li><em>the value of the load</em></li></ol>
+<p><strong>Tarjima:</strong> Ideal boost regulatorning CCM dagi uzatish funksiyasi nimaga bog'liq?</p>
+<details><summary>Javob</summary><p><strong>(c) the switch duty cycle</strong>. Faqat D ga: 1/(1 − D). (<a href="34-boost-buckboost-flyback.html">34-dars</a>)</p></details></div>
+<div class="box check" id="q048"><p><strong>048.</strong> <em>The transfer function in continuous current mode of an ideal buck-boost power regulator depends on:</em></p>
+<ol type="a"><li><em>the value of the inductance</em></li><li><em>the characteristics of the diode</em></li><li><em>the switch duty cycle</em></li><li><em>the value of the load</em></li></ol>
+<p><strong>Tarjima:</strong> Ideal buck-boost ning CCM dagi uzatish funksiyasi nimaga bog'liq?</p>
+<details><summary>Javob</summary><p><strong>(c) the switch duty cycle</strong>. Faqat D ga: −D/(1 − D). (<a href="34-boost-buckboost-flyback.html">34-dars</a>)</p></details></div>
+<div class="box check" id="q018"><p><strong>018.</strong> <em>The transfer function in continuous current mode of an ideal flyback power regulator depends on:</em></p>
+<ol type="a"><li><em>the characteristics of the diode</em></li><li><em>the switching duty cycle</em></li><li><em>the galvanic insulation</em></li><li><em>the value of the load</em></li></ol>
+<p><strong>Tarjima:</strong> Ideal flyback ning CCM dagi uzatish funksiyasi nimaga bog'liq?</p>
+<details><summary>Javob</summary><p><strong>(b) the switching duty cycle</strong>. VO/VI = (N2/N1)·D/(1 − D): variantlar orasida duty cycle bor, u to'g'ri. (<a href="34-boost-buckboost-flyback.html">34-dars</a>)</p></details></div>
+<div class="box check" id="q111"><p><strong>111.</strong> <em>The transfer function in continuous current mode of an ideal flyback power regulator depends on:</em></p>
+<ol type="a"><li><em>the characteristics of the diode</em></li><li><em>the characteristics of the electrical transformer</em></li><li><em>the galvanic insulation</em></li><li><em>the value of the load</em></li></ol>
+<p><strong>Tarjima:</strong> Ideal flyback ning CCM dagi uzatish funksiyasi nimaga bog'liq? (boshqa variantlar to'plami)</p>
+<details><summary>Javob</summary><p><strong>(b) the characteristics of the electrical transformer</strong>. Bu yerda duty cycle varianti yo'q, lekin transformator xarakteristikasi (o'ramlar nisbati N2/N1) bor. Galvanik izolyatsiya formulaga kirmaydi. (<a href="34-boost-buckboost-flyback.html">34-dars</a>)</p></details></div>
+<div class="box check" id="q020"><p><strong>020.</strong> <em>A buck-boost power regulator with an inductance:</em></p>
+<ol type="a"><li><em>cannot increase the input voltage on the output</em></li><li><em>cannot decrease the input voltage on the output</em></li><li><em>cannot regulate the output voltage equal to the input</em></li><li><em>its output voltage has inverse polarity to the input</em></li></ol>
+<p><strong>Tarjima:</strong> Induktivlikli buck-boost regulator haqida qaysi gap to'g'ri?</p>
+<details><summary>Javob</summary><p><strong>(d) its output voltage has inverse polarity to the input</strong>. VO = −VI·D/(1 − D): chiqish qutbi teskari. U kuchlanishni oshira ham, kamaytira ham, teng ham qila oladi (D = 0.5 da |VO| = VI). (<a href="34-boost-buckboost-flyback.html">34-dars</a>)</p></details></div>
+<div class="box check" id="q025"><p><strong>025.</strong> <em>The output circuit is galvanically insulated from the input circuit for:</em></p>
+<ol type="a"><li><em>buck power regulators</em></li><li><em>boost power regulators</em></li><li><em>flyback power regulators</em></li><li><em>buck-boost power regulators</em></li></ol>
+<p><strong>Tarjima:</strong> Qaysi regulatorda chiqish zanjiri kirishdan galvanik izolyatsiyalangan?</p>
+<details><summary>Javob</summary><p><strong>(c) flyback power regulators</strong>. Flyback da induktivlik o'rniga transformator: kirish va chiqish o'rtasida sim ulanishi yo'q, energiya magnit maydon orqali o'tadi. (<a href="34-boost-buckboost-flyback.html">34-dars</a>)</p></details></div>
+<h2>4. Sxemani tanish</h2>
+<div class="box"><ul><li><strong>Buck:</strong> kalit kirishda ketma-ket, keyin L chiqishga, diod tugundan yerga.</li><li><strong>Boost:</strong> L kirishda ketma-ket, kalit tugundan yerga, diod chiqishga.</li><li><strong>Buck-boost:</strong> kalit kirishda, L tugundan yerga, diod teskari yo'nalishda chiqishga.</li><li><strong>Flyback:</strong> transformator (ikki o'ram, nuqtalar), birlamchida kalit, ikkilamchida diod.</li></ul></div>
+<div class="box check" id="q101"><p><strong>101.</strong> <em>The schematic below represents:</em></p>
+<img src="img/q101.png" alt="101-savol sxemasi" style="max-width:min(100%,520px);background:#fff;border-radius:6px">
+<ol type="a"><li><em>a flyback power regulator circuit</em></li><li><em>an on-off load control circuit with a diode</em></li><li><em>a buck power regulator circuit</em></li><li><em>a voltage regulator with a Zener diode</em></li></ol>
+<p><strong>Tarjima:</strong> Rasmdagi sxema nima?</p>
+<details><summary>Javob</summary><p><strong>(c) a buck power regulator circuit</strong>. Kalit kirish bilan ketma-ket, undan keyin L, tugundan yerga diod: buck. (<a href="33-buck-regulator.html">33-dars</a>)</p></details></div>
+<div class="box check" id="q063"><p><strong>063.</strong> <em>The following schematic represents:</em></p>
+<img src="img/q063.png" alt="063-savol sxemasi" style="max-width:min(100%,520px);background:#fff;border-radius:6px">
+<ol type="a"><li><em>a buck power regulator</em></li><li><em>a half-wave rectifier with filter</em></li><li><em>a flyback power regulator</em></li><li><em>a boost power regulator</em></li></ol>
+<p><strong>Tarjima:</strong> Rasmdagi sxema nima?</p>
+<details><summary>Javob</summary><p><strong>(d) a boost power regulator</strong>. L kirishda, kalit yerga, diod chiqishga: boost. (<a href="34-boost-buckboost-flyback.html">34-dars</a>)</p></details></div>
+<div class="box check" id="q014"><p><strong>014.</strong> <em>The following schematic represents:</em></p>
+<img src="img/q014.png" alt="014-savol sxemasi" style="max-width:min(100%,520px);background:#fff;border-radius:6px">
+<ol type="a"><li><em>a flyback power regulator circuit</em></li><li><em>a buck power regulator circuit</em></li><li><em>a buck-boost power regulator circuit</em></li><li><em>a boost power regulator circuit</em></li></ol>
+<p><strong>Tarjima:</strong> Rasmdagi sxema nima?</p>
+<details><summary>Javob</summary><p><strong>(c) a buck-boost power regulator circuit</strong>. Kalit kirishda, L yerga, diod chiqishga teskari: buck-boost. (<a href="34-boost-buckboost-flyback.html">34-dars</a>)</p></details></div>
+<div class="box check" id="q006"><p><strong>006.</strong> <em>The following schematic represents:</em></p>
+<img src="img/q006.png" alt="006-savol sxemasi" style="max-width:min(100%,520px);background:#fff;border-radius:6px">
+<ol type="a"><li><em>a buck power regulator</em></li><li><em>a half-wave rectifier with filter</em></li><li><em>a flyback power regulator</em></li><li><em>a boost power regulator</em></li></ol>
+<p><strong>Tarjima:</strong> Rasmdagi sxema nima?</p>
+<details><summary>Javob</summary><p><strong>(c) a flyback power regulator</strong>. Transformator, birlamchida kalit, ikkilamchida diod va kondensator: flyback. (<a href="34-boost-buckboost-flyback.html">34-dars</a>)</p></details></div>
+<div class="box check" id="q080"><p><strong>080.</strong> <em>For the circuit in the schematic below:</em></p>
+<img src="img/q080.png" alt="080-savol sxemasi" style="max-width:min(100%,520px);background:#fff;border-radius:6px">
+<ol type="a"><li><em>the output voltage cannot be higher than the input voltage</em></li><li><em>polarity of the the output voltage is always the same as the input</em></li><li><em>polarity of the the output voltage is always inverted to the input</em></li><li><em>the output voltage cannot be lower than the input voltage</em></li></ol>
+<p><strong>Tarjima:</strong> Rasmdagi sxema uchun qaysi gap to'g'ri?</p>
+<details><summary>Javob</summary><p><strong>(b) polarity of the the output voltage is always the same as the input</strong>. Bu flyback: o'ramlar nuqtalari shunday ulanganki, chiqish kirish bilan bir xil qutbli. Flyback chiqishi kirishdan katta ham, kichik ham bo'lishi mumkin, shuning uchun (a) va (d) noto'g'ri. (<a href="34-boost-buckboost-flyback.html">34-dars</a>)</p></details></div>
+<h2>5. Qayerga ko'proq shovqin chiqadi</h2>
+<div class="box">Qoida: shovqin <strong>tok uzilib-uzilib (impuls bilan) oqadigan</strong> tomonga chiqadi. Buck: kirish toki kalit orqali impulsli → kirishga. Boost: chiqish toki diod orqali impulsli → chiqishga. Buck-boost: ikkala tomonda impulsli → teng.</div>
+<div class="box check" id="q116"><p><strong>116.</strong> <em>A buck power regulator injects noise:</em></p>
+<ol type="a"><li><em>more in the output circuit</em></li><li><em>more in the input circuit</em></li><li><em>equivalent in both input and output circuits</em></li><li><em>operates smoothly, not relevant noise</em></li></ol>
+<p><strong>Tarjima:</strong> Buck regulator shovqinni qayerga ko'proq chiqaradi?</p>
+<details><summary>Javob</summary><p><strong>(b) more in the input circuit</strong>. Kirish toki kalit bilan uzilib turadi (chiqishda L tokni silliqlaydi) → kirish zanjiriga. (<a href="34-boost-buckboost-flyback.html">34-dars</a>)</p></details></div>
+<div class="box check" id="q043"><p><strong>043.</strong> <em>A boost power regulator injects noise:</em></p>
+<ol type="a"><li><em>more in the output circuit</em></li><li><em>more in the input circuit</em></li><li><em>equivalent in both input and output circuits</em></li><li><em>operates smoothly, not relevant noise</em></li></ol>
+<p><strong>Tarjima:</strong> Boost regulator shovqinni qayerga ko'proq chiqaradi?</p>
+<details><summary>Javob</summary><p><strong>(a) more in the output circuit</strong>. Kirishda L tok silliq, chiqishga esa tok diod orqali impulslar bilan boradi → chiqish zanjiriga. (<a href="34-boost-buckboost-flyback.html">34-dars</a>)</p></details></div>
+<div class="box check" id="q047"><p><strong>047.</strong> <em>A buck-boost power regulator injects noise:</em></p>
+<ol type="a"><li><em>more in the output circuit</em></li><li><em>more in the input circuit</em></li><li><em>equivalent in both input and output circuits</em></li><li><em>operates smoothly, not relevant noise</em></li></ol>
+<p><strong>Tarjima:</strong> Buck-boost regulator shovqinni qayerga ko'proq chiqaradi?</p>
+<details><summary>Javob</summary><p><strong>(c) equivalent in both input and output circuits</strong>. Kirishda ham (kalit), chiqishda ham (diod) tok impulsli → ikkalasiga teng. (<a href="34-boost-buckboost-flyback.html">34-dars</a>)</p></details></div>
+
+<h2>Javoblar kaliti</h2>
+<table>
+<tr><th>Savol</th><th>070</th><th>094</th><th>068</th><th>056</th><th>028</th><th>034</th><th>064</th></tr><tr><td>Javob</td><td>a</td><td>d</td><td>d</td><td>a</td><td>b</td><td>a</td><td>b</td></tr>
+<tr><th>Savol</th><th>061</th><th>030</th><th>091</th><th>079</th><th>003</th><th>105</th><th>114</th></tr><tr><td>Javob</td><td>b</td><td>a</td><td>b</td><td>d</td><td>c</td><td>b</td><td>c</td></tr>
+<tr><th>Savol</th><th>052</th><th>048</th><th>018</th><th>111</th><th>020</th><th>025</th><th>101</th></tr><tr><td>Javob</td><td>c</td><td>c</td><td>b</td><td>b</td><td>d</td><td>c</td><td>c</td></tr>
+<tr><th>Savol</th><th>063</th><th>014</th><th>006</th><th>080</th><th>116</th><th>043</th><th>047</th></tr><tr><td>Javob</td><td>d</td><td>c</td><td>c</td><td>b</td><td>b</td><td>a</td><td>c</td></tr>
+</table>
+<p>Diqqat: imtihonda variantlar tartibi o'zgarishi mumkin. Harfni emas, <strong>ma'noni</strong> yodlang.</p>
+
+<h2>📝 Konspekt</h2>
+<div class="box">
+<span class="formula">VR = I/(f·C) (ikki yarim davr: 2f) &nbsp;·&nbsp; chiziqli: η ≈ VO/VI</span>
+<span class="formula">Buck D · Boost 1/(1 − D) · Buck-boost −D/(1 − D) · Flyback (N2/N1)·D/(1 − D)</span>
+<ul>
+<li>CCM uzatish funksiyasi: faqat D (flyback da + o'ramlar nisbati). L, diod, yuklama ta'sir qilmaydi.</li>
+<li>Buck VO ≤ VI; boost VO ≥ VI; buck-boost qutbni teskari qiladi; flyback izolyatsiyalangan.</li>
+<li>Shovqin: buck → kirish, boost → chiqish, buck-boost → ikkalasi.</li>
+<li>Parallel zener: manbadan o'zgarmas tok. Zener: kuchlanishni o'zgarmas ushlaydi.</li>
+<li>Impulsli stabilizatorning asosiy afzalligi: FIK.</li>
+</ul>
+</div>
+
+<div class="box ok">Natijangizni chatga yozing: nechta to'g'ri va qaysilari xato.</div>
+
+<footer class="pager"><a href="34-boost-buckboost-flyback.html">← 34-dars</a><a href="35-olchash-noaniqligi.html">35-dars →</a></footer>
+</main></body></html>

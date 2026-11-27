@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>15. Mashq: CMOS, generator, issiqlik, NRE</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>15. Mashq: CMOS, generator, issiqlik, NRE (22 ta imtihon savoli)</h1>
+
+<div class="box note"><strong>Bu dars nima uchun:</strong> savollar bazasidagi shu mavzularga oid 22 ta testni bir joyda tez takrorlash. Imtihon testlari aynan shu bazadan olinadi va ko'pincha so'zma-so'z takrorlanadi. Har savolda asl inglizcha matn, tarjima va yashirilgan javob bor. Avval o'zingiz tanlang, keyin oching. Kerakli darslar: 6, 10, 13, 30. Vaqt: 25 daqiqa.</div>
+
+<div class="box"><strong>Usul:</strong> qog'ozga 22 ta javobni yozing, keyin hammasini tekshiring. Har xato savolni yulduzcha bilan belgilang va 2 kundan keyin faqat shularni qayta yeching. Maqsad: 22 dan 22.</div>
+
+<h2>1. CMOS darvoza: kechikish, quvvat, ulanish</h2>
+<div class="box"><span class="formula">tP = 0.69·RON·CL → tP ∝ C &nbsp;·&nbsp; P = f·C·VDD² → P ∝ f, P ∝ C, P ∝ V²</span></div>
+<div class="box check" id="q040"><p><strong>040.</strong> <em>A CMOS logic gate drives a load of capacity C. By doubling the capacity (2 C), the propagation delay changes as:</em></p>
+<ol type="a"><li><em>2</em></li><li><em>1/2</em></li><li><em>1/4</em></li><li><em>4</em></li></ol>
+<p><strong>Tarjima:</strong> CMOS darvoza C sig'imli yuklamani boshqaradi. Sig'im ikki baravar (2C) bo'lsa, kechikish necha marta o'zgaradi?</p>
+<details><summary>Javob</summary><p><strong>(a) 2</strong>. tP ∝ CL: sig'im 2 marta → kechikish 2 marta. (<a href="06-cmos-darvoza.html">6-dars</a>)</p></details></div>
+<div class="box check" id="q041"><p><strong>041.</strong> <em>By halving the load capacity of a CMOS logic gate, the dynamic power changes by a factor:</em></p>
+<ol type="a"><li><em>2</em></li><li><em>½</em></li><li><em>¼</em></li><li><em>4</em></li></ol>
+<p><strong>Tarjima:</strong> Yuklama sig'imi yarmiga tushsa, dinamik quvvat necha marta o'zgaradi?</p>
+<details><summary>Javob</summary><p><strong>(b) ½</strong>. P = f·C·V²: C yarim → P yarim. (<a href="06-cmos-darvoza.html">6-dars</a>)</p></details></div>
+<div class="box check" id="q074"><p><strong>074.</strong> <em>By doubling the frequency of a CMOS logic gate, the dynamic power changes by:</em></p>
+<ol type="a"><li><em>2</em></li><li><em>1/2</em></li><li><em>1/4</em></li><li><em>4</em></li></ol>
+<p><strong>Tarjima:</strong> Darvoza chastotasi ikki baravar bo'lsa, dinamik quvvat necha marta o'zgaradi?</p>
+<details><summary>Javob</summary><p><strong>(a) 2</strong>. P ∝ f: 2 marta. (<a href="06-cmos-darvoza.html">6-dars</a>)</p></details></div>
+<div class="box check" id="q107"><p><strong>107.</strong> <em>By doubling the supply voltage of a CMOS logic gate the dynamic power changes as:</em></p>
+<ol type="a"><li><em>2</em></li><li><em>1/2</em></li><li><em>1/4</em></li><li><em>4</em></li></ol>
+<p><strong>Tarjima:</strong> Manba kuchlanishi ikki baravar bo'lsa, dinamik quvvat necha marta o'zgaradi?</p>
+<details><summary>Javob</summary><p><strong>(d) 4</strong>. P ∝ V²: 2² = 4 marta. Eng ko'p uchraydigan tuzoq: "2" deb javob berish. (<a href="06-cmos-darvoza.html">6-dars</a>)</p></details></div>
+<div class="box check" id="q090"><p><strong>090.</strong> <em>Which of the following conditions implies an incorrect connection between logic gates?</em></p>
+<ol type="a"><li><em>VI &lt; VIL</em></li><li><em>VI &gt; VIH</em></li><li><em>IO &lt; | IOL |</em></li><li><em>IO &gt; | IOH |</em></li></ol>
+<p><strong>Tarjima:</strong> Qaysi shart darvozalar noto'g'ri ulanganini bildiradi?</p>
+<details><summary>Javob</summary><p><strong>(d) IO &gt; | IOH |</strong>. IOH chiqish yuqori sathda bera oladigan eng katta tok. Chiqishdan undan ko'p tok olinsa (masalan juda ko'p yuklama ulangan), VOH kafolatlanmaydi: ulanish noto'g'ri. (a) va (b) to'g'ri 0 va 1 sathlar, (c) ruxsat etilgan tok. (<a href="06-cmos-darvoza.html">6-dars</a>)</p></details></div>
+<div class="box check" id="q081"><p><strong>081.</strong> <em>A metal-oxide-semiconductor transistor works as a switch:</em></p>
+<ol type="a"><li><em>in the triode region</em></li><li><em>in the saturation region</em></li><li><em>with forward-biased gate-source junction</em></li><li><em>with reverse-biased gate-source junction</em></li></ol>
+<p><strong>Tarjima:</strong> MOS tranzistor kalit sifatida qaysi rejimda ishlaydi?</p>
+<details><summary>Javob</summary><p><strong>(a) in the triode region</strong>. Yoqiq kalit MOS da trioda (chiziqli) rejimda: kichik VDS, qarshilik RON kabi. Diqqat: BJT da esa "saturation" (029-savol). Nomlar teskari, shuning uchun adashtirmang. (<a href="06-cmos-darvoza.html">6-dars</a>, <a href="30-quvvat-tranzistor-issiqlik.html">30-dars</a>)</p></details></div>
+<h2>2. Schmitt trigger generatori</h2>
+<div class="box"><span class="formula">T = R·C·[ln(...) + ln(...)] → f ∝ 1/(RC) &nbsp;·&nbsp; kondensator: VT− ↔ VT+ orasida eksponensial</span></div>
+<div class="box check" id="q008"><p><strong>008.</strong> <em>In the square wave generator (oscillator) made with a Schmitt trigger inverter, the voltage waveform across the capacitor is</em></p>
+<ol type="a"><li><em>exponential</em></li><li><em>square wave</em></li><li><em>linear</em></li><li><em>pulsed</em></li></ol>
+<p><strong>Tarjima:</strong> Schmitt trigger inverterli kvadrat to'lqin generatorida kondensatordagi kuchlanish shakli qanday?</p>
+<details><summary>Javob</summary><p><strong>(a) exponential</strong>. Kondensator rezistor orqali zaryadlanadi va razryadlanadi, bu egri chiziq eksponensial bo'ladi (3-dars). U ikki chegara orasida yuqoriga-pastga yuradi. (<a href="13-komparator-generator.html">13-dars</a>)</p></details></div>
+<div class="box check" id="q009"><p><strong>009.</strong> <em>In the square wave generator made with a Schmitt trigger inverter, the inverter output voltage is a:</em></p>
+<ol type="a"><li><em>square wave</em></li><li><em>exponential</em></li><li><em>pulse</em></li><li><em>linear</em></li></ol>
+<p><strong>Tarjima:</strong> Xuddi shu generatorda inverter chiqishi qanday shaklda?</p>
+<details><summary>Javob</summary><p><strong>(a) square wave</strong>. Chiqish faqat 0 yoki VDD bo'ladi va chegarada keskin almashadi: kvadrat to'lqin. (<a href="13-komparator-generator.html">13-dars</a>)</p></details></div>
+<div class="box check" id="q027"><p><strong>027.</strong> <em>In the square wave generator (oscillator) made with a Schmitt trigger inverter, the voltage wave at the trigger output is:</em></p>
+<ol type="a"><li><em>exponential</em></li><li><em>square wave</em></li><li><em>linear</em></li><li><em>pulsed</em></li></ol>
+<p><strong>Tarjima:</strong> Trigger chiqishidagi to'lqin qanday?</p>
+<details><summary>Javob</summary><p><strong>(b) square wave</strong>. 009 ning boshqacha so'ralishi: kvadrat to'lqin. (<a href="13-komparator-generator.html">13-dars</a>)</p></details></div>
+<div class="box check" id="q073"><p><strong>073.</strong> <em>In a Schmitt trigger oscillator, doubling the value of the capacitor:</em></p>
+<ol type="a"><li><em>doubles the frequency</em></li><li><em>halves the amplitude</em></li><li><em>halves the frequency</em></li><li><em>doubles the amplitude</em></li></ol>
+<p><strong>Tarjima:</strong> Schmitt trigger generatorida kondensator qiymati ikki baravar bo'lsa nima bo'ladi?</p>
+<details><summary>Javob</summary><p><strong>(c) halves the frequency</strong>. T ∝ RC: C ×2 → T ×2 → chastota yarmiga tushadi. Amplituda (chegaralar orasidagi farq) o'zgarmaydi. (<a href="13-komparator-generator.html">13-dars</a>)</p></details></div>
+<div class="box check" id="q086"><p><strong>086.</strong> <em>In an oscillator with a Schmitt trigger, if we double the resistor value:</em></p>
+<ol type="a"><li><em>doubles the frequency</em></li><li><em>halves the amplitude</em></li><li><em>halves the frequency</em></li><li><em>doubles the amplitude</em></li></ol>
+<p><strong>Tarjima:</strong> Schmitt trigger generatorida rezistor qiymati ikki baravar bo'lsa nima bo'ladi?</p>
+<details><summary>Javob</summary><p><strong>(c) halves the frequency</strong>. R ham C kabi: T ∝ RC → chastota yarmi. (<a href="13-komparator-generator.html">13-dars</a>)</p></details></div>
+<div class="box check" id="q083"><p><strong>083.</strong> <em>In the Schmitt trigger oscillator, the peak-to-peak amplitude of the voltage on the capacitor</em></p>
+<ol type="a"><li><em>is equal to the supply voltage</em></li><li><em>is equal to the distance between the two threshold voltages of the Schmitt trigger gate</em></li><li><em>is equal to the largest threshold of the Schmitt trigger gate</em></li><li><em>is equal to the smallest threshold of the Schmitt trigger gate</em></li></ol>
+<p><strong>Tarjima:</strong> Kondensatordagi kuchlanishning cho'qqidan-cho'qqigacha amplitudasi nimaga teng?</p>
+<details><summary>Javob</summary><p><strong>(b) is equal to the distance between the two threshold voltages of the Schmitt trigger gate</strong>. Kondensator pastki chegaraga yetganda chiqish almashadi va u yuqoriga qarab zaryadlana boshlaydi, yuqori chegaraga yetganda yana almashadi. Demak u faqat VT− va VT+ orasida yuradi: amplituda = VT+ − VT−. (<a href="13-komparator-generator.html">13-dars</a>)</p></details></div>
+<div class="box check" id="q077"><p><strong>077.</strong> <em>In a square and triangular wave generator (a circuit with two operational amplifiers), we halve the difference between the comparator thresholds and we double the value of the capacitor. If we do not change any other parameters, then the square wave signal:</em></p>
+<ol type="a"><li><em>doubles the frequency</em></li><li><em>doubles the amplitude and the frequency</em></li><li><em>halves the frequency</em></li><li><em>does not change the frequency</em></li></ol>
+<p><strong>Tarjima:</strong> Ikki op-ampli kvadrat va uchburchak generatorida komparator chegaralari orasidagi farqni yarmiga tushirib, kondensatorni ikki baravar qilsak, kvadrat to'lqin chastotasi qanday o'zgaradi?</p>
+<details><summary>Javob</summary><p><strong>(d) does not change the frequency</strong>. Integratorda kondensator kuchlanishi chiziqli o'zgaradi: T ∝ C·ΔV (bosib o'tadigan yo'l). ΔV yarim, C ikki baravar → ko'paytma o'zgarmaydi → chastota o'zgarmaydi. (<a href="13-komparator-generator.html">13-dars</a>)</p></details></div>
+<h2>3. NRE va dasturiy/apparat yechim</h2>
+<div class="box"><span class="formula">Narx/dona = NRE/N + dona narxi</span> Apparat (ASIC): NRE katta, dona arzon, tez, moslashuvchan emas. Dastur (CPU): NRE kichik, dona qimmat, sekinroq, moslashuvchan.</div>
+<div class="box check" id="q005"><p><strong>005.</strong> <em>A SW implementation of a programmable processor application has:</em></p>
+<ol type="a"><li><em>lower unit cost than a dedicated HW</em></li><li><em>higher performance than a dedicated HW</em></li><li><em>lower NRE cost than a dedicated HW</em></li><li><em>lower flexibility than a dedicated HW</em></li></ol>
+<p><strong>Tarjima:</strong> Ilovani dasturlanadigan protsessorda dastur (SW) bilan bajarish qanday?</p>
+<details><summary>Javob</summary><p><strong>(c) lower NRE cost than a dedicated HW</strong>. Dastur yozish chip loyihalashdan ancha arzon: NRE kichik. Lekin har dona qimmatroq (protsessor kerak), tezligi pastroq, moslashuvchanligi esa yuqori. (<a href="10-dasturlanadigan-mantiq-fpga-nre.html">10-dars</a>)</p></details></div>
+<div class="box check" id="q112"><p><strong>112.</strong> <em>A dedicated hardware implementation of an application has:</em></p>
+<ol type="a"><li><em>lower unit cost than a software using a CPU</em></li><li><em>lower performance than a software using a CPU</em></li><li><em>lower NRE cost than a software using a CPU</em></li><li><em>greater flexibility than a software using a CPU</em></li></ol>
+<p><strong>Tarjima:</strong> Ilovani maxsus apparat (dedicated HW) bilan bajarish qanday?</p>
+<details><summary>Javob</summary><p><strong>(a) lower unit cost than a software using a CPU</strong>. 005 ning teskarisi: maxsus chip har dona uchun arzon (ko'p ishlab chiqarilganda), tezroq, lekin NRE katta va o'zgartirib bo'lmaydi. (<a href="10-dasturlanadigan-mantiq-fpga-nre.html">10-dars</a>)</p></details></div>
+<div class="box check" id="q084"><p><strong>084.</strong> <em>If the non-recurring costs NRE to manufacture an integrated circuit double, in order to keep the cost per product constant, it is generally necessary to:</em></p>
+<ol type="a"><li><em>halve the engineers&#x27; wages</em></li><li><em>double the selling price of each chip</em></li><li><em>double the number of chips sold</em></li><li><em>halve the unit cost of the chip</em></li></ol>
+<p><strong>Tarjima:</strong> Integral sxema uchun NRE ikki baravar oshsa, mahsulot narxini o'zgartirmaslik uchun odatda nima qilish kerak?</p>
+<details><summary>Javob</summary><p><strong>(c) double the number of chips sold</strong>. Narx/dona = NRE/N + dona narxi. NRE ×2 bo'lsa, NRE/N o'zgarmasligi uchun N ×2: ikki baravar ko'p chip sotish kerak. (<a href="10-dasturlanadigan-mantiq-fpga-nre.html">10-dars</a>)</p></details></div>
+<h2>4. Quvvat tranzistori va issiqlik modeli</h2>
+<div class="box"><span class="formula">TJ = TA + P·θJA</span> Elektr o'xshatish: harorat ↔ kuchlanish, quvvat ↔ tok, θ ↔ qarshilik. Shuning uchun TA = kuchlanish manbai, P = tok manbai, θ = rezistor.</div>
+<div class="box check" id="q029"><p><strong>029.</strong> <em>Bipolar junction transistors operate as switches:</em></p>
+<ol type="a"><li><em>in triode region</em></li><li><em>in active region</em></li><li><em>in saturation region</em></li><li><em>with IB = β·IC</em></li></ol>
+<p><strong>Tarjima:</strong> BJT kalit sifatida qaysi rejimda ishlaydi?</p>
+<details><summary>Javob</summary><p><strong>(c) in saturation region</strong>. BJT da to'yinish (saturation) rejimi: ikkala o'tish ham ochiq, VCE ≈ 0.2 V. (d) noto'g'ri, chunki IC = β·IB faol rejim formulasi va u ham teskari yozilgan. (<a href="30-quvvat-tranzistor-issiqlik.html">30-dars</a>)</p></details></div>
+<div class="box check" id="q062"><p><strong>062.</strong> <em>For transistors, “β”:</em></p>
+<ol type="a"><li><em>is high for power transistors</em></li><li><em>is the current gain of the metal-oxide-semiconductor transistors</em></li><li><em>is the current gain of the bipolar junction transistors</em></li><li><em>is the derating factor due to operating temperature</em></li></ol>
+<p><strong>Tarjima:</strong> Tranzistorlarda "β" nima?</p>
+<details><summary>Javob</summary><p><strong>(c) is the current gain of the bipolar junction transistors</strong>. β = IC/IB, bipolyar tranzistorning tok kuchaytirish koeffitsienti. Quvvat tranzistorlarida β odatda kichik, shuning uchun (a) noto'g'ri. (<a href="30-quvvat-tranzistor-issiqlik.html">30-dars</a>)</p></details></div>
+<div class="box check" id="q046"><p><strong>046.</strong> <em>In the electric model of the thermal paths, the dissipated power is modeled by:</em></p>
+<ol type="a"><li><em>a voltage source</em></li><li><em>a current source</em></li><li><em>a resistor</em></li><li><em>is negligible</em></li></ol>
+<p><strong>Tarjima:</strong> Issiqlik yo'llarining elektr modelida sochilayotgan quvvat nima bilan ifodalanadi?</p>
+<details><summary>Javob</summary><p><strong>(b) a current source</strong>. Quvvat issiqlik "oqimi", ya'ni tokka o'xshaydi: tok manbai. (<a href="30-quvvat-tranzistor-issiqlik.html">30-dars</a>)</p></details></div>
+<div class="box check" id="q075"><p><strong>075.</strong> <em>In the electric model of the thermal paths, the ambient temperature is modeled by:</em></p>
+<ol type="a"><li><em>a voltage source</em></li><li><em>a current source</em></li><li><em>a resistor</em></li><li><em>is negligible</em></li></ol>
+<p><strong>Tarjima:</strong> Elektr modelda atrof harorati nima bilan ifodalanadi?</p>
+<details><summary>Javob</summary><p><strong>(a) a voltage source</strong>. Harorat "potensial", ya'ni kuchlanishga o'xshaydi. Atrof harorati o'zgarmas: kuchlanish manbai. (<a href="30-quvvat-tranzistor-issiqlik.html">30-dars</a>)</p></details></div>
+<div class="box check" id="q085"><p><strong>085.</strong> <em>In the electric model of the thermal paths, the thermal resistance is modeled by:</em></p>
+<ol type="a"><li><em>a voltage source</em></li><li><em>a current source</em></li><li><em>a resistor</em></li><li><em>is negligible</em></li></ol>
+<p><strong>Tarjima:</strong> Elektr modelda issiqlik qarshiligi nima bilan ifodalanadi?</p>
+<details><summary>Javob</summary><p><strong>(c) a resistor</strong>. Nomi aytib turibdi: rezistor (°C/W ↔ V/A). (<a href="30-quvvat-tranzistor-issiqlik.html">30-dars</a>)</p></details></div>
+<div class="box check" id="q117"><p><strong>117.</strong> <em>Power derating of electronic devices is due to:</em></p>
+<ol type="a"><li><em>wearing during device operation</em></li><li><em>ambient temperature</em></li><li><em>junction temperature</em></li><li><em>break-in period for new devices</em></li></ol>
+<p><strong>Tarjima:</strong> Elektron qurilmalarda quvvatni pasaytirish (derating) nimaga bog'liq?</p>
+<details><summary>Javob</summary><p><strong>(b) ambient temperature</strong>. Atrof harorati qancha yuqori bo'lsa, TJ,max dan oshmaslik uchun tranzistor shuncha kam quvvat sochishi kerak. Derating egri chizig'i P_max ni T_A ga (yoki korpus haroratiga) qarab kamaytiradi. (<a href="30-quvvat-tranzistor-issiqlik.html">30-dars</a>)</p></details></div>
+
+<h2>Javoblar kaliti</h2>
+<table>
+<tr><th>Savol</th><th>040</th><th>041</th><th>074</th><th>107</th><th>090</th><th>081</th><th>008</th><th>009</th><th>027</th><th>073</th><th>086</th></tr>
+<tr><td>Javob</td><td>a</td><td>b</td><td>a</td><td>d</td><td>d</td><td>a</td><td>a</td><td>a</td><td>b</td><td>c</td><td>c</td></tr>
+<tr><th>Savol</th><th>083</th><th>077</th><th>005</th><th>112</th><th>084</th><th>029</th><th>062</th><th>046</th><th>075</th><th>085</th><th>117</th></tr>
+<tr><td>Javob</td><td>b</td><td>d</td><td>c</td><td>a</td><td>c</td><td>c</td><td>c</td><td>b</td><td>a</td><td>c</td><td>b</td></tr>
+</table>
+<p>Diqqat: variantlar tartibi har savolda boshqacha (masalan 009 da "square wave" a, 027 da b). Harfni emas, <strong>ma'noni</strong> yodlang.</p>
+
+<h2>📝 Konspekt</h2>
+<div class="box">
+<span class="formula">tP ∝ C &nbsp;·&nbsp; P = f·C·V² (C ×2 → ×2, f ×2 → ×2, V ×2 → ×4)</span>
+<span class="formula">Schmitt generatori: f ∝ 1/(RC); kondensator eksponensial, VT− ↔ VT+; chiqish kvadrat</span>
+<span class="formula">Op-amp generatori: T ∝ C·ΔVchegara (ΔV/2 va 2C → o'zgarmaydi)</span>
+<span class="formula">Narx/dona = NRE/N + dona narxi &nbsp;·&nbsp; TJ = TA + P·θ</span>
+<ul>
+<li>Kalit: MOS → triode, BJT → saturation. β = BJT tok kuchaytirishi.</li>
+<li>Issiqlik modeli: P = tok manbai, TA = kuchlanish manbai, θ = rezistor. Derating atrof haroratiga bog'liq.</li>
+<li>SW: NRE kichik, moslashuvchan. HW: dona arzon, tez. NRE ×2 → sotish ×2.</li>
+<li>Noto'g'ri ulanish: IO &gt; |IOH| (yoki |IOL|).</li>
+</ul>
+</div>
+
+<div class="box ok">Natijangizni chatga yozing: "22 dan nechta" va qaysi savollar xato bo'lgani.</div>
+
+<footer class="pager"><a href="14-filtrlar.html">← 14-dars</a><a href="16a-namuna-olish-aliasing.html">16a-dars →</a></footer>
+</main></body></html>
