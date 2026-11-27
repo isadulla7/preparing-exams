@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>32. Zener va chiziqli stabilizatorlar</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>32. Zener diod va chiziqli (linear) stabilizatorlar</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> 31-darsdagi ripple li kuchlanishdan aniq doimiy VO qanday olinishini: (1) zener diodli parallel stabilizator, (2) tranzistorli ketma-ket (series) stabilizator, (3) tayyor mikrosxemalar (78xx, LDO, 3 oyoqli sozlanuvchi). Bu <strong>B mavzu</strong>: <strong>2020-09 imtihonidagi 7 ballik masala</strong>, 056, 064, 068-savollar. Manba: E1, E2 slaydlari, E2.1 va Ee3 mashqlari. O'qish vaqti: 40 daqiqa.</div>
+
+<h2>1. Stabilizator nima qilishi kerak</h2>
+<p><span class="term">Stabilizator</span> (voltage regulator) kirish VI va yuklama toki IL o'zgarsa ham chiqishda bir xil VO ushlab turadi. Sifatini ikki son ko'rsatadi:</p>
+<ul>
+<li><strong>Kirish bo'yicha</strong> (line regulation): SV = ΔVO / ΔVI. Ripple ham kirish o'zgarishi: chiqish ripple = SV · kirish ripple. Kichik bo'lsa yaxshi.</li>
+<li><strong>Yuklama bo'yicha</strong> (load regulation): RO = ΔVO / ΔIO (chiqish qarshiligi). Kichik bo'lsa yaxshi.</li>
+</ul>
+<p>Ikki asosiy usul: <strong>parallel</strong> (shunt): tok bo'luvchi, ortiqcha tokni yuklamaga parallel element (zener) yutadi; <strong>ketma-ket</strong> (series): kuchlanish bo'luvchi, ortiqcha kuchlanishni ketma-ket element (tranzistor) yutadi.</p>
+
+<h2>2. Zener diod</h2>
+<p>Oddiy diod teskari yo'nalishda tok o'tkazmaydi, lekin juda katta teskari kuchlanishda "teshiladi" (breakdown) va buziladi. <span class="term">Zener diod</span> esa aynan shu teskari teshilish sohasida <strong>buzilmasdan ishlash</strong> uchun yasalgan. U yerda tok keng oraliqda o'zgarsa ham kuchlanish deyarli bir xil: VZ.</p>
+<figure><svg viewBox="0 0 720 250" role="img" aria-label="Chapda zener diod xarakteristikasi: teskari yo'nalishda VZ ga yetganda tok keskin oshadi, kuchlanish deyarli o'zgarmaydi; IZmin va IZmax chegaralari. O'ngda parallel stabilizator: VI, ketma-ket R, parallel zener DZ va yuklama RL; IR = IZ + IO" font-family="system-ui,sans-serif">
+<path d="M30 70H340M220 20V225" stroke="currentColor" stroke-width="1.2"/><text x="344.0" y="74.0" text-anchor="start" font-size="12" fill="currentColor">V</text><text x="226.0" y="24.0" text-anchor="start" font-size="12" fill="currentColor">I</text>
+<path d="M220 70H260Q272 70 280 28" fill="none" stroke="#2563eb" stroke-width="2.4"/><text x="288.0" y="40.0" text-anchor="start" font-size="11" fill="#2563eb">to'g'ri: ≈0.6 V</text>
+<path d="M220 70H110Q100 70 96 100L84 215" fill="none" stroke="#d9622b" stroke-width="2.4"/>
+<text x="108.0" y="60.0" text-anchor="middle" font-size="12" fill="#d9622b" font-weight="700">−VZ</text>
+<path d="M50 110H220" stroke="#9333ea" stroke-dasharray="3 3"/><text x="224.0" y="114.0" text-anchor="start" font-size="11" fill="#9333ea" font-weight="700">IZmin</text>
+<path d="M50 200H220" stroke="#9333ea" stroke-dasharray="3 3"/><text x="224.0" y="204.0" text-anchor="start" font-size="11" fill="#9333ea" font-weight="700">IZmax (PZmax)</text>
+<text x="150.0" y="243.0" text-anchor="middle" font-size="12" fill="#d9622b" font-weight="700">Ishchi soha: IZmin … IZmax, kuchlanish ≈ VZ</text>
+<circle cx="400" cy="130.0" r="16" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="400.0" y="134.0" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">VI</text>
+<path d="M400 114.0V60H430" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M430 60h7.5l3.8 -6l3.8 6l3.8 6l3.8 -6l3.8 -6l3.8 6l3.8 6l3.8 -6l3.8 -6l3.8 6l3.8 6l3.8 -6h7.5" fill="none" stroke="#d9622b" stroke-width="1.6"/><text x="450.0" y="46.0" text-anchor="middle" font-size="12" fill="#d9622b" font-weight="700">R (RS)</text>
+<path d="M490 60H660M400 146.0V200H660" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<path d="M540 60V104" stroke="currentColor" stroke-width="1.6"/><path d="M540 104v6M531 110h18M531 126L549 126L540 110Z M540 126v8" fill="none" stroke="#16a34a" stroke-width="1.8"/><path d="M531 110l-4 -4M549 110l4 4" stroke="#16a34a" stroke-width="1.6"/><path d="M540 134V200" stroke="currentColor" stroke-width="1.6"/><text x="554.0" y="126.0" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">DZ</text>
+<path d="M625 60V100" stroke="currentColor" stroke-width="1.6"/><path d="M625 100v6.25l-6 3.1l6 3.1l6 3.1l-6 3.1l-6 3.1l6 3.1l6 3.1l-6 3.1l-6 3.1l6 3.1l6 3.1l-6 3.1v6.25" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M625 150V200" stroke="currentColor" stroke-width="1.6"/><text x="637.0" y="130.0" text-anchor="start" font-size="12" fill="currentColor" font-weight="700">RL</text>
+<text x="532.0" y="90.0" text-anchor="end" font-size="11" fill="#16a34a" font-weight="700">IZ ↓</text><text x="617.0" y="90.0" text-anchor="end" font-size="11" fill="currentColor" font-weight="700">IO ↓</text><text x="500.0" y="56.0" text-anchor="start" font-size="11" fill="#d9622b" font-weight="700">IR →</text>
+<path d="M675 64V196" stroke="#dc2626" stroke-width="1.5"/><text x="682.0" y="130.0" text-anchor="start" font-size="12" fill="#dc2626" font-weight="700">VO</text><text x="682.0" y="146.0" text-anchor="start" font-size="12" fill="#dc2626" font-weight="700">≈ VZ</text>
+<text x="540.0" y="235.0" text-anchor="middle" font-size="13" fill="currentColor" font-weight="700">IR = (VI − VO)/R = IZ + IO</text>
+</svg><figcaption>Chapda: zener xarakteristikasi (teskari tomonda tik "devor"). O'ngda: eng oddiy parallel stabilizator.</figcaption></figure>
+<p>Model (slayd): zener = kuchlanish manbai VZ0 + kichik ketma-ket qarshilik rZ (differensial qarshilik):</p>
+<span class="formula">VZ = VZ0 + rZ · IZ</span>
+<p>Ishlash shartlari: <strong>IZ ≥ IZmin</strong> (aks holda "tizza" dan chiqmaydi va stabillamaydi), <strong>IZ ≤ IZmax = PZmax / VZ</strong> (aks holda qiziydi va kuyadi).</p>
+<div class="box analogy"><strong>O'xshatish:</strong> zener = to'g'onning toshqin chiqarish teshigi. Suv sathi (kuchlanish) belgilangan balandlikka yetganda ortiqcha suv (tok) shu teshikdan oqib ketadi, sath esa o'sha balandlikda qoladi. Lekin teshik orqali juda ko'p suv o'tsa (IZmax), to'g'on yuviladi.</div>
+<div class="box"><p><strong>068.</strong> <em>A Zener diode: a) cannot operate in breakdown region &nbsp; b) cannot operate in forward bias &nbsp; c) can keep constant the current through the diode &nbsp; d) can keep constant the voltage across the diode</em></p>
+<details><summary>Javob</summary><p><strong>d)</strong>. Teshilish sohasida tok o'zgarsa ham kuchlanish ≈ VZ. (To'g'ri yo'nalishda oddiy dioddek ishlaydi, demak b noto'g'ri.)</p></details></div>
+
+<h2>3. Parallel (zener) stabilizator</h2>
+<p>Sxema: VI → R (RS) → tugun (VO) → zener va yuklama parallel. R dagi tok ikkiga bo'linadi:</p>
+<span class="formula">IR = (VI − VO) / R = IZ + IO</span>
+<p>VI o'zgarsa yoki IO o'zgarsa, IZ o'zgaradi, VO esa deyarli VZ da qoladi. Yuklama tok olmasa, butun tok zenerdan o'tadi (eng og'ir holat zener uchun). Ya'ni <strong>manbadan olinadigan tok deyarli doimiy</strong> (yuklama + zener yig'indisi), shuning uchun FIK past: faqat kichik quvvat uchun.</p>
+<div class="box"><p><strong>056.</strong> <em>A voltage regulator using a parallel Zener diode: a) draws constant the current from the power supply &nbsp; b) keeps constant the power supply voltage &nbsp; c) inverts the polarity of the output voltage &nbsp; d) can increase the output voltage</em></p>
+<details><summary>Javob</summary><p><strong>a)</strong>. IR = (VI − VZ)/R yuklamaga bog'liq emas: yuklama kam olsa, zener ko'p oladi. Manbaning o'z kuchlanishini u ushlamaydi (b), VO &lt; VI (d noto'g'ri).</p></details></div>
+
+<h3>Slayddagi mashq E2.1: R ni tanlash (to'liq rasmiy yechim)</h3>
+<div class="box"><p><em>Design a parallel regulator with VI = 10 V → 20 V, VO = 5 V (as close as possible), IO = 0 mA → 100 mA. Available Zener diode: VZO = 5 V, RZ = 1 Ω, IZmin = 5 mA, PZmax = 2 W. Calculate: drop resistance R (min/max); VO min/max; PRmax for R.</em></p></div>
+<details><summary>Yechim</summary>
+<p>Asosiy tenglama: R = (VI − VO) / (IO + IZ).</p>
+<ol>
+<li><strong>Rmin</strong>: zener kuymasin. Eng yomon: VI max, IO = 0 (hamma tok zenerga). IZmax = 2 W / 5 V = 0.4 A. Rmin = (20 − 5)/(0 + 0.4) = <strong>37.5 Ω</strong>.</li>
+<li><strong>Rmax</strong>: zener stabillashda qolsin (IZ ≥ IZmin). Eng yomon: VI min, IO max. Rmax = (10 − 5)/(0.1 + 0.005) = <strong>47.62 Ω</strong>. Demak 37.5 Ω ≤ R ≤ 47.6 Ω.</li>
+<li><strong>VO</strong> = VZ0 + RZ·IZ: VOmin = 5 + 1 · 0.005 = <strong>5.005 V</strong>; VOmax = 5 + 1 · 0.4 = <strong>5.4 V</strong>.</li>
+<li><strong>PRmax</strong> = VRmax²/Rmin = (20 − 5)²/37.5 = <strong>6 W</strong>.</li>
+</ol>
+<p>Qoida: <strong>Rmin ← (VImax, IOmin, IZmax)</strong>; <strong>Rmax ← (VImin, IOmax, IZmin)</strong>.</p>
+</details>
+
+<h2>4. Imtihon masalasi: 2020-09 (7 ball)</h2>
+<div class="box"><p><em>The linear voltage regulator in the schematic below uses a Zener diode with Zener voltage VZ0 = 3.9 V and internal resistance ri = 5 Ω to regulate the output voltage Vout. The input voltage Vin is generated by an ideal full-wave rectifier from a sine wave voltage with frequency 50 Hz and peak voltage 6 V. Assuming that the value of the series resistance is RS = 100 Ω and the value of the filtering capacitor is C = 400 µF, calculate the amplitude of the ripple of the output voltage ___ V [7 points].</em></p>
+<img src="img/e2009zener.png" alt="2020-09 sxemasi: Vin, unga parallel C, keyin ketma-ket RS, chiqishda parallel zener DZ, Vout" style="max-width:100%;background:#fff;border-radius:6px"></div>
+<details><summary>Yechim (rasmiy, qadam-baqadam)</summary>
+<p>Ikki qadam: (1) C dagi kirish ripple; (2) uning chiqishga qancha o'tishi.</p>
+<ol>
+<li><strong>RS dagi tok</strong> (taxminan doimiy): IS = (Vin − VZ0)/RS = (6 − 3.9)/100 = <strong>21 mA</strong>.</li>
+<li><strong>Kirish ripple</strong> (ikki yarim davrli → yarim davr = 1/(2·50) = 0.01 s): VinRIP = IS · 0.01 / C = 0.021 · 0.01 / 0.0004 = <strong>0.53 V</strong>. (31-darsdagi IO/(2fC) formulasi.)</li>
+<li><strong>Chiqish ripple</strong>: o'zgarish uchun zener = faqat ri (VZ0 doimiy). RS va ri kuchlanish bo'luvchi: VoutRIP = 0.53 · ri/(ri + RS) = 0.53 · 5/105 = <strong>0.025 V = 25 mV</strong>.</li>
+</ol>
+<p>Rasmiy javob: <strong>0.025</strong> V. Bu yerda SV = ri/(ri + RS) = 0.048: stabilizator ripple ni ~21 marta kamaytirdi.</p>
+</details>
+
+<h2>5. Ketma-ket (series) stabilizator</h2>
+<p>Zener katta tok bera olmaydi. Yechim: yuklama tokini <strong>tranzistor</strong> orqali o'tkazish, zener faqat "buyruq" (tayanch kuchlanish) beradi:</p>
+<figure><svg viewBox="0 0 720 290" role="img" aria-label="Ketma-ket (series) stabilizator: VI dan yuklamaga tok BJT tranzistor orqali o'tadi (emitter qaytargich). Tranzistor bazasi R va zener DZ dan olingan VZ ga ulangan. VO = VZ − VBE. Tranzistor o'zgaruvchan rezistor kabi ortiqcha kuchlanishni o'zida yutadi" font-family="system-ui,sans-serif">
+<circle cx="60" cy="155.0" r="16" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="60.0" y="159.0" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">VI</text>
+<path d="M60 139.0V60H330M60 171.0V250H640" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<path d="M180 60V74" stroke="currentColor" stroke-width="1.6"/><path d="M180 74v5.75l-6 2.9l6 2.9l6 2.9l-6 2.9l-6 2.9l6 2.9l6 2.9l-6 2.9l-6 2.9l6 2.9l6 2.9l-6 2.9v5.75" fill="none" stroke="#d9622b" stroke-width="1.6"/><text x="168.0" y="100.0" text-anchor="end" font-size="12" fill="#d9622b" font-weight="700">R</text>
+<path d="M180 120V140H360" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="180" cy="140" r="3" fill="currentColor"/>
+<path d="M180 140V158" stroke="currentColor" stroke-width="1.6"/><path d="M180 158v6M171 164h18M171 180L189 180L180 164Z M180 180v8" fill="none" stroke="#16a34a" stroke-width="1.8"/><path d="M171 164l-4 -4M189 164l4 4" stroke="#16a34a" stroke-width="1.6"/><path d="M180 188V250" stroke="currentColor" stroke-width="1.6"/><text x="194.0" y="178.0" text-anchor="start" font-size="12" fill="#16a34a" font-weight="700">DZ (VZ)</text>
+<path d="M330 60H400V116" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<path d="M360 140H386M386 120V160M386 132L400 116M386 148L400 164" fill="none" stroke="#2563eb" stroke-width="2"/><path d="M395 158L400 164L392 163" fill="#2563eb" stroke="#2563eb"/>
+<text x="410.0" y="144.0" text-anchor="start" font-size="12" fill="#2563eb" font-weight="700">BJT (CC)</text>
+<path d="M400 164V180H640" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<path d="M560 180V190" stroke="currentColor" stroke-width="1.6"/><path d="M560 190v5.0l-6 2.5l6 2.5l6 2.5l-6 2.5l-6 2.5l6 2.5l6 2.5l-6 2.5l-6 2.5l6 2.5l6 2.5l-6 2.5v5.0" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M560 230V250" stroke="currentColor" stroke-width="1.6"/><text x="572.0" y="214.0" text-anchor="start" font-size="12" fill="currentColor" font-weight="700">RL</text>
+<path d="M650 184V246" stroke="#dc2626" stroke-width="1.5"/><text x="656.0" y="224.0" text-anchor="start" font-size="12" fill="#dc2626" font-weight="700">VO</text>
+<text x="414.0" y="90.0" text-anchor="start" font-size="11" fill="#d9622b" font-weight="700">VCE = VI − VO (ortiqcha shu yerda yonadi)</text>
+<text x="360.0" y="280.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">VO = VZ − VBE ≈ VZ − 0.7 V;  η ≈ VO / VI</text>
+</svg><figcaption>Emitter qaytargich (common collector, CC): emitter baza kuchlanishidan VBE ≈ 0.7 V past "ergashadi".</figcaption></figure>
+<ul>
+<li>VO = VZ − VBE. Yuklama toki β marta kattaroq bo'lishi mumkin: zener toki faqat IO/β ga o'zgaradi → RO ancha kichik (yuklama bo'yicha yaxshiroq), SV zenerniki bilan bir xil.</li>
+<li>Tranzistor = boshqariladigan "o'zgaruvchan rezistor": ortiqcha VI − VO unda issiqlikka aylanadi. Shuning uchun <strong>doim VO &lt; VI</strong> va minimal farq (dropout) kerak.</li>
+<li>Yaxshiroq: <strong>teskari aloqa</strong> (feedback). Op-amp chiqishning bir qismini β·VO tayanch VREF bilan solishtiradi va tranzistorni boshqaradi: β·VO = VREF → VO = VREF/β.</li>
+<li><strong>Tok cheklagich</strong>: kichik RS dagi kuchlanish 0.7 V dan oshsa, qo'shimcha tranzistor asosiy tranzistorni yopadi: IOmax = 0.7 V / RS (qisqa tutashuvdan himoya).</li>
+</ul>
+<span class="formula">η = POUT / PIN ≈ VOUT / VIN</span>
+<p>Masalan 12 V → 5 V: η ≈ 42%, qolgan 58% issiqlik. Yaxshilash: <span class="term">LDO</span> (low dropout, kichik VI − VO bilan ishlaydi), yoki impulsli stabilizator (33-dars, η ≈ 90%+).</p>
+
+<h2>6. Tayyor mikrosxemalar: 78xx, 79xx, 317, LDO</h2>
+<ul>
+<li><strong>78xx</strong>: musbat qat'iy kuchlanish, xx = volt (7805 → 5 V). <strong>79xx</strong>: manfiy. <strong>317</strong>: sozlanuvchi. LM9076: LDO.</li>
+<li>3 oyoqli (IN, OUT, COMMON) stabilizator OUT va COMMON orasida doimiy VP (masalan 5 V) ushlaydi. COMMON ni yerga emas, R1–R2 bo'luvchiga ulasak, chiqish kattaroq bo'ladi:</li>
+</ul>
+<span class="formula">VO = VP · (R1 + R2) / R1 + IQ · R2</span>
+<p>(IQ = COMMON oyog'idan chiqadigan kichik "tinch" tok; kichik bo'lsa ikkinchi hadni tashlash mumkin.)</p>
+<div class="box"><p><strong>064.</strong> <em>The schematic in the following figure represents: a) a parallel voltage regulator &nbsp; b) a variable output voltage regulator &nbsp; c) a way to invert the polarity of the output voltage &nbsp; d) a flyback voltage regulator</em></p>
+<p><img src="img/q064.png" alt="064-savol sxemasi: In, Out, Common oyoqli stabilizator; Out va Common orasida R1 (Vreg), Common dan yerga R2, IQ toki" style="max-width:100%;background:#fff;border-radius:6px"></p>
+<details><summary>Javob</summary><p><strong>b) a variable output voltage regulator</strong>. R1, R2 bo'luvchi bilan VO = Vreg(R1 + R2)/R1 + IQ·R2 ni sozlash mumkin.</p></details></div>
+
+<h2>7. Slayddagi mashq Ee3: rectifier + zener</h2>
+<div class="box"><p><em>To the previous rectifier-filter group (half-wave, VS = 18 Veff, 60 Hz, C = 470 μF) is added a Zener diode: R = 120 Ω; VZ0 = 9 V; rZ = 10 Ω; IZmin = 7 mA. a. For VA = VAdc + VAR, calculate the continuous component VOdc and the ripple voltage VOR for a load current IO = 100 mA. b. Determine the power PZ dissipated by the Zener diode for VA = VAdc, IO = 100 mA. What operating conditions maximize PZ? c. Determine the maximum value of R that maintains the functionality of the regulator for output currents up to 200 mA.</em></p></div>
+<details><summary>Yechim (slaydda yechim yo'q, men hisobladim)</summary>
+<p><strong>a)</strong> C dan olinadigan tok IA = IO + IZ ≈ 118 mA (birgalikda yechiladi). VAR = IA/(f·C) = 0.118/(60 · 470·10<sup>−6</sup>) = 4.19 V; VAdc = 25.46 − 4.19/2 = 23.36 V.</p>
+<p>Tugun tenglamasi: (VAdc − VO)/120 = 0.1 + (VO − 9)/10 → VO = <strong>9.18 V</strong> (IZ = 18 mA ≥ 7 mA ✓).</p>
+<p>Ripple: VOR = VAR · rZ/(R + rZ) = 4.19 · 10/130 = <strong>0.32 V</strong>.</p>
+<p><strong>b)</strong> PZ = VO · IZ = 9.18 · 0.018 ≈ <strong>0.17 W</strong>. Eng katta PZ: <strong>IO = 0</strong> (hamma tok zenerga) va VA eng katta.</p>
+<p><strong>c)</strong> IO = 200 mA, IZ ≥ 7 mA → IA = 0.207 A; VA ning eng past nuqtasi ≈ 25.46 − 0.207/(60 · 470·10<sup>−6</sup>) = 18.1 V; VO ≈ 9.07 V. Rmax = (18.1 − 9.07)/0.207 ≈ <strong>44 Ω</strong>. (Berilgan 120 Ω bilan 200 mA ni ta'minlab bo'lmaydi.)</p>
+</details>
+
+<h2>O'zingizni tekshiring</h2>
+<div class="box check">Zener VZ = 6.2 V, PZmax = 1 W. IZmax? <details><summary>Javob</summary>1/6.2 = <strong>161 mA</strong>.</details></div>
+<div class="box check">VI = 12…15 V, VO = 5.1 V (zener), IO = 0…50 mA, IZmin = 5 mA, IZmax = 200 mA. Rmin, Rmax? <details><summary>Javob</summary>Rmin = (15 − 5.1)/0.2 = <strong>49.5 Ω</strong>; Rmax = (12 − 5.1)/0.055 = <strong>125 Ω</strong>.</details></div>
+<div class="box check">2020-09 sxemasi, lekin RS = 200 Ω. Chiqish ripple? <details><summary>Javob</summary>IS = 2.1/200 = 10.5 mA → VinRIP = 0.0105 · 0.01/0.0004 = 0.2625 V → VoutRIP = 0.2625 · 5/205 = <strong>6.4 mV</strong>.</details></div>
+<div class="box check">7805 ni COMMON oyog'i bilan R1 = 1 kΩ, R2 = 1.4 kΩ bo'luvchiga ulaymiz (IQ e'tiborsiz). VO? <details><summary>Javob</summary>5 · 2.4/1 = <strong>12 V</strong>.</details></div>
+<div class="box check">Chiziqli stabilizator 9 V → 3.3 V, 0.5 A. η va tranzistorda yo'qotilgan quvvat? <details><summary>Javob</summary>η ≈ 3.3/9 = <strong>37%</strong>; P = (9 − 3.3) · 0.5 = <strong>2.85 W</strong>.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Stabilizator</td><td>voltage regulator</td><td>VI va IO o'zgarsa ham doimiy VO</td></tr>
+<tr><td>Zener diod</td><td>Zener diode</td><td>Teskari teshilishda ishlaydi, V ≈ VZ</td></tr>
+<tr><td>Differensial qarshilik</td><td>rZ (ri)</td><td>ΔV/ΔI zener sohasida (kichik)</td></tr>
+<tr><td>Parallel stabilizator</td><td>shunt (parallel) regulator</td><td>Ortiqcha tokni parallel element yutadi</td></tr>
+<tr><td>Ketma-ket stabilizator</td><td>series regulator</td><td>Ortiqcha kuchlanishni ketma-ket tranzistor yutadi</td></tr>
+<tr><td>Emitter qaytargich</td><td>emitter follower, common collector</td><td>VO = VB − VBE, tokni β marta kuchaytiradi</td></tr>
+<tr><td>Kirish/yuklama bo'yicha stabillik</td><td>line SV / load RO</td><td>ΔVO/ΔVI va ΔVO/ΔIO</td></tr>
+<tr><td>Dropout</td><td>dropout voltage</td><td>Ishlash uchun kerakli minimal VI − VO</td></tr>
+<tr><td>LDO</td><td>low dropout regulator</td><td>Kichik dropout → yuqoriroq η</td></tr>
+<tr><td>Tinch tok</td><td>quiescent current IQ</td><td>Stabilizatorning o'z ishlashi uchun toki</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<span class="formula">VZ = VZ0 + rZ·IZ &nbsp;·&nbsp; IZmin ≤ IZ ≤ PZmax/VZ &nbsp;·&nbsp; R = (VI − VO)/(IO + IZ)</span>
+<span class="formula">Rmin = (VImax − VO)/(IOmin + IZmax) &nbsp;·&nbsp; Rmax = (VImin − VO)/(IOmax + IZmin)</span>
+<span class="formula">Chiqish ripple = kirish ripple · rZ/(rZ + RS) &nbsp;·&nbsp; η ≈ VO/VI &nbsp;·&nbsp; VO = VZ − VBE</span>
+<span class="formula">3 oyoqli sozlash: VO = VP(R1 + R2)/R1 + IQ·R2 &nbsp;·&nbsp; tok cheklash IOmax = 0.7/RS</span>
+<ul>
+<li>Parallel (zener): oddiy, manbadan doimiy tok oladi, FIK past, kichik quvvat. Eng og'ir holat zener uchun: IO = 0, VI max.</li>
+<li>Series (BJT/MOS + VREF + op-amp): katta tok, VO &lt; VI har doim, dropout kerak; LDO = kichik dropout.</li>
+<li>78xx musbat, 79xx manfiy, 317 sozlanuvchi.</li>
+<li>Javoblar: 068 d; 056 a; 064 b; 2020-09 → 0.025 V; E2.1 → 37.5–47.6 Ω, 5.005–5.4 V, 6 W.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="31-togrilagich-ripple.html">← 31-dars</a><a href="33-buck-regulator.html">33-dars →</a></footer>
+</main></body></html>
