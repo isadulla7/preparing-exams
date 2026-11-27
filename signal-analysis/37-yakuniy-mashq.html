@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>37. Yakuniy mashq: imtihon uslubidagi testlar</title><link rel="stylesheet" href="../assets/style.css">
+<style>
+main{overflow-wrap:break-word} .tw{overflow-x:auto} @media (max-width:480px){th,td{padding:4px 6px;font-size:.92em}}
+.btn{font:inherit;font-size:.95rem;padding:.45em 1em;border-radius:8px;border:1px solid var(--accent);background:var(--card);color:var(--accent);cursor:pointer;margin:.25em .3em .25em 0}
+.btn.pri{background:var(--accent);color:var(--card)}
+.btn:disabled{opacity:.45;cursor:default}
+select.btn{color:var(--fg);border-color:var(--border);max-width:100%}
+.q{border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin:1em 0;background:var(--card)}
+.q .hd{font-size:.85rem;color:var(--muted);margin-bottom:.3em}
+.q .stem{font-weight:600;margin-bottom:.4em}
+.opt{display:flex;gap:.6em;align-items:flex-start;padding:.35em .5em;border:1px solid var(--border);border-radius:8px;margin:.35em 0;cursor:pointer}
+.opt input{margin-top:.45em;flex:none}
+.opt.right{background:var(--ok);border-color:#2f9e55}
+.opt.wrong{background:var(--warn);border-color:#d04848}
+.opt.skip{font-style:italic;color:var(--muted)}
+.ex{margin-top:.5em;padding:.5em .7em;border-left:4px solid var(--accent);background:var(--bg);font-size:.95rem}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--border);padding:.4em 0;display:flex;flex-wrap:wrap;gap:.6em;align-items:center;justify-content:space-between}
+.timer{font-family:ui-monospace,Consolas,monospace;font-size:1.15rem;font-weight:700}
+.timer.low{color:#d04848}
+.score{font-size:1.4rem;font-weight:700}
+.hidden{display:none}
+</style></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Signal analysis darslari</a></nav>
+<h1>37. Yakuniy mashq: imtihon uslubidagi testlar</h1>
+
+<p>Bu sahifa — imtihonning "repetitsiyasi". Hamma savollar 1–36-darslardagi (ya'ni ma'ruzalardagi) materialdan tuzilgan. Har bir savoldan keyin qisqa izoh va tegishli darsga havola bor: xato qilsangiz, o'sha darsning o'sha bo'limini qayta o'qing.</p>
+
+<div class="box note"><b>Haqiqiy imtihon formati (eslatma):</b> onlayn test, <b>60 daqiqa</b>, <b>8–10 ta</b> ko'p variantli savol. To'g'ri javob — to'liq ball, <b>xato javob — savol balining −20 %</b>, javobsiz qoldirilgan savol — 0. O'tish bali: 32 balldan <b>18</b>.</div>
+
+<h2>Qanday mashq qilish kerak</h2>
+<ol>
+<li><b>Mavzu bo'yicha mashq</b> — avval har bir mavzuni alohida ishlang. Javobni bosishingiz bilan to'g'ri-noto'g'riligi va izoh chiqadi.</li>
+<li><b>Imtihon simulyatsiyasi</b> — 10 ta tasodifiy savol (har biri boshqa mavzudan), 60 daqiqalik taymer, izohlar faqat oxirida. Haqiqiy imtihondagi kabi ishlang: qog'oz, ruchka, kalkulyator va <a href="reja.html">Furye/Z jadvallari</a>.</li>
+<li><b>Xatolarim</b> — oldin xato qilgan savollaringiz shu brauzerda eslab qolinadi; ularni alohida qayta ishlang, toki hammasi to'g'ri bo'lmaguncha.</li>
+</ol>
+<p>Maqsad: simulyatsiyada <b>kamida 3 marta ketma-ket 22+ ball</b> (zaxira bilan 18 dan yuqori).</p>
+
+<div id="menu" class="box">
+<p style="margin:.2em 0 .6em"><b>Rejimni tanlang:</b></p>
+<button class="btn pri" id="bExam">🎓 Imtihon simulyatsiyasi (10 savol, 60 daqiqa)</button><br>
+<select class="btn" id="selTopic"></select>
+<button class="btn" id="bTopic">📚 Mavzu bo'yicha mashq</button><br>
+<button class="btn" id="bWrong">🔁 Xatolarim</button> <button class="btn" id="bReset" title="Xatolar ro'yxatini tozalash">tozalash</button>
+<p class="status" id="stat" style="margin:.4em 0 0"></p>
+</div>
+
+<div id="quiz" class="hidden">
+<div class="bar"><span id="qTitle"><b></b></span><span class="timer" id="timer"></span><span><button class="btn pri" id="bFinish">Yakunlash</button><button class="btn" id="bMenu">Menyu</button></span></div>
+<div id="result" class="box ok hidden"></div>
+<div id="qs"></div>
+</div>
+<noscript><p class="box warn">Test ishlashi uchun brauzerda JavaScript yoqilgan bo'lishi kerak.</p></noscript>
+
+<h2>Imtihon strategiyasi</h2>
+<ul>
+<li><b>Taxmin qilish arziydimi?</b> 4 variantli savolda tasodifiy belgilash o'rtacha 0,25·1 − 0,75·0,2 = <b>+0,10</b> savol beradi — ya'ni ko'r-ko'rona taxmin ham ozgina foydali. Agar 2 ta variantni aniq chiqarib tashlay olsangiz, 0,5 − 0,5·0,2 = <b>+0,40</b> — albatta belgilang. Faqat butunlay hech narsa bilmasangiz va savol shubhali bo'lsa, bo'sh qoldirish mumkin.</li>
+<li><b>Vaqt:</b> 60 daqiqa / 10 savol = 6 daqiqa. Avval hammasini bir aylanib, oson savollarni yeching (1–2 daqiqa), keyin hisob-kitobli savollarga qayting.</li>
+<li><b>Tekshirish usullari:</b> o'lchov birligi (Hz, s, dB) mos keladimi; maxsus nuqtani qo'ying (t = 0, f = 0, n = 0); energiya manfiy bo'lmaydi; haqiqiy signal spektri moduli juft.</li>
+<li><b>Jadvallardan foydalaning</b> — Furye va Z jadvallari imtihonda beriladi. Formulani yod olishdan ko'ra, jadvaldan qaysi qatorni olish va xossalarni (kechikish, masshtab, modulyatsiya) qanday qo'llashni bilish muhimroq.</li>
+</ul>
+
+<h2>📝 Konspekt: imtihon oldidan oxirgi varaq</h2>
+<p>Har bir qator — bitta mavzuning "yuragi". Bularning hammasini tushuntirib bera olsangiz, imtihonga tayyorsiz.</p>
+<div class="tw"><table>
+<tr><th>Mavzu</th><th>Bilish shart</th></tr>
+<tr><td><a href="04-energiya-quvvat.html">Energiya, quvvat</a></td><td>E = ∫|x|²dt; P = lim (1/2a)∫<sub>−a</sub><sup>a</sup>|x|²dt; A·cos ning quvvati A²/2; chekli E → P = 0</td></tr>
+<tr><td><a href="05-signallar-vektor.html">Vektorlar</a>, <a href="06-ortonormal-bazis.html">δ(t)</a></td><td>⟨x, y⟩ = ∫x·y*dt; E = ‖x‖²; ortogonal ⇔ ⟨x, y⟩ = 0; ∫x(t)δ(t − t<sub>0</sub>)dt = x(t<sub>0</sub>); x ∗ δ(t − t<sub>0</sub>) = x(t − t<sub>0</sub>)</td></tr>
+<tr><td><a href="07-furye-qatori.html">Furye qatori</a></td><td>x(t) = Σμ<sub>k</sub>e<sup>j2πkt/T<sub>0</sub></sup>; chiziqlar k/T<sub>0</sub> da; P = Σ|μ<sub>k</sub>|²; Gibbs ≈ 9 %</td></tr>
+<tr><td><a href="08-furye-almashtirishi.html">Furye almashtirishi</a></td><td>rect(t/T) ↔ T·sinc(fT); δ ↔ 1; cos ↔ ½δ(f ∓ f<sub>0</sub>); e<sup>−at</sup>u(t) ↔ 1/(a + j2πf)</td></tr>
+<tr><td><a href="09-furye-xossalari-1.html">Xossalar</a></td><td>x(t − t<sub>0</sub>) ↔ X·e<sup>−j2πft<sub>0</sub></sup>; x·cos ↔ ½[X(f − f<sub>0</sub>) + X(f + f<sub>0</sub>)]; x(at) ↔ X(f/a)/|a|; x ∗ y ↔ X·Y; E = ∫|X|²df</td></tr>
+<tr><td><a href="11-tizimlar.html">Tizimlar</a>, <a href="12-oram-grafik.html">o'ram</a></td><td>chiziqli, vaqtga invariant, xotirasiz, kauzal — ta'riflar; y = x ∗ h; ikki rect o'rami — uchburchak</td></tr>
+<tr><td><a href="13-uzatish-funksiyasi.html">H(f)</a>, <a href="14-blok-sxemalar.html">blok-sxema</a>, <a href="15-polosa-filtrlar.html">filtr</a></td><td>cos kirish → |H(f<sub>0</sub>)|cos(… + ∠H); kauzal: h(t) = 0, t &lt; 0; BIBO: ∫|h| &lt; ∞; ketma-ket H<sub>1</sub>H<sub>2</sub>, parallel H<sub>1</sub> + H<sub>2</sub>, teskari aloqa H<sub>1</sub>/(1 ∓ H<sub>1</sub>H<sub>2</sub>); RC: f<sub>3dB</sub> = 1/(2πRC); buzilishsiz: K·e<sup>−j2πft<sub>0</sub></sup></td></tr>
+<tr><td><a href="19-diskretlash.html">Diskretlash</a>, <a href="20-real-diskretlash.html">real</a></td><td>f<sub>c</sub> &gt; 2B; spektr f<sub>c</sub> davr bilan takrorlanadi; aliasing: f → |f − k·f<sub>c</sub>|; tiklash — LPF; real port: H(f) ≠ 0 polosada</td></tr>
+<tr><td><a href="21-diskret-signallar.html">Diskret signal</a>, <a href="22-diskret-oram.html">o'ram</a></td><td>o'ram uzunligi N + M − 1; Σaⁿ = 1/(1 − a); cos(2πn·k/N) davri N</td></tr>
+<tr><td><a href="24-dtft.html">DTFT</a>, <a href="25-diskret-spektr-dft.html">DFT</a>, <a href="26-dft-xossalari.html">xossalar</a></td><td>DTFT davri 1 (f) / 2π (ω); X(k) = Σx(n)e<sup>−j2πkn/N</sup>; X(0) = Σx; X(N − k) = X*(k); Σ|x|² = (1/N)Σ|X|²; tez o'ram: N ≥ L + M − 1</td></tr>
+<tr><td><a href="28-z-almashtirish.html">Z</a>, <a href="29-teskari-z.html">teskari Z</a></td><td>aⁿu(n) ↔ 1/(1 − az<sup>−1</sup>), |z| &gt; |a|; x(n − k) ↔ z<sup>−k</sup>X; oddiy kasrlarga ajratish; ROC → kauzal/antikauzal</td></tr>
+<tr><td><a href="30-diskret-tizimlar.html">Diskret tizim</a>, <a href="31-fir-iir.html">FIR/IIR</a>, <a href="32-turgunlik.html">turg'unlik</a></td><td>H(z) = Y/X; H(e<sup>jω</sup>) — birlik aylanada; FIR doim turg'un; kauzal IIR turg'un ⇔ qutblar |z| &lt; 1</td></tr>
+<tr><td><a href="33-ehtimollik.html">Ehtimollik</a>, <a href="35-avtokorrelyatsiya.html">jarayonlar</a></td><td>tekis [a, b]: m = (a + b)/2, σ² = (b − a)²/12; Var(aX + b) = a²Var X; K = R − m·m*; tasodifiy faza: m = 0, R = (A²/2)cos(2πf<sub>0</sub>τ)</td></tr>
+</table></div>
+
+<footer class="pager"><a href="36-tasodifiy-faza-uzatish.html">← 36. Tasodifiy faza, uzatish</a><a href="./">Darslar ro'yxati</a></footer>
+
+<script>
+const TOPICS = {
+ A: "Asoslar: sinusoida, kompleks son, energiya",
+ B: "Vektorlar, bazis, Dirak deltasi",
+ C: "Furye qatori",
+ D: "Furye almashtirishi va xossalari",
+ E: "Tizimlar va o'ram",
+ F: "H(f), blok-sxemalar, filtrlar",
+ G: "Diskretlash",
+ H: "Diskret signallar va diskret o'ram",
+ I: "DTFT va DFT",
+ J: "Z-almashtirish",
+ K: "Diskret tizimlar, FIR/IIR, turg'unlik",
+ L: "Ehtimollik va tasodifiy jarayonlar"
+};
+// o[0] — to'g'ri javob (ko'rsatishda variantlar aralashtiriladi)
+const Q = [
+// A
+{t:"A",L:"02-tolqin.html",q:"x(t) = 3cos(2π·50t + π/4) signalning davri nechaga teng?",o:["20 ms","50 ms","3 s","π/4 s"],e:"Chastota f = 50 Hz (cos ichidagi 2π dan keyingi son). Davr T = 1/f = 1/50 = 0,02 s = 20 ms. Amplituda (3) va faza (π/4) davrga ta'sir qilmaydi."},
+{t:"A",L:"03-kompleks-sonlar.html",q:"z = 3 − 4j kompleks sonning moduli va argumenti:",o:["|z| = 5, arg z ≈ −53,1°","|z| = 5, arg z ≈ +53,1°","|z| = 7, arg z ≈ −53,1°","|z| = 25, arg z ≈ −53,1°"],e:"|z| = √(3² + 4²) = √25 = 5. Nuqta (3; −4) to'rtinchi chorakda, shuning uchun burchak manfiy: arctan(−4/3) ≈ −53,1°."},
+{t:"A",L:"03-kompleks-sonlar.html",q:"e<sup>jπ</sup> nechaga teng?",o:["−1","1","j","−j"],e:"Eyler formulasi: e<sup>jθ</sup> = cosθ + j·sinθ. θ = π da cosπ = −1, sinπ = 0 → −1. Strelka yarim aylana burilib, chapga qaragan."},
+{t:"A",L:"04-energiya-quvvat.html",q:"x(t) = 2, agar 0 ≤ t ≤ 3 s bo'lsa, aks holda 0. Signalning energiyasi E va quvvati P:",o:["E = 12, P = 0","E = 6, P = 0","E = 12, P = 4","E = ∞, P = 4"],e:"E = ∫|x|²dt = 2²·3 = 12. Energiya chekli bo'lsa, o'rtacha quvvat P = 0 (cheksiz vaqtga bo'linadi). Bu — energiya signali."},
+{t:"A",L:"04-energiya-quvvat.html",q:"x(t) = 4cos(2π·10t) signalning o'rtacha quvvati:",o:["8","16","4","2"],e:"Sinusoidaning quvvati A²/2 = 4²/2 = 8 (chastota va fazaga bog'liq emas). Energiyasi esa cheksiz — bu quvvat signali."},
+{t:"A",L:"04-energiya-quvvat.html",q:"x(t) = e<sup>−2t</sup>u(t) signalning energiyasi:",o:["1/4","1/2","1","∞"],e:"E = ∫<sub>0</sub><sup>∞</sup>e<sup>−4t</sup>dt = 1/4. Diqqat: |x|² = e<sup>−4t</sup> (daraja ikki barobar bo'ladi), shuning uchun 1/2 emas."},
+{t:"A",L:"04-energiya-quvvat.html",q:"Barcha t uchun x(t) = 5 (o'zgarmas signal). U qanday signal?",o:["Quvvat signali, P = 25","Energiya signali, E = 25","Energiya signali, E = 5","Na energiya, na quvvat signali"],e:"Cheksiz davom etadi → E = ∞. P = lim(1/2a)∫<sub>−a</sub><sup>a</sup>25dt = 25 — chekli. Demak quvvat signali."},
+// B
+{t:"B",L:"06-ortonormal-bazis.html",q:"∫<sub>−∞</sub><sup>+∞</sup> cos(t)·δ(t − π) dt = ?",o:["−1","1","0","π"],e:"Namunalash xossasi: ∫x(t)δ(t − t<sub>0</sub>)dt = x(t<sub>0</sub>). Bu yerda t<sub>0</sub> = π: cos π = −1."},
+{t:"B",L:"06-ortonormal-bazis.html",q:"t²·δ(t − 2) ifoda nimaga teng?",o:["4δ(t − 2)","t²","2δ(t − 2)","4"],e:"x(t)δ(t − t<sub>0</sub>) = x(t<sub>0</sub>)δ(t − t<sub>0</sub>). x(2) = 4 → 4δ(t − 2). Integral yo'q, shuning uchun natija son emas, balki og'irlikli delta."},
+{t:"B",L:"06-ortonormal-bazis.html",q:"Dirak deltasi δ(t) haqida qaysi gap to'g'ri?",o:["Yuzasi 1, energiyasi cheksiz","Yuzasi 1, energiyasi 1","Yuzasi cheksiz, energiyasi 1","Yuzasi 0, energiyasi cheksiz"],e:"δ — kengligi Δt, balandligi 1/Δt bo'lgan to'rtburchaklar limiti. Yuza Δt·(1/Δt) = 1 doim. Energiya (1/Δt)²·Δt = 1/Δt → ∞."},
+{t:"B",L:"05-signallar-vektor.html",q:"Ikki x(t) va y(t) signal ortogonal deyiladi, agar:",o:["∫x(t)·y*(t)dt = 0","∫x(t)dt = ∫y(t)dt","x(t)·y(t) = 0 hamma t da bo'lsa, faqat shunda","‖x‖ = ‖y‖"],e:"Ortogonallik — skalyar ko'paytma nolga teng: ⟨x, y⟩ = ∫x·y*dt = 0. Ko'paytma nuqtama-nuqta nol bo'lishi shart emas (masalan, ma'ruzadagi a(t) = 1 va b(t) chiziq — musbat va manfiy yuzalar bir-birini yeydi)."},
+{t:"B",L:"06-ortonormal-bazis.html",q:"Ortonormal bazisda x = 3w<sub>1</sub> − 4w<sub>2</sub>. x signalning energiyasi:",o:["25","5","−7","1"],e:"Ortonormal bazisda energiya = koeffitsientlar modullari kvadratlarining yig'indisi (Pifagor): 3² + (−4)² = 25. Energiya hech qachon manfiy emas."},
+{t:"B",L:"05-signallar-vektor.html",q:"[0, 2] oraliqda x(t) = 1, y(t) = 0 (boshqa joyda ikkalasi ham 0). Ular orasidagi masofa d(x, y):",o:["√2","2","1","4"],e:"d² = E(x − y) = ∫<sub>0</sub><sup>2</sup>1²dt = 2, demak d = √2. Masofa kvadrati — ayirmaning energiyasi."},
+{t:"B",L:"06-ortonormal-bazis.html",q:"x(t) ∗ δ(t − 3) = ?",o:["x(t − 3)","x(3)","x(t + 3)","x(t)·δ(t − 3)"],e:"Siljigan delta bilan o'ram signalni o'sha miqdorga siljitadi: x(t) ∗ δ(t − t<sub>0</sub>) = x(t − t<sub>0</sub>)."},
+// C
+{t:"C",L:"07-furye-qatori.html",q:"Davri T<sub>0</sub> = 2 ms bo'lgan davriy signal spektri qaysi chastotalarda bo'lishi mumkin?",o:["0, ±500 Hz, ±1000 Hz, ±1500 Hz, …","Faqat ±500 Hz","0, ±2 kHz, ±4 kHz, …","Istalgan chastotada (uzluksiz spektr)"],e:"Davriy signal spektri — chiziqli: faqat f = k/T<sub>0</sub> da. 1/T<sub>0</sub> = 1/0,002 = 500 Hz, demak 0, ±500, ±1000, … Hz."},
+{t:"C",L:"07-furye-qatori.html",q:"x(t) = 2 + 4cos(2πf<sub>0</sub>t). Parseval bo'yicha o'rtacha quvvat:",o:["12","18","20","10"],e:"μ<sub>0</sub> = 2, μ<sub>±1</sub> = 4/2 = 2. P = Σ|μ<sub>k</sub>|² = 4 + 4 + 4 = 12. Tekshiruv vaqtda: 2² + 4²/2 = 4 + 8 = 12 ✓."},
+{t:"C",L:"07-furye-qatori.html",q:"Haqiqiy x(t) signal uchun Furye qatori koeffitsientlari qanday bog'langan?",o:["μ<sub>−k</sub> = μ<sub>k</sub>*","μ<sub>−k</sub> = −μ<sub>k</sub>","μ<sub>−k</sub> = 0","μ<sub>−k</sub> = 1/μ<sub>k</sub>"],e:"Haqiqiy signal uchun manfiy chastotadagi koeffitsient musbatdagining qo'shmasi: μ<sub>−k</sub> = μ<sub>k</sub>*. Shuning uchun |μ<sub>k</sub>| juft, faza toq."},
+{t:"C",L:"07-furye-qatori.html",q:"0 va 1 qiymatli, to'ldirish koeffitsienti 50 % bo'lgan to'rtburchak to'lqin spektrida qaysi garmonikalar nolga teng?",o:["Juft garmonikalar (k = ±2, ±4, …)","Toq garmonikalar (k = ±1, ±3, …)","Faqat k = 0","Hech biri"],e:"μ<sub>k</sub> = ½·sinc(k/2). sinc butun sonlarda nol: k/2 butun bo'lganda, ya'ni juft k ≠ 0 da. k = 0 da μ<sub>0</sub> = ½ (o'rtacha qiymat)."},
+{t:"C",L:"18-quvvat-gibbs.html",q:"Furye qatoridagi garmonikalar sonini ko'paytirsak, sakrash nuqtasi yonidagi \"ortiqcha ko'tarilish\" (Gibbs effekti):",o:["≈ 9 % atrofida qoladi, yo'qolmaydi (faqat torayadi)","Nolga intiladi","Cheksiz o'sadi","Har doim aniq 50 %"],e:"Gibbs effekti: uzilish yonida qisman yig'indi sakrash balandligining ≈ 9 % iga oshib ketadi. N oshganda to'lqin torayadi, lekin balandligi kamaymaydi."},
+{t:"C",L:"16-davriy-spektr.html",q:"Davriy signalning Furye almashtirishi qanday ko'rinishda?",o:["Σμ<sub>k</sub>δ(f − k/T<sub>0</sub>) — deltalar qatori","Uzluksiz sinc funksiya","Faqat bitta delta f = 0 da","Mavjud emas"],e:"Davriy signal = Σμ<sub>k</sub>e<sup>j2πkt/T<sub>0</sub></sup>, har bir eksponentaning FT si delta. Demak spektr — k/T<sub>0</sub> nuqtalardagi, og'irligi μ<sub>k</sub> bo'lgan deltalar."},
+// D
+{t:"D",L:"08-furye-almashtirishi.html",q:"Kengligi T = 2 ms, balandligi 1 bo'lgan to'g'ri to'rtburchak impuls spektri |X(f)| birinchi marta qaysi chastotada nolga tushadi?",o:["500 Hz","2 kHz","1 kHz","250 Hz"],e:"rect(t/T) ↔ T·sinc(fT). sinc birinchi marta fT = 1 da nol: f = 1/T = 1/0,002 = 500 Hz."},
+{t:"D",L:"08-furye-almashtirishi.html",q:"δ(t) ning Furye almashtirishi:",o:["1 (barcha chastotalarda)","δ(f)","0","sinc(f)"],e:"∫δ(t)e<sup>−j2πft</sup>dt = e<sup>0</sup> = 1. Juda qisqa impuls barcha chastotalarni bir xil o'z ichiga oladi."},
+{t:"D",L:"09-furye-xossalari-1.html",q:"Signal t<sub>0</sub> ga kechiktirilsa, x(t − t<sub>0</sub>), uning spektri bilan nima bo'ladi?",o:["|X(f)| o'zgarmaydi, fazaga −2πft<sub>0</sub> qo'shiladi","|X(f)| t<sub>0</sub> marta kamayadi","Spektr f<sub>0</sub> ga siljiydi","Spektr kengayadi"],e:"x(t − t<sub>0</sub>) ↔ X(f)·e<sup>−j2πft<sub>0</sub></sup>. Modul |e<sup>−j…</sup>| = 1, demak amplituda spektri bir xil, faqat chiziqli faza qo'shiladi."},
+{t:"D",L:"09-furye-xossalari-1.html",q:"x(t)·cos(2πf<sub>0</sub>t) ning spektri:",o:["½[X(f − f<sub>0</sub>) + X(f + f<sub>0</sub>)]","X(f)·cos(2πf<sub>0</sub>)","X(f − f<sub>0</sub>)","½X(f)·δ(f − f<sub>0</sub>)"],e:"Modulyatsiya xossasi: cos = ½(e<sup>j2πf<sub>0</sub>t</sup> + e<sup>−j2πf<sub>0</sub>t</sup>); har biri spektrni ±f<sub>0</sub> ga siljitadi. Natija: ikki nusxa, har biri yarim balandlikda."},
+{t:"D",L:"09-furye-xossalari-1.html",q:"x(2t) signal (vaqtda 2 marta siqilgan) spektri:",o:["½X(f/2) — 2 marta kengroq","2X(2f) — 2 marta torroq","X(f) bilan bir xil","X(f − 2)"],e:"x(at) ↔ (1/|a|)X(f/a). a = 2: spektr chastota bo'yicha 2 marta cho'ziladi va balandligi yarimga tushadi. Qisqa signal — keng spektr."},
+{t:"D",L:"08-furye-almashtirishi.html",q:"cos(2π·100t) ning Furye almashtirishi:",o:["½δ(f − 100) + ½δ(f + 100)","δ(f − 100)","½δ(f − 100) − ½δ(f + 100)","sinc(f − 100)"],e:"cos = ½e<sup>j2π100t</sup> + ½e<sup>−j2π100t</sup>, e<sup>j2πf<sub>0</sub>t</sup> ↔ δ(f − f<sub>0</sub>). Ikki delta, ±100 Hz da, og'irligi ½ dan. (Ayirma ko'rinishi sin ga tegishli, u yerda j ham bor.)"},
+{t:"D",L:"08-furye-almashtirishi.html",q:"x(t) = e<sup>−at</sup>u(t) (a &gt; 0) ning Furye almashtirishi:",o:["1/(a + j2πf)","1/(a − j2πf)","a/(a² + 4π²f²)","e<sup>−af</sup>"],e:"∫<sub>0</sub><sup>∞</sup>e<sup>−at</sup>e<sup>−j2πft</sup>dt = 1/(a + j2πf). f = 0 da X(0) = 1/a = signal yuzasi ✓."},
+{t:"D",L:"10-furye-xossalari-2.html",q:"x(t) = sinc(t) signalning energiyasi (sinc(t) = sin(πt)/(πt)):",o:["1","2","1/2","∞"],e:"Duallik: sinc(t) ↔ rect(f) — kengligi 1, balandligi 1 quti. Parseval: E = ∫|X(f)|²df = 1²·1 = 1. Vaqtda integralni hisoblash qiyin, chastotada — oson."},
+{t:"D",L:"10-furye-xossalari-2.html",q:"Haqiqiy x(t) signal spektri haqida qaysi gap to'g'ri?",o:["|X(f)| juft, faza toq: X(−f) = X*(f)","|X(f)| toq","X(f) har doim haqiqiy","X(f) har doim faqat musbat f da mavjud"],e:"Haqiqiy signal uchun X(−f) = X*(f) (Germit simmetriyasi). Shuning uchun amplituda spektri juft, faza spektri toq. X(f) haqiqiy bo'lishi uchun x(t) juft ham bo'lishi kerak."},
+{t:"D",L:"10-furye-xossalari-2.html",q:"Vaqtdagi o'ram x(t) ∗ y(t) chastotada nimaga aylanadi?",o:["X(f)·Y(f)","X(f) ∗ Y(f)","X(f) + Y(f)","X(f)/Y(f)"],e:"O'ram teoremasi: vaqtda o'ram ↔ chastotada ko'paytma. Aksincha, vaqtda ko'paytma ↔ chastotada o'ram."},
+// E
+{t:"E",L:"11-tizimlar.html",q:"y(t) = x²(t) tizim:",o:["Nochiziqli, vaqtga invariant, xotirasiz","Chiziqli, vaqtga invariant, xotirasiz","Nochiziqli, vaqtga bog'liq, xotirali","Chiziqli, vaqtga bog'liq, xotirasiz"],e:"2x kirishda 4x² chiqadi (2x² emas) → nochiziqli. Kechiktirilgan kirish kechiktirilgan chiqish beradi → invariant. Faqat shu lahzadagi x kerak → xotirasiz."},
+{t:"E",L:"11-tizimlar.html",q:"y(t) = t·x(t) tizim:",o:["Chiziqli, vaqtga bog'liq (invariant emas)","Nochiziqli, vaqtga invariant","Chiziqli, vaqtga invariant","Nochiziqli, vaqtga bog'liq"],e:"a·x<sub>1</sub> + b·x<sub>2</sub> → t(a·x<sub>1</sub> + b·x<sub>2</sub>) → chiziqli. x(t − t<sub>0</sub>) kirishda chiqish t·x(t − t<sub>0</sub>), lekin siljigan chiqish (t − t<sub>0</sub>)·x(t − t<sub>0</sub>) — teng emas → vaqtga bog'liq."},
+{t:"E",L:"11-tizimlar.html",q:"y(t) = x(t + 1) tizim:",o:["Kauzal emas (kelajakdagi kirishni ishlatadi)","Kauzal va xotirasiz","Nochiziqli","Kauzal, xotirali"],e:"t lahzadagi chiqish uchun t + 1 dagi (kelajakdagi) kirish kerak → kauzal emas. Real vaqtda bunday tizimni qurib bo'lmaydi."},
+{t:"E",L:"12-oram-grafik.html",q:"Kengligi T, balandligi 1 bo'lgan ikki bir xil to'g'ri to'rtburchakning o'rami:",o:["Asosi 2T, cho'qqisi T bo'lgan uchburchak","Kengligi 2T, balandligi 1 bo'lgan to'rtburchak","Asosi T, cho'qqisi 1 bo'lgan uchburchak","sinc funksiya"],e:"Bir quti ikkinchisi ustidan siljiydi: ustma-ust tushgan yuza chiziqli o'sadi, to'liq ustma-ust tushganda (τ = 0) T ga yetadi, keyin kamayadi. Uzunliklar qo'shiladi: T + T = 2T."},
+{t:"E",L:"12-oram-grafik.html",q:"x(t) faqat [0, 2] da, h(t) faqat [1, 4] da noldan farqli. y = x ∗ h qayerda noldan farqli bo'lishi mumkin?",o:["[1, 6]","[0, 4]","[1, 2]","[0, 6]"],e:"O'ram chegaralari qo'shiladi: boshi 0 + 1 = 1, oxiri 2 + 4 = 6. Kenglik ham qo'shiladi: 2 + 3 = 5."},
+{t:"E",L:"11-tizimlar.html",q:"Chiziqli vaqtga invariant (LTI) tizimning impuls javobi h(t) — bu:",o:["Kirishga δ(t) berilganda chiqish","Kirishga u(t) berilganda chiqish","Kirishga cos berilganda chiqish","Tizimning kirish signali"],e:"h(t) — δ(t) ga javob. LTI tizim uchun istalgan kirishga chiqish y = x ∗ h; ya'ni h tizimni to'liq tavsiflaydi."},
+// F
+{t:"F",L:"13-uzatish-funksiyasi.html",q:"Haqiqiy LTI tizimga x(t) = cos(2πf<sub>0</sub>t) berildi, H(f<sub>0</sub>) = 2e<sup>−jπ/2</sup>. Chiqish:",o:["2cos(2πf<sub>0</sub>t − π/2)","2cos(2πf<sub>0</sub>t)","cos(2πf<sub>0</sub>t − π/2)","2cos(4πf<sub>0</sub>t − π/2)"],e:"Sinus LTI tizimdan o'sha chastotada chiqadi; amplituda |H(f<sub>0</sub>)| = 2 ga ko'payadi, fazaga ∠H(f<sub>0</sub>) = −π/2 qo'shiladi. Yangi chastota paydo bo'lmaydi."},
+{t:"F",L:"14-blok-sxemalar.html",q:"Ikki blok H<sub>1</sub> va H<sub>2</sub> ketma-ket (kaskad) va parallel (summator orqali) ulanganda umumiy uzatish funksiyasi:",o:["Ketma-ket: H<sub>1</sub>·H<sub>2</sub>; parallel: H<sub>1</sub> + H<sub>2</sub>","Ketma-ket: H<sub>1</sub> + H<sub>2</sub>; parallel: H<sub>1</sub>·H<sub>2</sub>","Ikkalasi ham H<sub>1</sub>·H<sub>2</sub>","Ketma-ket: H<sub>1</sub> ∗ H<sub>2</sub>; parallel: H<sub>1</sub>/H<sub>2</sub>"],e:"Ketma-ket: Y = H<sub>2</sub>(H<sub>1</sub>X) → H<sub>1</sub>H<sub>2</sub> (vaqtda h<sub>1</sub> ∗ h<sub>2</sub>). Parallel: Y = H<sub>1</sub>X + H<sub>2</sub>X → H<sub>1</sub> + H<sub>2</sub>."},
+{t:"F",L:"14-blok-sxemalar.html",q:"Manfiy teskari aloqa: to'g'ri yo'lda H<sub>1</sub> = 10, teskari yo'lda H<sub>2</sub> = 0,1, summatorda \"−\". Umumiy H:",o:["5","10/0,9 ≈ 11,1","1","9,9"],e:"Y = H<sub>1</sub>(X − H<sub>2</sub>Y) → H = H<sub>1</sub>/(1 + H<sub>1</sub>H<sub>2</sub>) = 10/(1 + 1) = 5. Summatorda \"+\" bo'lsa, H<sub>1</sub>/(1 − H<sub>1</sub>H<sub>2</sub>) bo'lardi."},
+{t:"F",L:"15-polosa-filtrlar.html",q:"RC past chastota filtri: R = 1 kΩ, C = 1 µF. −3 dB kesish chastotasi:",o:["≈ 159 Hz","1 kHz","≈ 6,28 kHz","1 MHz"],e:"f<sub>3dB</sub> = 1/(2πRC) = 1/(2π·10<sup>3</sup>·10<sup>−6</sup>) = 1/(2π·0,001) ≈ 159 Hz. 1/RC = 1000 bu — burchak chastota (rad/s), Hz emas."},
+{t:"F",L:"15-polosa-filtrlar.html",q:"\"−3 dB polosa\" chegarasida nima bo'ladi?",o:["Quvvat ikki barobar kamayadi: |H|² = ½, |H| = 1/√2","Amplituda ikki barobar kamayadi: |H| = ½","Quvvat 3 barobar kamayadi","|H| = 0"],e:"10·log<sub>10</sub>(½) ≈ −3 dB. Bu quvvat nisbati, shuning uchun |H|² = ½, ya'ni |H| = 1/√2 ≈ 0,707."},
+{t:"F",L:"15-polosa-filtrlar.html",q:"Buzilishsiz (distortionless) tizimning uzatish funksiyasi:",o:["H(f) = K·e<sup>−j2πft<sub>0</sub></sup> (o'zgarmas modul, chiziqli faza)","H(f) = K (faqat haqiqiy)","H(f) = 1/(1 + j2πf)","H(f) — ideal LPF"],e:"Buzilishsiz chiqish: y(t) = K·x(t − t<sub>0</sub>) — faqat kuchaytirish va kechikish. FT: K·X(f)e<sup>−j2πft<sub>0</sub></sup>. Polosa ichida |H| o'zgarmas, faza f ga chiziqli."},
+{t:"F",L:"13-uzatish-funksiyasi.html",q:"Qaysi impuls javob kauzal VA BIBO-turg'un tizimga tegishli?",o:["h(t) = e<sup>−2t</sup>u(t)","h(t) = u(t)","h(t) = e<sup>2t</sup>u(t)","h(t) = e<sup>−2|t|</sup>"],e:"Kauzal: h(t) = 0, t &lt; 0. Turg'un: ∫|h|dt &lt; ∞. e<sup>−2t</sup>u(t): ikkalasi ham bajariladi (integral 1/2). u(t) va e<sup>2t</sup>u(t) integrali cheksiz; e<sup>−2|t|</sup> turg'un, lekin t &lt; 0 da noldan farqli → kauzal emas."},
+{t:"F",L:"15-polosa-filtrlar.html",q:"Nima uchun ideal past chastota filtrini real vaqtda aniq qurib bo'lmaydi?",o:["Impuls javobi sinc — t &lt; 0 da ham noldan farqli (kauzal emas)","Uning energiyasi nolga teng","U nochiziqli","Uning H(f) si davriy"],e:"Ideal LPF: H(f) = rect(f/2B) ↔ h(t) = 2B·sinc(2Bt), u −∞ dan +∞ gacha davom etadi. t &lt; 0 dagi qism kauzallikni buzadi — faqat yaqinlashtirish mumkin."},
+// G
+{t:"G",L:"19-diskretlash.html",q:"Polosasi B = 4 kHz bo'lgan signalni aliasingsiz diskretlash uchun f<sub>c</sub>:",o:["f<sub>c</sub> &gt; 8 kHz","f<sub>c</sub> &gt; 4 kHz","f<sub>c</sub> &gt; 2 kHz","f<sub>c</sub> &gt; 16 kHz"],e:"Diskretlash teoremasi: f<sub>c</sub> &gt; 2B = 8 kHz. Shunda spektr nusxalari ustma-ust tushmaydi."},
+{t:"G",L:"19-diskretlash.html",q:"x(t) = 2cos(2π·100t) + cos(2π·300t). Minimal diskretlash sharti:",o:["f<sub>c</sub> &gt; 600 Hz","f<sub>c</sub> &gt; 200 Hz","f<sub>c</sub> &gt; 400 Hz","f<sub>c</sub> &gt; 800 Hz"],e:"Polosa — eng yuqori chastota: B = 300 Hz (amplitudalar ahamiyatsiz). f<sub>c</sub> &gt; 2·300 = 600 Hz."},
+{t:"G",L:"19-diskretlash.html",q:"Ideal diskretlangan signal spektri qanday ko'rinadi?",o:["X(f) ning f<sub>c</sub> qadam bilan takrorlangan nusxalari (×1/T<sub>c</sub>)","Faqat X(f), o'zgarishsiz","X(f) ning f<sub>c</sub> ga siljigan bitta nusxasi","Uzluksiz tekis spektr"],e:"Deltalar qatoriga ko'paytirish → chastotada deltalar qatori bilan o'ram: (1/T<sub>c</sub>)ΣX(f − k·f<sub>c</sub>). Spektr davriy bo'lib qoladi."},
+{t:"G",L:"20-real-diskretlash.html",q:"cos(2π·7t) signal f<sub>c</sub> = 10 Hz da diskretlandi. Namunalar qaysi chastotali sinusoidaga mos keladi?",o:["3 Hz","7 Hz","10 Hz","17 Hz"],e:"7 Hz &gt; f<sub>c</sub>/2 = 5 Hz → aliasing. Ko'rinadigan chastota |7 − 10| = 3 Hz. cos(2π·7n/10) = cos(2π·(7 − 10)n/10) = cos(2π·3n/10)."},
+{t:"G",L:"19-diskretlash.html",q:"Ideal holatda signal namunalardan qanday tiklanadi?",o:["Kesish chastotasi B va f<sub>c</sub> − B orasida bo'lgan LPF bilan","HPF bilan","Namunalarni qo'shib chiqish bilan","Faqat f<sub>c</sub> = B bo'lganda"],e:"Namunalar spektri — nusxalar. Markaziy nusxani qoldirib, qolganlarini o'chiradigan past chastota filtri (masalan, kesish f<sub>c</sub>/2) asl signalni qaytaradi. Vaqtda bu sinc lar bilan interpolyatsiya."},
+{t:"G",L:"20-real-diskretlash.html",q:"Real diskretlagich kengligi T bo'lgan port (rect) bilan ishlaydi, anti-aliasing polosasi B<sub>AA</sub> = 5 kHz. T qanday tanlanadi?",o:["T &lt; 0,2 ms (H(f) ≠ 0 polosa ichida)","T &gt; 0,2 ms","T = 5 ms","T istalgancha"],e:"Port spektri H(f) = T·sinc(fT), birinchi noli f = 1/T. Interpolyatsiya filtri H ga bo'la olishi uchun |f| &lt; B<sub>AA</sub> da H ≠ 0 kerak: 1/T &gt; 5000 → T &lt; 0,2 ms."},
+{t:"G",L:"19-diskretlash.html",q:"x(t) = sinc(1000t) signal uchun minimal f<sub>c</sub>:",o:["f<sub>c</sub> &gt; 1000 Hz","f<sub>c</sub> &gt; 2000 Hz","f<sub>c</sub> &gt; 500 Hz","f<sub>c</sub> &gt; 4000 Hz"],e:"sinc(1000t) ↔ (1/1000)rect(f/1000): kengligi 1000 Hz bo'lgan quti, ya'ni −500…+500 Hz. B = 500 Hz → f<sub>c</sub> &gt; 1000 Hz."},
+// H
+{t:"H",L:"22-diskret-oram.html",q:"{1, 2, 3} ∗ {1, 1} = ? (ikkalasi ham n = 0 dan boshlanadi)",o:["{1, 3, 5, 3}","{1, 2, 3, 1}","{2, 3, 4}","{1, 3, 5}"],e:"y(0) = 1·1 = 1; y(1) = 2·1 + 1·1 = 3; y(2) = 3 + 2 = 5; y(3) = 3. Uzunlik 3 + 2 − 1 = 4."},
+{t:"H",L:"22-diskret-oram.html",q:"Uzunliklari 7 va 4 bo'lgan ketma-ketliklar chiziqli o'rami uzunligi:",o:["10","11","28","7"],e:"N + M − 1 = 7 + 4 − 1 = 10."},
+{t:"H",L:"23-diskret-energiya.html",q:"x(n) = (0,5)ⁿu(n) ning energiyasi:",o:["4/3","2","1","∞"],e:"E = Σ|x|² = Σ(0,25)ⁿ = 1/(1 − 0,25) = 4/3. Kvadratga oshirishni unutmang: (0,5)²ⁿ = (0,25)ⁿ."},
+{t:"H",L:"21-diskret-signallar.html",q:"x(n) = cos(πn/4) ning davri:",o:["N = 8","N = 4","N = π/4","Davriy emas"],e:"cos(2πn·k/N) ko'rinishi: π/4 = 2π·1/8 → N = 8. (cos(n) kabi signal esa davriy emas — chunki 1/(2π) ratsional emas.)"},
+{t:"H",L:"21-diskret-signallar.html",q:"Σ<sub>n</sub> x(n)·δ(n − 3) = ?",o:["x(3)","x(n − 3)","1","0"],e:"δ(n − 3) faqat n = 3 da 1, boshqa joyda 0. Yig'indidan faqat bitta had qoladi: x(3)."},
+{t:"H",L:"21-diskret-signallar.html",q:"u(n) − u(n − 1) = ?",o:["δ(n)","u(n)","0","δ(n − 1)"],e:"n &lt; 0: 0 − 0 = 0; n = 0: 1 − 0 = 1; n ≥ 1: 1 − 1 = 0. Faqat n = 0 da 1 → δ(n)."},
+// I
+{t:"I",L:"24-dtft.html",q:"Diskret signalning DTFT si X(f) qanday xususiyatga ega?",o:["f bo'yicha davri 1 (ω bo'yicha 2π)","Davriy emas","f bo'yicha davri N","Faqat butun f larda aniqlangan"],e:"e<sup>−j2π(f+1)n</sup> = e<sup>−j2πfn</sup>, chunki n butun. Shuning uchun DTFT doim davri 1 bo'lgan funksiya (ω = 2πf bo'yicha davri 2π)."},
+{t:"I",L:"25-diskret-spektr-dft.html",q:"x(n) = {1, 1, 1, 1} ning 4 nuqtali DFT si:",o:["{4, 0, 0, 0}","{1, 1, 1, 1}","{4, 4, 4, 4}","{1, 0, 0, 0}"],e:"X(0) = Σx = 4. k ≠ 0 da e<sup>−j2πkn/4</sup> ning 4 ta qiymati aylanada teng taqsimlangan, yig'indisi 0."},
+{t:"I",L:"25-diskret-spektr-dft.html",q:"x(n) = {1, 0, 0, 0} (ya'ni δ(n)) ning 4 nuqtali DFT si:",o:["{1, 1, 1, 1}","{4, 0, 0, 0}","{1, 0, 0, 0}","{0, 1, 1, 1}"],e:"X(k) = Σx(n)e<sup>−j2πkn/4</sup> = x(0)·1 = 1 hamma k uchun. Uzluksizdagi δ ↔ 1 bilan bir xil g'oya."},
+{t:"I",L:"26-dft-xossalari.html",q:"Haqiqiy x(n), N = 8, X(3) = 2 + j. X(5) = ?",o:["2 − j","2 + j","−2 − j","−2 + j"],e:"Haqiqiy signal uchun X(N − k) = X*(k). 8 − 3 = 5 → X(5) = (2 + j)* = 2 − j."},
+{t:"I",L:"26-dft-xossalari.html",q:"x(n) = {1, 0, 2, 3}. Σ<sub>k</sub>|X(k)|² (4 nuqtali DFT) = ?",o:["56","14","3,5","196"],e:"DFT uchun Parseval: Σ|x(n)|² = (1/N)Σ|X(k)|². Σ|x|² = 1 + 0 + 4 + 9 = 14 → Σ|X|² = 4·14 = 56. (Tekshiruv: X = {6, −1+3j, 0, −1−3j}: 36 + 10 + 0 + 10 = 56 ✓)"},
+{t:"I",L:"26-dft-xossalari.html",q:"x(n) = {1, 0, 2, 3}. DFT ning X(0) qiymati:",o:["6","1","0","4"],e:"X(0) = Σx(n)·e<sup>0</sup> = 1 + 0 + 2 + 3 = 6 — namunalar yig'indisi (o'rtacha qiymatning N barobari)."},
+{t:"I",L:"25-diskret-spektr-dft.html",q:"f<sub>c</sub> = 1000 Hz, N = 100 nuqtali DFT. Qo'shni DFT namunalari orasidagi chastota masofasi:",o:["10 Hz","100 Hz","0,1 Hz","1000 Hz"],e:"k-namuna f = k/N (normallangan) da, ya'ni fizik chastotada k·f<sub>c</sub>/N. Qadam f<sub>c</sub>/N = 1000/100 = 10 Hz."},
+{t:"I",L:"27-dft-amalda.html",q:"Nol qo'shish (zero-padding) DFT ga nima beradi?",o:["DTFT dan zichroq namunalar (interpolyatsiya); yangi ma'lumot qo'shmaydi","Haqiqiy chastota ajratuvchanligini oshiradi, yangi chastotalar paydo bo'ladi","Aliasingni yo'qotadi","Signal energiyasini oshiradi"],e:"Nollar qo'shilsa, o'sha DTFT ko'proq nuqtada namunalanadi — grafik silliqroq ko'rinadi. Lekin signal o'zgarmagani uchun yaqin ikki chastotani ajratish qobiliyati (signal uzunligiga bog'liq) oshmaydi."},
+{t:"I",L:"27-dft-amalda.html",q:"Uzunliklari L = 5 va M = 3 bo'lgan signallarni DFT orqali (tez o'ram) chiziqli o'ramlash uchun minimal N:",o:["7","5","8","15"],e:"Aylanma o'ram chiziqli o'ramga teng bo'lishi uchun N ≥ L + M − 1 = 7. (FFT uchun amalda 8 olinadi, lekin minimal shart 7.) Kichik N — vaqtda aliasing."},
+// J
+{t:"J",L:"28-z-almashtirish.html",q:"x(n) = aⁿu(n) ning Z-almashtirishi va yaqinlashish sohasi:",o:["1/(1 − az<sup>−1</sup>), |z| &gt; |a|","1/(1 − az<sup>−1</sup>), |z| &lt; |a|","1/(1 + az<sup>−1</sup>), |z| &gt; |a|","z<sup>−a</sup>, z ≠ 0"],e:"Σaⁿz<sup>−n</sup> = Σ(az<sup>−1</sup>)ⁿ — geometrik qator, |az<sup>−1</sup>| &lt; 1 da yaqinlashadi, ya'ni |z| &gt; |a|. O'ng tomonli signal → ROC aylanadan tashqarida."},
+{t:"J",L:"28-z-almashtirish.html",q:"δ(n − 2) ning Z-almashtirishi:",o:["z<sup>−2</sup>","z<sup>2</sup>","1","2z<sup>−1</sup>"],e:"Σδ(n − 2)z<sup>−n</sup> = z<sup>−2</sup> (faqat n = 2 hadi). ROC: z ≠ 0."},
+{t:"J",L:"28-z-almashtirish.html",q:"x(n) = {1, 2, 3} (n = 0, 1, 2) ning Z-almashtirishi:",o:["1 + 2z<sup>−1</sup> + 3z<sup>−2</sup>","1 + 2z + 3z²","3 + 2z<sup>−1</sup> + z<sup>−2</sup>","6"],e:"X(z) = Σx(n)z<sup>−n</sup>: har bir namuna o'z z<sup>−n</sup> darajasi bilan. n = 0 → 1, n = 1 → 2z<sup>−1</sup>, n = 2 → 3z<sup>−2</sup>."},
+{t:"J",L:"28-z-almashtirish.html",q:"Agar x(n) ↔ X(z), u holda x(n − 1) ↔ ?",o:["z<sup>−1</sup>X(z)","zX(z)","X(z − 1)","X(z)/(z − 1)"],e:"Kechikish xossasi: bir namunaga kechikish — z<sup>−1</sup> ga ko'paytirish. Shuning uchun blok-sxemalarda kechikish bloki z<sup>−1</sup> deb belgilanadi."},
+{t:"J",L:"29-teskari-z.html",q:"X(z) = 1/(1 − 0,5z<sup>−1</sup>), ROC |z| &gt; 0,5. x(n) = ?",o:["(0,5)ⁿu(n)","−(0,5)ⁿu(−n − 1)","(2)ⁿu(n)","δ(n) − 0,5δ(n − 1)"],e:"Jadval: aⁿu(n) ↔ 1/(1 − az<sup>−1</sup>), |z| &gt; |a|. ROC tashqarida → kauzal (o'ng tomonli) signal. Agar ROC |z| &lt; 0,5 bo'lsa, javob −(0,5)ⁿu(−n − 1) bo'lardi."},
+{t:"J",L:"29-teskari-z.html",q:"X(z) = 1/[(1 − 0,5z<sup>−1</sup>)(1 − 0,25z<sup>−1</sup>)], kauzal. x(n) = ?",o:["[2(0,5)ⁿ − (0,25)ⁿ]u(n)","[(0,5)ⁿ + (0,25)ⁿ]u(n)","[2(0,5)ⁿ + (0,25)ⁿ]u(n)","(0,125)ⁿu(n)"],e:"Oddiy kasrlar: A/(1 − 0,5z<sup>−1</sup>) + B/(1 − 0,25z<sup>−1</sup>). A = 1/(1 − 0,25/0,5) = 2, B = 1/(1 − 0,5/0,25) = −1. Tekshiruv: x(0) = 2 − 1 = 1 ✓ (X(z) ning z → ∞ dagi qiymati)."},
+{t:"J",L:"28-z-almashtirish.html",q:"Diskret o'ram x(n) ∗ h(n) Z-sohada nimaga aylanadi?",o:["X(z)·H(z)","X(z) + H(z)","X(z) ∗ H(z)","X(z)/H(z)"],e:"Uzluksizdagi kabi: o'ram ↔ ko'paytma. Shuning uchun tizim chiqishi Y(z) = H(z)X(z), H(z) = Y(z)/X(z)."},
+// K
+{t:"K",L:"31-fir-iir.html",q:"y(n) = x(n) + 0,9y(n − 1) tizim haqida to'g'ri gap:",o:["IIR; h(n) = (0,9)ⁿu(n); H(z) = 1/(1 − 0,9z<sup>−1</sup>)","FIR; h(n) = {1; 0,9}","IIR; turg'un emas","FIR; H(z) = 1 + 0,9z<sup>−1</sup>"],e:"Chiqishning o'tgan qiymati qatnashadi (rekursiya) → IIR. Y(1 − 0,9z<sup>−1</sup>) = X → H = 1/(1 − 0,9z<sup>−1</sup>) ↔ (0,9)ⁿu(n). Qutb 0,9 &lt; 1 → turg'un."},
+{t:"K",L:"31-fir-iir.html",q:"y(n) = x(n) + 2x(n − 1) + x(n − 2) tizimning impuls javobi:",o:["h(n) = {1, 2, 1} (FIR)","h(n) = (2)ⁿu(n)","h(n) = {1, 1, 2}","h(n) = δ(n)"],e:"Faqat kirishning hozirgi va o'tgan qiymatlari → FIR; impuls javobi — koeffitsientlarning o'zi: h = {1, 2, 1}."},
+{t:"K",L:"32-turgunlik.html",q:"Kauzal tizim H(z) = 1/(1 − 1,2z<sup>−1</sup>):",o:["Turg'un emas — qutb z = 1,2 birlik aylanadan tashqarida","Turg'un — qutb z = 1,2","Turg'un — chunki FIR","Kauzal tizim har doim turg'un"],e:"Kauzal tizim BIBO-turg'un ⇔ barcha qutblar |z| &lt; 1 da. Qutb 1,2 &gt; 1 → h(n) = (1,2)ⁿu(n) cheksiz o'sadi."},
+{t:"K",L:"32-turgunlik.html",q:"FIR filtrlar haqida qaysi gap to'g'ri?",o:["Har doim BIBO-turg'un (impuls javobi chekli uzunlikda)","Har doim turg'un emas","Faqat qutblari birlik aylanada bo'lsa turg'un","Teskari aloqasi bor"],e:"FIR: h(n) chekli sondagi chekli qiymatlar → Σ|h(n)| doim chekli → har doim turg'un. Qutblari faqat z = 0 da."},
+{t:"K",L:"31-fir-iir.html",q:"y(n) = ½[x(n) + x(n − 1)] filtrning chastota javobi f = 0 va f = ½ da (normallangan chastota):",o:["H = 1 va H = 0 — past chastota filtri","H = 0 va H = 1 — yuqori chastota filtri","Ikkalasida ham 1","Ikkalasida ham ½"],e:"H(f) = ½(1 + e<sup>−j2πf</sup>). f = 0: ½(1 + 1) = 1. f = ½: ½(1 + e<sup>−jπ</sup>) = ½(1 − 1) = 0. Past chastotalar o'tadi, eng yuqori chastota o'chadi → LPF (o'rtachalash)."},
+{t:"K",L:"30-diskret-tizimlar.html",q:"H(z) dan chastota javobi qanday olinadi?",o:["z = e<sup>j2πf</sup> (birlik aylana) qo'yiladi","z = 0 qo'yiladi","z = f qo'yiladi","z = 1/f qo'yiladi"],e:"DTFT — Z-almashtirishning birlik aylanadagi qiymati: H(f) = H(z)|<sub>z = e<sup>j2πf</sup></sub>. Buning uchun ROC birlik aylanani o'z ichiga olishi kerak (turg'un tizim)."},
+{t:"K",L:"32-turgunlik.html",q:"Kauzal H(z) = (z + 1)/[(z − 0,5)(z + 0,8)] tizim:",o:["Turg'un: qutblar 0,5 va −0,8, ikkalasi |z| &lt; 1","Turg'un emas: nol z = −1 aylanada","Turg'un emas: qutb −0,8 manfiy","Qutblari yo'q"],e:"Turg'unlikni faqat qutblar (maxrajning ildizlari) belgilaydi: |0,5| &lt; 1, |−0,8| &lt; 1 → turg'un. Nollarning joylashuvi turg'unlikka ta'sir qilmaydi."},
+{t:"K",L:"30-diskret-tizimlar.html",q:"Diskret LTI tizimning BIBO-turg'unlik sharti:",o:["Σ|h(n)| &lt; ∞","Σh(n) = 0","h(0) = 1","|h(n)| &lt; 1 har bir n da"],e:"Chegaralangan har qanday kirish chegaralangan chiqish berishi uchun impuls javobi absolyut yig'iladigan bo'lishi kerak: Σ|h(n)| &lt; ∞. Masalan, h(n) = 1 (u(n)) uchun har bir |h| ≤ 1, lekin yig'indi cheksiz."},
+// L
+{t:"L",L:"33-ehtimollik.html",q:"[0, 2] da tekis taqsimlangan X ning o'rtachasi va dispersiyasi:",o:["m = 1, σ² = 1/3","m = 1, σ² = 1","m = 2, σ² = 1/3","m = 1, σ² = 4/3"],e:"Tekis [a, b]: m = (a + b)/2 = 1, σ² = (b − a)²/12 = 4/12 = 1/3."},
+{t:"L",L:"33-ehtimollik.html",q:"Var(X) = 4. Y = 3X + 5 ning dispersiyasi:",o:["36","12","17","41"],e:"Var(aX + b) = a²·Var(X) = 9·4 = 36. O'zgarmas b siljitadi, tarqoqlikni o'zgartirmaydi."},
+{t:"L",L:"36-tasodifiy-faza-uzatish.html",q:"X(t) = A·cos(2πf<sub>0</sub>t + θ), θ — [0, 2π] da tekis. O'rtacha va avtokorrelyatsiya:",o:["m = 0, R(t<sub>1</sub>, t<sub>2</sub>) = (A²/2)cos(2πf<sub>0</sub>(t<sub>1</sub> − t<sub>2</sub>))","m = A, R = A²","m = 0, R = A²cos(2πf<sub>0</sub>t<sub>1</sub>)cos(2πf<sub>0</sub>t<sub>2</sub>)","m = A/2, R = A²/2"],e:"Faza tekis bo'lgani uchun cos ning o'rtachasi 0. R faqat t<sub>1</sub> − t<sub>2</sub> ga bog'liq va R(t, t) = A²/2 — sinusoidaning quvvati."},
+{t:"L",L:"35-avtokorrelyatsiya.html",q:"Jarayon uchun t lahzada m<sub>X</sub>(t) = 2, R<sub>X</sub>(t, t) = 5. Dispersiya (K<sub>X</sub>(t, t)):",o:["1","5","3","9"],e:"K = R − m·m* → K(t, t) = E[X²] − m² = 5 − 4 = 1. Avtokovariatsiya — o'rtacha olib tashlangan avtokorrelyatsiya."},
+{t:"L",L:"33-ehtimollik.html",q:"Korrelyatsiya koeffitsienti ρ haqida to'g'ri gap:",o:["|ρ| ≤ 1; ρ = 0 — korrelyatsiyalanmagan","ρ istalgan musbat son bo'lishi mumkin","ρ = 1 — mustaqil","ρ = 0 doim mustaqil degani (Gaussdan tashqari ham)"],e:"ρ = K/(σ<sub>1</sub>σ<sub>2</sub>), Shvars tengsizligi bo'yicha |ρ| ≤ 1. ρ = ±1 — to'liq chiziqli bog'liq; ρ = 0 — korrelyatsiyalanmagan (mustaqillik bundan kuchliroq tushuncha)."},
+{t:"L",L:"36-tasodifiy-faza-uzatish.html",q:"Raqamli uzatish: simvollar ±1, teng ehtimolli, mustaqil. t<sub>1</sub> va t<sub>2</sub> bir xil bit oralig'ida bo'lsa R = ?, turli bitlarda R = ?",o:["1 va 0","0 va 1","1 va 1","½ va 0"],e:"Bitta bit ichida X(t<sub>1</sub>) = X(t<sub>2</sub>) = a → E[a²] = 1. Turli bitlarda mustaqil: E[a<sub>i</sub>a<sub>j</sub>] = E[a<sub>i</sub>]E[a<sub>j</sub>] = 0·0 = 0."},
+{t:"L",L:"34-tasodifiy-jarayon.html",q:"PAM-4: sathlar −3, −1, +1, +3 teng ehtimolli. E[a²] = ?",o:["5","0","2,5","10"],e:"(9 + 1 + 1 + 9)/4 = 20/4 = 5. O'rtacha E[a] = 0, demak dispersiya ham 5."},
+{t:"L",L:"34-tasodifiy-jarayon.html",q:"Tasodifiy jarayon X(t) da vaqtni t<sub>0</sub> ga qotirsak, X(t<sub>0</sub>) nima bo'ladi?",o:["Tasodifiy miqdor (ansambl bo'yicha qiymatlar to'plami)","Deterministik son","Bitta realizatsiya (vaqt funksiyasi)","Spektr"],e:"Jarayon — realizatsiyalar ansambli. Vaqt qotirilsa, har bir realizatsiyadan bitta son olinadi → tasodifiy miqdor, uning PDF, o'rtachasi, dispersiyasi bor."},
+{t:"L",L:"35-avtokorrelyatsiya.html",q:"X(t) = A·cos(2πf<sub>0</sub>t), A ~ N(0, σ²). X(t) ning dispersiyasi:",o:["σ²cos²(2πf<sub>0</sub>t) — vaqtga bog'liq","σ² — o'zgarmas","σ²/2","0"],e:"X(t) = A·c(t), c — deterministik son. Var = c²·Var(A) = σ²cos²(2πf<sub>0</sub>t). Masalan, cos = 0 bo'lgan lahzalarda X aniq 0 — dispersiya vaqt bilan o'zgaradi."},
+{t:"L",L:"33-ehtimollik.html",q:"Ehtimollik zichligi (PDF) p(x) qaysi shartni doim bajaradi?",o:["p(x) ≥ 0 va ∫p(x)dx = 1","p(x) ≤ 1 hamma x da","p(x) kamayuvchi","∫p(x)dx = 0"],e:"PDF manfiy bo'lmaydi va to'liq yuzasi 1 (biror qiymat albatta chiqadi). p(x) 1 dan katta bo'lishi mumkin (masalan, [0; 0,5] da tekis → p = 2)."}
+];
+
+const $ = id => document.getElementById(id);
+const store = {
+  get(){ try { return JSON.parse(localStorage.getItem("sap-wrong") || "[]"); } catch(e){ return []; } },
+  set(a){ try { localStorage.setItem("sap-wrong", JSON.stringify(a)); } catch(e){} }
+};
+function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; } return a; }
+Q.forEach((q,i) => q.id = i);
+
+const sel = $("selTopic");
+Object.keys(TOPICS).forEach(k => { const n = Q.filter(q => q.t === k).length; const o = document.createElement("option"); o.value = k; o.textContent = TOPICS[k] + " (" + n + ")"; sel.appendChild(o); });
+function stat(){ const w = store.get(); $("stat").textContent = "Savollar bazasi: " + Q.length + " ta, 12 mavzu. Xatolar ro'yxatida: " + w.length + " ta."; $("bWrong").disabled = !w.length; }
+stat();
+
+let mode = null, cur = [], timerId = null, endAt = 0, done = false;
+
+function render(){
+  const box = $("qs"); box.innerHTML = "";
+  cur.forEach((it, idx) => {
+    const q = Q[it.id];
+    const d = document.createElement("div"); d.className = "q"; d.id = "q" + idx;
+    let h = '<div class="hd">' + (idx+1) + "-savol · " + TOPICS[q.t] + '</div><div class="stem">' + q.q + "</div>";
+    it.order.forEach((oi, j) => {
+      h += '<label class="opt" data-o="' + oi + '"><input type="radio" name="r' + idx + '" value="' + oi + '"><span>' + String.fromCharCode(97+j) + ") " + q.o[oi] + "</span></label>";
+    });
+    if (mode === "exam") h += '<label class="opt skip" data-o="-1"><input type="radio" name="r' + idx + '" value="-1" checked><span>Javob bermayman (0 ball)</span></label>';
+    h += '<div class="ex hidden"></div>';
+    d.innerHTML = h; box.appendChild(d);
+    d.querySelectorAll("input").forEach(inp => inp.addEventListener("change", () => { it.ans = +inp.value; if (mode !== "exam") reveal(idx); }));
+  });
+}
+function reveal(idx){
+  const it = cur[idx], q = Q[it.id], d = $("q" + idx);
+  d.querySelectorAll(".opt").forEach(l => {
+    const o = +l.dataset.o; l.querySelector("input").disabled = true;
+    if (o === 0) l.classList.add("right");
+    else if (o === it.ans) l.classList.add("wrong");
+  });
+  const ex = d.querySelector(".ex"); ex.classList.remove("hidden");
+  const ok = it.ans === 0, skip = it.ans === -1 || it.ans === undefined;
+  ex.innerHTML = (ok ? "✅ <b>To'g'ri.</b> " : skip ? "⚪ <b>Javob berilmadi.</b> " : "❌ <b>Noto'g'ri.</b> ") + q.e + ' <a href="' + q.L + '">Darsga qaytish →</a>';
+  const w = new Set(store.get());
+  if (ok) w.delete(q.id); else if (!skip) w.add(q.id);
+  store.set([...w]); stat();
+}
+function start(m, ids){
+  mode = m; done = false;
+  cur = ids.map(id => ({id, order: shuffle(Q[id].o.map((_, i) => i)), ans: m === "exam" ? -1 : undefined}));
+  $("menu").classList.add("hidden"); $("quiz").classList.remove("hidden"); $("result").classList.add("hidden");
+  $("qTitle").innerHTML = "<b>" + (m === "exam" ? "Imtihon simulyatsiyasi" : m === "wrong" ? "Xatolarim" : TOPICS[sel.value]) + "</b>";
+  $("bFinish").classList.toggle("hidden", m !== "exam");
+  clearInterval(timerId); $("timer").textContent = ""; $("timer").classList.remove("low");
+  if (m === "exam"){ endAt = Date.now() + 60*60*1000; tick(); timerId = setInterval(tick, 1000); }
+  render(); window.scrollTo(0, $("quiz").offsetTop - 8);
+}
+function tick(){
+  const s = Math.max(0, Math.round((endAt - Date.now())/1000));
+  $("timer").textContent = "⏱ " + String(Math.floor(s/60)).padStart(2,"0") + ":" + String(s%60).padStart(2,"0");
+  $("timer").classList.toggle("low", s < 300);
+  if (s === 0) finish();
+}
+function finish(){
+  if (mode !== "exam" || done) return; done = true; clearInterval(timerId);
+  let c = 0, w = 0, s = 0;
+  cur.forEach((it, idx) => { if (it.ans === 0) c++; else if (it.ans === -1) s++; else w++; reveal(idx); });
+  const n = cur.length, pts = Math.max(0, 32*(c - 0.2*w)/n);
+  const r = $("result"); r.classList.remove("hidden");
+  r.className = "box " + (pts >= 18 ? "ok" : "warn");
+  r.innerHTML = '<div class="score">' + pts.toFixed(1).replace(".", ",") + " / 32 ball " + (pts >= 18 ? "— o'tdingiz ✅" : "— hali yetarli emas ❌") + "</div>" +
+    "To'g'ri: " + c + ", xato: " + w + ", javobsiz: " + s + ". Hisob: 32·(" + c + " − 0,2·" + w + ")/" + n + ". " +
+    (pts >= 18 ? "Zaxira uchun 22+ ballni barqaror qiling." : "Xato qilgan savollaringiz ostidagi havolalar orqali darslarni qayta o'qing, keyin \"Xatolarim\" rejimida qayta ishlang.") +
+    '<br><button class="btn pri" onclick="newExam()">Yangi simulyatsiya</button>';
+  $("bFinish").classList.add("hidden");
+  window.scrollTo(0, $("quiz").offsetTop - 8);
+}
+function newExam(){
+  const ts = shuffle(Object.keys(TOPICS)).slice(0, 10);
+  start("exam", ts.map(t => shuffle(Q.filter(q => q.t === t))[0].id));
+}
+$("bExam").onclick = newExam;
+$("bTopic").onclick = () => start("topic", Q.filter(q => q.t === sel.value).map(q => q.id));
+$("bWrong").onclick = () => { const w = store.get().filter(i => Q[i]); if (w.length) start("wrong", shuffle(w)); };
+$("bReset").onclick = () => { store.set([]); stat(); };
+$("bFinish").onclick = finish;
+$("bMenu").onclick = () => { if (mode === "exam" && !done && !confirmLeave()) return; clearInterval(timerId); $("quiz").classList.add("hidden"); $("menu").classList.remove("hidden"); stat(); };
+function confirmLeave(){ const b = $("bMenu"); if (b.dataset.sure) { delete b.dataset.sure; b.textContent = "Menyu"; return true; } b.dataset.sure = 1; b.textContent = "Chiqish? (yana bosing)"; setTimeout(() => { delete b.dataset.sure; b.textContent = "Menyu"; }, 3000); return false; }
+</script>
+</main></body></html>
