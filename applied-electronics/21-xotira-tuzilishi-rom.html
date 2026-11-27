@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>21. Xotira tuzilishi va ROM</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>21. Xotira tuzilishi: matritsa, adres dekoderi, wordline kechikishi va ROM</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> yarimo'tkazgichli xotira ichida qanday tuzilganini: katakchalar jadvali (matritsa), qator va ustun, wordline va bitline, adres dekoderi. Keyin dekoderning kechikishini hisoblash (0.69·R·C, 6-darsdagi formula) va eng oddiy xotira: ROM (NOR va NAND turlari). Bu <strong>B mavzu</strong>: <strong>2021-07 imtihonidagi 7 ballik ROM masalasi</strong>, 002, 059, 065, 066, 102-savollar. Manba: B7 slaydlari va B7e mashqlari. O'qish vaqti: 35 daqiqa.</div>
+
+<h2>1. Xotira turlari</h2>
+<table>
+<tr><th></th><th>Uchuvchan (volatile): tok o'chsa, ma'lumot yo'qoladi</th><th>Uchmas (non-volatile): tok o'chsa ham saqlanadi</th></tr>
+<tr><td>O'qish-yozish</td><td><strong>SRAM</strong>, <strong>DRAM</strong>, CAM (22-dars)</td><td>EPROM, <strong>EEPROM</strong>, <strong>Flash</strong> (22-dars)</td></tr>
+<tr><td>Faqat o'qish</td><td>—</td><td><strong>ROM</strong> (mask bilan zavodda yoziladi), PROM</td></tr>
+</table>
+<p><span class="term">RAM</span> (random access memory) = istalgan adresga istalgan tartibda murojaat qilish mumkin. ROM (read-only memory) = faqat o'qiladi; ichidagi ma'lumot ishlab chiqarishda "qotiriladi" (BIOS, jadvallar uchun).</p>
+
+<h2>2. Matritsa: wordline va bitline</h2>
+<p>Xotira = N ta so'z (word), har biri M bit. Har bir so'zga alohida tanlash simi tortish juda ko'p sim talab qiladi. Shuning uchun katakchalar <strong>jadval</strong> qilib joylanadi:</p>
+<figure><svg viewBox="0 0 720 330" role="img" aria-label="Xotira tuzilishi: adres ikki qismga bo'linadi. Qator adresi qator dekoderiga kiradi, u bitta wordline ni yoqadi. Yoqilgan qatordagi hamma katakchalar bitline lar orqali ustun sxemasiga ulanadi; ustun dekoderi kerakli so'zni tanlaydi va chiqishga beradi" font-family="system-ui,sans-serif">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<rect x="230" y="40" width="340" height="200" fill="#2563eb" fill-opacity=".05" stroke="#2563eb"/>
+<path d="M220 60H570" stroke="#9aa0a6" stroke-width="1.2"/>
+<path d="M220 90H570" stroke="#9aa0a6" stroke-width="1.2"/>
+<path d="M220 120H570" stroke="#d9622b" stroke-width="2.6"/>
+<path d="M220 150H570" stroke="#9aa0a6" stroke-width="1.2"/>
+<path d="M220 180H570" stroke="#9aa0a6" stroke-width="1.2"/>
+<path d="M220 210H570" stroke="#9aa0a6" stroke-width="1.2"/>
+<path d="M250 40V254" stroke="#16a34a" stroke-width="1.2"/>
+<rect x="245" y="55" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="245" y="85" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="245" y="115" width="10" height="10" fill="#d9622b" fill-opacity="0.9"/>
+<rect x="245" y="145" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="245" y="175" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="245" y="205" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<path d="M286 40V254" stroke="#16a34a" stroke-width="1.2"/>
+<rect x="281" y="55" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="281" y="85" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="281" y="115" width="10" height="10" fill="#d9622b" fill-opacity="0.9"/>
+<rect x="281" y="145" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="281" y="175" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="281" y="205" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<path d="M322 40V254" stroke="#16a34a" stroke-width="1.2"/>
+<rect x="317" y="55" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="317" y="85" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="317" y="115" width="10" height="10" fill="#d9622b" fill-opacity="0.9"/>
+<rect x="317" y="145" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="317" y="175" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="317" y="205" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<path d="M358 40V254" stroke="#16a34a" stroke-width="1.2"/>
+<rect x="353" y="55" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="353" y="85" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="353" y="115" width="10" height="10" fill="#d9622b" fill-opacity="0.9"/>
+<rect x="353" y="145" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="353" y="175" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="353" y="205" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<path d="M394 40V254" stroke="#16a34a" stroke-width="1.2"/>
+<rect x="389" y="55" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="389" y="85" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="389" y="115" width="10" height="10" fill="#d9622b" fill-opacity="0.9"/>
+<rect x="389" y="145" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="389" y="175" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="389" y="205" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<path d="M430 40V254" stroke="#16a34a" stroke-width="1.2"/>
+<rect x="425" y="55" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="425" y="85" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="425" y="115" width="10" height="10" fill="#d9622b" fill-opacity="0.9"/>
+<rect x="425" y="145" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="425" y="175" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="425" y="205" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<path d="M466 40V254" stroke="#16a34a" stroke-width="1.2"/>
+<rect x="461" y="55" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="461" y="85" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="461" y="115" width="10" height="10" fill="#d9622b" fill-opacity="0.9"/>
+<rect x="461" y="145" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="461" y="175" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="461" y="205" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<path d="M502 40V254" stroke="#16a34a" stroke-width="1.2"/>
+<rect x="497" y="55" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="497" y="85" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="497" y="115" width="10" height="10" fill="#d9622b" fill-opacity="0.9"/>
+<rect x="497" y="145" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="497" y="175" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="497" y="205" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<path d="M538 40V254" stroke="#16a34a" stroke-width="1.2"/>
+<rect x="533" y="55" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="533" y="85" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="533" y="115" width="10" height="10" fill="#d9622b" fill-opacity="0.9"/>
+<rect x="533" y="145" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="533" y="175" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="533" y="205" width="10" height="10" fill="#2563eb" fill-opacity="0.35"/>
+<rect x="120" y="40" width="80" height="200" rx="6" fill="#9333ea" fill-opacity=".12" stroke="#9333ea"/><text x="160.0" y="134.0" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">Qator</text><text x="160.0" y="150.0" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">dekoderi</text>
+<path d="M30 140.0H118" stroke="#555" stroke-width="1.6" marker-end="url(#ar)"/><text x="74.0" y="132.0" text-anchor="middle" font-size="11" fill="currentColor" font-weight="700">qator adresi</text><text x="74.0" y="154.0" text-anchor="middle" font-size="10" fill="currentColor">(n − k bit)</text>
+<text x="578.0" y="120.0" text-anchor="start" font-size="11" fill="#d9622b" font-weight="700">wordline</text><text x="578.0" y="135.0" text-anchor="start" font-size="11" fill="#d9622b" font-weight="700">(faqat bittasi = 1)</text>
+<text x="400.0" y="30.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">xotira katakchalari matritsasi</text>
+<rect x="230" y="254" width="340" height="34" rx="6" fill="#16a34a" fill-opacity=".12" stroke="#16a34a"/><text x="400.0" y="276.0" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">ustun sxemasi: sense amplifier + ustun dekoderi</text>
+<text x="578.0" y="230.0" text-anchor="start" font-size="11" fill="#16a34a" font-weight="700">bitline lar</text><text x="578.0" y="245.0" text-anchor="start" font-size="11" fill="#16a34a" font-weight="700">(vertikal)</text>
+<path d="M170 271H228" stroke="#555" stroke-width="1.6" marker-end="url(#ar)"/><text x="166.0" y="275.0" text-anchor="end" font-size="11" fill="currentColor" font-weight="700">ustun adresi (k bit)</text>
+<path d="M400.0 288V314" stroke="#555" stroke-width="1.6" marker-end="url(#ar)"/><text x="410.0" y="310.0" text-anchor="start" font-size="11" fill="currentColor" font-weight="700">ma'lumot (so'z, M bit)</text>
+</svg><figcaption>Bitta wordline yoqiladi → shu qatordagi hamma katakchalar o'z bitline iga ulanadi → ustun sxemasi kerakli so'zni ajratadi.</figcaption></figure>
+<ul>
+<li><span class="term">Wordline</span> (WL, so'z simi): gorizontal; katakcha tranzistorlarining <strong>gate</strong> lariga ulangan, ya'ni "buyruq" beradi: qaysi qator tanlangan.</li>
+<li><span class="term">Bitline</span> (BL, bit simi): vertikal; katakcha tranzistorining chiqishiga ulangan, ya'ni ma'lumot shu orqali chiqadi yoki kiradi.</li>
+<li><span class="term">Adres dekoderi</span>: K bitli adresdan 2<sup>K</sup> ta wordline dan <strong>faqat bittasini</strong> yoqadi.</li>
+<li>Qator dekoderi + ustun dekoderi: adres ikkiga bo'linadi, shunda jadval "kvadratga" yaqin bo'ladi (juda uzun ingichka jadval sekin ishlaydi).</li>
+</ul>
+<div class="box analogy"><strong>O'xshatish:</strong> kinoteatr. Qator raqami (wordline) bilan butun bir qatorni "uyg'otasiz", keyin o'rin raqami (ustun) bilan bitta odamni tanlaysiz. Har bir odamga alohida telefon chizig'i tortish shart emas.</div>
+<p>Misol (slayd): 1 Gbit DRAM = 128 MByte = 2<sup>27</sup> bayt → 27 adres simi: 14 tasi qator, 11 tasi ustun, 2 tasi 4 ta blokdan birini tanlash.</p>
+
+<h2>3. Adres dekoderi</h2>
+<figure><svg viewBox="0 0 720 200" role="img" aria-label="2 bitli adres dekoderi: A1 A0 kirishlari va ularning inkorlari. To'rtta NAND+inverter (yoki AND) har biri bitta kombinatsiyani taniydi: 00 da WL0, 01 da WL1, 10 da WL2, 11 da WL3" font-family="system-ui,sans-serif">
+<defs><marker id="dc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#555"/></marker></defs>
+<text x="60.0" y="40.0" text-anchor="middle" font-size="13" fill="#2563eb" font-weight="700">A1 A0</text>
+<text x="60.0" y="64.0" text-anchor="middle" font-size="13" fill="currentColor" font-weight="700">00</text>
+<path d="M90 60H180" stroke="#555" stroke-width="1.4" marker-end="url(#dc)"/>
+<rect x="185" y="46" width="130" height="28" rx="14" fill="#9333ea" fill-opacity=".12" stroke="#9333ea"/><text x="250.0" y="65.0" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">AND: A1'·A0'</text>
+<path d="M318 60H380" stroke="#555" stroke-width="1.4" marker-end="url(#dc)"/><text x="390.0" y="64.0" text-anchor="start" font-size="13" fill="#d9622b" font-weight="700">WL0</text>
+<text x="60.0" y="104.0" text-anchor="middle" font-size="13" fill="currentColor" font-weight="700">01</text>
+<path d="M90 100H180" stroke="#555" stroke-width="1.4" marker-end="url(#dc)"/>
+<rect x="185" y="86" width="130" height="28" rx="14" fill="#9333ea" fill-opacity=".12" stroke="#9333ea"/><text x="250.0" y="105.0" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">AND: A1'·A0</text>
+<path d="M318 100H380" stroke="#555" stroke-width="1.4" marker-end="url(#dc)"/><text x="390.0" y="104.0" text-anchor="start" font-size="13" fill="#d9622b" font-weight="700">WL1</text>
+<text x="60.0" y="144.0" text-anchor="middle" font-size="13" fill="currentColor" font-weight="700">10</text>
+<path d="M90 140H180" stroke="#555" stroke-width="1.4" marker-end="url(#dc)"/>
+<rect x="185" y="126" width="130" height="28" rx="14" fill="#9333ea" fill-opacity=".12" stroke="#9333ea"/><text x="250.0" y="145.0" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">AND: A1·A0'</text>
+<path d="M318 140H380" stroke="#555" stroke-width="1.4" marker-end="url(#dc)"/><text x="390.0" y="144.0" text-anchor="start" font-size="13" fill="#d9622b" font-weight="700">WL2</text>
+<text x="60.0" y="184.0" text-anchor="middle" font-size="13" fill="currentColor" font-weight="700">11</text>
+<path d="M90 180H180" stroke="#555" stroke-width="1.4" marker-end="url(#dc)"/>
+<rect x="185" y="166" width="130" height="28" rx="14" fill="#9333ea" fill-opacity=".12" stroke="#9333ea"/><text x="250.0" y="185.0" text-anchor="middle" font-size="12" fill="#9333ea" font-weight="700">AND: A1·A0</text>
+<path d="M318 180H380" stroke="#555" stroke-width="1.4" marker-end="url(#dc)"/><text x="390.0" y="184.0" text-anchor="start" font-size="13" fill="#d9622b" font-weight="700">WL3</text>
+<text x="560.0" y="70.0" text-anchor="middle" font-size="13" fill="currentColor" font-weight="700">K bit adres → 2ᴷ wordline</text>
+<text x="560.0" y="96.0" text-anchor="middle" font-size="12" fill="currentColor">har wordline uchun bitta K-kirishli</text>
+<text x="560.0" y="114.0" text-anchor="middle" font-size="12" fill="currentColor">NAND (+ inverter) = AND</text>
+<text x="560.0" y="146.0" text-anchor="middle" font-size="13" fill="#dc2626" font-weight="700">4 bit → 16 ta NAND</text><text x="560.0" y="172.0" text-anchor="middle" font-size="11" fill="currentColor">( ' = inkor, NOT )</text>
+</svg><figcaption>Har bir chiqish o'z adres kombinatsiyasini taniydi. CMOS da AND = NAND + inverter.</figcaption></figure>
+<div class="box"><p><strong>065.</strong> <em>An address decoder with 4-bit input requires: a) 4 NAND gates &nbsp; b) 8 NAND gates &nbsp; c) 4 AND gates &nbsp; d) 16 NAND gates</em></p>
+<details><summary>Javob</summary><p><strong>d) 16 NAND gates</strong>. 4 bit → 2<sup>4</sup> = 16 ta wordline, har biriga bitta 4-kirishli NAND (va kirishlarning inkori uchun 4 ta inverter).</p></details></div>
+<div class="box"><p><strong>002 / 059.</strong> <em>Consider an SRAM (DRAM) with 16 wordlines, each driving 16 cells. … Draw the schematic of the row decoder.</em></p>
+<details><summary>Javob</summary><p>16 wordline → 4 adres biti A3…A0. Har bir adres biti va uning inkori (4 inverter) 16 ta 4-kirishli NAND ga beriladi; har NAND o'z kombinatsiyasini oladi (masalan WL5 uchun A3', A2, A1', A0). NAND chiqishidan keyin wordline ni haydash uchun odatda inverter qo'yiladi (rasmiy izoh: "typically there is an inverter on the output, to drive the word line").</p></details></div>
+
+<h2>4. Wordline ni yoqish vaqti (kechikish)</h2>
+<p>Oxirgi bosqich (inverter) wordline ni zaryadlaydi. Yuklama = shu qatordagi hamma katakchalar tranzistorlarining gate sig'imi (6-dars: tP = 0.69·R·C):</p>
+<span class="formula">tP = 0.69 · RON · (katakchalar soni × har katakdagi gate lar × CG)</span>
+<ul>
+<li>DRAM katakchasida <strong>1</strong> ta tranzistor (22-dars) → har katak CG.</li>
+<li>SRAM katakchasida wordline <strong>2</strong> ta tranzistorni boshqaradi → har katak 2·CG.</li>
+</ul>
+<div class="box"><p><strong>066.</strong> <em>Consider a DRAM with 16 wordlines, each driving 16 cells. Assume that each pass-transistor has a gate capacitance of 0.1 fF and that the Ron of the decoder transistors is 40 Ω. Calculate the maximum cell activation delay (only the delay of the last stage of the decoder).</em></p>
+<details><summary>Javob</summary><p>T = 0.69 · 40 Ω · 16 · 0.1 fF = 0.69 · 40 · 1.6·10<sup>−15</sup> = <strong>44 fs</strong> (femtosekund = 10<sup>−15</sup> s).</p></details></div>
+<div class="box"><p><strong>102.</strong> <em>Consider an SRAM with 16 wordlines, each driving 16 cells. Suppose that each transistor has a gate capacity of 0.5 fF and that the Ron of the decoder transistors is 100 Ω. Calculate the maximum cell activation delay (only the delay of the last stage of the decoder).</em></p>
+<details><summary>Javob</summary><p>tP = 0.69 · 100 Ω · 16 · 2 · 0.5 fF = 0.69 · 100 · 16·10<sup>−15</sup> = <strong>1.1 ps</strong>. (2 = SRAM katakchasidagi ikki pass-tranzistor.)</p></details></div>
+<details><summary>Qo'shimcha (B7e Exercise 4): butun dekoder kechikishi</summary>
+<p>64 bitli DRAM, 8 wordline, har biriga 64 katak (0.1 fF), wordline simi RWL = 640 Ω, dekoder MOS lari RON = 100 Ω, CG = 1 fF. Slayddagi qoidalar: 3-kirishli NAND ning eng yomon qarshiligi 3·RON (ketma-ket tranzistorlar); har bir kirish 2·CG (nMOS + pMOS).</p>
+<ul>
+<li>Kirish inverteri 4 ta NAND kirishini haydaydi: 0.69 · 100 · 4 · 2 · 1 fF = 0.55 ps.</li>
+<li>NAND: 0.69 · 3 · 100 · 2 · 1 fF = 0.41 ps.</li>
+<li>Oxirgi inverter + wordline: 0.69 · (100 + 640) · 64 · 0.1 fF = 3.27 ps.</li>
+</ul></details>
+
+<h2>5. ROM: NOR va NAND turlari</h2>
+<p>ROM da bit <strong>tranzistor bor yoki yo'qligi</strong> bilan yoziladi (zavodda). Har bitline yuqorida <span class="term">pull-up</span> qurilma orqali VDD ga tortilgan (6-darsdagi open-drain ga o'xshash).</p>
+<table>
+<tr><th></th><th>NOR ROM</th><th>NAND ROM</th></tr>
+<tr><td>Ustundagi tranzistorlar</td><td>parallel (har biri bitline dan GND ga)</td><td><strong>ketma-ket</strong> zanjir (bitline dan GND gacha)</td></tr>
+<tr><td>Tanlangan wordline</td><td>yuqori (1), qolganlari 0</td><td><strong>past (0)</strong>, qolganlari 1</td></tr>
+<tr><td>Tranzistor bor joyda</td><td>bitline yerga tortiladi → <strong>0</strong></td><td>zanjir uziladi → pull-up → <strong>1</strong></td></tr>
+<tr><td>Tranzistor yo'q joyda</td><td>pull-up → 1</td><td>zanjir o'tkazadi → <strong>0</strong></td></tr>
+<tr><td>Afzallik / kamchilik</td><td>tez o'qiladi, joy ko'p</td><td>kontaktlar kam → ancha <strong>zich</strong>, lekin sekinroq</td></tr>
+</table>
+
+<h3>Imtihon masalasi: 2021-07 (7 ball)</h3>
+<div class="box"><p><em>Given the memory in Figure 1: 1. What is the memory type? (FLASH / ROM NAND / ROM NOR / EEPROM) 2. What is the purpose of the signals Y0–Y3? (Address lines / Bit lines / Preload lines / Word lines) 3. What is the purpose of the signals X0–X7? (Word lines / Preload lines / Bit lines / Address lines) 4. What is the function of transistors M0–M3? (Precharge / Differential reading / Pull-down / Pull-up) 5. How many words are stored in the memory? (8 / 4 / 32 / 7) 6. How many bits are stored in the memory? (8 / 14 / 18 / 32) 7. What is the binary value stored at address 5 in the memory?</em></p>
+<img src="img/e2107rom.png" alt="2021-07 imtihonidagi xotira sxemasi: to'rtta vertikal bitline Y3–Y0, har birining tepasida pMOS M3–M0 VDD ga; sakkizta gorizontal X0–X7; har ustunda tranzistorlar ketma-ket zanjir bo'lib yerga boradi" style="max-width:min(100%,420px);background:#fff;border-radius:6px"></div>
+<details><summary>Yechim (rasmiy javoblar + tushuntirish)</summary>
+<ol>
+<li><strong>ROM NAND</strong>: har ustunda tranzistorlar ketma-ket (zanjir) ulangan.</li>
+<li>Y = <strong>bit lines</strong>: ular tranzistorlar chiqishiga ulangan, qiymat shu yerdan chiqadi.</li>
+<li>X = <strong>word lines</strong>: ular gate larni boshqaradi.</li>
+<li>M0–M3 = <strong>pull-up</strong>: bitline ni VDD ga tortuvchi rezistor vazifasida (gate yerga ulangan pMOS doim yoqiq).</li>
+<li>8 ta wordline → <strong>8</strong> so'z.</li>
+<li>Har so'zda 4 bit (Y3…Y0) → 8 · 4 = <strong>32</strong> bit.</li>
+<li>Adres 5 → X5 qatori. Bu qatorda birorta ham tranzistor yo'q, demak hech bir zanjir uzilmaydi: hamma bitline yerga ulangan qoladi → <strong>0000</strong>.</li>
+</ol>
+<p>Butun jadval (slayd qoidasi bilan, Y3 Y2 Y1 Y0): X0 → 1011, X1 → 0101, X2 → 0110, X3 → 0100, X4 → 0011, X5 → 0000, X6 → 1000, X7 → 1110. Tekshirish usuli: qatorda tranzistor bor ustun = 1, yo'q = 0.</p>
+</details>
+
+<h2>O'zingizni tekshiring</h2>
+<div class="box check">Xotirada 1024 so'z bor. Qator dekoderi nechta adres bitini oladi (ustun dekoderi bo'lmasa)? <details><summary>Javob</summary>2<sup>10</sup> = 1024 → <strong>10 bit</strong>.</details></div>
+<div class="box check">DRAM: har wordline 64 katak, CG = 0.2 fF, RON = 50 Ω. Oxirgi bosqich kechikishi? <details><summary>Javob</summary>0.69 · 50 · 64 · 0.2 fF = <strong>0.44 ps</strong>.</details></div>
+<div class="box check">Xuddi shu, lekin SRAM. <details><summary>Javob</summary>2 baravar: <strong>0.88 ps</strong>.</details></div>
+<div class="box check">2021-07 ROM: adres 3 dagi qiymat? <details><summary>Javob</summary>X3 qatorida faqat Y2 ustunida tranzistor bor → <strong>0100</strong>.</details></div>
+<div class="box check">NAND ROM nega NOR ROM dan zichroq? <details><summary>Javob</summary>Ketma-ket zanjirda har tranzistorga alohida VDD/GND kontakti kerak emas: kontaktlar kam → kichik maydon. Lekin uzun zanjir sekinroq o'qiladi.</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>Uchuvchan / uchmas</td><td>volatile / non-volatile</td><td>Tok o'chsa yo'qoladi / saqlanadi</td></tr>
+<tr><td>So'z</td><td>word</td><td>Bir adresdagi M bit</td></tr>
+<tr><td>Wordline</td><td>word line (WL)</td><td>Qatorni tanlovchi sim, gate larga ulangan</td></tr>
+<tr><td>Bitline</td><td>bit line (BL)</td><td>Ma'lumot chiqadigan/kiradigan sim</td></tr>
+<tr><td>Adres dekoderi</td><td>address decoder</td><td>K bit → 2<sup>K</sup> wordline dan bittasi</td></tr>
+<tr><td>Sezgir kuchaytirgich</td><td>sense amplifier</td><td>Bitline dagi kichik o'zgarishni 0/1 ga aylantiradi</td></tr>
+<tr><td>ROM</td><td>read-only memory</td><td>Zavodda yozilgan, faqat o'qiladi</td></tr>
+<tr><td>NOR / NAND ROM</td><td>NOR / NAND ROM</td><td>Tranzistorlar parallel / ketma-ket</td></tr>
+<tr><td>Pull-up</td><td>pull-up</td><td>Bitline ni VDD ga tortuvchi element</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<span class="formula">K bit → 2<sup>K</sup> wordline → 2<sup>K</sup> ta K-kirishli NAND &nbsp;·&nbsp; bitlar = so'zlar × bit/so'z</span>
+<span class="formula">tP = 0.69 · RON · N · CG (DRAM) &nbsp;·&nbsp; 0.69 · RON · N · 2CG (SRAM)</span>
+<ul>
+<li>Wordline → gate (buyruq), bitline → chiqish (ma'lumot). Dekoder faqat bitta WL yoqadi.</li>
+<li>NOR ROM: parallel, tanlangan WL = 1, tranzistor bor → 0. NAND ROM: ketma-ket, tanlangan WL = 0, tranzistor bor → 1. NAND zichroq, NOR tezroq.</li>
+<li>Bitline tepasidagi pMOS (gate yerga) = pull-up.</li>
+<li>Javoblar: 065 d; 066 → 44 fs; 102 → 1.1 ps; 2021-07 → ROM NAND, bit lines, word lines, pull-up, 8, 32, 0000.</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="20-mashq-ad.html">← 20-dars</a><a href="22-sram-dram-flash.html">22-dars →</a></footer>
+</main></body></html>

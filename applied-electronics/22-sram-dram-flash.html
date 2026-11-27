@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>22. SRAM, DRAM, Flash</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<nav class="top"><a href="../">Bosh sahifa</a> › <a href="./">Fan darslari</a></nav>
+<h1>22. Xotira katakchalari: DRAM, SRAM, DDR va Flash</h1>
+
+<div class="box note"><strong>Bu darsda nimani bilib olasiz:</strong> bitta bit ichkarida qanday saqlanishini: DRAM (1 tranzistor + kondensator), SRAM (6 tranzistor), Flash (suzuvchi zatvorli tranzistor). Ularning farqlari, DRAM ni o'qish va yangilash (refresh), DDR tezligi, NAND va NOR flash. Bu <strong>B mavzu</strong>: test savollari deyarli har imtihonda: 036, 106, 089, 032, 100, 037, 2021-06 va 2021-07 testlari. Manba: B7 slaydlari va B7e mashqlari. O'qish vaqti: 35 daqiqa.</div>
+
+<h2>1. DRAM: bit = kondensatordagi zaryad</h2>
+<p><span class="term">DRAM</span> (dynamic RAM) katakchasi: <strong>1 ta MOS tranzistor + 1 ta kondensator</strong> CS. Zaryadlangan = 1, bo'sh = 0. Tranzistor (pass-transistor) wordline bilan yoqilib, kondensatorni bitline ga ulaydi.</p>
+<figure><svg viewBox="0 0 720 270" role="img" aria-label="DRAM katakchasi: bitta tranzistor M1 (gate wordline ga) va saqlash kondensatori CS. Bitline uzun, uning parazit sig'imi CBL katta. O'qishda bitline VDD/2 ga oldindan zaryadlanadi, keyin CS bilan zaryad bo'lishiladi va bitline kuchlanishi biroz (taxminan 250 mV) oshadi (1) yoki kamayadi (0)" font-family="system-ui,sans-serif">
+<path d="M90 30V230" stroke="#16a34a" stroke-width="2.4"/><text x="90.0" y="22.0" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">BL (bitline)</text>
+<path d="M90 110H140" stroke="currentColor" stroke-width="1.6"/><path d="M140 110H154V102M154 102H176M176 102V110H190" fill="none" stroke="#2563eb" stroke-width="1.8"/><path d="M152 96H178" stroke="#2563eb" stroke-width="2.2"/><text x="165.0" y="138.0" text-anchor="middle" font-size="12" fill="#2563eb" font-weight="700">M1</text>
+<path d="M165 96V60H330" fill="none" stroke="#d9622b" stroke-width="2"/><text x="336.0" y="64.0" text-anchor="start" font-size="12" fill="#d9622b" font-weight="700">WL (wordline)</text>
+<path d="M190 110H240V124" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M240 124v14M228 138h24M228 144h24M240 144v14" fill="none" stroke="#9333ea" stroke-width="1.8"/><path d="M240 158V172" stroke="currentColor" stroke-width="1.6"/><path d="M230 172H250M234 176H246M238 180H242" stroke="currentColor" stroke-width="1.5"/><text x="258.0" y="146.0" text-anchor="start" font-size="12" fill="#9333ea" font-weight="700">CS (saqlash, ~20 fF)</text>
+<path d="M90 190H60V198" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 3"/><path d="M60 198v14M48 212h24M48 218h24M60 218v14" fill="none" stroke="#9aa0a6" stroke-width="1.4"/><text x="46.0" y="214.0" text-anchor="end" font-size="12" fill="#9aa0a6" font-weight="700">CBL</text><text x="46.0" y="230.0" text-anchor="end" font-size="10" fill="#9aa0a6">(katta)</text>
+<text x="565.0" y="100.0" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">O'qish: bitline kuchlanishi</text>
+<path d="M430 104V230H700" fill="none" stroke="currentColor" stroke-width="1.2"/>
+<path d="M430 170.0H700" stroke="#9aa0a6" stroke-dasharray="4 3"/><text x="426.0" y="174.0" text-anchor="end" font-size="11" fill="currentColor" font-weight="700">VDD/2</text>
+<path d="M430 170.0H510L530 155.6H580L610 110H700" fill="none" stroke="#16a34a" stroke-width="2.2"/><text x="700.0" y="104.0" text-anchor="end" font-size="12" fill="#16a34a" font-weight="700">"1"</text>
+<path d="M510 170.0L530 184.4H580L610 230H700" fill="none" stroke="#dc2626" stroke-width="2.2"/><text x="700.0" y="224.0" text-anchor="end" font-size="12" fill="#dc2626" font-weight="700">"0"</text>
+<text x="520.0" y="248.0" text-anchor="middle" font-size="10" fill="#d9622b">WL yoqildi</text><text x="595.0" y="248.0" text-anchor="middle" font-size="10" fill="#9333ea">sense amp</text>
+<text x="555.0" y="149.6" text-anchor="middle" font-size="11" fill="#16a34a" font-weight="700">+ΔV</text><text x="555.0" y="198.4" text-anchor="middle" font-size="11" fill="#dc2626" font-weight="700">−ΔV</text>
+<text x="360.0" y="262.0" text-anchor="middle" font-size="12.5" fill="#9333ea" font-weight="700">ΔVBL = (Vbit − VDD/2) · CS / (CS + CBL)   (CS ≪ CBL → ΔV kichik, ~250 mV)</text>
+</svg><figcaption>Chapda katakcha, o'ngda o'qish paytidagi bitline kuchlanishi.</figcaption></figure>
+<ul>
+<li><strong>Yozish</strong>: bitline ga 1 yoki 0 kuchlanish beriladi, WL yoqiladi → CS shu kuchlanishgacha zaryadlanadi/bo'shaydi.</li>
+<li><strong>O'qish</strong>: (1) bitline oldindan <strong>VDD/2</strong> ga zaryadlanadi; (2) WL yoqiladi, CS va bitline sig'imi CBL zaryadni bo'lishadi; (3) bitline biroz oshadi (1) yoki kamayadi (0); (4) <span class="term">sense amplifier</span> bu kichik farqni to'liq 0/1 ga kuchaytiradi; (5) o'qish kondensatorni "buzadi", shuning uchun bit qayta yoziladi.</li>
+<li><strong>Refresh</strong> (yangilash): kondensator sizish toki bilan asta bo'shaydi → davriy ravishda "soxta o'qish" bilan qayta yoziladi. Shuning uchun "dynamic".</li>
+</ul>
+<div class="box analogy"><strong>O'xshatish:</strong> DRAM katakchasi = teshik stakan. Suv bor = 1, yo'q = 0. Suv asta sizib chiqadi, shuning uchun vaqti-vaqti bilan tekshirib, qayta to'ldirish kerak (refresh). O'qish uchun stakanni katta idishga (bitline) quyasiz: idishdagi sath ozgina ko'tarilsa, stakanda suv bor edi.</div>
+<div class="box"><p><strong>106.</strong> <em>A DRAM memory cell includes: a) A floating MOS transistor gate &nbsp; b) A MOS transistor and a capacitance &nbsp; c) 6 MOS transistors &nbsp; d) a NMOS transistor, a PMOS transistor, and two capacitances</em></p><details><summary>Javob</summary><p><strong>b)</strong>.</p></details></div>
+<div class="box"><p><strong>2021-06 (test).</strong> <em>The voltage of a storage capacitor of a DRAM memory cell is 0 V. During a read operation with the bitline voltage initially set at VDD/2: (a) The bitline voltage decreases by ΔV &lt; VDD/2. (b) The memory cell maintains the same voltage. (c) The bitline voltage decreases by ΔV = VDD/2 − Vth. (d) The bitline voltage increases by ΔV &lt; VDD/2.</em></p>
+<details><summary>Javob</summary><p><strong>(a)</strong>. Bo'sh kondensator bitline dan zaryad oladi: bitline VDD/2 dan 0 V tomonga kamayadi, lekin CS ≪ CBL bo'lgani uchun ozgina (ΔV &lt; VDD/2). (b) noto'g'ri: kondensator kuchlanishi o'zgaradi (shuning uchun qayta yoziladi).</p></details></div>
+<details><summary>B7e Exercise 1: refresh davri (rasmiy yechim)</summary>
+<p><em>DRAM cell with leakage current Ileak = 25 fA and CS = 20 fF. Calculate the refresh period to keep the CS voltage variation lower than 0.1 V.</em></p>
+<p>Doimiy tok bilan bo'shash: I = C·ΔV/Δt → T ≤ CS·ΔV/Ileak = 20 fF · 0.1 V / 25 fA = <strong>0.08 s = 80 ms</strong>.</p></details>
+
+<h2>2. SRAM: bit = ikki invertor "qulfi"</h2>
+<figure><svg viewBox="0 0 720 230" role="img" aria-label="6 tranzistorli SRAM katakchasi: ikkita bir-biriga teskari ulangan invertor (4 tranzistor) bitni saqlaydi; ikkita pass-tranzistor (wordline boshqaradi) katakchani BL va uning teskarisi BLc ga ulaydi" font-family="system-ui,sans-serif">
+<path d="M110 30V200M610 30V200" stroke="#16a34a" stroke-width="2.4"/><text x="110.0" y="22.0" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">BL</text><text x="610.0" y="22.0" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">BLc (teskari)</text>
+<path d="M80 60H640" stroke="#d9622b" stroke-width="2"/><text x="76.0" y="64.0" text-anchor="end" font-size="12" fill="#d9622b" font-weight="700">WL</text>
+<path d="M110 120H160" stroke="currentColor" stroke-width="1.6"/><path d="M160 120H174V112M174 112H196M196 112V120H210" fill="none" stroke="#2563eb" stroke-width="1.8"/><path d="M172 106H198" stroke="#2563eb" stroke-width="2.2"/><path d="M185 106V60" stroke="#2563eb" stroke-width="1.6"/>
+<path d="M610 120H560" stroke="currentColor" stroke-width="1.6"/><path d="M510 120H524V112M524 112H546M546 112V120H560" fill="none" stroke="#2563eb" stroke-width="1.8"/><path d="M522 106H548" stroke="#2563eb" stroke-width="2.2"/><path d="M535 106V60" stroke="#2563eb" stroke-width="1.6"/>
+<path d="M210 120H300M510 120H420" stroke="currentColor" stroke-width="1.6"/>
+<path d="M330 84L366 100L330 116Z" fill="#9333ea" fill-opacity=".15" stroke="#9333ea" stroke-width="1.8"/><circle cx="370" cy="100" r="4" fill="none" stroke="#9333ea" stroke-width="1.8"/><path d="M390 134L354 150L390 166Z" fill="#9333ea" fill-opacity=".15" stroke="#9333ea" stroke-width="1.8"/><circle cx="350" cy="150" r="4" fill="none" stroke="#9333ea" stroke-width="1.8"/>
+<path d="M300 120V100H330M374 100H420V120M420 120V150H390M346 150H300V120" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<text x="300.0" y="140.0" text-anchor="end" font-size="12" fill="currentColor" font-weight="700">Q</text><text x="424.0" y="140.0" text-anchor="start" font-size="12" fill="currentColor" font-weight="700">Q̅</text>
+<text x="360.0" y="200.0" text-anchor="middle" font-size="13" fill="#9333ea" font-weight="700">2 invertor (4 MOS) + 2 pass-tranzistor = 6 MOS</text>
+<text x="185.0" y="150.0" text-anchor="middle" font-size="10" fill="#2563eb">pass</text><text x="535.0" y="150.0" text-anchor="middle" font-size="10" fill="#2563eb">pass</text>
+</svg><figcaption>Ikki invertor bir-birini ushlab turadi (7-darsdagi latch g'oyasi). Tok bor ekan, bit o'zgarmaydi: refresh kerak emas.</figcaption></figure>
+<ul>
+<li><strong>Yozish</strong>: BL = 1 (yoki 0), BLc = teskarisi, WL = 1 → invertorlar yangi holatga "ag'dariladi".</li>
+<li><strong>O'qish</strong>: BL va BLc ikkalasi VDD ga oldindan zaryadlanadi, WL = 1 → bittasi pasayadi; differensial sense amplifier qaysi biri pasayganini aniqlaydi. O'qish katakchani buzmaydi.</li>
+</ul>
+<div class="box"><p><strong>036.</strong> <em>An SRAM memory cell includes: a) A floating gate MOS &nbsp; b) A MOS and a capacitor &nbsp; c) 6 MOS &nbsp; d) a NMOS, a PMOS and two capacitors</em></p><details><summary>Javob</summary><p><strong>c) 6 MOS</strong>.</p></details></div>
+
+<table>
+<tr><th>SRAM</th><th>DRAM</th></tr>
+<tr><td>6 tranzistor → katta katak, kam zichlik, bit qimmat</td><td>1T + 1C → kichik katak, yuqori zichlik, bit arzon</td></tr>
+<tr><td>Refresh kerak emas, statik iste'mol juda kam</td><td>Refresh kerak (davriy va har o'qishdan keyin)</td></tr>
+<tr><td>O'qish buzmaydi, oddiy → <strong>tez</strong></td><td>O'qish murakkab → sekinroq</td></tr>
+<tr><td>Oddiy CMOS jarayoni → protsessor ichiga (kesh)</td><td>Maxsus jarayon → alohida mikrosxema (operativ xotira)</td></tr>
+</table>
+<p><span class="term">CAM</span> (content addressable memory): adres emas, <strong>qiymat</strong> beriladi, xotira "bu qiymat qaysi adresda?" deb javob beradi (masalan tarmoq routerlarida).</p>
+
+<h2>3. DRAM tezligi: SDRAM va DDR</h2>
+<ul>
+<li><strong>SDRAM</strong> (synchronous): buyruqlar takt signalining ko'tarilish chetida.</li>
+<li><strong>DDR</strong> (double data rate): ma'lumot taktning <strong>ikkala</strong> chetida (ko'tarilish va tushish) uzatiladi → bir taktda 2 so'z → SDRAM dan 2 marta tez. CAS latency kasr bo'lishi mumkin (2.5), chunki yarim takt ham bor.</li>
+</ul>
+<span class="formula">Tezlik = 2 · fbus · (bit kengligi)</span>
+<div class="box"><p><strong>037.</strong> <em>A DDR4 memory has the bus clock at 2000 MHz and 8-bit parallelism. The maximum rate is: a) 16 Gbit/s &nbsp; b) 32 Gbit/s &nbsp; c) 64 Gbit/s &nbsp; d) 2 Gbit/s</em></p>
+<details><summary>Javob</summary><p><strong>b) 32 Gbit/s</strong>. 2 · 2000 MHz · 8 bit = 32 000 Mbit/s.</p></details></div>
+<div class="box"><p><strong>2021-07 (test).</strong> <em>All DDR4 DRAM memories transfer at most: (a) 4 bytes on each bus clock cycle. (b) 1 word on each bus clock transition. (c) 2 words on each bus clock transition. (d) 1 word on each bus clock cycle.</em></p>
+<details><summary>Javob</summary><p><strong>(b)</strong>. Rasmiy izoh: DDR har takt davrida 2 so'z, ya'ni <strong>har bir chetda 1 so'z</strong> uzatadi.</p></details></div>
+
+<h2>4. Flash: suzuvchi zatvor (floating gate)</h2>
+<p><span class="term">Floating gate MOS</span>: oddiy gate ostida, hamma tomondan izolyator bilan o'ralgan ikkinchi "suzuvchi" gate bor. Yuqori kuchlanish (≈ 20 V) bilan unga elektronlar "tiqiladi"; kuchlanish olingach ular izolyator ichida <strong>yillab qamalib qoladi</strong> → tok o'chsa ham saqlanadi (non-volatile).</p>
+<ul>
+<li>Qamalgan zaryad tranzistorning ochilish chegarasi VTH ni oshiradi: ΔVTH = −Q/CPP. O'qishda gate ga Vread beriladi: tok bor → bir qiymat, tok yo'q → ikkinchisi.</li>
+<li><strong>EPROM</strong>: ultrabinafsha nur bilan o'chiriladi. <strong>EEPROM</strong>: elektr bilan. <strong>Flash</strong>: elektr bilan, butun <strong>blok birdaniga</strong> ("in a flash") o'chiriladi.</li>
+<li>Yozish (program): bitni 1 → 0. O'chirish (erase): blokdagi hamma bitni 0 → 1. Shuning uchun qayta yozishdan oldin o'chirish kerak; yozish sekin.</li>
+<li>Har blokni cheklangan marta (masalan 10<sup>4</sup>) o'chirish mumkin → yeyilish (wear) → <span class="term">wear leveling</span>: yozuvlarni hamma bloklarga teng tarqatish.</li>
+</ul>
+<div class="box"><p><strong>089.</strong> <em>A FLASH memory cell includes: a) A floating gate MOS &nbsp; b) A MOS and a capacitance &nbsp; c) 6 MOS &nbsp; d) an NMOS, a PMOS and two capacitances</em></p><details><summary>Javob</summary><p><strong>a)</strong>. Eslab qoling: <strong>Flash = floating gate, DRAM = MOS + C, SRAM = 6 MOS</strong>.</p></details></div>
+
+<h3>NOR flash va NAND flash</h3>
+<table>
+<tr><th>NOR flash</th><th>NAND flash</th></tr>
+<tr><td>Istalgan adresga murojaat, <strong>tez o'qish</strong></td><td>Sahifa (page) bo'yicha murojaat</td></tr>
+<tr><td>Sekin yozish va o'chirish</td><td>Tezroq yozish</td></tr>
+<tr><td>Kontaktlar ko'p → kam zichlik</td><td><strong>Yuqori zichlik</strong>, arzon (≈ 2.5 marta kichik katak)</td></tr>
+<tr><td>Dastur kodi (mikrokontroller konfiguratsiyasi)</td><td>Ma'lumot: SD-karta, USB fleshka, SSD</td></tr>
+</table>
+<div class="box"><p><strong>032.</strong> <em>A FLASH NOR memory has, compared to a NAND: a) greater word width &nbsp; b) greater reading speed &nbsp; c) better noise immunity &nbsp; d) greater density</em></p><details><summary>Javob</summary><p><strong>b) greater reading speed</strong>.</p></details></div>
+<div class="box"><p><strong>100.</strong> <em>A FLASH NAND memory has, compared to a NOR: a) larger word width &nbsp; b) faster reading speed &nbsp; c) better noise immunity &nbsp; d) greater density</em></p><details><summary>Javob</summary><p><strong>d) greater density</strong>.</p></details></div>
+
+<details><summary>B7e Exercise 2 va 3 (rasmiy yechimlar)</summary>
+<p><strong>Ex 2 (saqlash muddati):</strong> CPP = 50 aF, ruxsat etilgan ΔVTH = 1 V, 10 yil. ΔQ = CPP·ΔVTH = 50 aC ≈ 313 elektron. I = 50·10<sup>−18</sup> C / (10 yil sekundlarda) = <strong>1.6·10<sup>−25</sup> A</strong> ≈ 0.6 elektron/hafta.</p>
+<p><strong>Ex 3 (yeyilish):</strong> 4096 blok, har biri 10<sup>4</sup> marta; har 10 daqiqada 200 blokli fayl. Wear leveling siz: 10<sup>4</sup> · 10 min = 100 000 min ≈ <strong>69 kun</strong>. Wear leveling bilan: × 4096/200 → <strong>≈ 1422 kun (3.9 yil)</strong>.</p></details>
+
+<h2>O'zingizni tekshiring</h2>
+<div class="box check">DDR, fbus = 1600 MHz, 64 bitli shina. Maksimal tezlik? <details><summary>Javob</summary>2 · 1600 · 64 = 204 800 Mbit/s = <strong>204.8 Gbit/s</strong> (25.6 GB/s).</details></div>
+<div class="box check">CS = 30 fF, Ileak = 10 fA, ruxsat ΔV = 0.2 V. Refresh davri? <details><summary>Javob</summary>30·10<sup>−15</sup> · 0.2 / 10·10<sup>−15</sup> = <strong>0.6 s</strong>.</details></div>
+<div class="box check">CS = 20 fF, CBL = 200 fF, VDD = 2 V, katakda 1 (2 V). Bitline qancha o'zgaradi? <details><summary>Javob</summary>(2 − 1) · 20/220 = <strong>+91 mV</strong>.</details></div>
+<div class="box check">Qaysi xotira protsessor keshiga, qaysi SSD ga, qaysi operativ xotiraga? <details><summary>Javob</summary>Kesh: <strong>SRAM</strong> (tez, CMOS jarayoni). SSD: <strong>NAND flash</strong> (zich, uchmas). Operativ: <strong>DRAM</strong> (zich, arzon).</details></div>
+
+<h2>Yangi atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Inglizchasi</th><th>Ma'nosi</th></tr>
+<tr><td>DRAM</td><td>dynamic RAM</td><td>1T + 1C, refresh kerak</td></tr>
+<tr><td>SRAM</td><td>static RAM</td><td>6T, ikki invertor qulfi</td></tr>
+<tr><td>Yangilash</td><td>refresh</td><td>DRAM zaryadini davriy qayta yozish</td></tr>
+<tr><td>Oldindan zaryadlash</td><td>precharge</td><td>O'qishdan oldin bitline ni VDD/2 (DRAM) yoki VDD (SRAM) ga qo'yish</td></tr>
+<tr><td>Sezgir kuchaytirgich</td><td>sense amplifier</td><td>Kichik ΔV → to'liq 0/1</td></tr>
+<tr><td>DDR</td><td>double data rate</td><td>Taktning ikkala chetida uzatish</td></tr>
+<tr><td>Suzuvchi zatvor</td><td>floating gate</td><td>Zaryad qamaladigan izolyatsiyalangan gate (Flash)</td></tr>
+<tr><td>O'chirish / yozish</td><td>erase / program</td><td>Blok → hammasi 1 / tanlangan bitlar → 0</td></tr>
+<tr><td>Teng tarqatish</td><td>wear leveling</td><td>Yozuvlarni hamma bloklarga tarqatib, umrni uzaytirish</td></tr>
+<tr><td>CAM</td><td>content addressable memory</td><td>Qiymat bo'yicha qidiradigan xotira</td></tr>
+</table>
+
+<h2>📝 Konspekt (daftarga yozib oling)</h2>
+<div class="box">
+<span class="formula">DRAM = 1 MOS + C &nbsp;·&nbsp; SRAM = 6 MOS &nbsp;·&nbsp; Flash = floating gate MOS</span>
+<span class="formula">ΔVBL = (Vbit − VDD/2)·CS/(CS + CBL) &nbsp;·&nbsp; Trefresh ≤ CS·ΔV/Ileak &nbsp;·&nbsp; DDR: 2 · fbus · bit</span>
+<ul>
+<li>DRAM o'qish: precharge VDD/2 → zaryad bo'lishish → kichik ΔV (0 bo'lsa kamayadi, ΔV &lt; VDD/2) → sense amp → qayta yozish. Sizish → refresh.</li>
+<li>SRAM: tez, refresh yo'q, kam zich. DRAM: zich, arzon, sekinroq.</li>
+<li>DDR: har takt chetida 1 so'z (taktda 2).</li>
+<li>Flash: blok bo'yicha o'chirish, cheklangan sikllar, wear leveling. NOR = tez o'qish (kod); NAND = zichlik (SD, SSD).</li>
+<li>Javoblar: 106 b; 036 c; 089 a; 032 b; 100 d; 037 b; 2021-06 (a); 2021-07 (b).</li>
+</ul>
+</div>
+
+<div class="box ok">O'qib bo'lgach chatga yozing: <strong>"tushundim"</strong> yoki <strong>"tushunmadim"</strong> (qaysi joyi qiyinligini ayting).</div>
+
+<footer class="pager"><a href="21-xotira-tuzilishi-rom.html">← 21-dars</a><a href="24-ulanish-rc-skew.html">24-dars →</a></footer>
+</main></body></html>
